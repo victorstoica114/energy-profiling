@@ -24,7 +24,7 @@ void *_sbrk(ptrdiff_t increment)
 void _exit(int status)
 {
     (void)status;
-    bench_platform_signals(0, false, false, true, false);
+    bench_platform_marker(true);
     bench_platform_finish();
     for (;;) {}
 }

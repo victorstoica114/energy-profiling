@@ -28,15 +28,9 @@
 #endif
 
 _Static_assert(BENCH_EXPECTED_CPU_HZ == 240000000u, "CPU profile mismatch");
-_Static_assert(BENCH_PIN_RUN == 18 && BENCH_PIN_ID0 == 19 && BENCH_PIN_ID1 == 21 &&
-    BENCH_PIN_ID2 == 22 && BENCH_PIN_ID3 == 23 && BENCH_PIN_IDLE == 25 &&
-    BENCH_PIN_ERROR == 26 && BENCH_PIN_DONE == 27, "ESP32 signal map mismatch");
-static const unsigned id_pins[4] = {BENCH_PIN_ID0, BENCH_PIN_ID1, BENCH_PIN_ID2, BENCH_PIN_ID3};
-enum { RUN_PIN = BENCH_PIN_RUN, IDLE_PIN = BENCH_PIN_IDLE,
-       ERROR_PIN = BENCH_PIN_ERROR, DONE_PIN = BENCH_PIN_DONE };
-#define SIGNAL_MASK ((1u << RUN_PIN) | (1u << BENCH_PIN_ID0) | (1u << BENCH_PIN_ID1) | \
-    (1u << BENCH_PIN_ID2) | (1u << BENCH_PIN_ID3) | (1u << IDLE_PIN) | \
-    (1u << ERROR_PIN) | (1u << DONE_PIN))
+_Static_assert(BENCH_PIN_RUN == 18, "ESP32 RUN pin mismatch");
+enum { RUN_PIN = BENCH_PIN_RUN };
+#define RUN_MASK (1u << RUN_PIN)
 static gptimer_handle_t gap_timer;
 static bool configured;
 
@@ -62,7 +56,7 @@ static void diagnostic_write(const char *line)
     size_t length = strlen(line);
     if (uart_write_bytes(UART_NUM_0, line, length) != (int)length ||
         uart_wait_tx_done(UART_NUM_0, pdMS_TO_TICKS(1000)) != ESP_OK) {
-        bench_platform_signals(0, false, false, true, false);
+        bench_platform_marker(true);
         bench_platform_finish();
     }
 }
@@ -96,19 +90,13 @@ static bool disable_serial(void)
 }
 #endif
 
-void bench_platform_signals(unsigned id, bool run, bool idle, bool error, bool done)
+void bench_platform_marker(bool high)
 {
-    /* One bank write makes DONE and final IDLE rise together. Preserve every
-       requested high status bit when lowering IDLE later (no DONE glitch). */
-    GPIO.out_w1tc = 1u << RUN_PIN;
-    uint32_t bits = ((uint32_t)idle << IDLE_PIN) |
-        ((uint32_t)error << ERROR_PIN) | ((uint32_t)done << DONE_PIN);
-    for (unsigned bit = 0; bit < 4; ++bit)
-        bits |= ((id >> bit) & 1u) << id_pins[bit];
-    GPIO.out_w1tc = SIGNAL_MASK & ~bits;
-    GPIO.out_w1ts = bits;
+    /* A repeated HIGH write must never insert a LOW edge on a failed run. */
     __asm__ volatile ("memw" ::: "memory");
-    if (run) GPIO.out_w1ts = 1u << RUN_PIN;
+    if (high) GPIO.out_w1ts = RUN_MASK;
+    else GPIO.out_w1tc = RUN_MASK;
+    __asm__ volatile ("memw" ::: "memory");
 }
 
 bool bench_platform_check(void)
@@ -130,16 +118,16 @@ bool bench_platform_init(void)
 #else
     if (!disable_serial()) return false;
 #endif
-    const uint64_t mask = SIGNAL_MASK;
+    const uint64_t mask = RUN_MASK;
     gpio_config_t pins = {
         .pin_bit_mask = mask, .mode = GPIO_MODE_OUTPUT,
         .pull_up_en = GPIO_PULLUP_DISABLE, .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .intr_type = GPIO_INTR_DISABLE
     };
     if (gpio_config(&pins) != ESP_OK) return false;
-    bench_platform_signals(0, false, false, false, false);
-    /* Wi-Fi/Bluetooth stay uninitialized in both profiles. Serial exists only
-       in the diagnostic build and all report calls are outside marked windows. */
+    bench_platform_marker(false);
+    /* Wi-Fi/Bluetooth stay uninitialized in both profiles. Ordinary reports
+       precede control waits; fault reporting follows the HIGH latch. */
     gptimer_config_t timer = {
         .clk_src = GPTIMER_CLK_SRC_DEFAULT, .direction = GPTIMER_COUNT_UP,
         .resolution_hz = 1000000
@@ -176,7 +164,7 @@ void bench_platform_wait_ms(uint32_t milliseconds)
     if (gptimer_stop(gap_timer) != ESP_OK) goto fail;
     return;
 fail:
-    bench_platform_signals(0, false, false, true, false);
+    bench_platform_marker(true);
     bench_platform_finish();
 }
 

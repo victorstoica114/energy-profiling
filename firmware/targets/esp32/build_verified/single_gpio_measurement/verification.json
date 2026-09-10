@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "target": "esp32",
+  "profile": "single_gpio_measurement",
+  "campaign": "energy-profiling-v3-single-gpio",
+  "archive_time_utc": "2026-09-10T07:56:09.731993+00:00",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v3-esp32",
+  "native_compile_and_link_passed": true,
+  "build_exit_code": 0,
+  "hardware_flashed": false,
+  "hardware_execution_validated": false,
+  "diagnostics_enabled": false,
+  "marker_gpio": "GPIO18",
+  "source_snapshot_note": "Project source/header/config/input hashes observed after the successful final build. Documentation is excluded. No earlier archive was changed.",
+  "manifest_sha256_at_archive": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+  "compiler": "xtensa-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+  "compiler_executable_sha256": "094877bcd88608c16165886d8a9a8e420f7365b0b4d91d27d83192eaa3e56ba8",
+  "sdk_identity_evidence": "sdk_package.json and CMake exact version guard 5.5.4",
+  "sdk_lock_sha256": null,
+  "artifact_sha256": {
+    "energy_bench_esp32.elf": "3a1419b252ff11bee85d9234f1999da5d02fc3e7e01697f0bfe33a1927f26802",
+    "energy_bench_esp32.bin": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
+    "energy_bench_esp32.map": "9a455fa4319aa5cdde15363f98eb1e3eebb9e8ea1c343912b8a853fb6c5c1d0a",
+    "bootloader/bootloader.bin": "f29111807dbbf3827bf3b744d305a92b6408d5f8b40734ed0011b23874dc19d4",
+    "partition_table/partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+  },
+  "common_compile_flags": {
+    "bench_runner.c": [
+      "-O2",
+      "-std=gnu17",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_data.c": [
+      "-O2",
+      "-std=gnu17",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_algorithms.c": [
+      "-O2",
+      "-std=gnu17",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_kernels.c": [
+      "-O2",
+      "-std=gnu17",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ]
+  },
+  "static_checks": {
+    "bench_main_present": true,
+    "bench_platform_marker_present": true,
+    "bench_kernel_run_present": true,
+    "my_rle_encode_present": true,
+    "my_delta_encode_present": true,
+    "my_lz77_encode_present": true,
+    "my_huffman_encode_present": true,
+    "my_aes_encrypt_present": true,
+    "my_sha256_hash_present": true,
+    "my_chacha20_encrypt_present": true,
+    "my_crc32_present": true,
+    "my_fft_present": true,
+    "my_fir_filter_present": true,
+    "my_iir_filter_present": true,
+    "my_dct_present": true,
+    "obsolete_signals_symbol_present": false,
+    "report_symbol_present": false,
+    "BENCH_event_literal_present": false,
+    "single_marker_disassembly_extracted": true,
+    "elf_iterations_match_manifest": true,
+    "elf_inputs_match_frozen_data": true
+  },
+  "elf_iteration_constants": [
+    3000,
+    3000,
+    200,
+    200,
+    1000,
+    1000,
+    3000,
+    3000,
+    50,
+    300,
+    50,
+    1
+  ],
+  "elf_input_sha256": {
+    "compression": "44a2a279b86d1e7d98c24c5bd341a66adec17470de9e7b0ffa4ffc7092b7dab2",
+    "crypto": "b81c57d8f1f5c17f190e279e86f781dee155b05a779fe741a12a6bfacde47b23",
+    "dsp": "f7ed02ed3c339a9290b4d5a9981e472ae967a86d8d3e2735948c819650a28cb7"
+  },
+  "marker_disassembly_review": "GPIO base0x3ff44000; mask0x40000; HIGH writes offset8(W1TS), LOW writes offset12(W1TC); memw barriers; HIGH path has no clear write.",
+  "loop_disassembly_review": "bench_main loads the immutable repetition table, calls bench_kernel_run in a counted loop, and reaches marker(false) only through the successful batch path. Kernel failure writes marker(true) and finishes without a preliminary marker(false).",
+  "verification_limits": [
+    "Native build and static binary inspection only; no new firmware was flashed or executed on hardware.",
+    "Single GPIO carries batch boundaries; workload identity follows manifest order and is not transmitted electrically.",
+    "Physical oscillator frequency, supply isolation, marker waveform and PPK2 captures are not validated by compilation."
+  ]
+}

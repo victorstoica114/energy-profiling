@@ -1,5 +1,7 @@
 # Verified native build
 
+> Historical eight-signal archive. The binary, logs and hashes below describe their original snapshot, not the current single-GPIO campaign. Current candidates are identified separately in CURRENT_FIRMWARE.json.
+
 These are the Raspberry Pi Pico candidate firmware artifacts, not a hardware test
 result. `verification.json` records SHA-256 hashes of the complete common source,
 generated inputs/configuration, target source, SDK tree, compiler and artifacts.

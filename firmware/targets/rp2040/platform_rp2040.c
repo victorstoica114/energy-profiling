@@ -17,12 +17,8 @@
 #endif
 
 _Static_assert(BENCH_EXPECTED_CPU_HZ == 133000000u, "CPU profile mismatch");
-_Static_assert(BENCH_PIN_RUN == 2 && BENCH_PIN_ID0 == 3 && BENCH_PIN_ID1 == 4 &&
-    BENCH_PIN_ID2 == 5 && BENCH_PIN_ID3 == 6 && BENCH_PIN_IDLE == 7 &&
-    BENCH_PIN_ERROR == 8 && BENCH_PIN_DONE == 9, "RP2040 contiguous signal map required");
-enum { RUN_PIN = BENCH_PIN_RUN, ID_FIRST = BENCH_PIN_ID0, IDLE_PIN = BENCH_PIN_IDLE,
-       ERROR_PIN = BENCH_PIN_ERROR, DONE_PIN = BENCH_PIN_DONE };
-#define SIGNAL_MASK (0xffu << RUN_PIN)
+_Static_assert(BENCH_PIN_RUN == 2, "RP2040 RUN pin mismatch");
+enum { RUN_PIN = BENCH_PIN_RUN };
 static bool configured;
 
 #if BENCH_DIAGNOSTICS
@@ -66,14 +62,12 @@ void bench_platform_report(const char *event, unsigned id, unsigned calls, uint3
 }
 #endif
 
-void bench_platform_signals(unsigned id, bool run, bool idle, bool error, bool done)
+void bench_platform_marker(bool high)
 {
-    gpio_put(RUN_PIN, 0);
-    uint32_t bits = ((id & 15u) << ID_FIRST) | ((uint32_t)idle << IDLE_PIN) |
-        ((uint32_t)error << ERROR_PIN) | ((uint32_t)done << DONE_PIN);
-    gpio_put_masked(SIGNAL_MASK, bits);
+    /* gpio_put uses an atomic set/clear write and changes only RUN. */
     __asm__ volatile ("dmb" ::: "memory");
-    gpio_put(RUN_PIN, run);
+    gpio_put(RUN_PIN, high);
+    __asm__ volatile ("dmb" ::: "memory");
 }
 
 bool bench_platform_check(void)
@@ -101,9 +95,9 @@ bool bench_platform_check(void)
 
 bool bench_platform_init(void)
 {
-    gpio_init_mask(SIGNAL_MASK);
-    gpio_put_masked(SIGNAL_MASK, 0);
-    gpio_set_dir_out_masked(SIGNAL_MASK);
+    gpio_init(RUN_PIN);
+    gpio_put(RUN_PIN, 0);
+    gpio_set_dir(RUN_PIN, GPIO_OUT);
     /* Pico onboard LED explicitly off. Core 1 is never launched. */
     gpio_init(25); gpio_put(25, 0); gpio_set_dir(25, GPIO_OUT);
     if (!set_sys_clock_khz(BENCH_EXPECTED_CPU_HZ / 1000u, false)) return false;

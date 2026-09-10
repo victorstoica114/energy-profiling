@@ -7,7 +7,7 @@
 static float fft_real_workspace[2048];
 static float fft_imag_workspace[2048];
 
-// ALGORITMI DE COMPRESIE
+// COMPRESSION ALGORITHMS
 
 
 int my_rle_encode(const uint8_t *input, int input_len, uint8_t *output) {
@@ -18,21 +18,21 @@ int my_rle_encode(const uint8_t *input, int input_len, uint8_t *output) {
     for (int i = 0; i < input_len; i++) {
         uint8_t count = 1;
         
-        /* Numaram aparitiile consecutive ale aceleiasi valori.
-        Daca am ajuns la finalul vectorului sau gasim o valoare diferita
-        la urmatorul pas sau atingem limita maxima pentru un intreg, atunci
-        salvam rezultatul curent. Altfel, continuam numaratul.*/
+        /* Count equal consecutive bytes until the input ends, the byte changes, or the count reaches 255. */
+
+
+
         while (i + 1 < input_len && input[i] == input[i + 1] && count < 255) {
             count++;
             i++;
         }
         
-        /* Salvam rezultatul de la momentul curent */
+        /* Write the current count/value pair. */
         output[out_idx++] = count;
         output[out_idx++] = input[i];
     }
     
-    /* Returnam dimensiunea vectorului in urma operatiei de compresie. */
+    /* Return the encoded output length. */
     return out_idx;
 }
 
@@ -43,16 +43,16 @@ int my_delta_encode(const uint8_t *input, int input_len, uint8_t *output) {
         return 0;
     }
 
-    /* Vom adauga prima valoarea din input in output */
+    /* Copy the first input value unchanged. */
     output[0] = input[0];
 
-    /* Vom adauga in output diferentele dintre valorile consecutive pe care le gasim
-    in input */
+    /* Write differences between consecutive input values, modulo 256. */
+
     for (int i = 1; i < input_len; i++ ) {
         output[i] = input[i] - input[i - 1];
     }
 
-    /* Returnam dimensiunea vectorului in urma operatiei de compresie. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    /* Return the output length. */
     return input_len; 
 }
 
@@ -68,55 +68,55 @@ int my_lz77_encode(const uint8_t *input, int input_len, uint8_t *output) {
         int max_match_dist = 0;
         int history_limit_start;
 
-        /* Vom stabili limita istoricului (pana unde putem cauta in urma pentru
-        o secventa care se repeta) */
+        /* Limit the backward history search to the configured window. */
+
         if (cursor < MAX_WINDOW_SIZE_LZ77) {
             history_limit_start = 0;
         } else {
             history_limit_start = cursor - MAX_WINDOW_SIZE_LZ77;
         }
 
-        /* Cautam in istoric cea mai lunga potrivire */
+        /* Find the longest match in the history window. */
         for (int i = history_limit_start; i < cursor; i++) {
             int current_match_len = 0;
-            /* Modific lungimea potrivirii curente cata vreme:
-                1. Nu depasim limita buffer-ului 
-                2. Nu depasim lungimea textului de input
-                3. Caracterul curent se potriveste */
+            /* Extend the match while inside the lookahead and input bounds and while bytes match. */
+
+
+
             while ((current_match_len < MAX_LOOKAHEAD_SIZE_LZ77) &&
                    (cursor + current_match_len < input_len) &&
                    (input[i + current_match_len] == input[cursor + current_match_len])) {
                 current_match_len++;
             }
 
-            /* Daca am gasit o potrivire de lungime mai mare decat ceea ce 
-            aveam deja, o vom inlocui si vom recalcula distanta pana la acea
-            potrivire noua (cati pasi inapoi facem pentru a ajunge la ea) */
+            /* Replace the best match only when a strictly longer match is found, and update its distance. */
+
+
             if (current_match_len > max_match_len) {
                 max_match_len = current_match_len;
                 max_match_dist = cursor - i;
             }
         }
 
-        /* Luam urmatorul caracter din look-ahead buffer */
+        /* Read the next literal only if the match does not reach the end. */
         uint8_t next_char = 0;
         if (cursor + max_match_len < input_len) {
             next_char = input[cursor + max_match_len];
         }
 
-        /* Salvam tripletul (distanta, lungime, caracter) / rezultatul */
+        /* Write distance, match length, and the optional literal. */
         output[out_idx++] = (uint8_t)max_match_dist;
         output[out_idx++] = (uint8_t)max_match_len;
         if (cursor + max_match_len < input_len) {
             output[out_idx++] = next_char;
         }
 
-        /* Mutam cursorul la urmatorul caracter */
+        /* Advance past the matched bytes and optional literal. */
         cursor += max_match_len;
         if (cursor < input_len) ++cursor;
     }
 
-    /* Returnam dimensiunea vectorului in urma operatiei de compresie. */
+    /* Return the encoded output length. */
     return out_idx;
 }
 
@@ -125,7 +125,7 @@ static minheap_element extract_min_node(TreelessEnv *env) {
     uint32_t min_freq = 0xFFFFFFFF;
     int min_idx = -1;
 
-    /* Cautam nodul cu frecventa minima */
+    /* Find the node with minimum frequency. */
     for (int i = 0; i < env->heap_size; i++) {
         if (env->heap[i].freq < min_freq ||
             (min_idx >= 0 && env->heap[i].freq == min_freq &&
@@ -135,31 +135,31 @@ static minheap_element extract_min_node(TreelessEnv *env) {
         }
     }
 
-    /* Extragem nodul cu frecventa minima */
+    /* Extract the minimum-frequency node. */
     minheap_element min_node = env->heap[min_idx];
 
-    /* Mutam ultimul element in locul celui pe care l-am extras si reducem dimensiunea heap-ului */
+    /* Replace the extracted node with the last entry and reduce the active pool size. */
     env->heap[min_idx] = env->heap[env->heap_size - 1];
     env->heap_size--;
 
-    /* Returnam nodul cautat - cel cu cea mai mica frecventa */
+    /* Return the extracted minimum-frequency node. */
     return min_node;
 }
 
 static void insert_node_in_minheap(TreelessEnv *env, minheap_element node) {
 
-    /* Adaugam un nou nod in minheap */
+    /* Append a node to the minimum-extraction pool. */
     env->heap[env->heap_size] = node;
     env->heap_size++;
 }
 
 static void sort_codes_by_length(TreelessEnv *env, uint8_t *elements, int num_elements) {
 
-    /* Sortam codurile generate in functie de lungime (alfabetic pt coduri de aceeasi lungime) */
+    /* Sort by code length, then by symbol value for equal lengths. */
     for (int i = 0; i < num_elements - 1; i++) {
         for (int j = i + 1; j < num_elements; j++) {
             
-            // Luam elementele curente pentru comparatie
+            // Select the current entries for comparison.
             uint8_t elem_first = elements[i];
             uint8_t elem_second = elements[j];
 
@@ -181,47 +181,47 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
     for (int b = 0; b < 4; ++b) output[b] = (uint8_t)((uint32_t)input_len >> (8*b));
     if (input_len == 0) return 264;
 
-    // In loc de calloc, folosim static pentru a aloca in segmentul de date, nu pe heap
-    // Atentie: asta face functia non-reentranta (nu o poti rula pe 2 thread-uri simultan)
+    // Use reusable static storage instead of allocating the environment with calloc.
+    // The shared environment makes this function non-reentrant.
     static TreelessEnv env_static; 
     TreelessEnv *env = &env_static;
-    memset(env, 0, sizeof(TreelessEnv)); // Curatam memoria
+    memset(env, 0, sizeof(TreelessEnv)); // Reset the environment for each independent invocation.
 
-    /* Calculam frecventa fiecarui caracter din input */
+    /* Count each input symbol. */
     uint32_t freqs[256] = {0};
     for (int i = 0; i < input_len; i++) {
         freqs[input[i]]++;
     }
 
-    /* Adaugam in minheap nodurile corespunzatoare fiecarui caracter, alaturi de frecventele lor */
+    /* Insert one leaf node per present symbol, with its frequency. */
     for (int i = 0; i < 256; i++) {
         if (freqs[i] > 0) {
-            minheap_element new_node = {freqs[i], (uint16_t)i}; // branch_id este caracterul in sine pentru nodurile frunza
+            minheap_element new_node = {freqs[i], (uint16_t)i}; // A leaf branch ID is the symbol value.
             insert_node_in_minheap(env, new_node);
-            env->is_active[i] = 1;                              // Marcam caracterul ca fiind activ
-            env->branch_ids[i] = (uint16_t)i;                   // Initial, fiecare caracter apartine unei "ramuri" care este el insusi
+            env->is_active[i] = 1;                              // Mark the symbol as present.
+            env->branch_ids[i] = (uint16_t)i;                   // Initially each symbol belongs to its own branch.
         }
     }
 
-    uint16_t next_branch_id = 256;   // ID-urile pt nodurile interne vor incepe de la 256
+    uint16_t next_branch_id = 256;   // Internal-node IDs start at 256.
 
-    /* Incepem constructia arborelui Huffman */
+    /* Construct Huffman code lengths by merging branches. */
     while (env->heap_size > 1) {
-        // Extragem cele doua noduri cu frecventa minima
+        // Extract the two minimum-frequency nodes.
         minheap_element min1 = extract_min_node(env);
         minheap_element min2 = extract_min_node(env);
 
-        // Cream un nou nod intern care va avea ca frecventa suma celor doua noduri extrase
+        // Create an internal node with the sum of both frequencies.
         minheap_element new_node;
         new_node.freq = min1.freq + min2.freq;
-        new_node.branch_id = next_branch_id++; // ID unic pentru nodul intern
+        new_node.branch_id = next_branch_id++; // Assign a unique internal-node ID.
 
-        // Adaugam noul nod in minheap
+        // Insert the new internal node.
         insert_node_in_minheap(env, new_node);
 
-        // Actualizam branch_ids pentru caracterele din ramurile celor doua noduri extrase
-        // Pentru fiecare caracter activ, verificam daca acesta apartine ramurii min1 sau min2 pentru a stii daca 
-        // trebuie sa ii schimbam branch_id-ul la noul nod intern
+        // Update branch membership for symbols in both merged branches.
+        // Check each active symbol for membership in either extracted branch.
+        // Move matching symbols to the new internal branch.
         for (int i = 0; i < 256; i++) {
             if (env->is_active[i]) {
                 if (env->branch_ids[i] == min1.branch_id || env->branch_ids[i] == min2.branch_id) {
@@ -232,7 +232,7 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
         }
     }
 
-    /* Vom sorta codurile pentru elementele active */
+    /* Sort the active symbols for canonical code assignment. */
     uint8_t sorted_elements[256];
     int num_active_elements = 0;
     for (int i = 0; i < 256; i++) {
@@ -254,7 +254,7 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
     for (int i = 0; i < num_active_elements; i++) {
         uint8_t elem = sorted_elements[i];
 
-        // Daca lungimea creste, shiftam la stanga codul existent
+        // Left-shift the current code when its length increases.
         while (current_length < env->lengths[elem]) {
             current_code <<= 1;
             current_length++;
@@ -263,18 +263,18 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
         env->codes[elem].code = current_code;
         env->codes[elem].len = current_length;
         
-        current_code++; // Incrementam pentru urmatorul simbol de aceeasi lungime
+        current_code++; // Advance to the next code of this length.
     }
 
 
-    /* Construim codurile (bitii) pentru a returna */
+    /* Encode the payload bits. */
     uint32_t payload_bits = 0;
     for (int i = 0; i < input_len; ++i) payload_bits += env->codes[input[i]].len;
     for (int b = 0; b < 4; ++b) output[4+b] = (uint8_t)(payload_bits >> (8*b));
     output += 264;
     int out_byte_idx = 0;
     int out_bit_idx = 0;
-    output[0] = 0; // Initializam primul byte al output-ului
+    output[0] = 0; // Initialize the first payload byte.
 
     for (int i = 0; i < input_len; i++) {
 
@@ -284,11 +284,11 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
         for (int bit_pos = code_info.len - 1; bit_pos >= 0; bit_pos--) {
             uint8_t bit = (code_info.code >> bit_pos) & 1;
 
-            // Setam bitul curent in output
+            // Set the current output bit.
             output[out_byte_idx] |= (bit << (7 - out_bit_idx));
             out_bit_idx++;
 
-            // Daca am umplut un byte, trecem la urmatorul
+            // Advance after filling a byte.
             if (out_bit_idx == 8) {
                 out_bit_idx = 0;
                 out_byte_idx++;
@@ -297,14 +297,14 @@ int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output) {
         }
     }
 
-    /* Returnam dimensiunea vectorului in urma operatiei de compresie. */
+    /* Return the complete encoded frame length. */
     int total_bytes = out_byte_idx + (out_bit_idx > 0 ? 1 : 0);
     return 264 + total_bytes;
 }
 
 
 
-// ALGORITMI DE CRIPTARE + INTEGRITATE A DATELOR
+// CRYPTOGRAPHY AND DATA INTEGRITY ALGORITHMS
 
 
 static uint8_t xtime(uint8_t x) {
@@ -322,14 +322,14 @@ static void shift_rows_step(uint8_t *state) {
 
     uint8_t temp;
 
-    // Randul 1: rotire la stanga cu 1 pozitie
+    // Row 1: rotate left by one position.
     temp = state[1];
     state[1] = state[5];
     state[5] = state[9];
     state[9] = state[13];
     state[13] = temp;
 
-    // Randul 2: rotire la stanga cu 2 pozitii
+    // Row 2: rotate left by two positions.
     temp = state[2];
     state[2] = state[10];
     state[10] = temp;
@@ -337,7 +337,7 @@ static void shift_rows_step(uint8_t *state) {
     state[6] = state[14];
     state[14] = temp;
 
-    // Randul 3: rotire la stanga cu 3 pozitii (sau la dreapta cu 1 pozitie)
+    // Row 3: rotate left by three positions.
     temp = state[3];
     state[3] = state[15];
     state[15] = state[11];
@@ -348,7 +348,7 @@ static void shift_rows_step(uint8_t *state) {
 static void mix_columns_step(uint8_t *state) {
 
     for (int i = 0; i < 4; i++) {
-        // 'base' este indexul de start pentru coloana curenta (0, 4, 8, 12)
+        // The base index selects the current column: 0, 4, 8, or 12.
         int base = i * 4; 
 
         uint8_t a0 = state[base + 0];
@@ -378,38 +378,38 @@ static void add_round_key_step(uint8_t *state, const uint8_t *round_key) {
 
 static void key_expansion(const uint8_t *Key, uint8_t *round_key) {
 
-    // Prima sub-cheie este chiar cheia initiala
+    // The first round key is the original key.
     for (int i = 0; i < 16; i++) {
         round_key[i] = Key[i];
     }
 
-    // Generam celelalte sub-chei pentru fiecare runda
+    // Generate the remaining round keys.
     int bytes_generated = 16;
     int rcon_iteration = 1;
     uint8_t temp[4];
 
     while (bytes_generated < 176) {
-        // Citim ultimii 4 octeti generati
+        // Read the last four generated bytes.
         for (int i = 0; i < 4; i++) {
             temp[i] = round_key[bytes_generated - 4 + i];
         }
 
-        // La fiecare 16 octeti aplicam transformarea speciala a cheii
+        // Apply the key schedule transformation every 16 bytes.
         if (bytes_generated % 16 == 0) {
-            // rotim circular octetii
+            // Rotate the bytes cyclically.
             uint8_t k = temp[0];
             temp[0] = temp[1]; temp[1] = temp[2]; temp[2] = temp[3]; temp[3] = k;
 
-            // substituim fiecare octet folosind S-BOX-ul
+            // Substitute each byte through the S-box.
             for (int i = 0; i < 4; i++) {
                 temp[i] = sbox[temp[i]];
             }
 
-            // XOR cu rcon
+            // XOR the round constant.
             temp[0] ^= rcon[rcon_iteration++];
         }
 
-        // Generam urmatorii 4 octeti aplicand XOR cu corespondentul de la iteratia anterioara
+        // Generate four bytes by XOR with the corresponding previous-round bytes.
         for (int i = 0; i < 4; i++) {
             round_key[bytes_generated] = round_key[bytes_generated - 16] ^ temp[i];
             bytes_generated++;
@@ -420,10 +420,10 @@ static void key_expansion(const uint8_t *Key, uint8_t *round_key) {
 
 static void AES_encrypt_block(uint8_t *state, const uint8_t *round_key) {
 
-    // Runda initiala
+    // Initial round.
     add_round_key_step(state, round_key);
 
-    // 9 runde principale
+    // Nine main rounds.
     for (int round = 1; round <= 9; round++) {
         sub_bytes_step(state);
         shift_rows_step(state);
@@ -431,7 +431,7 @@ static void AES_encrypt_block(uint8_t *state, const uint8_t *round_key) {
         add_round_key_step(state, round_key + round * 16);
     }
 
-    // Runda finala (fara mix_columns)
+    // Final round without MixColumns.
     sub_bytes_step(state);
     shift_rows_step(state);
     add_round_key_step(state, round_key + 10 * 16);
@@ -440,23 +440,23 @@ static void AES_encrypt_block(uint8_t *state, const uint8_t *round_key) {
 
 int my_aes_encrypt(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *key) {
 
-    uint8_t round_key[176]; // Buffer pentru toate sub-cheile
-    uint8_t block[16];     // Buffer temporar pentru un singur bloc de 16 octeti
+    uint8_t round_key[176]; // Storage for the expanded round keys.
+    uint8_t block[16];     // Temporary storage for one 16-byte block.
     
-    // 1. Expandam cheia o singura data la inceput
+    // Expand the key once per invocation.
     key_expansion(key, round_key);
 
     int output_len = 0;
     int i = 0;
 
-    // 2. Parcurgem textul din 16 in 16 octeti
+    // Process input in 16-byte blocks.
     while (i < input_len) {
         int bytes_to_copy = (input_len - i >= 16) ? 16 : (input_len - i);
         
-        // Copiem datele in bloc
+        // Copy input bytes into the block.
         memcpy(block, input + i, bytes_to_copy);
         
-        // 3. PKCS#7 Padding: Daca ajungem la final si blocul nu e plin
+        // PKCS#7 padding for a final partial block.
         if (bytes_to_copy < 16) {
             uint8_t pad_value = 16 - bytes_to_copy;
             for (int j = bytes_to_copy; j < 16; j++) {
@@ -464,17 +464,17 @@ int my_aes_encrypt(const uint8_t *input, int input_len, uint8_t *output, const u
             }
         }
 
-        // Criptam blocul
+        // Encrypt the block.
         AES_encrypt_block(block, round_key);
         
-        // Mutam rezultatul in buffer-ul de output
+        // Copy the ciphertext to the output.
         memcpy(output + output_len, block, 16);
         output_len += 16;
         i += 16;
     }
 
-    // 4. PKCS#7 Padding: Daca lungimea initiala a fost un multiplu exact de 16,
-    // standardul cere sa mai adaugam un bloc intreg de padding (16 octeti de 0x10)
+    // PKCS#7 requires an additional full padding block for an exact multiple of 16 bytes.
+    // The extra block contains sixteen bytes with value 0x10.
     if (input_len % 16 == 0) {
         for (int j = 0; j < 16; j++) {
             block[j] = 16;
@@ -484,7 +484,7 @@ int my_aes_encrypt(const uint8_t *input, int input_len, uint8_t *output, const u
         output_len += 16;
     }
 
-    return output_len; // Returnam lungimea noului sir criptat
+    return output_len; // Return the padded ciphertext length.
 }
 
 
@@ -492,16 +492,16 @@ void sha256_transform(uint32_t state[8], const uint8_t data[64]) {
 
     uint32_t a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 
-    // Primii 16 termeni sunt blocul de date original (convertit la big-endian)
+    // Read the first 16 schedule words from the block in big-endian order.
     for (i = 0, j = 0; i < 16; ++i, j += 4)
         m[i] = ((uint32_t)data[j] << 24) | ((uint32_t)data[j + 1] << 16) |
                ((uint32_t)data[j + 2] << 8) | (uint32_t)data[j + 3];
     
-    // Urmatorii 48 de termeni sunt derivati folosind functiile SIG0 și SIG1
+    // Derive the remaining 48 schedule words with SIG0 and SIG1.
     for (; i < 64; ++i)
         m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
 
-    // Initializarea variabilelor de lucru cu starea curenta
+    // Initialize working variables from the current hash state.
     a = state[0]; 
     b = state[1]; 
     c = state[2]; 
@@ -511,7 +511,7 @@ void sha256_transform(uint32_t state[8], const uint8_t data[64]) {
     g = state[6]; 
     h = state[7];
 
-    // Pasul de compresie
+    // Compression rounds.
     for (i = 0; i < 64; ++i) {
         t1 = h + EP1(e) + CH(e, f, g) + k[i] + m[i];
         t2 = EP0(a) + MAJ(a, b, c);
@@ -525,7 +525,7 @@ void sha256_transform(uint32_t state[8], const uint8_t data[64]) {
         a = t1 + t2;
     }
 
-    // Adaugam rezultatul la starea curenta
+    // Add the working result to the hash state.
     state[0] += a; 
     state[1] += b; 
     state[2] += c; 
@@ -543,19 +543,19 @@ int my_sha256_hash(const uint8_t *input, int input_len, uint8_t *output) {
     };
 
     int i = 0;
-    // Procesăm blocurile întregi de 64 octeți direct din input
+    // Process complete 64-byte blocks directly from the input.
     for (i = 0; i + 64 <= input_len; i += 64) {
         sha256_transform(state, &input[i]);
     }
 
-    // Gestionăm padding-ul manual într-un buffer temporar mic
+    // Construct the final padding in a small temporary buffer.
     uint8_t final_block[64];
     int remaining = input_len - i;
     memcpy(final_block, &input[i], remaining);
-    final_block[remaining] = 0x80; // Adăugăm bitul de 1
+    final_block[remaining] = 0x80; // Append the mandatory one bit.
     remaining++;
 
-    // Dacă nu mai avem loc de lungime (8 bytes) în blocul curent
+    // Use an extra block if the current block cannot hold the eight-byte length.
     if (remaining > 56) {
         memset(&final_block[remaining], 0, 64 - remaining);
         sha256_transform(state, final_block);
@@ -564,14 +564,14 @@ int my_sha256_hash(const uint8_t *input, int input_len, uint8_t *output) {
         memset(&final_block[remaining], 0, 56 - remaining);
     }
 
-    // Adăugăm lungimea la final (în biți, big-endian)
+    // Append the input length in bits, in big-endian order.
     uint64_t bit_len = (uint64_t)input_len * 8;
     for (int b = 0; b < 8; b++) {
         final_block[63 - b] = (uint8_t)(bit_len >> (b * 8));
     }
     sha256_transform(state, final_block);
 
-    // Scriem rezultatul
+    // Serialize the digest.
     for (int i = 0; i < 8; i++) {
         output[i * 4]     = (state[i] >> 24) & 0xFF;
         output[i * 4 + 1] = (state[i] >> 16) & 0xFF;
@@ -579,7 +579,7 @@ int my_sha256_hash(const uint8_t *input, int input_len, uint8_t *output) {
         output[i * 4 + 3] = (state[i]) & 0xFF;
     }
 
-    return 32; // Returnăm lungimea hash-ului
+    return 32; // Return the digest length.
 }
 
 
@@ -609,28 +609,28 @@ void chacha20_mixing(uint32_t out[16], uint32_t const in[16]) {
         temp[i] = in[i];
     } 
 
-    // 20 de runde de quarter round
+    // Twenty rounds, alternating column and diagonal quarter-rounds.
     for (int round = 0; round < 10; round++) {
-        // aplicam quarter round pe coloane
+        // Apply column quarter-rounds.
         chacha20_quarter_round(&temp[0], &temp[4], &temp[8], &temp[12]);
         chacha20_quarter_round(&temp[1], &temp[5], &temp[9], &temp[13]);
         chacha20_quarter_round(&temp[2], &temp[6], &temp[10], &temp[14]);
         chacha20_quarter_round(&temp[3], &temp[7], &temp[11], &temp[15]);
 
-        // aplicam quarter round pe diagonale
+        // Apply diagonal quarter-rounds.
         chacha20_quarter_round(&temp[0], &temp[5], &temp[10], &temp[15]);
         chacha20_quarter_round(&temp[1], &temp[6], &temp[11], &temp[12]);
         chacha20_quarter_round(&temp[2], &temp[7], &temp[8], &temp[13]);
         chacha20_quarter_round(&temp[3], &temp[4], &temp[9], &temp[14]);
     }
 
-    // punem rezultatul final in output adunand la starea initiala
+    // Add the initial state to the mixed state.
     for (int i = 0; i < 16; i++) {
         out[i] = temp[i] + in[i];
     }
 }
 
-// Funcție ajutătoare pentru citirea sigură a unui uint32_t din orice adresă
+// Read an unaligned little-endian 32-bit word safely.
 static uint32_t load32_le(const uint8_t *src) {
     return (uint32_t)src[0] | ((uint32_t)src[1] << 8) | 
            ((uint32_t)src[2] << 16) | ((uint32_t)src[3] << 24);
@@ -638,7 +638,7 @@ static uint32_t load32_le(const uint8_t *src) {
 
 int my_chacha20_encrypt(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *key, const uint8_t *nonce) {
 
-    // Initializare starea ChaCha20 (RFC 7539)
+    // Initialize the ChaCha20 state (RFC 7539 layout).
     uint32_t state[16] = {
         0x61707865, 0x3320646e, 0x79622d32, 0x6b206574, // "expand 32-byte k"
         load32_le(key), load32_le(key + 4), load32_le(key + 8), load32_le(key + 12),
@@ -652,7 +652,7 @@ int my_chacha20_encrypt(const uint8_t *input, int input_len, uint8_t *output, co
         uint32_t keystream[16];
         chacha20_mixing(keystream, state);
 
-        // Un bloc are 64 octeti
+        // Each keystream block contains 64 bytes.
         int bytes_to_xor = 0;
         if (input_len - processed >= 64) {
             bytes_to_xor = 64;
@@ -666,7 +666,7 @@ int my_chacha20_encrypt(const uint8_t *input, int input_len, uint8_t *output, co
 
         processed += bytes_to_xor;
         
-        // Incrementam counter-ul pentru urmatorul bloc de 64 octeti
+        // Increment the block counter for the next 64-byte block.
         state[12]++;
     }
 
@@ -698,7 +698,7 @@ int my_crc32(const uint8_t *input, int input_len, uint32_t *output) {
 
 
 
-// ALGORITMI DE PROCESARE A SEMNALELOR DIGITALE
+// DIGITAL SIGNAL PROCESSING ALGORITHMS
 
 uint32_t reverse_bits(uint32_t index, int bits) {
     uint32_t reversed = 0;
@@ -713,7 +713,7 @@ uint32_t reverse_bits(uint32_t index, int bits) {
 
 int my_fft(const uint8_t *input, int input_len, float *output) {
     
-    // 1. Verificam daca lungimea input-ului este o putere a lui 2
+    // Require a nonzero power-of-two input length.
     if (!input || !output || input_len <= 0 || input_len > 2048 || (input_len & (input_len - 1)) != 0) {
         return -1;
     }
@@ -723,14 +723,14 @@ int my_fft(const uint8_t *input, int input_len, float *output) {
     int stages = 0;
     for (int remaining = input_len; remaining > 1; remaining >>= 1) ++stages;
 
-    // 2. Reordonam input-ul folosind bit-reversal  
+    // Reorder the input using bit reversal.
     for (int i = 0; i < input_len; i++) {
         uint32_t rev_i = reverse_bits(i, stages);
         real[rev_i] = (float)input[i];
         imag[rev_i] = 0.0f;
     }
 
-    // 3. Aplicam algoritmul FFT iterativ
+    // Apply the iterative FFT.
     for (int s = 1; s <= stages; s++) {
         int m = 1 << s; // m = 2^s
         double wm_real = cos(2 * PI / m);
@@ -754,7 +754,7 @@ int my_fft(const uint8_t *input, int input_len, float *output) {
                 real[t_index] = u_real - t_real;
                 imag[t_index] = u_imag - t_imag;
 
-                // Actualizam w pentru urmatoarea iteratie
+                // Update the twiddle factor for the next iteration.
                 double temp_w_real = w_real * wm_real - w_imag * wm_imag;
                 w_imag = w_real * wm_imag + w_imag * wm_real;
                 w_real = temp_w_real;
@@ -762,7 +762,7 @@ int my_fft(const uint8_t *input, int input_len, float *output) {
         }
     }
 
-    // 4. Copiem rezultatul in output
+    // Write normalized magnitudes to the float output.
     for (int i = 0; i < input_len; i++) {
         output[i] = (float)(sqrt((double)real[i] * real[i] + (double)imag[i] * imag[i]) / input_len);
     }
@@ -777,19 +777,19 @@ int my_fir_filter(const uint8_t *input, int input_len, uint8_t *output, const ui
         return -1;
     }
 
-    // 1. Vom parcurge fiecare esantion din input
+    // Process every input sample.
     for (int n = 0; n < input_len; n++) {
         uint32_t accumulator = 0;
 
-        // Vom aplica filtrul pe esantionul curent
+        // Apply the filter to the current sample.
         for (int k = 0; k < num_coefficients; k++) {
-            // Verificare pentru a nu accesa indecsi care nu exista pentru primele esantioane
+            // Treat unavailable past samples as zero.
             if (n - k >= 0) {
                 accumulator += (uint32_t)input[n - k] * (uint32_t)coefficients[k];
             }
         }
 
-        // Normalizare simpla pentru a ramane în gama 0-255
+        // Normalize by the coefficient sum using integer division.
         uint32_t sum_coeffs = 0;
         for(int i = 0; i < num_coefficients; i++) {
             sum_coeffs += coefficients[i];
@@ -811,7 +811,7 @@ int my_iir_filter(const uint8_t *input, int input_len, uint8_t *output, const ui
         return -1;
     }
 
-    // Calculam suma coeficientilor b
+    // Calculate the sum of the feedforward coefficients.
     double sum_b = 0.0;
     for(int m = 0; m < num_b_coefficients; m++) {
         sum_b += b_coefficients[m];
@@ -821,14 +821,14 @@ int my_iir_filter(const uint8_t *input, int input_len, uint8_t *output, const ui
         double acc_b = 0.0;
         double acc_a = 0.0;
 
-        // Partea FIR (b_coefficients)
+        // Feedforward contribution (b_coefficients).
         for (int j = 0; j < num_b_coefficients; j++) {
             if (i - j >= 0) {
                 acc_b += b_coefficients[j] * input[i - j];
             }
         }
 
-        // Partea IIR (a_coefficients)
+        // Feedback contribution (a_coefficients).
         for (int k = 1; k < num_a_coefficients; k++) {
             if (i - k >= 0) {
                 acc_a += (double)a_coefficients[k] * output[i - k];
@@ -837,13 +837,13 @@ int my_iir_filter(const uint8_t *input, int input_len, uint8_t *output, const ui
 
         double final_result;
         if (sum_b > 0) {
-            // Normalizam suma coeficientilor b pentru a preveni amplificarea semnalului
+            // Divide by the feedforward coefficient sum; feedback can still amplify the signal.
             final_result = (acc_b + acc_a) / sum_b;
         } else {
             final_result = (acc_b + acc_a);
         }
 
-        // Protectie pentru overflow si underflow
+        // Clamp to the unsigned-byte range before storing the feedback sample.
         if (final_result > 255.0) final_result = 255.0;
         if (final_result < 0.0) final_result = 0.0;
 

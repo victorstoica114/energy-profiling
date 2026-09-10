@@ -1,202 +1,94 @@
 # Capture files and offline integration
 
-The analyzer uses Python's standard library. It accepts one complete experiment
-sequence per file and produces derived JSON and workload CSV files. It never
-changes a capture, repairs marker boundaries, substitutes published algorithm
-times, or subtracts an idle current automatically.
+The standard-library Python analyzer accepts one complete **single-GPIO** experiment sequence and produces derived JSON and workload CSV files. It never changes captures, repairs boundaries, substitutes published execution times or automatically subtracts idle current. Current experiment schema: **2**, GPIO protocol `single_run_v1`.
 
 ## Acquisition contract
 
-Use the official Nordic Power Profiler application at **100,000 samples/s**.
-Start recording before powering or releasing reset on the target. Preserve the
-native `.ppk2` file and export **All** samples to CSV with timestamps, current,
-and all eight digital channels. Record the application/PPK2 firmware versions
-and the exact experiment manifest with each measurement campaign.
+Use the official Nordic Power Profiler application at **100,000 samples/s**. Start recording before powering or releasing reset on the DUT. Preserve the native .ppk2 file and export all samples with timestamps, current and the RUN channel. Record application/PPK2 firmware versions, the physical board, programmed image and experiment manifest.
 
-Lower sampling settings average the data before storage. They cannot recover
-native timing when exported later; this analyzer rejects rates other than
-100,000 samples/s. Display zoom/minimap data are not used for integration.
+Lower sampling settings average data before storage and cannot restore native timing later. Rates other than 100000 samples/s are rejected. Display zoom/minimap data are not used for integration.
 
-The GPIO protocol is fixed:
+**Only PPK2 D0 is used.** Wire ESP32 GPIO18, Pico GP2 or Nucleo PC0 to D0. HIGH normally encloses one batch; LOW is outside. No separate ID, error, completion or idle marker exists. D1-D7 are ignored, including unknown or mixed states on those unused inputs.
 
-| Channel | Meaning |
-|---|---|
-| D0 | RUN: integrate only while HIGH |
-| D1, D2, D3, D4 | Algorithm ID, least significant bit first |
-| D5 | IDLE_VALID: deliberate controlled idle, algorithm ID must be zero |
-| D6 | ERROR: any asserted sample rejects the complete capture |
-| D7 | DONE: all 12 kernels and checks completed; stays HIGH |
+Exactly twelve complete HIGH pulses are assigned by position to RLE, Delta, LZ77, Huffman, AES-128, SHA-256, ChaCha20, CRC32, FFT, FIR, IIR and DCT. The board manifest supplies each batch's call count. The analyzer does not detect the algorithm from current shape or count individual calls inside a pulse.
 
-IDs 1 through 12 are RLE, Delta, LZ77, Huffman, AES-128, SHA-256,
-ChaCha20, CRC32, FFT, FIR, IIR, DCT. There must be exactly one contiguous
-RUN window for each ID, in that order. The ID must stay constant throughout
-RUN. Preparation and validation can take arbitrary time outside RUN and
-outside IDLE_VALID; these portions are excluded from both active and idle
-metrics.
+Before the first pulse, there must be at least **495000 defined LOW samples**; each of the eleven inter-workload LOW gaps requires at least **99000 samples**. These are nominal 5 s and 1 s MCU pause lower bounds with 1% tolerance. No upper bounds apply because initialization, preparation and verification can lengthen LOW intervals. The recording must include at least **300000 trailing LOW samples**, three seconds, after the twelfth falling edge. This final recording minimum does not use the MCU pause tolerance.
 
-Require the full **5 s initial IDLE_VALID**, then one **1 s IDLE_VALID pause**
-between successive algorithms and a **2 s post-suite IDLE_VALID**. The analyzer
-checks each complete marker interval against its nominal duration with a
-**1% acceptance tolerance**, independently of algorithm execution times. This
-is a protocol consistency threshold, not a calibrated uncertainty estimate.
-An initial capture starting inside IDLE_VALID, shortened/split/missing pauses,
-or an unfinished final idle region is rejected. Record at least **3 s after
-DONE** so the post-suite idle falling edge and its following tail are present;
-the analyzer requires at least 2 s of persistent DONE plus the completed
-post-suite IDLE_VALID window.
+The startup baseline is the **last 200000 LOW samples immediately before the first HIGH**, corresponding to two seconds. Firmware performs initialization, preparation and platform checks before the nominal five-second pause, leaving the selected baseline as operational idle apart from timer/gate boundary overhead. Other complete LOW intervals are not labeled idle: they can contain preparation, verification, active waiting or final platform sleep.
 
-DONE and the final IDLE_VALID rising edge must occur in the same sample;
-DONE must remain HIGH throughout that final interval and the remainder of
-the recording. Firmware must assert both markers atomically. An idle interval
-followed by a delayed DONE, or a stagger of even one retained sample, is
-rejected rather than accepted with an inferred timing allowance.
+Detected firmware errors latch RUN HIGH until reset. A stuck-HIGH interval, absent fall, incomplete or additional pulse sequence, or insufficient LOW interval is rejected. If failure occurs inside a batch, the firmware keeps the existing gate open instead of emitting a normal falling edge first.
 
-Unresolved digital inputs can occur before valid power/reference levels.
-Unknown states are allowed only before the first fully valid IDLE_VALID
-sample, are counted, and are excluded from measurement windows. Even there,
-a partially unknown sample with a known HIGH RUN, ERROR or DONE is rejected.
-Mixed states (`X` / native pair `11`) are always rejected. After the first
-valid IDLE_VALID sample, every channel must have a definite LOW/HIGH value.
-This rule does not establish the electrical cause of an unknown startup
-sample, or prove absence of a completely unobserved reset before synchronization.
+A pass is **structural_protocol_pass**, not an attestation of firmware success. The trace cannot independently prove the programmed image, internal call counts, absence of every reset, or completion of final verification. A hang while LOW after the twelfth pulse can leave an accepted shape. There is no DONE signal from which to prove completion. Retain image/programming provenance and perform physical revalidation separately.
 
-Finite signed current values are permitted in the unmeasured startup prefix,
-before the first IDLE_VALID synchronization and with no RUN, IDLE_VALID, ERROR
-or DONE asserted. Such values can reflect a pre-power-on ADC offset. Negative
-startup samples are counted in the JSON, retain their original indices, and
-are neither clipped nor included in active/idle integrals. Their sign does
-not prove the cause is offset. A negative value in IDLE_VALID, RUN, or anywhere
-after synchronization rejects this active-board experiment. Nonfinite current
-always rejects the capture, including before power-on.
+## Startup values and current policy
 
-## Native `.ppk2` support
+Unknown D0 is allowed only as a contiguous prefix before the first defined LOW sample. After that synchronization point, unknown D0 is rejected even before the first RUN. Mixed D0 states are always rejected. An acquisition beginning HIGH is invalid because it lacks the required initial LOW interval. Unused digital channels do not affect these rules.
 
-Supported format: Nordic `.ppk2` **formatVersion 2**. The ZIP must contain
-exactly these three root-level files:
+Finite negative current is permitted anywhere before the first RUN **except within the selected two-second baseline**. The baseline and all samples from the first RUN onward must be nonnegative. Negative startup samples are counted and retain their indices; they are neither clipped nor included in active/baseline integrals. Their sign does not establish whether their physical cause is offset. Nonfinite current always rejects the capture, including startup.
 
-* `metadata.json`: JSON object containing `formatVersion: 2` and
-  `metadata.samplesPerSecond: 100000`; optional `metadata.startSystemTime`.
-* `session.raw`: six bytes per retained sample: a **little-endian float32
-  current in microamperes**, followed by a **big-endian uint16** of digital
-  states. Each channel uses two bits, D0 at the least-significant pair:
-  `01` = LOW, `10` = HIGH, `00` = unknown, `11` = mixed.
-* `minimap.raw`: the condensed display representation, never used for metrics.
+## Native .ppk2 support
 
-The unusual mixed byte order is intentional. It was checked against Nordic's
-`DataView` reads/writes and tested with all 256 possible digital masks.
-Unsupported versions and legacy `.ppk` files are rejected, not guessed.
+Supported format: Nordic .ppk2 **formatVersion 2**. The ZIP must contain exactly these root files:
 
-ZIP members are read without extraction, in bounded chunks. The default limit
-is 60 million samples (10 minutes at 100 kS/s), metadata is limited to 1 MiB,
-and the minimap to 64 MiB. `--max-samples` changes the explicit recording-size
-limit. Unexpected paths/members, encrypted entries, symlinks, unsupported
-compression and partial sample frames are rejected. Metadata/session CRC
-errors also abort analysis; the unused minimap is not decompressed for a CRC
-check.
+- metadata.json: JSON with formatVersion=2 and metadata.samplesPerSecond=100000; optional metadata.startSystemTime.
+- session.raw: six bytes per retained sample: **little-endian float32 current in microamperes**, then a **big-endian uint16 digital word**. Each channel has two bits. D0 is the lowest pair: 01=LOW, 10=HIGH, 00=unknown, 11=mixed. Only the D0 pair is interpreted by the current protocol.
+- minimap.raw: condensed display data, unused for metrics.
 
-Nordic implementation examined at commit
-`881d596480f60dea045ad6f3643afdc3f9d5a0a6`:
-[sample storage and timebase](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/globals.ts),
-[digital encoding](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/utils/bitConversion.ts),
-[metadata and save format](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/utils/saveFileHandler.ts).
+The mixed byte order is intentional and follows Nordic's DataView storage. Unsupported versions and legacy .ppk are rejected. ZIP members are read without extraction, in bounded chunks. The default cap is sixty million samples, ten minutes at 100 kS/s; metadata is limited to 1 MiB and minimap to 64 MiB. `--max-samples` changes the explicit sample-count cap. Unexpected members/paths, encrypted entries, symlinks, unsupported compression and partial frames are rejected. Metadata/session CRC failures abort analysis; unused minimap is not decompressed merely to check its CRC.
 
-## CSV support: choose the profile explicitly
+Nordic implementation examined at commit `881d596480f60dea045ad6f3643afdc3f9d5a0a6`: [sample storage/timebase](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/globals.ts), [digital encoding](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/utils/bitConversion.ts), [metadata/save format](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/utils/saveFileHandler.ts).
 
-For the current official Nordic export, pass `--csv-profile nordic`. It selects
-these documented columns and units:
+## CSV: select an explicit profile
 
-* `Timestamp(ms)`, interpreted as milliseconds;
-* `Current(uA)`, interpreted as microamperes;
-* eight columns `D0` through `D7`, or the official `D0-D7` eight-character
-  bitstring if the separate columns are absent. In the bitstring, D0 is the
-  **first** character, not the last.
+`--csv-profile nordic` uses Timestamp(ms) in milliseconds and Current(uA) in microamperes. If D0 exists, it is selected and other digital columns are ignored, including a redundant D0-D7 column. Otherwise D0-D7 must contain eight characters; its **first character is D0** and the remaining seven are ignored. An export does not need eight separately wired signals.
 
-If both digital representations are present, they must agree; the eight
-separate columns are used. Nordic CSV output rounds current to 0.001 microampere; the native file
-retains its stored float32 values. Nordic's CSV exporter skips NaN current
-samples, so such an omission can appear as a timestamp gap and will be
-rejected. [Official CSV exporter](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/actions/exportChartAction.ts).
+Nordic CSV rounds current to 0.001 microampere; native files retain float32 values. The official CSV exporter skips NaN current samples, so an omission can appear as a timestamp gap and be rejected. [Nordic CSV exporter](https://github.com/NordicSemiconductor/pc-nrfconnect-ppk/blob/881d596480f60dea045ad6f3643afdc3f9d5a0a6/src/actions/exportChartAction.ts).
 
-For any other schema, use `--csv-profile generic` and specify current/time
-column names and units. Supported current units: `A`, `mA`, `uA`. Supported
-time units: `s`, `ms`, `us`. Supply eight digital column names in D0..D7 order
-or one D0-first bitstring column. There is no unit inference from the size or
-shape of the values. Digital values use `0`/`1`; `-` denotes unknown and `X`
-mixed, subject to the startup policy above. Decimal separator is a dot;
-`--delimiter` can change the column separator. Headers must be unique.
+For another schema, use `--csv-profile generic` and explicitly select current/time names and units. Current units: A, mA, uA. Time units: s, ms, us. Supply **`--digital-column NAME`** for one RUN column, or **`--digital-bitstring-column NAME`** for a D0-first eight-character representation. The old plural --digital-columns option is not the current interface. Values 0/1 represent LOW/HIGH, '-' is unknown subject to the prefix rule, and X is mixed/rejected on the selected channel. There is no unit inference from numeric magnitude. Decimal separator is a dot; --delimiter changes the column separator. Headers must be unique.
 
-Every timestamp interval must match `1/fs` within `max(1 ps, 0.01% of 1/fs)`.
-Decimal arithmetic preserves timestamp differences even with large absolute
-offsets. `--index-column` optionally checks consecutive integer sample indices.
-Missing, repeated, backwards or detectably irregular timestamps/indices reject
-the capture. These checks cannot detect data loss if upstream software rebuilt
-a uniform index/timebase after losing data. Native `.ppk2` stores an index-based
-timebase without a hardware timestamp for every sample; **the analyzer never
-claims packet-loss absence is proven**.
+Each timestamp interval must match 1/fs within max(1 ps, 0.01% of 1/fs). Decimal arithmetic preserves differences with large absolute offsets. `--index-column` optionally checks consecutive integer indices. Missing, duplicate, backward or detectably irregular timestamps/indices reject the file. These checks cannot detect upstream data loss followed by reconstruction of a uniform index/timebase. Native .ppk2 is index-based and has no independent hardware timestamp for every sample; absence of packet loss is not proven.
 
 ## Commands
 
-Run from the project root, using a fresh results directory or unused capture
-stem. Existing result files are not overwritten.
+Run from the project root. Use an unused result directory or capture stem; existing output files are not overwritten.
 
 ```powershell
 python tools/analyze_capture.py captures/esp32_001.ppk2 --board esp32 --manifest config/experiment.json --output-dir results/esp32_001
 
 python tools/analyze_capture.py captures/esp32_001.csv --csv-profile nordic --board esp32 --manifest config/experiment.json --output-dir results/esp32_001_csv
 
-python tools/analyze_capture.py captures/custom.csv --csv-profile generic --current-column I --current-unit mA --time-column t --time-unit us --digital-columns D0,D1,D2,D3,D4,D5,D6,D7 --board rp2040 --manifest config/experiment.json --output-dir results/custom
+python tools/analyze_capture.py captures/custom.csv --csv-profile generic --current-column I --current-unit mA --time-column t --time-unit us --digital-column RUN --board rp2040 --manifest config/experiment.json --output-dir results/custom
 ```
 
-Sampling rate comes from the explicit experiment manifest and must agree with
-native metadata. Optional `--sample-rate-hz 100000` adds a user cross-check.
-`--voltage 3.3` supplies an explicitly assumed constant DUT voltage; without it,
-the manifest nominal voltage is used. Neither option certifies that voltage
-was measured. Optional `--voltage-uncertainty-v` records an absolute uncertainty
-value whose basis must be documented separately; it does not produce a complete
-energy uncertainty budget.
+The manifest supplies sample rate and must agree with native metadata. Optional `--sample-rate-hz 100000` adds an operator cross-check. `--voltage 3.3` supplies a declared constant DUT voltage; otherwise manifest nominal voltage is used. Neither certifies a voltage measurement. `--voltage-uncertainty-v` records an absolute uncertainty whose basis must be documented separately; it does not calculate a complete energy uncertainty budget.
 
-## Numerical meaning of the results
+## Numerical results
 
-For each half-open RUN window `[a,b)` at nominal rate `fs`:
+For each half-open HIGH window [a,b):
 
 ```text
-T = (b - a) / fs
+T = (b-a) / fs
 Q = sum(I[a:b]) / fs
 E = V_assumed_constant * Q
+T_per_call = T / iterations_from_manifest
 Q_per_call = Q / iterations_from_manifest
 E_per_call = E / iterations_from_manifest
 ```
 
-The falling-edge sample belongs outside RUN. Gate duration includes the
-firmware loop and GPIO-boundary overhead; no algorithm execution time from the
-MCU or original article is used. Iteration counts come from the board-specific
-manifest, not from identifying individual pulses in the current waveform.
-The full capture's first-to-last sample span `(N-1)/fs` is reported separately
-from its integration support `N/fs`.
+The falling-edge sample is outside RUN. The gate includes loop, status and GPIO-boundary overhead. No execution time from the MCU or original article is substituted. The entire capture's first-to-last span `(N-1)/fs` is distinct from its integration support N/fs.
 
-The startup baseline is the **last 2 s of the full initial 5 s IDLE_VALID**
-region. All completed IDLE_VALID windows are also reported separately; arbitrary
-gaps, validation, initialization and post-DONE sleep are not labelled idle by
-looking at current levels. Current mean, population standard deviation,
-minimum and maximum describe each window, without claiming statistical
-independence of adjacent samples or calibrated current stability. Negative
-current follows the startup-only policy above; nonfinite values are always
-rejected rather than silently clipped.
+JSON schema 2 uses status **structural_protocol_pass**. The runs contain sequence_position, algorithm_assumed_from_order and iterations_from_manifest alongside integral/per-call metrics. startup_baseline contains the selected final two seconds before the first HIGH.
 
-JSON includes window indices, integral metrics, idle statistics, protocol
-checks, voltage basis, limitations, the selected manifest, and SHA-256 hashes
-of the input, manifest and analyzer. The workload CSV contains the 12 validated
-active-window rows. Rejected captures generate no new analysis files. Multiple
-independent cold boots must be recorded and analyzed as separate files; their
-between-capture statistics are a separate analysis step.
+low_intervals distinguishes startup_low, inter_workload_low and trailing_low. startup_low contains boundaries/duration without a current integral because it can contain signed boot current. Inter-workload and trailing LOW intervals can include current/energy statistics, but are explicitly mixed activity, not controlled idle. The schema records trailing_low_duration_s, unresolved_D0_samples_in_startup_prefix, negative_current_samples_in_unmeasured_startup and **final_validation_completion_proven=false**.
 
-## Verification
+Current mean, population standard deviation, minimum and maximum describe each selected window. They do not establish independent samples, calibrated current stability or confidence across repeated experiments. JSON also preserves protocol checks, voltage basis, limitations, the selected manifest and SHA-256 hashes of capture, manifest and analyzer. The workload CSV contains twelve structurally accepted active-window rows. Rejected captures produce no new analysis files.
+
+Independent cold boots must be recorded and analyzed separately; between-capture statistics are a separate step. Historical eight-signal files require their matching historical analyzer/manifest and must not be relabeled as this protocol merely by ignoring seven channels.
+
+## Parser checks
 
 ```powershell
 python -m unittest discover -s tests -p test_capture_analysis.py -v
 ```
 
-These synthetic tests cover numerical gate integration, native byte/bit order,
-explicit CSV units, missing/partial/malformed markers, errors and restarts,
-CSV timestamp/index gaps, unsupported/truncated/unsafe native files, and
-nonfinite data. They do not replace an initial physical GPIO/export pilot.
+Synthetic cases cover known integration windows, native byte/bit order, selected-channel behavior, CSV units, missing/extra/incomplete pulses, LOW lower bounds, timestamp/index gaps, unsafe/truncated native files and nonfinite data. These checks do not replace a physical GPIO/export pilot or resolve the one-wire observability limits.

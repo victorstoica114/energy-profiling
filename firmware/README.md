@@ -1,128 +1,126 @@
-# Comportamentul firmware-ului și al prelucrării PPK2
+# Measurement firmware and PPK2 analysis
 
-Specificație verificată față de cod la **10 septembrie 2026**, pentru campania **`energy-profiling-v2-f446`**. Acest document este baza tehnică pentru descrierea metodei în articol. Descrie implementarea existentă, inclusiv limitele ei.
+Specification checked against the source on **10 September 2026**, for **`energy-profiling-v3-single-gpio`**, experiment schema 2 and GPIO protocol `single_run_v1`. This document describes the measurement firmware and its existing limitations as the technical basis for the article's methods.
 
-**Firmware-ul de măsurare nu transmite mesaje de diagnostic și nu necesită USB sau UART conectate la placă.** Stările sunt comunicate prin opt ieșiri GPIO către intrările digitale PPK2. Ultimele imagini programate pe cele trei plăci, la 9 septembrie 2026, au fost variantele `measurement`, cu `BENCH_DIAGNOSTICS=OFF`.
+**The measurement application emits no diagnostic messages and requires no DUT USB or UART connection.** It uses one GPIO output connected to PPK2 D0. HIGH normally marks a fixed-count batch; LOW is outside that batch. No separate algorithm-ID, ERROR, DONE or IDLE_VALID output exists. A detected fault latches the same output HIGH until reset.
 
-Documentul descrie exclusiv firmware-ul utilizat la benchmark. Evidențele testelor sunt păstrate în [raportul de validare](../docs/HARDWARE_VALIDATION.md).
+## 1. Experiment identity and authoritative files
 
-## 1. Identitatea experimentului și sursele de adevăr
-
-| Element | Fișierul care îl definește |
+| Item | Defining file |
 |---|---|
-| Ordine, repetări, plăci, frecvențe, pini, pauze | [experiment.json](../config/experiment.json) |
-| Imagini programate, profile și SHA-256 | [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) |
-| Intrările binare și definițiile lor | [manifestul datelor](../data/manifest.json), [generator](../tools/generate_inputs.py) |
-| Secvența autonomă | [bench_runner.c](common/bench_runner.c), funcția `bench_main` |
-| Adaptorul algoritmilor, memoria și verificările | [bench_kernels.c](common/kernels/bench_kernels.c) |
-| Implementările efective | [bench_algorithms.c](common/kernels/bench_algorithms.c), [antet privat](common/kernels/bench_original_private.h) |
-| Contractul de platformă și motivele de eroare | [bench_platform.h](common/include/bench_platform.h) |
-| Integrarea capturilor | [analyze_capture.py](../tools/analyze_capture.py) |
+| Order, repetitions, boards, clocks, output pin and pauses | [experiment.json](../config/experiment.json) |
+| Previously programmed images and new candidate status | [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) |
+| Exact inputs and their definitions | [data manifest](../data/manifest.json), [generator](../tools/generate_inputs.py) |
+| Autonomous sequence | [bench_runner.c](common/bench_runner.c), `bench_main` |
+| Kernel adapter, memory and result verification | [bench_kernels.c](common/kernels/bench_kernels.c) |
+| Algorithm implementations | [bench_algorithms.c](common/kernels/bench_algorithms.c), [private header](common/kernels/bench_original_private.h) |
+| Platform contract and error reasons | [bench_platform.h](common/include/bench_platform.h) |
+| Capture integration | [analyze_capture.py](../tools/analyze_capture.py) |
 
-Cheia logică `stm32` din manifest înseamnă acum **NUCLEO-F446RE / STM32F446RET6**, nu F411. Directorul [targets/stm32](targets/stm32/README.md) și primele artefacte păstrate direct în directoarele `build_verified` sunt istorice. CMake blochează explicit recompilarea țintei F411 în configurația curentă.
+The logical `stm32` key means **NUCLEO-F446RE / STM32F446RET6**. The [targets/stm32](targets/stm32/README.md) directory retains F411 history, and its current CMake entry blocks accidental rebuilding against the F446 campaign. Old files directly in `build_verified` and the September `measurement`/`diagnostic` subdirectories describe earlier eight-signal snapshots. New single-GPIO candidates belong in `build_verified/single_gpio_measurement`; their existence does not establish that they were programmed or physically measured.
 
-SHA-256 al manifestului experimentului descris aici:
+SHA-256 of the experiment manifest described here:
 
 ```text
-618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b
+e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075
 ```
 
-Notație: **L = 2048** este lungimea intrării unui apel; **R** este numărul de apeluri pentru un algoritm pe o placă; **M** este numărul de probe PPK2 dintr-o fereastră. Normalizarea FFT la L nu este împărțirea energiei la R.
+Notation: **L = 2048** is the input length of one kernel call; **R** is the board-specific call count in one batch; **M** is the number of PPK2 samples in a window. FFT normalization by L is distinct from dividing batch energy by R.
 
-## 2. Limbaj, biblioteci și compilare
+## 2. Language, libraries and compilation
 
-Implementările comune sunt scrise în **C**. Adaptoarele de platformă configurează hardware-ul prin SDK-urile native sau CMSIS. CMake și Ninja organizează compilarea; nu sunt compilatoarele propriu-zise. Python generează intrările/referințele și prelucrează capturile; PowerShell automatizează unele comenzi de build pe Windows.
+The common implementations are written in **C**. Platform adapters configure hardware through native SDKs or CMSIS. CMake and Ninja organize compilation; they are not compilers. Python generates inputs/references and processes captures. PowerShell automates some Windows build commands.
 
-| Țintă actuală | SDK / suport | Compilator verificat | Dialect efectiv pentru unitățile C comune |
+| Current target | SDK / support | Compiler identity used for the campaign | Common C translation units |
 |---|---|---|---|
-| ESP32-D0WD-V3, rev. 3.1 | ESP-IDF 5.5.4 | Espressif GCC 14.2.0, `esp-14.2.0_20260121`, Xtensa | `-std=gnu17` |
+| ESP32-D0WD-V3, revision 3.1 | ESP-IDF 5.5.4 | Espressif GCC 14.2.0, `esp-14.2.0_20260121`, Xtensa | `-std=gnu17` |
 | Raspberry Pi Pico, RP2040 | Pico SDK 2.2.0 | GNU Arm Embedded GCC 9.2.1, `20191025` | `-std=gnu11` |
-| NUCLEO-F446RE | cmsis-device-f4 v2.6.11, CMSIS_5 5.9.0 | Același GNU Arm Embedded GCC 9.2.1 | `-std=gnu11` |
+| NUCLEO-F446RE | cmsis-device-f4 v2.6.11, CMSIS_5 5.9.0 | GNU Arm Embedded GCC 9.2.1, `20191025` | `-std=gnu11` |
 
-Prin urmare, formularea exactă este **„implementare comună în C, compilată ca GNU C17 pe ESP32 și GNU C11 pe ARM”**, nu „toate imaginile sunt compilate în C11”. Startup-ul, runtime-ul și bibliotecile SDK pot include și C++, assembler sau cod ROM.
+Thus the precise description is **common C implementation compiled as GNU C17 on ESP32 and GNU C11 on ARM**. SDK startup, runtime and libraries may also contain C++, assembly or ROM code. Exact commands and artifact identities are retained with each build; historical build records do not substitute for a new source-version build record.
 
-Nucleele provin din biblioteca scalară recuperată din proiectul original realizat de Noela Pirleci, cu modificările documentate mai jos. AES, SHA, ChaCha20, CRC și DSP nu sunt înlocuite cu apeluri către acceleratoare criptografice sau biblioteci DSP ale producătorilor. Funcțiile matematice și runtime-ul rămân însă dependente de platformă; acest experiment compară implementările pe plăcile și stivele software configurate, fără a izola efectul exclusiv al setului de instrucțiuni.
+The kernels derive from the recovered scalar library in Noela Pirleci's original project, with the repairs documented below. AES, SHA, ChaCha20, CRC and DSP are not replaced by vendor cryptographic accelerators or DSP-library calls. Mathematical functions and runtime support still depend on the platform. The experiment compares the configured boards and software stacks; it does not isolate the instruction set alone.
 
-### Opțiunile care influențează rezultatul
+### Options affecting the workload
 
-Pentru codul comun, comenzile arhivate au efectiv:
+The common benchmark compilation uses:
 
 ```text
 -O2 -fno-lto -fno-fast-math -ffp-contract=off
 ```
 
-| Opțiune | Semnificație în acest experiment |
+| Option | Meaning in this experiment |
 |---|---|
-| `-O2` | Optimizarea obișnuită a codului este activă. Nu este o compilare „fără optimizare”. |
-| `-fno-lto` | Nu se aplică optimizarea LTO între unități în etapa de legare. Transformările și inlining-ul permise în fiecare unitate rămân posibile. |
-| `-fno-fast-math` | Nu se activează pachetul de relaxări numerice `fast-math`. Acesta ar permite ipoteze și transformări care pot schimba rezultatele floating point. |
-| `-ffp-contract=off` | Nu se contractă expresiile floating point, de exemplu în operații multiply-add fuzionate. |
+| `-O2` | Normal compiler optimization is enabled. |
+| `-fno-lto` | Link-time optimization across translation units is disabled. Inlining and transformations within a translation unit remain possible. |
+| `-fno-fast-math` | The fast-math package of numerical relaxations is disabled. |
+| `-ffp-contract=off` | Floating-point expressions are not contracted into fused multiply-add operations. |
 
-Explicația opțiunilor: [manualul GCC 14.2](https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/Optimize-Options.html). Pentru ABI-ul FPU ARM: [opțiunile ARM GCC 9.2](https://gcc.gnu.org/onlinedocs/gcc-9.2.0/gcc/ARM-Options.html).
+See the [GCC 14.2 optimization manual](https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/Optimize-Options.html) and [GCC 9.2 ARM options](https://gcc.gnu.org/onlinedocs/gcc-9.2.0/gcc/ARM-Options.html).
 
-Aceste opțiuni nu garantează rezultate floating point identice la nivel de biți pe toate platformele și nu împiedică singure eliminarea muncii neobservabile. Wrapperul `bench_kernel_run` este `noinline`, unitățile sunt separate, runnerul are bariere de compilator, rezultatele sunt consumate și există evidențe de inspecție a binarelor. Nu se presupune că toate bibliotecile precompilate/SDK folosesc aceleași opțiuni ca nucleele comune.
+These flags do not guarantee identical floating-point bits on every platform and do not alone preserve otherwise unobservable work. `bench_kernel_run` is noinline; kernels and runner are separate units; the runner contains compiler barriers and consumes results. The generated binary must retain the calls and boundaries. Precompiled SDK/runtime libraries are not assumed to use the same options as the common kernels.
 
-Pe Pico, comenzile includ `-O3` introdus de configurația SDK și apoi **`-O2`**, care este nivelul efectiv. Comenzile comune ESP32 arhivate folosesc `-O2`; nu li se atribuie aceeași secvență. Sunt păstrate `compile_commands.json`, opțiunile specifice țintei și manifestele surselor în arhivele fiecărui profil. ARM folosește Thumb pentru Cortex-M0+ / Cortex-M4; F446 adaugă `-mfpu=fpv4-sp-d16 -mfloat-abi=hard`.
+Pico SDK commands can contain `-O3` followed by **`-O2`**, making the latter effective. ESP32 commands must be read from their own archive rather than assigned that same sequence. ARM uses Thumb for Cortex-M0+ / Cortex-M4; F446 also uses `-mfpu=fpv4-sp-d16 -mfloat-abi=hard`. `compile_commands.json`, target options, toolchain identities and source manifests are retained with the images.
 
-Comenzile complete și pregătirea dependențelor sunt în [BUILD_AND_TEST.md](../docs/BUILD_AND_TEST.md) și README-urile țintelor. Versiunile/hashurile SDK sunt fixate în `sdk.lock.json`; arhivele verificate identifică și compilatoarele efectiv folosite.
+Pico and STM32 dependencies are pinned in target `sdk.lock.json` files. ESP-IDF 5.5.4 is required by ESP32 CMake; the packaged framework is framework-espidf 3.50504, with package and observed SDK-source identities retained in the archive. Reproduction instructions are in [BUILD_AND_TEST.md](../docs/BUILD_AND_TEST.md) and the target READMEs.
 
-## 3. Intrările: octeți exacți și interpretare
+## 3. Exact input bytes and interpretation
 
-Firmware-ul include tablouri C constante. Nu generează date aleatoare la pornire, nu citește ADC și nu primește date prin UART. Fișierele `.hex` reprezintă lizibil aceiași octeți ca `.bin`; algoritmii nu procesează textul ASCII al reprezentării hex.
+The firmware contains constant C arrays. It does not generate random input at boot, read an ADC or receive workload data over UART. The `.hex` files are readable representations of the same bytes as `.bin`; algorithms do not process ASCII hexadecimal text.
 
-### Compresie — ID 1–4
+### Compression - internal IDs 1-4
 
-Se construiește un bloc de 256 de octeți:
+A 256-byte block is constructed as follows:
 
 ```text
-00 repetat de 32 ori
-FF repetat de 32 ori
-rampa 00 01 02 ... 3F                 (64 octeți)
+00 repeated 32 times
+FF repeated 32 times
+ramp 00 01 02 ... 3F                  (64 bytes)
 00 00 01 01 02 02 03 03 10 20 30 40 AA 55 AA 55
-    ultimul motiv de 16 octeți repetat de 8 ori
+    this final 16-byte motif repeated 8 times
 ```
 
-Întreg blocul este repetat de **8 ori**, rezultând 2048 de octeți. Nu este un corpus de texte sau un model universal al datelor IoT.
+The whole block is repeated **8 times**, producing 2048 bytes. This is one fixed synthetic input, not a text corpus or a universal distribution of IoT data.
 
-### Criptografie și CRC — ID 5–8
+### Cryptography and CRC - internal IDs 5-8
 
-Intrare deterministă xorshift32. Starea inițială este `0x1A2B3C4D`. Pentru fiecare dintre cei 2048 de octeți:
+The deterministic xorshift32 state starts at `0x1A2B3C4D`. For each of the 2048 emitted bytes:
 
 ```c
-/* Operații unsigned pe 32 de biți, modulo 2^32. */
+/* Unsigned 32-bit operations, modulo 2^32. */
 s ^= s << 13;
 s ^= s >> 17;
 s ^= s << 5;
 data[i] = s & 0xFF;
 ```
 
-Se emite octetul inferior după actualizarea completă. Acesta este un set de test fix; nu sunt generate mesaje, chei sau nonce-uri noi între apeluri.
+The low byte is emitted after the full update. This fixed input does not introduce new messages, keys or nonces between calls.
 
-### DSP — ID 9–12
+### DSP - internal IDs 9-12
 
-O perioadă de 128 de valori este definită prin:
+A 128-value period is defined by:
 
 ```text
 u[n] = floor(128 + 100 * sin(2*pi*n/128) + 0.5), n = 0..127
 ```
 
-Perioada se repetă de **16 ori**. Intrarea are **2048 eșantioane numerice `uint8_t`**, minimum 28, maximum 228 și media 128. Nu este memorie `float` reinterpretată ca octeți. Nu se scade componenta continuă și nu se aplică o fereastră spectrală. Nu este definită aici o frecvență fizică de eșantionare a semnalului; cei 100 kS/s ai PPK2 descriu instrumentul de curent, nu această intrare DSP.
+The period is repeated **16 times**. The input consists of **2048 numerical uint8_t samples**, minimum 28, maximum 228 and mean 128. It is not float storage reinterpreted as bytes. No DC subtraction or spectral window is applied. No physical signal sample rate is assigned here; PPK2's 100 kS/s describes current acquisition, not the synthetic DSP input.
 
-Fișierele înghețate sunt autoritatea pentru octeții exacți. Regenerarea cu o bibliotecă matematică diferită nu este acceptată automat doar fiindcă folosește aceeași formulă.
+The frozen files define the exact bytes. A regeneration using another mathematical library is not automatically equivalent merely because the formula is unchanged.
 
-| Fișier, 2048 B fiecare | SHA-256 |
+| File, 2048 B each | SHA-256 |
 |---|---|
 | [compression.bin](../data/compression.bin) | `44a2a279b86d1e7d98c24c5bd341a66adec17470de9e7b0ffa4ffc7092b7dab2` |
 | [crypto.bin](../data/crypto.bin) | `b81c57d8f1f5c17f190e279e86f781dee155b05a779fe741a12a6bfacde47b23` |
 | [dsp.bin](../data/dsp.bin) | `f7ed02ed3c339a9290b4d5a9981e472ae967a86d8d3e2735948c819650a28cb7` |
 
-`bench_kernel_prepare` copiază intrarea în RAM **o singură dată înaintea lotului**. Toate R apeluri folosesc aceeași intrare neschimbată; ieșirea este suprascrisă și nu devine intrarea următorului apel.
+`bench_kernel_prepare` copies the input to RAM **once before the batch**. All R calls use that unchanged copy. Each result overwrites the previous result and is not fed into the next call.
 
-## 4. Ordinea și numărul de apeluri
+## 4. Fixed order and call counts
 
-R este preluat din manifest și devine o constantă a configurației compilate. Numerele provin din notele RAW originale, nu din presupunerea că toate sursele recuperate executau aceleași bucle.
+R comes from the manifest and is compiled into the board configuration. Counts originate in the original RAW experiment notes, not an assumption that all recovered source files used identical loops. Internal IDs below select kernels in software; they are **not transmitted on GPIO**. The analyzer assigns algorithms from the first through twelfth HIGH pulse.
 
-| ID | Algoritm | ESP32 R | Pico R | F446 R |
+| Position / internal ID | Algorithm | ESP32 R | Pico R | F446 R |
 |---:|---|---:|---:|---:|
 | 1 | RLE | 3000 | 3000 | 3000 |
 | 2 | Delta | 3000 | 3000 | 3000 |
@@ -137,109 +135,109 @@ R este preluat din manifest și devine o constantă a configurației compilate. 
 | 11 | IIR | 50 | 50 | 50 |
 | 12 | DCT | 1 | 1 | 1 |
 
-Nu există durată țintă care să determine când se oprește un algoritm. O fereastră RUN conține întregul lot R; nu există marcaj GPIO pentru fiecare apel. Nu se introduc pauze între apelurile aceluiași lot. La primul eșec, bucla este întreruptă și seria devine nevalidă.
+No target duration determines when a kernel stops. One HIGH window contains the full R-call batch; no per-call GPIO pulse or inter-call pause is inserted. On a detected failure, the sequence stops with RUN latched HIGH.
 
-## 5. Contractul fiecărui algoritm
+## 5. Algorithm contracts
 
-Toate dimensiunile de mai jos privesc **un apel**, cu L=2048. Sunt dimensiuni ale ieșirilor în RAM, nu transmisii efectuate. Crearea headerelor, inițializarea algoritmică și conversiile descrise aici intră în RUN.
+All sizes below describe **one call with L=2048**. They are output sizes in RAM, not transmitted data. Header construction, algorithmic initialization and the stated conversions belong inside RUN.
 
-### 1 — RLE
+### 1 - RLE
 
-Scrie perechi `(număr, valoare)`, fiecare componentă de un octet. Numărul este 1..255; un șir mai lung se împarte în mai multe perechi. Nu există header de lungime. Parcurgerea reîncepe la fiecare apel.
+Writes `(count,value)` pairs, one byte per component. Count is 1..255; longer runs are split. There is no original-length header. Scanning restarts for each call.
 
-Pentru intrarea curentă rezultă **2592 B**, față de 2048 B la intrare. Această variantă RLE extinde datele cu 26,5625%; nu se afirmă că economisește transmisia pe acest pattern. Limita generală este 2L=4096 B.
+The current input produces **2592 B**, expanding 2048 B by **26.5625%**. This pattern therefore does not yield a transmission saving with this RLE format. The general bound is 2L=4096 B.
 
-### 2 — Delta
+### 2 - Delta
 
-`d[0]=x[0]`; pentru restul, `d[i]=(x[i]-x[i-1]) mod 256`. Conversia la `uint8_t` definește diferențele modulo 256. Ieșirea are **2048 B**. Este o transformare diferențială reversibilă, fără reducere proprie a numărului de octeți.
+`d[0]=x[0]`; otherwise `d[i]=(x[i]-x[i-1]) mod 256`. Conversion to uint8_t defines the modulo-256 differences. Output is **2048 B**. This is a reversible difference transform without a reduction in byte count by itself.
 
-### 3 — LZ77
+### 3 - LZ77
 
-Formatul implementat este propriu: header de 4 B cu L little-endian, apoi tokenuri `(distanță:uint8, lungime:uint8, [literal:uint8])`. Literalul lipsește numai dacă potrivirea ajunge exact la sfârșitul intrării. Istoricul și lookahead-ul sunt limitate la 255 B; potrivirile suprapuse sunt permise.
+The format is custom: a 4-byte little-endian original length L, followed by `(distance:uint8, length:uint8, [literal:uint8])` tokens. The literal is omitted only when a match reaches the exact end of the input. History and lookahead are limited to 255 bytes. Overlapping matches are allowed.
 
-Căutarea este exhaustivă, de la poziția cea mai veche la cea mai recentă. Egalitățile păstrează prima potrivire, deci distanța cea mai mare. Nu există prag minim de potrivire; lungimea 1 este acceptată. Un literal fără potrivire are distanță și lungime zero. Nu persistă un dicționar între apeluri.
+Search is exhaustive, oldest to most recent position. Equal match lengths retain the first match, hence the greatest distance. There is no minimum match threshold; a length-one match is accepted. A literal without a match has zero distance and length. No dictionary survives between calls.
 
-Intrarea curentă produce **1530 B**, header inclus, cu 509 tokenuri. Limita de stocare a variantei este `4+3L`.
+The current input produces **1530 B**, including the header, with **509 tokens**. The storage bound is `4+3L`.
 
-### 4 — Huffman
+### 4 - Huffman
 
-Codare canonică pentru alfabetul de 256 de octeți. Fiecare apel reconstruiește frecvențele, lungimile codurilor și codurile canonice. Mediul de lucru este static, dar este reinițializat în apel.
+Canonical Huffman coding over a 256-byte alphabet. Every call rebuilds frequencies, code lengths and canonical codes. The static working environment is reset in the call.
 
-Construirea lungimilor este „treeless”, prin reunirea ramurilor. Structura numită intern `heap` este o listă cu extragere liniară a minimului, nu un binary heap. Egalitățile de frecvență sunt rezolvate prin `branch_id` mai mic. Codurile finale sunt ordonate după lungime și apoi după valoarea simbolului; lungimile peste 32 sunt respinse. Un singur simbol primește un cod de un bit.
+Code lengths are constructed without a pointer tree by merging branch memberships. The internally named heap is a list with a linear minimum search, not a binary heap. Frequency ties select the smaller branch_id. Leaf IDs are byte values; internal branch IDs increase from 256. Canonical ordering is by length and then symbol value. Lengths above 32 are rejected; a sole symbol gets a one-bit code.
 
-Frame-ul complet, creat în RUN:
+The complete frame is created inside RUN:
 
 ```text
-4 B: lungimea originală, uint32 little-endian
-4 B: numărul de biți valizi din payload, uint32 little-endian
-256 B: lungimea codului pentru fiecare simbol 0..255; zero = absent
-payload: biți MSB-first; ultimul octet completat cu zerouri
+4 B: original length, uint32 little-endian
+4 B: valid payload bit count, uint32 little-endian
+256 B: code length for symbols 0..255; zero means absent
+payload: MSB-first bits, unused final bits set to zero
 ```
 
-Headerul are 264 B. Intrarea curentă are 68 de simboluri distincte și produce 9400 biți de payload, adică 1175 B; **total 1439 B**. Nu este măsurată doar codarea pe o tabelă pregătită anterior.
+The header is 264 B. The current input has 68 distinct symbols and produces **9400 payload bits =1175 B**, or **1439 B including the header**. This measures code construction as well as encoding, not encoding with a precomputed table.
 
-### 5 — AES-128
+### 5 - AES-128
 
-AES-128 scalar software, în **ECB cu padding PKCS#7**. Cheia este formată din cei 16 octeți ASCII `0123456789abcdef`, fără terminator NUL. Nu există IV, autentificare sau decriptare în workload.
+Scalar software AES-128 in **ECB with PKCS#7 padding**. The key is exactly the 16 ASCII bytes `0123456789abcdef`, without a NUL terminator. No IV, authentication or decryption is part of this workload.
 
-Expansiunea cheii la 176 B se execută din nou la fiecare apel. Cei 2048 B produc 128 de blocuri de date și încă un bloc de padding, format din 16 octeți `0x10`: **2064 B la ieșire**. Sunt incluse expansiunea, copierea blocurilor, paddingul și toate rundele de criptare.
+Expansion to a 176-byte key schedule repeats in every call. The 2048-byte input produces 128 data blocks plus one padding block of sixteen `0x10` bytes: **2064 B output**. Key expansion, block copies, padding and all encryption rounds are included.
 
-### 6 — SHA-256
+### 6 - SHA-256
 
-SHA-256 scalar, cu stare și operații pe `uint32_t`. Reinițializează cele opt cuvinte ale stării la fiecare apel. Include message schedule, transformările, paddingul, lungimea în biți și serializarea digestului.
+Scalar SHA-256 with uint32_t state and operations. The eight initial state words are restored for each call. Work includes the message schedule, transforms, padding, input bit length and digest serialization.
 
-Pentru 2048 B se procesează 32 de blocuri de date și un bloc final de padding. Ieșire: **32 B**, cu cuvintele digestului serializate big-endian. Nu este HMAC.
+For 2048 B, 32 data blocks and one final padding block are processed. Output is **32 B**, with digest words serialized big-endian. This is not HMAC.
 
-### 7 — ChaCha20
+### 7 - ChaCha20
 
-Variantă cu cheie de 256 biți, nonce de 96 biți și contor de bloc de 32 biți, 20 de runde. Cheia este formată din cei 32 de octeți ASCII `0123456789abcdef0123456789abcdef`, fără NUL. Nonce-ul are 12 octeți zero.
+The 20-round variant uses a 256-bit key, 96-bit nonce and 32-bit block counter. The key is exactly the 32 ASCII bytes `0123456789abcdef0123456789abcdef`, without NUL. The nonce is twelve zero bytes.
 
-Contorul pornește de la **1 la fiecare apel**. Se generează 32 de blocuri de 64 B, serializate explicit little-endian și combinate XOR cu intrarea. Ieșire: **2048 B**, fără padding sau tag Poly1305. Nu se continuă fluxul de cheie între apeluri. Cheia/nonce-ul fixe definesc acest experiment repetabil, nu un protocol de comunicație implementat aici.
+The counter starts at **1 for every call**. Thirty-two 64-byte blocks are generated, explicitly serialized little-endian and XORed with the input. Output is **2048 B**, with no padding or Poly1305 tag. The keystream state does not continue across calls. Fixed key/nonce values define this repeatable workload, not a communication protocol implemented here.
 
-### 8 — CRC32
+### 8 - CRC32
 
-CRC reflectat, calculat bit cu bit, cu polinomul `0xEDB88320`, stare inițială `0xFFFFFFFF` și complement final. Sunt opt pași de bit pentru fiecare octet. Adaptorul scrie rezultatul în **4 B little-endian**.
+Reflected, bit-at-a-time CRC with polynomial `0xEDB88320`, initial state `0xFFFFFFFF` and final complement. There are eight bit steps per input byte. The adapter writes **4 little-endian bytes**.
 
-Nu se folosesc perifericul CRC sau o tabelă de lookup. CRC32 ca workload este distinct de CRC-ul rezultatului calculat după fiecare lot pentru evidență.
+No CRC peripheral or lookup table is used. The CRC32 workload is distinct from the result digest calculated outside RUN after each batch.
 
-### 9 — FFT
+### 9 - FFT
 
-FFT radix-2 iterativă, cu bit reversal și semn negativ în exponent. Intrarea numerică `uint8_t` este convertită la float; partea imaginară pornește de la zero. Pentru L=2048 există 11 etape.
+Iterative radix-2 FFT with bit reversal and a negative exponent. Numerical uint8_t input is converted to float and the imaginary part starts at zero. L=2048 requires eleven stages.
 
-Tablourile real/imag sunt `float`. Twiddle-urile `cos`/`sin` și intermediarii butterfly sunt `double`, apoi valorile stocate revin în float. Magnitudinea folosește calculul cu `sqrt` în double înainte de conversia rezultatului.
+Real/imaginary arrays are float. The cos/sin twiddles and butterfly intermediates use double; stored butterfly outputs return to float. Magnitude uses double sqrt arithmetic before the final float conversion.
 
-Ieșire: **2048 valori float, 8192 B**, definite prin `abs(DFT(x)[k])/L`, pentru întreg spectrul k=0..L−1. Nu se exportă faza, perechi complexe, PSD sau un spectru unilateral cu amplitudinile dublate. Inițializarea scratch-urilor, conversiile, twiddle-urile și magnitudinile fac parte din apel; memoria scratch nu se alocă din heap.
+Output is **2048 float values, 8192 B**, defined as `abs(DFT(x)[k])/L` over the full spectrum k=0..L-1. No phase, complex pairs, PSD or doubled one-sided spectrum is exported. Scratch initialization, conversions, twiddles and magnitude calculation belong to the call. Scratch memory is static rather than allocated from the heap.
 
-### 10 — FIR
+### 10 - FIR
 
-Filtru cu coeficienți întregi `[1,2,3,2,1]`:
+Integer taps `[1,2,3,2,1]` implement:
 
 ```text
 y[n] = floor((x[n]+2*x[n-1]+3*x[n-2]+2*x[n-3]+x[n-4])/9)
-x[n] = 0 pentru indicii negativi
+x[n] = 0 for negative indices
 ```
 
-Acumulatorul este `uint32_t`, ieșirea **2048 B `uint8_t`**. Divizorul rămâne 9 la începutul vectorului, chiar când lipsesc termeni. Sursa recalculează suma coeficienților în bucla fiecărui eșantion. Istoricul nu continuă între apeluri. Acesta este un workload întreg, nu un filtru floating point.
+The accumulator is uint32_t and output is **2048 uint8_t bytes**. The divisor remains 9 at the beginning even when history terms are absent. The source recalculates the coefficient sum inside each sample's loop. History does not continue across calls. This is an integer workload, not a floating-point filter.
 
-### 11 — IIR
+### 11 - IIR
 
-Recurența efectivă este:
+The actual recurrence is:
 
 ```text
 y[n] = Q((x[n]+2*x[n-1]+x[n-2]+y[n-1]+y[n-2])/4)
-Q(v) = trunchiere către întreg și limitare la [0,255]
-x[n] = y[n] = 0 pentru indicii negativi
+Q(v) = truncation to integer and saturation to [0,255]
+x[n] = y[n] = 0 for negative indices
 ```
 
-Calculele implementării păstrate folosesc `double`, dar feedbackul citește **ieșirile uint8 deja cuantizate și saturate**. Bufferul este rescris în ordine, astfel încât fiecare apel pornește fără istoric din apelul anterior. Ieșire: **2048 B**.
+The retained implementation uses double arithmetic, but feedback reads **already quantized and saturated uint8 outputs**. The output buffer is overwritten in causal order, so each call starts without history from the previous call. Output is **2048 B**.
 
-Tabloul intern de feedback `[1,1,1]` nu reprezintă numitorul standard `[1,1,1]`; elementul `a[0]` nu este folosit de acea buclă. Nucleul liniar necuantizat are numărător `[0.25,0.5,0.25]`, numitor `[1,-0.25,-0.25]` și câștig DC **2**. Sistemul implementat include cuantizare și saturare și nu este descris ca filtru liniar cu câștig unitar.
+The internal feedback array `[1,1,1]` does not mean a conventional denominator `[1,1,1]`; its a[0] is unused by that loop. The unquantized linear core has numerator `[0.25,0.5,0.25]`, denominator `[1,-0.25,-0.25]` and **DC gain 2**. Quantization and saturation mean the implemented system is not a unit-gain linear filter.
 
-Pe intrarea curentă, **1006/2048 ieșiri, adică 49,12109375%, sunt limitate la 255**. Acesta este comportamentul care va fi măsurat. Corpul filtrului IIR a fost păstrat față de sursa originală; recurența și verificarea lui au fost explicitate.
+For the current input, **1006/2048 outputs, or 49.12109375%, saturate to 255**. This is the workload being measured. The IIR function body is retained from the recovered source; its recurrence and verification are now explicit.
 
-### 12 — DCT
+### 12 - DCT
 
-DCT-II directă, ortonormală:
+Direct orthonormal DCT-II:
 
 ```text
 X[k] = alpha[k] * sum(x[n] * cos(pi*k*(2*n+1)/(2*L)), n=0..L-1)
@@ -247,212 +245,202 @@ alpha[0] = sqrt(1/L)
 alpha[k>0] = sqrt(2/L)
 ```
 
-Suma, produsele, normalizarea cu `sqrtf`, apelurile `cosf` și rezultatul folosesc float; literalul PI și unele expresii de inițializare trec prin conversia documentată în sursă. Nu este o implementare integral în double.
+Accumulation, products, sqrtf normalization, cosf calls and output use float. PI is a double literal in the initial factor expression, which is assigned to float. This is not an all-double implementation.
 
-Pentru fiecare contribuție se calculează mai întâi faza întreagă `k*(2*n+1) mod (4*L)`, apoi unghiul float. Reducerea păstrează formula matematică, limitează argumentul pentru `cosf` și are cost în RUN. Algoritmul rămâne **O(L²)**, fără factorizare rapidă sau tabelă de cosinus precalculată. Ieșire: **2048 coeficienți float semnați, 8192 B**, fără clipping la 0..255.
+Each contribution first computes integer phase `k*(2*n+1) mod (4*L)`, then the float angle. Reduction preserves the mathematical formula, limits the cosf argument and has a cost inside RUN. Complexity remains **O(L^2)**, without a fast factorization or precomputed cosine table. Output is **2048 signed float coefficients, 8192 B**, without clipping to 0..255.
 
-## 6. Memorie, stare și verificarea rezultatelor
+## 6. Memory, state and result verification
 
-Există un singur workspace comun, **non-reentrant**; nu se execută algoritmi în paralel. Sunt folosite workspace-uri persistente statice și tablouri locale cu limite fixe pe stivă. Nu există apeluri `malloc`/`calloc`/`free` în nucleele măsurate. SDK-ul poate folosi alocări la inițializare; absența heap-ului din nucleu nu înseamnă absența sa din întregul firmware.
+There is one **non-reentrant** common workspace, and kernels do not run in parallel. Persistent workspaces are static and local arrays have fixed bounds. Measured kernels contain no malloc/calloc/free calls. SDK initialization may allocate memory, so the absence of heap allocation in a kernel does not imply its absence from the entire firmware.
 
-Workspace-urile explicite includ: copie de intrare 2048 B, ieșire byte 6408 B, ieșire float 8192 B, buffer de decodare 2048 B, două scratch-uri FFT a câte 8192 B și mediul Huffman. AES/SHA/ChaCha/Huffman folosesc și tablouri locale fixe. Hărțile de memorie ale binarelor sunt în arhivele profilelor.
+Explicit workspaces include a 2048-byte input copy, 6408-byte output buffer, 8192-byte float output, 2048-byte decode buffer, two 8192-byte FFT scratch arrays and the Huffman environment. AES/SHA/ChaCha/Huffman also use fixed local arrays. Binary maps describe the actual memory layout; individual stack frames are not a measurement of total stack high-water usage.
 
-Înaintea lotului, `prepare` validează ID/lungime, copiază intrarea, inițializează gardurile de memorie și recunoaște fixture-urile în afara RUN. API-ul permite lungimi până la 2048; FFT cere lungime nenulă putere a lui 2, DCT lungime nenulă. Campania folosește exclusiv 2048. Ieșirile criptografice și transformatele nu sunt acceptate de verificatorul firmware pentru o intrare nerecunoscută, chiar dacă `prepare/run` acceptă acea lungime.
+Before a batch, prepare validates the internal ID and length, copies the input, initializes memory guards and recognizes registered inputs outside RUN. The API accepts lengths up to 2048; FFT requires a nonzero power of two and DCT requires nonzero length. The campaign always uses 2048. Cryptographic/CRC outputs and FFT/DCT transforms are not accepted by the firmware verifier for unregistered inputs, even if prepare/run can process that length. Compression and FIR/IIR verifiers work for arbitrary supported inputs.
 
-Fiecare `run` verifică ID-ul activ, gardurile înainte și după nucleu, codul de retur și limitele aplicabile ieșirii. Gardurile sunt cuvinte de control în jurul bufferelor; nu demonstrează absența oricărui tip posibil de acces greșit în memorie.
+Each run checks the active ID, guards before and after the kernel, the return code and applicable output limits. Guards are control words around buffers; they do not prove that every possible invalid memory access is absent.
 
-**Verificarea algoritmică completă are loc o singură dată după lot, pe ultima ieșire.** Nu există R comparații complete cu referința în fereastra RUN.
+**Full algorithmic verification runs once after the batch, on the last output.** It is outside RUN; the R intermediate results are not each fully compared with a reference.
 
-| Rezultat | Verificare după lot |
+| Result | Verification after the batch |
 |---|---|
-| RLE, Delta, LZ77, Huffman | Decodare/inversare independentă și comparație cu toată intrarea; validarea formatului |
-| AES, SHA, ChaCha20, CRC32 | Compararea integrală cu rezultate de referință înregistrate |
-| FIR, IIR | Recalculare independentă cu formule întregi și compararea tuturor octeților |
-| FFT | Finit și `abs(actual-ref) <= 0.0001 + 0.00002*abs(ref)` pentru fiecare valoare |
-| DCT | Finit și `abs(actual-ref) <= 0.01 + 0.00002*abs(ref)` pentru fiecare valoare |
+| RLE, Delta, LZ77, Huffman | Independent decoding/inversion and comparison with the full input, including format checks |
+| AES, SHA, ChaCha20, CRC32 | Full comparison with registered independent reference bytes |
+| FIR, IIR | Independent integer formulas and comparison of every output byte |
+| FFT | Each value is finite and `abs(actual-ref) <= 0.0001 + 0.00002*abs(ref)` |
+| DCT | Each value is finite and `abs(actual-ref) <= 0.01 + 0.00002*abs(ref)` |
 
-Referințele sunt generate independent de funcțiile C măsurate. Valorile transformărilor sunt calculate în double pe gazdă și stocate în antetul MCU ca **constante float**, nu ca tablouri double. Valorile incluse și verificatorul utilizat în firmware: [bench_golden.h](common/kernels/bench_golden.h), [bench_kernels.c](common/kernels/bench_kernels.c).
+References are generated independently of the measured C functions. Transform values are calculated in double on the host and stored in the MCU header as **float constants**, not double arrays. The frozen periodic FFT reference uses 128 period bins placed at multiples of 16, with zero in the remaining positions; all 2048 outputs are still checked. Firmware values and verifier: [bench_golden.h](common/kernels/bench_golden.h), [bench_kernels.c](common/kernels/bench_kernels.c).
 
-După verificare, un CRC32 al întregii ultime ieșiri este păstrat în `volatile bench_result_digests[]`; numerele de apeluri sunt în `bench_completed_calls[]`. Digesturile FFT/DCT sunt calculate pe reprezentarea byte a float-urilor și nu sunt criterii de egalitate numerică între arhitecturi.
+After verification, a CRC32 over the complete last output is stored in volatile `bench_result_digests[]`; completed call counts are stored in `bench_completed_calls[]`. FFT/DCT digests cover the byte representation of float values and are not cross-platform numerical-equivalence criteria.
 
-## 7. Secvența autonomă a profilului de măsurare
+## 7. Autonomous measurement sequence
 
-Firmware-ul rulează autonom, fără mesaje seriale. Stările din diagramă sunt niveluri GPIO.
+The application runs without serial messages. The diagram shows the single GPIO level:
 
 ```text
-alimentare/reset
-  -> boot și inițializarea platformei
-  -> verificare platformă + pregătire RLE
-  -> ID=0, IDLE_VALID=1: repaus activ nominal 5 s
-  -> IDLE_VALID=0, ID=1, așteptare 1 ms + verificare platformă
-  -> RUN=1: R apeluri RLE
-  -> RUN=0: verificare lot/rezultat + digest
-  -> pregătire Delta, ID=0, IDLE_VALID=1: repaus activ nominal 1 s
-  -> aceeași secvență pentru ID=2 ... ID=12
-  -> după validarea DCT: ID=0, DONE=1 și IDLE_VALID=1 simultan
-  -> repaus activ nominal 2 s
-  -> IDLE_VALID=0, DONE rămâne 1
-  -> starea finală a platformei; fără reluarea suitei
+power/reset
+  -> boot and platform initialization
+  -> RUN LOW: platform checks and RLE preparation
+  -> nominal 5 s active control idle, RUN LOW
+  -> RUN HIGH: R independent RLE calls
+  -> successful batch/count checks while HIGH
+  -> RUN LOW: platform check, result verification and digest
+  -> Delta preparation and platform checks
+  -> nominal 1 s active control idle, RUN LOW
+  -> repeat for positions 2 ... 12
+  -> after DCT falls LOW: final platform/result checks and digest
+  -> nominal 2 s active control idle, RUN remains LOW
+  -> platform final state; no automatic restart
 ```
 
-Cele 5 s inițiale încep **după boot, inițializare și pregătirea primei sarcini**. Nu sunt exact primele 5 s de la aplicarea tensiunii. Baseline-ul este repaus activ cu CPU treaz, nu deep sleep și nu modul hardware Standby.
+The initial five seconds begin **after boot, initialization, checks and first preparation**. They are not exactly the first five seconds after power-on. The final two seconds before the first rising edge form the operational baseline, apart from timer-return and GPIO-boundary overhead. Platform checks are performed before the idle interval, not between that interval and the first gate. Active idle keeps the CPU awake; it is not deep sleep or hardware Standby.
 
-Cele 11 pauze dintre algoritmi sunt de 1 s IDLE_VALID, după verificarea rezultatului anterior și pregătirea celui următor. Distanța totală dintre ferestre poate fi mai mare. ID-ul este stabilit înaintea unei așteptări de 1 ms; între sfârșitul așteptării și frontul RUN se mai verifică platforma. Intervalul ID→RUN nu este promis ca exact 1 ms.
+Each of the eleven inter-workload idle pauses is nominally one second, after previous-result verification and next-workload preparation/checks. Total LOW gaps can be longer. There is no ID bus, ID setup time or extra 1 ms delay. LOW intervals cannot independently distinguish those different kinds of work.
 
-Nu există apeluri suplimentare de încălzire, dar nu se golește cache-ul și nu se resetează procesorul între repetări. Starea algoritmică este reinițializată; starea fizică a procesorului și a memoriei poate fi influențată de apelurile anterioare. R apeluri într-un lot nu sunt R replici statistice independente.
+There are no extra kernel warm-up calls, cache flushes or processor resets between repetitions. Algorithmic state is reinitialized, but CPU/memory state can be influenced by earlier calls. R calls within one batch are not R statistically independent replicates.
 
-### Ce intră efectiv în RUN
+After final verification, two seconds of active idle precede the platform final state. There is no completion edge. Record at least **three seconds LOW after the twelfth falling edge**. This tail is a recording requirement and does not mark exactly two seconds of idle or independently prove final verification completed.
 
-Sunt incluse dispatch-ul wrapperului, gardurile/statusul fiecărui apel, inițializările algoritmice, conversiile/header-ele, calculul și scrierea ieșirii, testul de retur și incrementarea contorului. Expansiunea cheii AES, construirea codului Huffman și inițializarea scratch-urilor FFT sunt muncă măsurată.
+### Work included in RUN
 
-Sunt în afara RUN copierea inițială a intrării în RAM, recunoașterea fixture-ului, pauzele, verificările configurației platformei, verificarea algoritmică completă a ultimei ieșiri și calculul digestului de evidență. Nu se folosește `micros()`/`millis()` pentru performanță, iar firmware-ul nu raportează durata sau energia algoritmilor.
+Included work comprises wrapper dispatch, per-call guards/status, algorithmic initialization, conversions/headers, computation/output writes, return checking, counter increments and successful batch/count checks just before the falling edge. AES key expansion, Huffman code construction and FFT scratch initialization are measured work.
 
-Fereastra fizică include și revenirea din funcția care ridică RUN, respectiv apelul/prologul până la scrierea care îl coboară. Nu este o izolare perfectă a instrucțiunilor matematice. Barierele de compilator și barierele MMIO păstrează ordinea relevantă; costul buclei/GPIO și întreruperile platformei nu sunt scăzute automat.
+Initial copying to RAM, registered-input recognition, pauses, platform configuration checks, full verification of the final output and the result digest are outside RUN. The firmware does not use micros()/millis() for performance and does not report algorithm duration or energy.
 
-### Erori
+The physical gate also includes return from the function that raises RUN and the call/prologue preceding the write that lowers it. It is not a perfect isolation of mathematical instructions. Compiler and MMIO barriers preserve the relevant ordering. GPIO/loop overhead and platform interrupts are not automatically subtracted.
 
-Runnerul memorează algoritmul și motivul, coboară RUN/IDLE/DONE, ridică ERROR și oprește secvența. Nu trece la algoritmul următor și nu reia singur testul.
+### Detected errors
 
-| Motiv în `bench_failure_reason` | Semnificație |
+The runner records the internal algorithm ID and reason, requests **RUN HIGH**, and stops. It does not continue to the next kernel or restart the suite. A failure inside an active batch keeps the original gate HIGH without first producing a normal falling edge. A failure in post-RUN verification reasserts HIGH. Successful-call/count tests occur before lowering the gate so a failed batch does not look completed.
+
+| bench_failure_reason | Meaning |
 |---:|---|
-| 1 | Inițializare platformă eșuată |
-| 2 | Configurație nevalidă înainte de pregătire |
-| 3 | Pregătire nucleu eșuată |
-| 4 | Configurație nevalidă înainte de RUN |
-| 5 | Apel de nucleu eșuat |
-| 6 | Număr de apeluri diferit de R |
-| 7 | Configurație nevalidă după RUN |
-| 8 | Verificare algoritmică eșuată |
+| 1 | Platform initialization failed |
+| 2 | Invalid platform state before preparation |
+| 3 | Kernel preparation failed |
+| 4 | Invalid platform state before RUN |
+| 5 | Kernel invocation failed |
+| 6 | Completed call count differs from R |
+| 7 | Invalid platform state after RUN |
+| 8 | Algorithmic verification failed |
 
-Un fault sau o eroare internă a platformei poate opri execuția fără completarea acestor variabile. La un eșec foarte timpuriu, GPIO-urile pot să nu fie încă inițializate. Lipsa secvenței complete și a DONE invalidează captura, chiar fără un ERROR lizibil.
+A CPU fault or platform-internal failure may stop execution before these variables are populated. Very early failures can precede usable GPIO initialization. A permanently HIGH signal, incomplete or extra pulse sequence, or absent final LOW tail is structurally invalid. One wire cannot identify every reset/hang, and a hang LOW during final verification may leave a structurally valid trace. A parser pass therefore does not certify all runtime checks completed.
 
-## 8. Configurația platformelor
+## 8. Platform configuration
 
-| Parametru | ESP32 | Pico RP2040 | NUCLEO-F446RE |
+| Parameter | ESP32 | Pico RP2040 | NUCLEO-F446RE |
 |---|---|---|---|
-| CPU nominal | 240 MHz | 133 MHz | 100 MHz |
-| Sursa configurată | Cristal 40 MHz, PLL 480 MHz /2 | Cristal Pico 12 MHz, PLL_SYS | HSI intern nominal 16 MHz, PLL M=16/N=200/P=2 |
-| Nucleu de aplicație | CPU0; CPU1 oprit de startup-ul unicore IDF | Core0; core1 rămas în așteptarea Boot ROM, fără aplicație lansată | Un singur Cortex-M4 |
-| Floating point | Hardware single; double nu este presupus hardware | Fără FPU; implementări software Pico SDK/ROM | FPU single activă, hard-float ABI; double software |
+| Nominal CPU | 240 MHz | 133 MHz | 100 MHz |
+| Configured source | 40 MHz crystal, 480 MHz PLL /2 | 12 MHz Pico crystal, PLL_SYS | Nominal 16 MHz HSI, PLL M=16/N=200/P=2 |
+| Application core | CPU0; CPU1 stopped by unicore IDF startup | Core0; core1 remains in Boot ROM waiting state, no application launched | One Cortex-M4 |
+| Floating point | Hardware single; double is not assumed hardware | Software, no FPU | Single-precision FPU enabled, hard-float ABI; software double |
 | Runtime | ESP-IDF / FreeRTOS | Pico SDK, bare metal | CMSIS, bare metal |
-| Timer folosit numai pentru pauze | GPTimer, 1 MHz | Timer hardware liber | TIM2, 10 kHz |
-| Repaus după cele 2 s finale | Task suspendat, idle/scheduler RTOS | Buclă WFI | Buclă WFI |
-| Stivă rezervată relevantă | Task principal 16 KiB | Core0 4 KiB, SCRATCH_Y | 16 KiB în linker |
+| Timer used only for pauses | GPTimer, 1 MHz | Free-running hardware timer | TIM2, 10 kHz |
+| Final state after the 2 s pause | Main task suspended; RTOS idle/scheduler | WFI loop | WFI loop |
+| Relevant reserved stack | Main task 16 KiB | Core0 4 KiB, SCRATCH_Y | 16 KiB linker reservation |
 
-**ESP32.** Wi-Fi și Bluetooth rămân neinițializate. Verificarea cere `esp_wifi_get_mode(...) == ESP_ERR_WIFI_NOT_INIT`, CPU raportat la 240 MHz și core0; simpla deconectare de la rețea nu ar satisface contractul. PM și tickless idle sunt dezactivate. Tick-ul FreeRTOS de 100 Hz și întreruperile de sistem rămân; task watchdog este dezactivat, interrupt watchdog rămâne activ, configurat la 300 ms. Benchmarkul nu maschează global întreruperile. APB este configurat la 80 MHz. GPTimer este pornit/citit/oprit pentru pauze, fără cronometrarea loturilor. UART0/1/2 sunt resetate și au ceasurile oprite; GPIO1/3 sunt dezactivate, fără pull.
+**ESP32.** Wi-Fi and Bluetooth are never initialized. Platform checks require `esp_wifi_get_mode(...) == ESP_ERR_WIFI_NOT_INIT`, reported CPU clock 240 MHz and core0; disconnecting an initialized Wi-Fi driver would not satisfy the contract. PM and tickless idle are disabled. The 100 Hz FreeRTOS tick and system interrupts remain. Task watchdog is disabled; interrupt watchdog remains enabled with a 300 ms setting. The benchmark does not globally mask interrupts. APB is 80 MHz. Flash is configured as 4 MiB, DIO at 40 MHz, with PSRAM disabled. GPTimer starts, is read and stops for pauses, without timing kernel batches.
 
-**Pico.** `clock_get_hz` și contorul hardware de frecvență verifică ceasul sistemului. Acesta din urmă este raportat la `clk_ref`, cu acceptare 132867..133133 kHz; nu este calibrare față de un standard extern. UART0/1, USBCTRL și ADC sunt ținute în reset; `clk_usb` și `clk_adc` sunt oprite. GPIO0/1 nu au funcție activă sau pull. **PLL_USB nu este oprit**: configurația SDK folosește PLL_USB la 48 MHz pentru `clk_peri`. `clk_rtc` rămâne la valoarea nominală SDK de 46875 Hz. Oprirea USB nu înseamnă oprirea tuturor PLL-urilor. Operațiile float/double și funcțiile matematice pot folosi wrapper-ele software Pico SDK și Boot ROM.
+UART0/1/2 are reset and their clocks disabled; GPIO1/3 are disabled without pulls. The measurement application has no serial console. Immutable ESP32 ROM may emit boot text before application initialization and the baseline; ROM output is not an application measurement report. No eFuse change is made to suppress it.
 
-**F446.** HSI elimină dependența de MCO-ul ST-LINK alimentat. Sunt verificate identitatea de dispozitiv `0x421`, flash 512 KiB, PLL-ul, trim-ul HSI implicit, divizoarele magistralelor, accesul FPU și stările perifericelor urmărite. AHB=100 MHz, APB1=25 MHz (`/4`), APB2=50 MHz (`/2`); TIM2 primește 50 MHz și prescaler 4999. FLASH are 3 wait states; prefetch și cache-urile de instrucțiuni/date Flash sunt activate. Regulatorul este în VOS scale1, fără overdrive. SysTick este oprit; TIM2 este folosit fără IRQ. Ceasurile USB FS/HS, DMA1/2 și CRC trebuie să fie oprite. USART2 are ceasul oprit, iar PA2/PA3 sunt în mod analog, fără pull. Un mic calcul cu operanzi float `volatile` verifică și funcționarea FPU.
+**Pico.** clock_get_hz and a hardware frequency counter check the system clock. The counter is relative to clk_ref, accepting 132867..133133 kHz; this is not calibration against an external standard. UART0/1, USBCTRL and ADC are held in reset, clk_usb and clk_adc are stopped, and GPIO0/1 have no function/pull. **PLL_USB remains enabled** because the SDK uses its 48 MHz output for clk_peri. Stopping USB does not mean every PLL is stopped. Float/double and mathematical operations may use Pico SDK/Boot ROM software wrappers. clk_rtc remains at 46875 Hz. The SDK default alarm pool/handler is compiled in, but the application registers no periodic alarm callbacks and does not globally mask interrupts.
 
-ESP32 folosește flash de 4 MiB în mod DIO, la 40 MHz, cu PSRAM dezactivat. Pe Pico, SDK păstrează infrastructura implicită de alarm pool și handler-ul aferent; aplicația nu programează callback-uri periodice și nu maschează global întreruperile. Bare metal nu înseamnă automat absența tuturor întreruperilor.
+**F446.** Internal HSI avoids dependence on a powered ST-LINK MCO. Checks cover device ID 0x421, 512 KiB Flash, PLL configuration, default HSI trim, bus dividers, FPU access and the explicitly tracked peripherals. AHB=100 MHz, APB1=25 MHz (/4), APB2=50 MHz (/2); TIM2 receives 50 MHz with prescaler 4999. Flash has three wait states, with prefetch and instruction/data caches enabled. Regulator VOS is scale1, overdrive disabled. SysTick is stopped; TIM2 has no IRQ. USB FS/HS, DMA1/2 and CRC clocks must be off. USART2 is disabled; PA2/PA3 are analog inputs without pulls. A small calculation with volatile float operands checks an executable FPU path.
 
-Citirea registrelor și API-urile de ceas verifică **configurația**, nu frecvența fizică exactă a cristalului/HSI. Deriva HSI, tensiunea reală și integrarea cu PPK2 rămân verificări ale montajului. Nu se declară toate perifericele imaginabile oprite doar pentru că cele enumerate sunt dezactivate.
+Register reads and clock APIs validate **configuration**, not the exact physical oscillator frequency. HSI drift, actual voltage and PPK2 integration remain fixture checks. The list does not imply every conceivable peripheral is off.
 
-Pe ESP32, ROM-ul imutabil poate emite text la boot înaintea inițializării aplicației. Aplicația de benchmark nu transmite mesaje, iar UART-ul plăcii rămâne neconectat în timpul achiziției. Nu s-au modificat eFuse-uri pentru suprimarea textului ROM.
+Sources: [ESP32 adapter](targets/esp32/main/platform_esp32.c), [ESP32 configuration](targets/esp32/sdkconfig), [Pico adapter](targets/rp2040/platform_rp2040.c), [F446 adapter](targets/stm32f446/platform_stm32f446.c), and the archived build records.
 
-Surse: [adaptor ESP32](targets/esp32/main/platform_esp32.c), [configurație ESP32](targets/esp32/sdkconfig), [adaptor Pico](targets/rp2040/platform_rp2040.c), [adaptor F446](targets/stm32f446/platform_stm32f446.c), plus arhivele de compilare indicate în manifest.
+## 9. GPIO, power and LEDs
 
-## 9. GPIO, alimentare și LED-uri
-
-| PPK2 | Funcție | ESP32 GPIO | Pico GPIO | F446 pin |
+| PPK2 | Signal | ESP32 GPIO | Pico GPIO | F446 pin |
 |---|---|---:|---:|---|
 | D0 | RUN | 18 | 2 | PC0 |
-| D1 | ID bit 0 | 19 | 3 | PC1 |
-| D2 | ID bit 1 | 21 | 4 | PC2 |
-| D3 | ID bit 2 | 22 | 5 | PC3 |
-| D4 | ID bit 3 | 23 | 6 | PC4 |
-| D5 | IDLE_VALID | 25 | 7 | PC5 |
-| D6 | ERROR | 26 | 8 | PC6 |
-| D7 | DONE | 27 | 9 | PC7 |
 
-ID = D1 + 2×D2 + 4×D3 + 8×D4. În IDLE, ID este zero. În RUN, ID este 1..12 și rămâne constant. DONE și IDLE final sunt ridicate în aceeași scriere de stare; coborârea ulterioară a IDLE nu produce un impuls LOW pe DONE.
+RUN is the only measurement output. D1-D7 are unused; there is no separate ID/status encoding. Normal execution yields twelve complete HIGH pulses in the fixed order. Internal software IDs continue to select kernels but are not transmitted on additional pins.
 
-PPK2 în Source Meter alimentează DUT la setpoint 3300 mV prin VOUT→3V3, cu GND comun. LOGIC VCC se leagă la 3V3 măsurat. USB-ul și UART-ul DUT, programatoarele și alte căi de alimentare rămân deconectate în capturile de energie. USB-ul PPK2 către PC rămâne necesar achiziției și este distinct de USB-ul plăcii testate.
+PPK2 Source Meter supplies the DUT at a nominal 3300 mV through VOUT to 3V3, with common ground. Connect LOGIC VCC to measured DUT 3V3. DUT USB/UART, programmers and other power paths are disconnected during energy capture. The PPK2 USB connection to the PC remains necessary and is distinct from DUT USB.
 
-Nu există LED extern de marcare în noul protocol. LED-ul controlabil Pico GPIO25 și LED-ul Nucleo PA5 sunt puse LOW/off. Nu se afirmă că software-ul poate stinge orice LED de alimentare ori toate circuitele auxiliare ale oricărei variante de placă. Energia măsurată aparține domeniului de alimentare și montajului ales.
+There is no external marker LED. The controllable Pico GPIO25 LED and Nucleo PA5 LED are held LOW/off. Software does not turn off every power LED or auxiliary circuit on every possible board variant. Measured energy belongs to the selected supply domain and fixture.
 
-Nucleo cere pregătirea electrică pentru intrarea directă 3V3: ST-LINK separat fizic sau SB2 și SB12 deschise, conform manualului. De asemenea, rutarea PC0/PC1 depinde de punți. Detaliile conectorilor și configurația de alimentare sunt în [README F446](targets/stm32f446/README.md) și [protocol](../docs/PROTOCOL.md), pe baza [UM1724, secțiunea 7.5.3 și tabelul conectorilor](https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf). Oprirea UART în cod nu modifică fizic aceste legături.
+For direct Nucleo 3V3 power, physically separate ST-LINK or open SB2 and SB12 according to the manual. Confirm PC0 routing on the physical board. Connector and power details are in the [F446 target README](targets/stm32f446/README.md) and [protocol](../docs/PROTOCOL.md), based on [UM1724, section 7.5.3 and connector tables](https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf). Disabling UART in firmware does not modify electrical bridges.
 
-## 10. Calculul offline din PPK2
+## 10. Offline PPK2 calculation
 
-Firmware-ul nu calculează energie și nu exportă timpi de execuție. `analyze_capture.py` folosește baza de eșantionare PPK2 la **100000 probe/s**, adică pas nominal **10 µs**, împreună cu GPIO-urile.
+The firmware does not calculate energy or export execution times. analyze_capture.py uses nominal PPK2 sampling at **100000 samples/s**, or **10 microseconds per sample**, and only the RUN input.
 
-Pentru intervalul `[a,b)`, prima probă RUN=1 este inclusă, prima probă RUN=0 este exclusă:
+For interval `[a,b)`, the first HIGH sample is included and the first LOW sample excluded:
 
 ```text
 M = b - a
-T_lot = M / fs
-Q_lot = sum(I[a:b]) / fs
-E_lot = V_const * Q_lot
-T_apel = T_lot / R; Q_apel = Q_lot / R; E_apel = E_lot / R
+T_batch = M / fs
+Q_batch = sum(I[a:b]) / fs
+E_batch = V_constant * Q_batch
+T_call = T_batch / R; Q_call = Q_batch / R; E_call = E_batch / R
 ```
 
-Curentul este convertit în amperi. Implementarea folosește media incrementală a probelor înmulțită cu durata, echivalentă sumei dreptunghiulare până la rotunjirea floating point. Nu folosește integrarea trapezoidală. Suportul M/fs este distinct de distanța prima→ultima probă, `(M-1)/fs`.
+Current is converted to amperes. Incremental mean multiplied by duration is equivalent to rectangular summation up to floating-point rounding; integration is not trapezoidal. Support M/fs is distinct from the first-to-last sample span `(M-1)/fs`.
 
-Baseline-ul selectează **ultimele 200000 de probe**, adică 2 s, din primul repaus valid de 5 s. Se raportează separat repausurile marcate. **Baseline-ul nu se scade automat** din energia activă. Bootul, pregătirea și validarea din afara RUN nu sunt incluse în energia raportată pentru algoritm.
+The baseline selects the **last 200000 LOW samples**, two seconds, immediately before the first HIGH pulse. This positional baseline corresponds to the end of the firmware's five-second active pause, with timer/gate boundary overhead. Entire LOW gaps include mixed activity and are not labeled controlled idle. **Baseline is not automatically subtracted** from active energy. Boot, preparation and verification outside RUN are excluded from reported kernel-batch energy.
 
-Fișierul citit nu furnizează tensiune eșantionată simultan. Implicit, energia folosește 3,3 V nominal din manifest. `--voltage` introduce o constantă declarată de operator, etichetată ca neverificată de software. `--voltage-uncertainty-v` o consemnează, dar **nu propagă automat incertitudinea în E** și nu construiește un buget complet de incertitudine.
+The stream contains no simultaneously sampled voltage. Default energy uses nominal 3.3 V from the manifest. `--voltage` supplies an operator-declared constant, labeled unverified by software. `--voltage-uncertainty-v` records a value but **does not automatically propagate uncertainty into E** or construct a complete uncertainty budget.
 
-Minimul, maximul și deviația standard populațională a curentului descriu probele din fereastră. Nu sunt intervale de încredere între experimente independente și nu înlocuiesc precizia instrumentului. Parserul nu agregă încă serii de porniri pentru statistici între capturi.
+Current minimum, maximum and population standard deviation describe samples within a window. They are not confidence intervals across independent experiments or a replacement for instrument accuracy. Between-capture aggregation is a separate analysis step.
 
-### Acceptarea unei capturi
+### Structural capture acceptance
 
-Se cere o singură suită completă: exact 12 regiuni RUN în ordinea ID 1..12, ID stabil în fiecare, fără ERROR sau suprapuneri de stări incompatibile. Pauzele 5/1/2 s sunt verificate cu toleranță **±1%**, ca regulă de protocol, nu ca incertitudine calibrată.
+The analyzer requires exactly twelve complete HIGH regions and assigns algorithms by ordinal position. It requires at least 495000 defined LOW samples before the first HIGH, at least 99000 LOW samples between successive pulses and at least 300000 LOW samples after the twelfth falling edge. These correspond to nominal five/one-second MCU pause lower bounds with **1% tolerance**, and an exact three-second recording-tail minimum. There are no upper bounds because other work can lengthen LOW gaps. The tolerance is a protocol threshold, not calibrated timing uncertainty.
 
-DONE trebuie să coincidă cu începutul IDLE final în aceeași probă și să rămână HIGH. Parserul cere minimum 2 s de DONE și frontul de coborâre IDLE final; instrucțiunea operatorului este să înregistreze minimum **3 s după DONE**.
+The selected RUN input may be unknown only in a contiguous prefix before its first defined LOW. Later unknown or mixed states reject the capture. Unused digital channels are ignored. Finite negative current is allowed before the first RUN except in the selected baseline; the baseline and every sample from the first RUN onward must be nonnegative. NaN/Inf current is always rejected, without clipping or reindexing.
 
-Parserul **nu numără independent apelurile R**, nu verifică cei 1 ms ID→RUN și nu autentifică placa sau firmware-ul prin GPIO. Operatorul asociază captura cu manifestul și binarul corecte. Resetările sau pierderile de date care lasă urme în protocol sunt respinse; lipsa oricărei pierderi nu este demonstrată doar de o bază temporală reconstruită uniform.
+A structural pass cannot count R independently, authenticate the board/image, prove no reset occurred or prove final verification completed. In particular, a hang LOW after the last fall may satisfy the recording shape. The operator associates the capture with the programmed binary and manifest. The parser reports `structural_protocol_pass`, not firmware-completion certification.
 
-Valorile digitale necunoscute sunt tolerate numai în prefixul de pornire, înainte de sincronizarea validă, fără RUN/ERROR/DONE cunoscute HIGH. Stările mixte sunt respinse. Curentul finit negativ este permis numai înaintea primei probe IDLE_VALID complet definite; pentru probe complet definite, niciun marker de control nu poate fi activ. O probă parțial necunoscută poate avea IDLE_VALID cunoscut HIGH, însă interdicția RUN/ERROR/DONE HIGH rămâne. Valorile negative acceptate sunt numărate fără clipping sau reindexare. După sincronizare, curentul negativ respinge captura. NaN/Inf sunt respinse peste tot.
+### Files and units
 
-### Fișiere și unități
+Native support is `.ppk2` formatVersion 2: a ZIP containing metadata.json, session.raw and minimap.raw. Each session sample contains little-endian float32 current in microamperes followed by a big-endian uint16 digital word, two bits per channel. D0 occupies the lowest pair: 01 LOW, 10 HIGH, 00 unknown, 11 mixed. Only D0 is used for the protocol; minimap is not used for metrics. The default limit is sixty million samples, ten minutes, with validated sizes/format and no extraction to disk.
 
-Formatul nativ acceptat este `.ppk2` formatVersion 2: ZIP cu `metadata.json`, `session.raw`, `minimap.raw`. O probă din session are float32 little-endian în µA și uint16 big-endian cu doi biți per canal: `01` LOW, `10` HIGH, `00` unknown, `11` mixed; D0 ocupă perechea cea mai puțin semnificativă. Minimap nu este folosit pentru metrici. Limita implicită este 60 milioane de probe, adică 10 minute; formatul și dimensiunile sunt validate, fără extracție pe disc.
+Nordic CSV uses explicit Timestamp(ms), Current(uA), and D0 or the D0-first D0-D7 bitstring. A generic CSV declares units and `--digital-column` or a D0-first `--digital-bitstring-column`; units are not guessed from numeric magnitude. Optional sample indices and timestamps are checked for detectable discontinuities. Native captures are unchanged and existing outputs are not overwritten.
 
-CSV Nordic folosește explicit `Timestamp(ms)`, `Current(uA)` și D0..D7 sau șirul `D0-D7`, cu D0 primul. Pentru CSV generic se declară unitățile și coloanele; nu sunt ghicite după magnitudinea numerelor. Timestamp-urile și indicii opționali sunt verificate pentru discontinuități detectabile. Datele originale nu sunt modificate și rezultatele existente nu sunt suprascrise.
+The complete schema, CLI and official Nordic format references are in [capture_format.md](../docs/capture_format.md). The first actual laboratory export still requires a physical compatibility check.
 
-Schema și limitele complete, cu referințe la implementarea oficială Nordic verificată, sunt în [capture_format.md](../docs/capture_format.md). Compatibilitatea cu primul export real din laborator trebuie confirmată în pilot.
+## 11. Measurement images and acquisition status
 
-## 11. Imaginile de benchmark și starea măsurătorilor
+[CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records the images last programmed and the state of new single-GPIO candidates separately. Old measurement images installed on 9 September 2026 used eight signals. They must not be presented as the new single-GPIO firmware. New build evidence belongs in each target's `build_verified/single_gpio_measurement`; a successful compile is not a programming or PPK2 record.
 
-Cele trei imagini `measurement`, cu `BENCH_DIAGNOSTICS=OFF`, sunt identificate prin SHA-256 în [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json). Pentru fiecare țintă, directorul `build_verified/measurement` păstrează binarul, comenzile native de compilare și evidențele verificării. Imaginile au fost programate pe plăci la 9 septembrie 2026.
+The new campaign requires hardware revalidation and a PPK2 pilot. No existing PPK2 energy capture validates its one-wire sequence. Required checks include isolated 3V3 wiring, physical clock/voltage measurements, pulse boundaries, exported file format and independent captures. At least ten independent starts per board are proposed. Fixed order, heating and cache state matter; one physical unit per model does not characterize unit-to-unit variation.
 
-Verificările funcționale și logurile sunt consemnate în [VALIDATION.md](../docs/VALIDATION.md) și [HARDWARE_VALIDATION.md](../docs/HARDWARE_VALIDATION.md). **Nu există încă o captură PPK2 care să valideze secvența GPIO și energia acestor imagini.** Compilarea, verificarea algoritmilor și programarea plăcilor nu înlocuiesc această probă.
+## 12. Changes from the original code and earlier protocol
 
-Mai sunt necesare montajul exclusiv la 3V3, verificarea fizică a ceasurilor/tensiunii, a fronturilor și exportului, plus capturile independente. Numărul propus este minimum 10 porniri per placă; ordinea fixă și încălzirea/cache-ul trebuie luate în considerare. O singură placă fizică per model nu caracterizează variația între exemplare.
+This is a repaired, versioned benchmark. Preserving input volume and repetitions does not make historical energy values valid results of the new code.
 
-## 12. Diferențe față de codul și experimentul inițial
-
-Acesta este un benchmark reparat și versionat. Păstrarea volumului de intrare și a repetărilor nu permite reutilizarea energiilor vechi ca rezultate ale noului cod.
-
-| Aspect | Comportament curent care trebuie descris în articol |
+| Aspect | Current behavior to describe in the article |
 |---|---|
-| Platformă STM32 | F446RE, 100 MHz explicit, FPU activă și HSI; F411 și configurația recuperată de 96 MHz nu reprezintă această campanie |
-| Măsurarea timpului | GPIO și baza PPK2; oprire după R apeluri, fără durate MCU folosite la performanță |
-| Marcaj | Intrări digitale PPK2, fără LED extern de marcare |
-| Date | Trei seturi deterministe definite byte cu byte; DSP numeric uint8, nu reinterpretare de memorie float |
-| Memorie | Workspace-uri reutilizabile și tablouri locale cu limite fixe; costurile istorice malloc/free din FFT au fost eliminate |
-| AES | Capacitate de ieșire suficientă pentru 2064 B, inclusiv blocul suplimentar PKCS#7 |
-| Huffman | Sortare/caz un simbol/tie-break definite și reparate; header complet în RUN și scriere limitată la payload |
-| LZ77 | Fără literal terminal suplimentar când match-ul ajunge la sfârșit; format complet definit |
-| SHA/ChaCha/CRC | Deplasări unsigned unde sunt necesare și serializare explicită a rezultatelor; fără dependență tacită de byte order |
-| FFT | Intrare numerică, ieșire float normalizată, număr de etape calculat întreg și scratch static |
-| FIR/IIR | Variantele scalare originale păstrate; FIR întreg, IIR cuantizat/saturat cu recurența explicită |
-| DCT | Unghi DCT-II corect, reducere de fază și coeficienți float semnați; fără clipping byte |
+| STM32 platform | F446RE at explicit 100 MHz with FPU and HSI; original F411/recovered 96 MHz configuration is not this campaign |
+| Timing | External PPK2 timebase, fixed R calls, no MCU performance timestamps |
+| Marker | One GPIO pulse per batch, no external marker LED or ID/status bus; errors latch RUN HIGH |
+| Input | Three byte-defined deterministic sets; numerical uint8 DSP, not reinterpreted float storage |
+| Memory | Reusable workspaces and fixed-bound local arrays; historical FFT malloc/free cost removed |
+| AES | Output capacity covers 2064 B including the extra PKCS#7 block; original padding behavior retained |
+| Huffman | Correct full sort, defined singleton/tie behavior, complete header inside RUN and bounded payload writes |
+| LZ77 | No extra terminal literal when a match reaches the end; complete custom format defined |
+| SHA/ChaCha/CRC | Unsigned shifts where required and explicit byte serialization |
+| FFT | Numerical input, normalized float output, integer stage count and static scratch |
+| FIR/IIR | Original scalar variants retained; integer FIR and quantized/saturated IIR with explicit recurrence |
+| DCT | Correct DCT-II angle, phase reduction and signed float coefficients without byte clipping |
+| One-wire validation | Algorithm assignment from order, lower-bound LOW checks and structural acceptance; no independent completion/error bus |
 
-Sursele și capturile istorice nu sunt alterate de această documentare. Numele algoritmului singur nu identifică suficient workload-ul: variantele, datele, inițializarea inclusă, compilatorul și limita RUN fac parte din definiția lui.
+Archived binaries, input data and captured logs are retained as evidence of their own versions. An algorithm name alone does not define a workload: variant, input, included initialization, compiler and RUN boundary are part of its identity.
 
-## 13. Menținerea concordanței dintre cod, README și articol
+## 13. Keeping source, documentation and article consistent
 
-Comenzile de mai jos se rulează din rădăcina proiectului:
+Run from the project root:
 
 ```powershell
 python tools/generate_inputs.py --check
 ```
 
-Această verificare compară cele 10 fișiere generate fără să le modifice. Schimbarea datelor, cheilor, coeficienților, tipurilor numerice, algoritmilor, repetărilor, limitei RUN, compilatorului sau configurației platformei trebuie înregistrată ca o schimbare a experimentului. Se regenerează deliberat fișierele/referințele necesare, se rulează verificările potrivite și se păstrează noile binare/hashuri și loguri.
+This compares the ten generated files without modifying them. Changes to inputs, keys, coefficients, numeric types, algorithms, repetitions, boundaries, compiler or platform configuration define a changed experiment. Deliberately regenerate the necessary inputs/references, perform the relevant checks and retain new binaries, hashes and evidence.
 
-Antetele generate și rezultatele golden nu se editează manual ca să se potrivească unei ieșiri neașteptate. `CURRENT_FIRMWARE.json` și raportul hardware trebuie actualizate după o nouă programare verificată. Instrucțiuni de reproducere: [BUILD_AND_TEST.md](../docs/BUILD_AND_TEST.md).
+Do not manually alter golden values to accept unexpected output. CURRENT_FIRMWARE.json must reflect verified programming separately from compilation. Reproduction instructions are in [BUILD_AND_TEST.md](../docs/BUILD_AND_TEST.md).
 
-La redactarea articolului se preiau comportamentele confirmate aici și rezultatele PPK2 efectiv obținute, păstrând distincte configurația declarată, verificarea software și verificarea fizică. Acest README nu transformă verificările funcționale sau valorile nominale în măsurători de energie.
+When writing the article, use the behavior established here and the PPK2 measurements actually acquired. Keep declared configuration, software checks and physical validation distinct. Nominal values or functional checks are not energy measurements.

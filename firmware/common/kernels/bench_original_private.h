@@ -6,49 +6,49 @@
 #include <string.h>
 #include <math.h>
 
-/* DEFINE-uri pentru functia my_lz77_encode */
+/* Limits for my_lz77_encode. */
 #define MAX_WINDOW_SIZE_LZ77 255
 #define MAX_LOOKAHEAD_SIZE_LZ77 255
 
-/* Structuri pentru functia my_huffman_encode - treeless + canonical Huffman */
+/* Structures for treeless canonical Huffman coding. */
 
-// Structura tip element din minheap
+// An entry in the minimum-extraction pool.
 typedef struct {
     uint32_t freq;
-    uint16_t branch_id; // ID-ul ramurii din care face parte - A-65, B-66, etc. sau ID-ul nodului intern daca nu e frunza
+    uint16_t branch_id; // The symbol value for a leaf, or the ID of an internal branch.
 } minheap_element;
 
-// Structura pentru coduri
+// Canonical code representation.
 typedef struct {
-    uint8_t len;        // Lungimea finala a codului
-    uint32_t code;      // Codul canonic efectiv generat (max 32 biti)
+    uint8_t len;        // Final code length.
+    uint32_t code;      // Assigned canonical code, at most 32 bits.
 } canonical_code;
 
 typedef struct {
     minheap_element heap[256];
     uint16_t heap_size;
     
-    // Tabele pentru logica "Treeless"
-    uint8_t lengths[256];     // Lungimea codului pentru fiecare caracter (0-255)
-    uint16_t branch_ids[256]; // Ce ramura apartine fiecare caracter
-    uint8_t is_active[256];   // 1 daca acel caracter exista in datele noastre
+    // Tables used by the treeless construction.
+    uint8_t lengths[256];     // Code length for each possible byte value.
+    uint16_t branch_ids[256]; // Branch membership for each symbol.
+    uint8_t is_active[256];   // One when the symbol occurs in the input.
     
-    canonical_code codes[256]; // Tabelul final de coduri
+    canonical_code codes[256]; // Final canonical code table.
 } TreelessEnv;
 
-// Functie ajutatoare pentru my_huffman_encode - extrage nodul cu cea mai mica frecventa de aparitie
+// Extract the minimum-frequency node.
 static minheap_element extract_min_node(TreelessEnv *env);
 
-// Functie ajutatoare pentru my_huffman_encode - insereaza un nod in minheap
+// Insert a node into the minimum-extraction pool.
 static void insert_node_in_minheap(TreelessEnv *env, minheap_element node);
 
-// Functie ajutatoare pentru my_huffman_encode - sorteaza codurile generate in functie de lungime (alfabetic pt
-// coduri de aceeasi lungime)
+// Sort by code length, then by symbol value
+// for codes of equal length.
 static void sort_codes_by_length(TreelessEnv *env, uint8_t *elements, int num_elements);
 
 
-/* Lucuri de folosinta pentru AES-128 */
-// S-BOX-ul pentru AES-128 (substitutie)
+/* AES-128 helpers. */
+// AES substitution S-box.
 static const uint8_t sbox[256] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -68,35 +68,35 @@ static const uint8_t sbox[256] = {
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 };
 
-// Round Constants (Rcon): Folosite in procesul de Key Expansion
+// Round constants used during key expansion.
 static const uint8_t rcon[11] = {
     0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36
 };
 
-// Functie pentru operatii in campul Galois necesara pentru MixColumns
+// Galois-field operation used by MixColumns.
 static uint8_t xtime(uint8_t x);
 
-// Inlocuieste fiecare octet folosind S-BOX-ul definit mai sus
+// Substitute every state byte through the S-box.
 static void sub_bytes_step(uint8_t *state);
 
-// Roteste randurile matricei de stare
+// Rotate rows of the state matrix.
 static void shift_rows_step(uint8_t *state);
 
-// Amesteca coloanele matricei de stare folosind operatii in campul Galois
+// Mix state columns using Galois-field arithmetic.
 static void mix_columns_step(uint8_t *state);
 
-// Adauga cheia la matrice folosind operatia XOR
+// XOR the round key into the state.
 static void add_round_key_step(uint8_t *state, const uint8_t *round_key);
 
-// Genereaza cheile pentru fiecare runda folosind cheia initiala
+// Expand the initial key into round keys.
 static void key_expansion(const uint8_t *Key, uint8_t *round_key);
 
-// Cripteaza un bloc de 16 octeti folosind cheia de runda curenta
+// Encrypt one 16-byte block using the expanded round keys.
 static void AES_encrypt_block(uint8_t *state, const uint8_t *round_key);
 
 
-// Folositoare pentru SHA-256
-// Macro-uri pentru operații logice specifice SHA-256
+// SHA-256 helpers.
+// SHA-256 logical-operation macros.
 #define ROTRIGHT(word, bits) (((word) >> (bits)) | ((word) << (32 - (bits))))
 #define CH(x, y, z) (((x) & (y)) ^ (~(x) & (z)))
 #define MAJ(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
@@ -105,7 +105,7 @@ static void AES_encrypt_block(uint8_t *state, const uint8_t *round_key);
 #define SIG0(x) (ROTRIGHT(x, 7) ^ ROTRIGHT(x, 18) ^ ((x) >> 3))
 #define SIG1(x) (ROTRIGHT(x, 17) ^ ROTRIGHT(x, 19) ^ ((x) >> 10))
 
-// Constantele K (primele 32 de biți din părțile fracționare ale rădăcinilor cubice)
+// K constants: the first 32 bits of the fractional parts of cube roots.
 static const uint32_t k[64] = {
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
     0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
@@ -120,21 +120,21 @@ static const uint32_t k[64] = {
 void sha256_transform(uint32_t state[8], const uint8_t data[64]);
 
 
-// Folositoare pentru ChaCha20
+// ChaCha20 helpers.
 #define ROTLEFT(a, b) (((a) << (b)) | ((a) >> (32 - (b))));
 
-// Functie pentru mixarea celor 4 cuvinte dintr-un quarter round
+// Mix four words in a quarter-round.
 void chacha20_quarter_round(uint32_t *a, uint32_t *b, uint32_t *c, uint32_t *d);
 
-// Functie pentru amestecarea celor 16 cuvinte din starea ChaCha20 folosind 20 de runde
+// Mix the sixteen-word ChaCha20 state through twenty rounds.
 void chacha20_mixing(uint32_t out[16], uint32_t const in[16]);
 
 
-// Folositoare pentru FFT
+// FFT helpers.
 
 # define PI 3.14159265358979323846
 
-// Functie pentru inversarea bitilor
+// Reverse the requested number of index bits.
 uint32_t reverse_bits(uint32_t index, int bits);
 
 
@@ -143,49 +143,49 @@ uint32_t reverse_bits(uint32_t index, int bits);
 extern "C" {
 #endif
 
-// ALGORITMI DE COMPRESIE 
+// COMPRESSION ALGORITHMS
 
-/* 1. RLE (Run-Length Encoding) - metoda de compresie care inlocuieste secvente de date repetitive cu o singura valoare si cu
-numarul de repetari ale acesteia.*/
+/* 1. RLE: encode repeated byte runs as count/value pairs. */
+
 int my_rle_encode(const uint8_t *input, int input_len, uint8_t *output);
 
-/* 2. Delta encoding - metoda de compresie care inregistreaza diferentele dintre valori consecutive */
+/* 2. Delta: encode differences between consecutive byte values. */
 int my_delta_encode(const uint8_t *input, int input_len, uint8_t *output);
 
-/* 3. LZ77 - metoda de compresie care inlocuieste secvente de date repetitive cu referinte catre datele anterioare */
+/* 3. LZ77: replace repeated sequences with references to earlier input. */
 int my_lz77_encode(const uint8_t *input, int input_len, uint8_t *output);
 
-/* 4. Huffman coding - metoda de compresie care atribuie coduri binare de lungime variabilă în funcție de frecvența apariției fiecărui simbol */
+/* 4. Huffman: assign variable-length canonical codes using symbol frequencies. */
 int my_huffman_encode(const uint8_t *input, int input_len, uint8_t *output);
 
 
-// ALGORITMI DE CRIPTARE + INTEGRITATE A DATELOR
+// CRYPTOGRAPHY AND DATA INTEGRITY ALGORITHMS
 
-/* 5. AES - metoda de criptare simetrică care utilizează un cheie de 128, 192 sau 256 biți */
+/* 5. AES-128: scalar encryption with a 128-bit key and PKCS#7 padding. */
 int my_aes_encrypt(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *key);
 
-/* 6. SHA-256 - metoda de hash care produce un rezultat de 256 biți */
+/* 6. SHA-256: produce a 256-bit digest. */
 int my_sha256_hash(const uint8_t *input, int input_len, uint8_t *output);
 
-/* 7. ChaCha20 - metoda de criptare simetrică care utilizează un cheie de 256 biți */
+/* 7. ChaCha20: scalar stream encryption with a 256-bit key. */
 int my_chacha20_encrypt(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *key, const uint8_t *nonce);
 
-/* 8. CRC - metoda de verificare a integrității datelor */
+/* 8. CRC32: calculate the data-integrity checksum. */
 int my_crc32(const uint8_t *input, int input_len, uint32_t *output);
 
 
-// ALGORITMI DE PROCESARE A SEMNALELOR DIGITALE
+// DIGITAL SIGNAL PROCESSING ALGORITHMS
 
-/* 9. FFT (Fast Fourier Transform) - metoda de transformare a unui semnal din domeniul timp în domeniul frecvență */
+/* 9. FFT: transform numeric samples into normalized spectral magnitudes. */
 int my_fft(const uint8_t *input, int input_len, float *output);
 
-/* 10. FIR (Finite Impulse Response) - metoda de filtrare a semnalelor digitale */
+/* 10. FIR: filter digital samples with a finite impulse response. */
 int my_fir_filter(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *coefficients, int num_coefficients);
 
-/* 11. IIR (Infinite Impulse Response) - metoda de filtrare a semnalelor digitale */
+/* 11. IIR: filter digital samples with quantized recursive feedback. */
 int my_iir_filter(const uint8_t *input, int input_len, uint8_t *output, const uint8_t *b_coefficients, int num_b_coefficients, const uint8_t *a_coefficients, int num_a_coefficients);
 
-/* 12. DCT (Discrete Cosine Transform) - metoda de transformare a unui semnal în domeniul frecvență */
+/* 12. DCT-II: calculate signed, orthonormal cosine-transform coefficients. */
 int my_dct(const uint8_t *input, int input_len, float *output);
 
 

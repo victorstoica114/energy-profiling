@@ -20,7 +20,10 @@ extern "C" {
 /* No function in this interface measures or reports benchmark duration. */
 bool bench_platform_init(void);
 bool bench_platform_check(void);
-void bench_platform_signals(unsigned id, bool run, bool idle, bool error, bool done);
+/* The only exported GPIO: HIGH during a batch, LOW between batches.
+ * A detected failure latches HIGH until reset; no other status pins exist.
+ * Setting an already-HIGH marker must not insert a spurious LOW pulse. */
+void bench_platform_marker(bool high);
 /* Hardware timebase used only for control gaps, outside RUN. */
 void bench_platform_wait_ms(uint32_t milliseconds);
 void bench_platform_finish(void);
@@ -28,7 +31,8 @@ void bench_platform_finish(void);
 /* Events: BOOT, START, PASS, DONE, ERROR. START carries the configured count;
  * PASS carries the completed count and output digest; BOOT/DONE use zeros.
  * ERROR carries the completed count and a bench_error_reason in digest.
- * The runner calls this only while RUN=0 and IDLE_VALID=0. Enabled platform
+ * Ordinary events occur while RUN is LOW, outside the active idle waits.
+ * ERROR may be reported after the fault has latched RUN HIGH. Enabled platform
  * implementations must finish transmitting before returning (no async tail).
  * UART schema: BENCH event=... id=... calls=... digest=<8 hex digits>
  */

@@ -1,5 +1,7 @@
 # Verified ESP32 native build
 
+> Historical eight-signal archive. The binary, logs and hashes below describe their original snapshot, not the current single-GPIO campaign. Current candidates are identified separately in CURRENT_FIRMWARE.json.
+
 The native ESP-IDF 5.5.4 build completed successfully. These are candidate firmware
 artifacts for a later hardware pilot; no board was flashed or executed.
 

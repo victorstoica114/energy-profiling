@@ -56,29 +56,26 @@ def artifacts():
     result["firmware/common/bench_data.c"] = source.encode()
     result["data/manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
     config = json.loads((ROOT / "config/experiment.json").read_text(encoding="utf-8"))
+    if config.get("schema_version") != 2 or config.get("digital_channels") != {"RUN": 0}:
+        raise ValueError("This generator requires the single-GPIO experiment manifest")
     generated = '/* Generated from config/experiment.json; do not edit by hand. */\n#ifndef BENCH_CONFIG_H\n#define BENCH_CONFIG_H\n#include <stdint.h>\n'
     generated += '#if (defined(BENCH_BOARD_ESP32) + defined(BENCH_BOARD_RP2040) + defined(BENCH_BOARD_STM32)) != 1\n#error Select exactly one BENCH_BOARD target\n#endif\n'
     for index, board in enumerate(("esp32", "rp2040", "stm32")):
         generated += ('#if' if index == 0 else '#elif') + f' defined(BENCH_BOARD_{board.upper()})\n'
         counts = [config["boards"][board]["iterations"][a["name"]] for a in config["algorithms"]]
         generated += f'#define BENCH_BOARD_NAME "{board}"\n#define BENCH_EXPECTED_CPU_HZ {config["boards"][board]["target_cpu_hz"]}u\n'
+        board_config = config["boards"][board]
+        pin = board_config["marker_pin"]
         if board == "stm32":
-            board_config = config["boards"][board]
-            ports = {pin[1] for pin in board_config["pins_D0_to_D7"]
-                     if isinstance(pin, str) and len(pin) >= 3 and pin[0] == "P"}
-            if len(ports) != 1 or not ports.issubset(set("ABCDEFGHI")):
-                raise ValueError("STM32 digital signals must use one GPIO port")
-            generated += f'#define BENCH_SIGNAL_GPIO_PORT {ord(next(iter(ports))) - ord("A")}u\n'
+            if (not isinstance(pin, str) or len(pin) < 3 or pin[0] != "P" or
+                    pin[1] not in "ABCDEFGHI" or not pin[2:].isdigit() or int(pin[2:]) > 15):
+                raise ValueError("Invalid STM32 marker pin")
+            generated += f'#define BENCH_SIGNAL_GPIO_PORT {ord(pin[1]) - ord("A")}u\n'
             generated += f'#define BENCH_EXPECTED_OSCILLATOR_HZ {board_config["oscillator_hz"]}u\n'
-        pin_names = ("RUN", "ID0", "ID1", "ID2", "ID3", "IDLE", "ERROR", "DONE")
-        for name, pin in zip(pin_names, config["boards"][board]["pins_D0_to_D7"]):
-            if isinstance(pin, str):
-                if len(pin) < 3 or pin[0] != "P" or pin[1] not in "ABCDEFGHI" or not pin[2:].isdigit() or int(pin[2:]) > 15:
-                    raise ValueError("Invalid STM32 GPIO pin")
-                pin = int(pin[2:])
-            if not isinstance(pin, int) or not 0 <= pin < 32:
-                raise ValueError("Invalid pin index")
-            generated += f'#define BENCH_PIN_{name} {pin}u\n'
+            pin = int(pin[2:])
+        if type(pin) is not int or not 0 <= pin < 32:
+            raise ValueError("Invalid marker pin index")
+        generated += f'#define BENCH_PIN_RUN {pin}u\n'
         generated += 'static const uint32_t bench_iterations[12] = {' + ', '.join(str(n)+'u' for n in counts) + '};\n'
     generated += '#endif\n'
     for key in ("startup_idle_ms", "inter_algorithm_idle_ms", "post_suite_idle_ms"):

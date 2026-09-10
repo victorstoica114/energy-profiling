@@ -1,59 +1,44 @@
 # Energy Profiling
 
-Firmware și analiză pentru refacerea măsurătorilor ESP32 / RP2040 / **NUCLEO-F446RE** cu Nordic PPK2. Campania curentă este `energy-profiling-v2-f446`; STM32F446 înlocuiește F411. Rezultatele testării pe plăci se găsesc în [raportul hardware](docs/HARDWARE_VALIDATION.md). Măsurătorile de energie cu PPK2 rămân de efectuat.
+Firmware and offline analysis for measuring ESP32, RP2040 and **NUCLEO-F446RE** workloads with Nordic PPK2. The current source defines **`energy-profiling-v3-single-gpio`**, experiment schema 2. STM32F446 replaces the original F411. One digital output marks the twelve fixed-count workload batches; the algorithm is inferred from pulse order.
 
-Un singur nucleu C execută 12 algoritmi, pe intrări identice între plăci, cu numerele de apeluri din notele experimentului original. Adaptoarele folosesc ESP-IDF, Pico SDK și CMSIS pentru STM32. Intrările digitale PPK2 delimitează ferestrele și transmit identificatorul algoritmului. Firmware-ul nu calculează durata sau energia algoritmilor.
+The common C library executes twelve algorithms on identical inputs across boards, retaining the repetition counts documented in the original experiment. Native adapters use ESP-IDF, Pico SDK and STM32 CMSIS. The firmware does not calculate algorithm duration or energy.
 
-## Punctele de intrare
+## Documentation and source
 
-- [firmware/README.md](firmware/README.md): specificația completă a firmware-ului de benchmark — compilare, date, algoritmi, memorie, configurația plăcilor și limitele ferestrelor măsurate.
-- [config/experiment.json](config/experiment.json): ordinea, repetările, volumul intrării, frecvențele țintă, pinii și pauzele.
-- [firmware/common/bench_runner.c](firmware/common/bench_runner.c): secvența autonomă și oprirea la eroare.
-- [firmware/common/kernels](firmware/common/kernels): implementările comune și verificările rezultatelor.
-- [firmware/targets](firmware/targets): adaptoarele și build-urile pentru cele trei plăci.
-- [data/manifest.json](data/manifest.json): definiția exactă și SHA-256 pentru cele trei intrări binare/hex.
-- [docs/PROTOCOL.md](docs/PROTOCOL.md): montaj, stări, delimitarea energiei și pașii de măsurare.
-- [tools/analyze_capture.py](tools/analyze_capture.py): prelucrarea offline a capturilor PPK2/CSV.
-- [docs/BUILD_AND_TEST.md](docs/BUILD_AND_TEST.md): compilare și verificări.
-- [docs/VALIDATION.md](docs/VALIDATION.md): verificările efectuate și ce rămâne pentru pilot.
+- [Firmware specification](firmware/README.md): measurement behavior, compilation, inputs, algorithm contracts, memory, board configuration and measured boundaries.
+- [Experiment manifest](config/experiment.json): fixed order, repetitions, input size, target clocks, single output pin and pauses.
+- [Autonomous runner](firmware/common/bench_runner.c) and [common kernels](firmware/common/kernels).
+- [Board targets](firmware/targets) and [input manifest](data/manifest.json).
+- [Acquisition protocol](docs/PROTOCOL.md) and [capture format and analyzer](docs/capture_format.md).
+- [Build instructions](docs/BUILD_AND_TEST.md), [validation status](docs/VALIDATION.md) and [historical hardware report](docs/HARDWARE_VALIDATION.md).
 
-Firmware-ul de benchmark este compilat cu **`BENCH_DIAGNOSTICS=OFF`**. Aplicația nu transmite mesaje seriale, iar UART/USB de diagnostic sunt dezactivate. Placa rulează autonom, cu USB, UART și programator deconectate în timpul achiziției; PPK2 citește stările GPIO. Imaginile curente și hashurile lor sunt în [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json). Fișierele vechi F411 și primele build-uri rămân evidență istorică, nu imagini pentru campania curentă.
+The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and diagnostic UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) distinguishes images last installed on hardware from newly built candidates. The images and logs from 9 September 2026 describe the earlier eight-signal protocol; they do not establish that the single-GPIO firmware has been installed or measured.
 
-## Semnalele PPK2
+## One measurement signal
 
-| Canal | Semnal | ESP32 GPIO | Pico GPIO | STM32 |
-|---|---|---:|---:|---|
-| D0 | RUN | 18 | 2 | PC0 |
-| D1 | ALG_ID bit 0 | 19 | 3 | PC1 |
-| D2 | ALG_ID bit 1 | 21 | 4 | PC2 |
-| D3 | ALG_ID bit 2 | 22 | 5 | PC3 |
-| D4 | ALG_ID bit 3 | 23 | 6 | PC4 |
-| D5 | IDLE_VALID | 25 | 7 | PC5 |
-| D6 | ERROR | 26 | 8 | PC6 |
-| D7 | DONE | 27 | 9 | PC7 |
+| PPK2 input | Meaning | ESP32 | Pico RP2040 | NUCLEO-F446RE |
+|---|---|---|---|---|
+| D0 | RUN | GPIO18 | GP2 | PC0 |
 
-Fiecare pin este ieșire MCU către intrare PPK2. LOGIC VCC se leagă la 3V3 de pe partea DUT măsurată, iar masele se conectează conform manualului. În Source Meter, PPK2 alimentează placa prin VOUT → 3V3; USB/programatorul plăcii se deconectează pentru achiziție. Pinii și oscilatorul plăcii fizice trebuie verificați înaintea campaniei.
+Connect the selected MCU output to PPK2 D0, LOGIC VCC to the measured DUT 3V3 rail, and the grounds as specified in the [protocol](docs/PROTOCOL.md). In Source Meter mode, PPK2 VOUT supplies the board's 3V3 input. PPK2's own USB connection to the acquisition computer remains connected.
 
-## Secvența
+**HIGH marks one complete fixed-count kernel batch; LOW is outside the batch.** There are no additional algorithm-ID, error, completion or idle-validity outputs. Only D0 is interpreted by the analyzer; other PPK2 digital inputs are unused.
+
+## Autonomous sequence
 
 ```text
-boot + configurare + pregătire
-→ 5 s repaus activ marcat IDLE_VALID
-→ RLE → Delta → LZ77 → Huffman → AES → SHA → ChaCha → CRC → FFT → FIR → IIR → DCT
-→ DONE + repaus final
+boot, platform initialization/checks and first input preparation
+  -> RUN LOW: nominal 5 s active control idle
+  -> RLE -> Delta -> LZ77 -> Huffman -> AES -> SHA -> ChaCha -> CRC -> FFT -> FIR -> IIR -> DCT
+  -> after final verification: nominal 2 s active control idle, RUN LOW
+  -> platform final state, RUN remains LOW until reset
 ```
 
-Între algoritmi: RUN coboară, se verifică rezultatul și configurația, se pregătește următoarea sarcină, apoi există 1 s de repaus activ. ID-ul se stabilizează încă 1 ms înainte de RUN. Cele 5 s inițiale încep după inițializare; timpul fizic de la aplicarea alimentării include și bootul, pe care îl observăm separat în PPK2. Repausul este CPU treaz cu așteptare de control, **nu deep sleep sau modul hardware Standby**.
+Each arrow between algorithms contains result verification, preparation of the next workload and a nominal 1 s active idle pause. Each algorithm produces exactly one HIGH pulse containing its configured number of independent calls. There is no extra 1 ms ID-settling delay. The initial 5 s starts after initialization and the first preparation, so power-on boot time is additional.
 
-ERROR oprește seria și o face nevalidă; DONE apare numai după toate cele 12 verificări reușite. Nu există apeluri de încălzire suplimentare sau cronometrare `micros()`/`millis()` în runner. Bufferele reutilizabile elimină alocările heap din RUN; această schimbare față de biblioteca istorică este deliberată.
+A detected fault latches the same RUN output **HIGH until reset**. Missing falling edges, extra pulses and incomplete sequences cause structural rejection. With one wire, a LOW tail cannot by itself prove that final verification finished, and some resets or hangs can be indistinguishable from an otherwise valid pulse sequence. Capture acceptance is a structural check, not an independent firmware attestation.
 
-## Verificări rapide pe PC
+Start recording before powering the DUT and keep at least **3 s of LOW after the twelfth falling edge**. The baseline is the last 2 s before the first rising edge. The analyzer checks lower bounds of 5 s before the first pulse and 1 s between pulses, allowing 1% for these nominal MCU delays; it requires a 3 s final LOW tail. Preparation and verification make LOW intervals longer, so there is no upper-duration test for those intervals.
 
-```powershell
-python tools/generate_inputs.py --check
-cmake -S . -B build/host -G Ninja
-cmake --build build/host
-ctest --test-dir build/host --output-on-failure
-```
-
-Testele runnerului folosesc hardware și algoritmi simulați pentru a verifica exact controlul suitei și căile de eroare. Testele funcționale separate verifică algoritmii reali față de referințe. Compilarea pentru MCU și testele pe PC nu înlocuiesc pilotul fizic și verificarea frecvenței, a tensiunii și a semnalelor PPK2.
+There are no extra warm-up kernel calls or MCU timing reports. Reusable workspaces remove heap allocation from RUN; algorithmic initialization remains measured. Active idle keeps the CPU awake and is not deep sleep or hardware Standby. Wiring, voltage, clocks and the exported GPIO trace require a PPK2 pilot before scientific measurements are accepted.

@@ -1,109 +1,44 @@
-# RP2040 native target
+# RP2040 measurement target
 
-Board profile: Raspberry Pi Pico (RP2040, 2 MiB configured Flash), native Pico SDK.
-CPU clock = 133 MHz. Core 1 is never launched. RP2040 uses software floating point;
-this is recorded rather than emulating an unavailable FPU setting. SDK startup and
-Flash boot code are retained. With `BENCH_DIAGNOSTICS=OFF` (the default), USB/UART
-stdio are disabled; UART0/1, USB and ADC are held in reset, and the USB/ADC clocks
-are stopped before measurement. GPIO0/1 are disconnected with no pulls. GPIO25 LED is LOW/off.
-Core 0 reserves 4 KiB of stack in the SDK's dedicated SCRATCH_Y bank. The main
-work buffers are static. Link maps record the memory layout of each verified build.
+Raspberry Pi Pico profile with RP2040 and 2 MiB configured Flash. Native Pico SDK, nominal CPU **133 MHz**, experiment `energy-profiling-v3-single-gpio`, schema 2. This README describes **BENCH_DIAGNOSTICS=OFF** measurement firmware.
 
-| PPK2 digital bit | Signal | MCU GPIO |
-|---|---|---|
-| D0 | RUN | 2 |
-| D1 | ID bit 0 | 3 |
-| D2 | ID bit 1 | 4 |
-| D3 | ID bit 2 | 5 |
-| D4 | ID bit 3 | 6 |
-| D5 | IDLE_VALID | 7 |
-| D6 | ERROR | 8 |
-| D7 | DONE | 9 |
+## Single measurement output
 
-These are dedicated digital outputs, not LEDs. RUN is low while ID/status changes,
-then asserted last. Follow the root wiring document for ground and PPK2 logic supply.
+Connect **GP2 to PPK2 D0**. HIGH normally encloses one fixed-count kernel batch; LOW is outside. The twelve algorithms are inferred from pulse order. There are no separate ID, ERROR, DONE or IDLE_VALID outputs. A detected failure latches GP2 HIGH until reset; failures during a batch do not first emit a normal falling edge. This is a dedicated output, not the LED.
 
-Clock configuration is checked both against `clock_get_hz` and Pico's hardware
-frequency counter: 133000 kHz ±0.1% relative to clk_ref. This does not certify an
-external oscillator against a laboratory frequency standard. GPIO measurement
-timings always come from PPK2. The raw hardware timer is read only for fixed
-control gaps, which busy-poll at the configured CPU frequency: active idle, not sleep.
+See the [protocol](../../../docs/PROTOCOL.md) for common ground, LOGIC VCC, direct DUT 3V3 supply and required recording intervals. A long LOW tail alone cannot prove final verification completed.
 
-Pinned SDK: [Pico SDK 2.2.0](https://github.com/raspberrypi/pico-sdk/tree/a1438dff1d38bd9c65dbd693f0e5db4b9ae91779),
-commit `a1438dff1d38bd9c65dbd693f0e5db4b9ae91779`. TinyUSB is unnecessary for the
-measurement profile and the optional hardware-UART diagnostic profile. The default
-diagnostic profile enables USB CDC and needs Pico SDK's exact TinyUSB gitlink,
-commit `86ad6e56c1700e85f1c5678607a762cfe3aa2f47`. Verified compiler: GNU Arm Embedded
-GCC 9.2.1 20191025. Run all commands below from the project root, using short paths
-for dependencies on Windows. Replace the example compiler path with its installation.
+## Platform behavior
 
-Prepare the SDK and the separate USB dependency:
+Core1 is not launched; it remains in its Boot ROM waiting state. RP2040 has no FPU and uses software floating point. SDK startup and Flash boot code are retained. Core0 reserves 4 KiB of stack in dedicated SCRATCH_Y; main work buffers are static, with fixed local arrays where needed. Link maps record the actual layout.
+
+USB/UART stdio is disabled. UART0/1, USBCTRL and ADC are held in reset; clk_usb and clk_adc are stopped before measurement. GPIO0/1 are disconnected without pulls and the GP25 LED is held LOW/off. PLL_USB remains enabled because the SDK uses its 48 MHz output for clk_peri. clk_rtc remains at 46875 Hz. The SDK default alarm pool/handler is compiled in, but the application registers no periodic callbacks and does not globally mask interrupts. The measurement image does not enumerate as USB CDC.
+
+Clock configuration is checked using clock_get_hz and the hardware frequency counter, accepting 133000 kHz +/-0.1% relative to clk_ref. This is not external oscillator calibration. The hardware timer is read only for fixed control gaps, busy-polling while the CPU remains awake. PPK2 provides the benchmark timebase. After final verification and a two-second LOW pause, execution enters WFI with RUN LOW; that final state is not the active baseline.
+
+## Build
+
+Pinned [Pico SDK 2.2.0](https://github.com/raspberrypi/pico-sdk/tree/a1438dff1d38bd9c65dbd693f0e5db4b9ae91779), commit a1438dff1d38bd9c65dbd693f0e5db4b9ae91779. Verified campaign compiler: GNU Arm Embedded GCC 9.2.1 20191025. **TinyUSB is not needed by the measurement image.** Run from the project root and use short dependency paths on Windows:
 
 ```powershell
 python scripts/fetch_native_sdks.py --dest C:/energy-deps --only rp2040
-python scripts/fetch_diagnostic_usb.py --dest C:/energy-deps
 $env:PICO_TOOLCHAIN_PATH = 'C:/path/to/gcc'
+cmake -S firmware/targets/rp2040 -B build/rp2040-single-gpio -G Ninja -DPICO_SDK_PATH=C:/energy-deps/pico-sdk-a1438dff1d38 -DBENCH_DIAGNOSTICS=OFF
+cmake --build build/rp2040-single-gpio --parallel
 ```
 
-The USB fetcher downloads
-[the official TinyUSB commit archive](https://codeload.github.com/hathach/tinyusb/zip/86ad6e56c1700e85f1c5678607a762cfe3aa2f47),
-requires SHA256 `3011c90c128988012b553e5d2f0a90bc0b64046591c964bc1f9f6659edcd7e4b`,
-and bounds archive size and extraction paths. It creates
-`C:/energy-deps/tinyusb-86ad6e56c170` and verifies that tree on subsequent calls.
-The two pinned documentation symlinks are materialized as copies of their internal
-targets and recorded in `.energy_diagnostic_usb.json`; SDK and source files are
-unmodified. For an offline copy, add `--archive C:/path/to/tinyusb.zip`; the same
-archive hash is required. Do not copy TinyUSB into the already verified SDK tree.
-
-Build USB diagnostic ON and measurement OFF in distinct directories:
+The ARM helper supports the same measurement configuration:
 
 ```powershell
-cmake -S firmware/targets/rp2040 -B build/rp2040-diagnostic -G Ninja -DPICO_SDK_PATH=C:/energy-deps/pico-sdk-a1438dff1d38 -DPICO_TINYUSB_PATH=C:/energy-deps/tinyusb-86ad6e56c170 -DBENCH_DIAGNOSTICS=ON -DBENCH_DIAGNOSTIC_TRANSPORT=USB
-cmake --build build/rp2040-diagnostic --parallel
-cmake -S firmware/targets/rp2040 -B build/rp2040-measurement -G Ninja -DPICO_SDK_PATH=C:/energy-deps/pico-sdk-a1438dff1d38 -DBENCH_DIAGNOSTICS=OFF
-cmake --build build/rp2040-measurement --parallel
+./scripts/build_arms.ps1 -ArmGccBin C:/path/to/gcc/bin -DepsRoot C:/energy-deps -BuildRoot build/arm-single-gpio -Only rp2040
 ```
 
-USB diagnostics use CDC VID `2E8A`, PID `000A`, with a bounded 5-second startup wait
-for the host. CONFIG and BOOT/START/PASS/DONE/ERROR report functional status, without
-MCU benchmark timestamps. USB remains active for this test profile, which must not
-be used for energy measurement. The OFF image does not enumerate as a USB serial
-port; use GPIO markers to verify completion, because terminal silence proves neither
-success nor failure.
-
-The existing ARM helper also accepts the dependency through the environment, as
-supported by Pico SDK. Set it before `-Diagnostics`; use a fresh build directory if
-a previous CMake cache contains another TinyUSB path:
+CMake emits ELF, BIN, HEX, map and disassembly without downloading picotool. An installed official elf2uf2 utility can produce the UF2:
 
 ```powershell
-$env:PICO_TINYUSB_PATH = 'C:/energy-deps/tinyusb-86ad6e56c170'
-./scripts/build_arms.ps1 -ArmGccBin C:/path/to/gcc/bin -DepsRoot C:/energy-deps -BuildRoot build/arm-diagnostic -Only rp2040 -Diagnostics
+elf2uf2 build/rp2040-single-gpio/energy_bench_rp2040.elf build/rp2040-single-gpio/energy_bench_rp2040.uf2
 ```
 
-For an external 3.3 V serial adapter instead of USB CDC, select UART0 TX GPIO0/RX
-GPIO1, 115200 baud, 8N1. This optional diagnostic variant leaves USB disabled and
-does not need TinyUSB:
+New artifacts belong in build_verified/single_gpio_measurement, with compiler commands, source hashes and verification.json. [CURRENT_FIRMWARE.json](../../../CURRENT_FIRMWARE.json) distinguishes candidate builds from images last programmed. Files directly in build_verified and the older measurement, diagnostic and diagnostic_uart subdirectories retain the **historical eight-signal protocol**. Their logs do not prove the new one-wire firmware has run on a board.
 
-```powershell
-cmake -S firmware/targets/rp2040 -B build/rp2040-diagnostic-uart -G Ninja -DPICO_SDK_PATH=C:/energy-deps/pico-sdk-a1438dff1d38 -DBENCH_DIAGNOSTICS=ON -DBENCH_DIAGNOSTIC_TRANSPORT=UART0
-cmake --build build/rp2040-diagnostic-uart --parallel
-```
-
-CMake emits ELF, BIN, HEX, map and disassembly, without downloading picotool.
-For UF2, an existing official Pico `elf2uf2` tool can convert the ELF:
-
-```powershell
-elf2uf2 build/rp2040-diagnostic/energy_bench_rp2040.elf build/rp2040-diagnostic/energy_bench_rp2040.uf2
-elf2uf2 build/rp2040-measurement/energy_bench_rp2040.elf build/rp2040-measurement/energy_bench_rp2040.uf2
-```
-
-Current verified archives are [USB diagnostic](build_verified/diagnostic/README.md),
-[measurement](build_verified/measurement/README.md), and
-[optional UART0 diagnostic](build_verified/diagnostic_uart/README.md). Each includes
-ELF/BIN/UF2, compiler commands, logs, source snapshots and artifact hashes in
-`verification.json`. The USB archive also records its TinyUSB provenance. Existing
-files directly in the parent `build_verified` directory are historical.
-
-Do not alter the board profile to accommodate a different physical board silently.
-Compilation/static checks do not constitute a test on hardware.
-Clock API details: [official Pico SDK](https://www.raspberrypi.com/documentation/pico-sdk/hardware.html#hardware_clocks).
+Do not silently change the board profile to accommodate another physical board. Compilation and static checks are not a PPK2 hardware acceptance capture. [Official Pico clock API](https://www.raspberrypi.com/documentation/pico-sdk/hardware.html#hardware_clocks).

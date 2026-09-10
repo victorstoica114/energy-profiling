@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a complete 12-workload GPIO-marked capture, then integrate charge.
+"""Check 12 single-GPIO windows structurally, then integrate their charge.
 
 No MCU execution times or waveform thresholds are used. Original captures are
 opened read-only. See docs/capture_format.md for the deliberately strict schema.
@@ -32,7 +32,7 @@ NORDIC_COMMIT = "881d596480f60dea045ad6f3643afdc3f9d5a0a6"
 
 
 class CaptureError(ValueError):
-    """Input cannot establish the required complete, unambiguous experiment."""
+    """Input violates the single-GPIO structural acquisition contract."""
 
 
 def finite_number(value, label: str, *, positive=False) -> float:
@@ -77,13 +77,17 @@ def load_manifest(path: Path, board: str) -> dict:
     manifest = strict_json(path.read_bytes())
     if not isinstance(manifest, dict):
         raise CaptureError("Experiment manifest must be a JSON object")
-    if type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 1:
-        raise CaptureError("Expected experiment manifest schema_version 1")
-    if manifest.get("digital_channels") != {"RUN": 0, "ALG_ID": [1, 2, 3, 4], "IDLE_VALID": 5, "ERROR": 6, "DONE": 7}:
-        raise CaptureError("Manifest digital channels do not match the fixed protocol")
+    if type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 2:
+        raise CaptureError("Expected single-GPIO experiment manifest schema_version 2; legacy protocols are unsupported")
+    if manifest.get("experiment_id") != "energy-profiling-v3-single-gpio":
+        raise CaptureError("Expected experiment_id energy-profiling-v3-single-gpio")
+    channels = manifest.get("digital_channels")
+    if channels != {"RUN": 0} or type(channels["RUN"]) is not int:
+        raise CaptureError("Manifest must assign only RUN to D0")
     if manifest.get("stable_baseline_seconds") != 2.0:
         raise CaptureError("Manifest must select a 2-second startup baseline")
-    for key, expected_ms in (("startup_idle_ms", 5000), ("inter_algorithm_idle_ms", 1000), ("post_suite_idle_ms", 2000)):
+    for key, expected_ms in (("startup_idle_ms", 5000), ("inter_algorithm_idle_ms", 1000),
+                             ("post_suite_idle_ms", 2000), ("minimum_capture_tail_ms", 3000)):
         if manifest.get(key) != expected_ms:
             raise CaptureError(f"Manifest {key} must be {expected_ms} for this protocol version")
     require_rate(manifest.get("sample_rate_Hz"))
@@ -97,6 +101,10 @@ def load_manifest(path: Path, board: str) -> dict:
     boards = manifest.get("boards")
     if not isinstance(boards, dict) or not isinstance(boards.get(board), dict):
         raise CaptureError(f"Manifest has no board {board!r}")
+    expected_pin = {"esp32": 18, "rp2040": 2, "stm32": "PC0"}.get(board)
+    pin = boards[board].get("marker_pin")
+    if expected_pin is None or type(pin) is not type(expected_pin) or pin != expected_pin:
+        raise CaptureError(f"Manifest marker_pin for {board} must be {expected_pin!r}")
     counts = boards[board].get("iterations")
     if not isinstance(counts, dict) or set(counts) != set(ALGORITHMS):
         raise CaptureError("Board iterations must specify exactly the 12 algorithm names")
@@ -109,29 +117,18 @@ def load_manifest(path: Path, board: str) -> dict:
 
 @dataclass
 class Capture:
-    samples: Iterable[tuple[float, int | None]]  # None: unresolved pre-sync inputs only
+    samples: Iterable[tuple[float, int | None]]  # D0: 0/1; None only in unknown startup prefix
     sample_rate_hz: float
     metadata: dict
 
 
-# Nordic stores pair 01 for LOW and 10 for HIGH, D0 in the least-significant
-# pair. The pair word is big endian on disk although current is little endian.
-# iter_unpack('<fH') reads that word swapped, so build a matching lookup once.
-WIRE_DIGITAL = {}
-for _mask in range(256):
-    _pairs = sum((2 if (_mask >> bit) & 1 else 1) << (2 * bit) for bit in range(8))
-    WIRE_DIGITAL[((_pairs & 255) << 8) | (_pairs >> 8)] = _mask
-
-
-def decode_states(states: list[int], label: str) -> int | None:
-    """Mixed states never define a gate; unknowns may occur before power-up."""
-    if 3 in states:
-        raise CaptureError(f"{label}: mixed digital state; native-resolution gates required")
-    if 0 in states:
-        if any(states[bit] == 2 for bit in (0, 6, 7)):
-            raise CaptureError(f"{label}: unresolved channels coexist with RUN, ERROR or DONE")
-        return None
-    return sum((value == 2) << bit for bit, value in enumerate(states))
+def decode_d0(state: int, label: str) -> int | None:
+    """Decode only D0. Unconnected D1..D7 never establish or invalidate a gate."""
+    if state == 3:
+        raise CaptureError(f"{label}: mixed D0 state; native-resolution gates required")
+    if type(state) is not int or state not in (0, 1, 2):
+        raise CaptureError(f"{label}: invalid D0 state")
+    return (None, 0, 1)[state]
 
 
 @contextmanager
@@ -185,11 +182,11 @@ def open_native(path: Path, *, expected_rate=REQUIRED_RATE,
                     if len(block) % 6:
                         raise CaptureError("Native stream ends inside a six-byte frame")
                     for current_ua, wire_bits in struct.iter_unpack("<fH", block):
-                        bits = WIRE_DIGITAL.get(wire_bits)
-                        if bits is None:
-                            pairs = ((wire_bits & 255) << 8) | (wire_bits >> 8)
-                            bits = decode_states([(pairs >> (2 * bit)) & 3 for bit in range(8)], f"Sample {count}")
-                        yield current_ua * 1e-6, bits
+                        # Digital word is big endian; <H reads it byte-swapped.
+                        # D0's least-significant pair is therefore bits 8..9 here.
+                        run = decode_d0((wire_bits >> 8) & 3, f"Sample {count}")
+                        current = finite_number(current_ua, f"sample {count} current") * 1e-6
+                        yield current, run
                         count += 1
                         if count > max_samples:
                             raise CaptureError("Sample limit exceeded")
@@ -200,7 +197,8 @@ def open_native(path: Path, *, expected_rate=REQUIRED_RATE,
             "format": "nordic_ppk2_v2", "native_metadata": meta,
             "declared_samples": size // 6,
             "time_basis": "index / metadata.samplesPerSecond; no per-sample physical timestamps",
-            "digital_encoding": "big-endian uint16, D0 in low pair, 01=LOW, 10=HIGH",
+            "digital_encoding": "big-endian uint16; only D0 low pair decoded, 01=LOW, 10=HIGH",
+            "selected_digital_channel": "D0", "ignored_digital_channels": ["D1", "D2", "D3", "D4", "D5", "D6", "D7"],
             "voltage_sampled": False,
             "packet_loss_absence_proven": False,
         })
@@ -209,14 +207,14 @@ def open_native(path: Path, *, expected_rate=REQUIRED_RATE,
 @contextmanager
 def open_csv(path: Path, *, sample_rate_hz: float, profile: str,
              current_column=None, current_unit=None, time_column=None, time_unit=None,
-             digital_columns=None, digital_bitstring_column=None, index_column=None,
+             digital_column=None, digital_bitstring_column=None, index_column=None,
              delimiter=",", max_samples=DEFAULT_MAX_SAMPLES) -> Iterator[Capture]:
     rate = require_rate(sample_rate_hz)
     if len(delimiter) != 1:
         raise CaptureError("CSV delimiter must be one character")
     if profile == "nordic":
         if any(x is not None for x in (current_column, current_unit, time_column,
-                                      time_unit, digital_columns, digital_bitstring_column)):
+                                      time_unit, digital_column, digital_bitstring_column)):
             raise CaptureError("Use profile generic to override Nordic CSV fields")
         current_column, current_unit = "Current(uA)", "uA"
         time_column, time_unit = "Timestamp(ms)", "ms"
@@ -230,15 +228,13 @@ def open_csv(path: Path, *, sample_rate_hz: float, profile: str,
         if not fields or len(fields) != len(set(fields)):
             raise CaptureError("Empty or duplicate CSV header")
         if profile == "nordic":
-            if all(f"D{i}" in fields for i in range(8)):
-                digital_columns = [f"D{i}" for i in range(8)]
+            if "D0" in fields:
+                digital_column = "D0"
             else:
                 digital_bitstring_column = "D0-D7"
-        if bool(digital_columns) == bool(digital_bitstring_column):
-            raise CaptureError("Specify eight digital columns OR one D0-first bitstring column")
-        if digital_columns and (len(digital_columns) != 8 or len(set(digital_columns)) != 8):
-            raise CaptureError("Exactly eight distinct digital columns are required, ordered D0..D7")
-        selected = [current_column, time_column] + (list(digital_columns) if digital_columns else [digital_bitstring_column])
+        if bool(digital_column) == bool(digital_bitstring_column):
+            raise CaptureError("Specify one D0 digital column OR one D0-first bitstring column")
+        selected = [current_column, time_column, digital_column or digital_bitstring_column]
         if index_column:
             selected.append(index_column)
         if len(selected) != len(set(selected)) or any(x not in fields for x in selected):
@@ -247,10 +243,11 @@ def open_csv(path: Path, *, sample_rate_hz: float, profile: str,
             "format": "csv", "profile": profile, "columns": {
                 "current": current_column, "current_unit": current_unit,
                 "time": time_column, "time_unit": time_unit,
-                "digital_D0_through_D7": digital_columns,
+                "digital_column_D0": digital_column,
                 "digital_bitstring_D0_first": digital_bitstring_column,
                 "sample_index": index_column,
             },
+            "selected_digital_channel": "D0", "ignored_digital_channels": ["D1", "D2", "D3", "D4", "D5", "D6", "D7"],
             "time_basis": "CSV timestamps checked against explicit nominal sampling rate",
             "timestamp_gap_checks": True, "sample_index_gap_checks": bool(index_column),
             "voltage_sampled": False, "packet_loss_absence_proven": False,
@@ -284,17 +281,23 @@ def open_csv(path: Path, *, sample_rate_hz: float, profile: str,
                     if index < 0 or (previous_index is not None and index != previous_index + 1):
                         raise CaptureError(f"CSV row {row_number}: sample index gap/reset")
                     previous_index = index
-                digits = [row[x].strip() for x in digital_columns] if digital_columns else list(row[digital_bitstring_column].strip())
-                if len(digits) != 8 or any(x not in ("0", "1", "-", "X") for x in digits):
-                    raise CaptureError(f"CSV row {row_number}: invalid digital encoding")
-                if profile == "nordic" and digital_columns and "D0-D7" in fields and row["D0-D7"].strip() != "".join(digits):
-                    raise CaptureError(f"CSV row {row_number}: separate digital columns contradict D0-D7 bitstring")
-                bits = decode_states([{"-": 0, "0": 1, "1": 2, "X": 3}[x] for x in digits], f"CSV row {row_number}")
+                if digital_column:
+                    digit = row[digital_column].strip()
+                else:
+                    digits = row[digital_bitstring_column].strip()
+                    if len(digits) != 8:
+                        raise CaptureError(f"CSV row {row_number}: D0-first bitstring must contain eight characters")
+                    digit = digits[0]
+                if digit not in ("0", "1", "-", "X"):
+                    raise CaptureError(f"CSV row {row_number}: invalid D0 encoding")
+                # When standalone D0 is present, all unselected columns are
+                # irrelevant, including a redundant full-channel bitstring.
+                run = decode_d0({"-": 0, "0": 1, "1": 2, "X": 3}[digit], f"CSV row {row_number}")
                 current = finite_number(row[current_column], f"row {row_number} current") * CURRENT_UNITS[current_unit]
                 count += 1
                 if count > max_samples:
                     raise CaptureError("CSV sample limit exceeded")
-                yield current, bits
+                yield current, run
             information["last_csv_timestamp_s"] = float(previous_time) if previous_time is not None else None
 
         yield Capture(samples(), rate, information)
@@ -341,160 +344,141 @@ class Moments:
 
 def analyze(capture: Capture, iterations: dict, *, voltage: float,
             startup_idle_seconds: float = 2.0) -> dict:
-    """One complete cold-boot sequence per file; reject errors instead of repairing."""
+    """Check one sequence of 12 D0 gates; their algorithm identities are assumed."""
     rate = require_rate(capture.sample_rate_hz)
     voltage = finite_number(voltage, "voltage", positive=True)
     if set(iterations) != set(ALGORITHMS) or any(type(x) is not int or x <= 0 for x in iterations.values()):
         raise CaptureError("Exact positive iteration counts for all 12 algorithms are required")
     if startup_idle_seconds != 2.0:
-        raise CaptureError("Protocol baseline selection is fixed to the last 2 s of startup IDLE_VALID")
-    baseline_count = int(rate * startup_idle_seconds)
+        raise CaptureError("Baseline selection is fixed to the last 2 s LOW before the first RUN")
+    baseline_count = int(rate) * 2
+    minimum_startup_count = int(rate) * 5 * 99 // 100
+    minimum_gap_count = int(rate) * 99 // 100
+    minimum_tail_count = int(rate) * 3
     baseline_tail = deque(maxlen=baseline_count)
-    last_startup_idle_end = None
     startup_baseline = None
-    runs, idle_windows = [], []
-    active_run = active_idle = None
-    active_id = None
-    idle_kind = None
-    done_index = None
-    sample_count = 0
-    synchronized = False
-    unresolved_startup_samples = 0
-    negative_startup_samples = 0
-    marker_tolerance_fraction = 0.01
-    for i, (current, bits) in enumerate(capture.samples):
+    runs, low_intervals = [], []
+    active_run = active_low = None
+    first_defined_low = None
+    sample_count = unresolved_startup_samples = negative_startup_samples = 0
+
+    def low_metrics(window: Moments, kind: str, minimum_count: int) -> dict:
+        if window.n < minimum_count:
+            raise CaptureError(f"{kind} LOW interval is {window.n / rate:g} s; minimum {minimum_count / rate:g} s")
+        return {"kind": kind, "after_sequence_position": len(runs),
+                "minimum_accepted_duration_s": minimum_count / rate,
+                "state_interpretation": "unmarked LOW; may include validation, preparation, control waits or final state",
+                **window.metrics(rate, voltage)}
+
+    for i, (current, run) in enumerate(capture.samples):
         current = finite_number(current, f"sample {i} current")
-        if bits is None:
-            if synchronized:
-                raise CaptureError(f"Sample {i}: unresolved digital channel after IDLE synchronization")
+        sample_count = i + 1
+        if run is None:
+            if first_defined_low is not None:
+                raise CaptureError(f"Sample {i}: unknown D0 after the first defined LOW")
+            unresolved_startup_samples += 1
             if current < 0:
                 negative_startup_samples += 1
-            unresolved_startup_samples += 1
-            sample_count = i + 1
             continue
-        if type(bits) is not int or not 0 <= bits <= 255:
-            raise CaptureError(f"Sample {i}: invalid digital bit mask")
-        run, idle, error, done = bool(bits & 1), bool(bits & 32), bool(bits & 64), bool(bits & 128)
-        algorithm_id = (bits >> 1) & 15
+        if type(run) is not int or run not in (0, 1):
+            raise CaptureError(f"Sample {i}: D0 must be LOW=0 or HIGH=1")
+        if first_defined_low is None:
+            if run:
+                raise CaptureError("First defined D0 must be LOW; capture begins inside RUN or a latched fault")
+            first_defined_low = i
         if current < 0:
-            if not synchronized and not (run or idle or error or done):
-                negative_startup_samples += 1
-            else:
-                raise CaptureError(f"Sample {i}: negative current outside the unmeasured startup prefix; no clipping permitted")
-        if error:
-            raise CaptureError(f"Sample {i}: ERROR marker asserted")
-        if run and (idle or done):
-            raise CaptureError(f"Sample {i}: RUN overlaps IDLE_VALID or DONE")
-        if idle and algorithm_id != 0:
-            raise CaptureError(f"Sample {i}: IDLE_VALID requires algorithm ID 0")
-        if i == 0 and idle:
-            raise CaptureError("Capture begins inside IDLE_VALID; startup marker onset is missing")
-        if idle:
-            synchronized = True
-        if done_index is not None and not done:
-            raise CaptureError(f"Sample {i}: DONE deasserted; reset/multiple boots or damaged capture")
-        if active_run is not None and not run:
-            name = ALGORITHMS[active_id - 1]
-            row = {"algorithm_id": active_id, "algorithm": name, "iterations": iterations[name]}
-            row.update(active_run.metrics(rate, voltage))
-            row["mean_duration_per_call_s"] = row["duration_s"] / iterations[name]
-            row["charge_per_call_C"] = row["charge_C"] / iterations[name]
-            row["energy_per_call_at_assumed_constant_voltage_J"] = row["energy_at_assumed_constant_voltage_J"] / iterations[name]
-            runs.append(row)
-            active_run = None
-        if active_idle is not None and not idle:
-            row = {"kind": idle_kind, "after_algorithm_id": len(runs)}
-            row.update(active_idle.metrics(rate, voltage))
-            target_seconds = {"startup": 5.0, "pause": 1.0, "post_sequence": 2.0}[idle_kind]
-            if abs(row["duration_s"] - target_seconds) > target_seconds * marker_tolerance_fraction:
-                raise CaptureError(f"{idle_kind} IDLE_VALID duration is {row['duration_s']:g} s; expected {target_seconds:g} s +/-1%")
-            if any(old["kind"] == idle_kind and old["after_algorithm_id"] == len(runs) for old in idle_windows):
-                raise CaptureError("Repeated IDLE_VALID window at the same protocol stage")
-            row["nominal_duration_s"] = target_seconds
-            row["nominal_duration_tolerance_fraction"] = marker_tolerance_fraction
-            idle_windows.append(row)
-            if not runs:
-                last_startup_idle_end = i
-            active_idle = None
+            if run or active_run is not None or runs:
+                raise CaptureError(f"Sample {i}: negative current in RUN or post-start LOW; no clipping permitted")
+            negative_startup_samples += 1
+
         if run:
             if active_run is None:
-                if i == 0 or done_index is not None or len(runs) >= 12:
-                    raise CaptureError(f"Sample {i}: truncated start or extra RUN")
-                if algorithm_id != len(runs) + 1:
-                    raise CaptureError(f"Sample {i}: expected algorithm ID {len(runs) + 1}, got {algorithm_id}")
-                if runs and not any(w["kind"] == "pause" and w["after_algorithm_id"] == len(runs) for w in idle_windows):
-                    raise CaptureError(f"Sample {i}: missing 1 s IDLE_VALID pause before algorithm {algorithm_id}")
+                if len(runs) >= 12:
+                    raise CaptureError(f"Sample {i}: extra RUN rise after 12 windows; fault, reset or additional sequence")
                 if not runs:
-                    if len(baseline_tail) != baseline_count or last_startup_idle_end is None:
-                        raise CaptureError("Missing a contiguous 2 s startup IDLE_VALID before first RUN")
-                    baseline = Moments(last_startup_idle_end - baseline_count)
+                    startup_count = i - first_defined_low
+                    if startup_count < minimum_startup_count:
+                        raise CaptureError(f"Startup LOW interval is {startup_count / rate:g} s; minimum 4.95 s")
+                    if len(baseline_tail) != baseline_count:
+                        raise CaptureError("Missing the complete 2 s LOW startup baseline")
+                    if any(value < 0 for value in baseline_tail):
+                        raise CaptureError("Negative current in the selected startup baseline; no clipping permitted")
+                    baseline = Moments(i - baseline_count)
                     for value in baseline_tail:
                         baseline.add(value)
                     startup_baseline = baseline.metrics(rate, voltage)
+                    low_intervals.append({
+                        "kind": "startup_low", "after_sequence_position": 0,
+                        "start_sample_inclusive": first_defined_low, "end_sample_exclusive": i,
+                        "sample_count": startup_count, "duration_s": startup_count / rate,
+                        "minimum_accepted_duration_s": minimum_startup_count / rate,
+                        "state_interpretation": "unmarked startup LOW; includes possible boot/preparation, not integrated as idle",
+                    })
                     baseline_tail.clear()
-                active_run, active_id = Moments(i), algorithm_id
-            elif algorithm_id != active_id:
-                raise CaptureError(f"Sample {i}: algorithm ID changed while RUN was high")
+                else:
+                    low_intervals.append(low_metrics(active_low, "inter_workload_low", minimum_gap_count))
+                    active_low = None
+                active_run = Moments(i)
             active_run.add(current)
-        if idle:
-            if len(runs) == 12 and not done:
-                raise CaptureError(f"Sample {i}: post-suite IDLE_VALID requires DONE throughout the window")
-            if active_idle is None:
-                active_idle = Moments(i)
-                idle_kind = "startup" if not runs else ("post_sequence" if len(runs) == 12 else "pause")
-                if not runs:
-                    baseline_tail.clear()
-            active_idle.add(current)
+        else:
+            if active_run is not None:
+                position = len(runs) + 1
+                name = ALGORITHMS[position - 1]
+                count = iterations[name]
+                row = {"sequence_position": position, "algorithm_assumed_from_order": name,
+                       "iterations_from_manifest": count, **active_run.metrics(rate, voltage)}
+                row["mean_duration_per_call_s"] = row["duration_s"] / count
+                row["charge_per_call_C"] = row["charge_C"] / count
+                row["energy_per_call_at_assumed_constant_voltage_J"] = row["energy_at_assumed_constant_voltage_J"] / count
+                runs.append(row)
+                active_run = None
+                active_low = Moments(i)
             if not runs:
                 baseline_tail.append(current)
-        if done and done_index is None:
-            if len(runs) != 12 or active_run is not None:
-                raise CaptureError(f"Sample {i}: premature DONE; {len(runs)} of 12 workloads complete")
-            if not idle or active_idle is None or idle_kind != "post_sequence":
-                raise CaptureError(f"Sample {i}: first DONE must coincide with post-suite IDLE_VALID")
-            done_index = i
-        sample_count = i + 1
+            else:
+                active_low.add(current)
+
     if not sample_count:
         raise CaptureError("Empty capture")
     if active_run is not None:
-        raise CaptureError("Capture ended while RUN was high")
-    if len(runs) != 12 or done_index is None:
-        raise CaptureError(f"Incomplete capture: {len(runs)} of 12 workloads, DONE={done_index is not None}")
-    if sample_count - done_index < 2 * rate:
-        raise CaptureError("Capture must retain at least 2 s of persistent DONE after all workloads")
-    if active_idle is not None:
-        raise CaptureError("Capture ended inside IDLE_VALID; complete the post-suite idle window before stopping")
-    if not any(w["kind"] == "post_sequence" for w in idle_windows):
-        raise CaptureError("Missing completed 2 s post-suite IDLE_VALID window")
+        raise CaptureError("Capture ended while RUN was HIGH; incomplete gate or latched fault")
+    if len(runs) != 12:
+        raise CaptureError(f"Incomplete capture: {len(runs)} of 12 RUN windows")
+    low_intervals.append(low_metrics(active_low, "trailing_low", minimum_tail_count))
     return {
-        "analysis_schema_version": 1, "status": "complete_protocol_validated",
+        "analysis_schema_version": 2, "status": "structural_protocol_pass",
         "sample_rate_Hz": rate, "sample_count": sample_count,
         "first_to_last_sample_span_s": (sample_count - 1) / rate,
         "sample_count_times_dt_s": sample_count / rate,
-        "done_first_sample": done_index,
-        "done_hold_s": (sample_count - done_index) / rate,
-        "marker_duration_tolerance_fraction": marker_tolerance_fraction,
-        "unresolved_digital_samples_before_idle_sync": unresolved_startup_samples,
+        "startup_and_gap_short_tolerance_fraction": 0.01,
+        "minimum_capture_tail_s": 3.0,
+        "trailing_low_duration_s": active_low.n / rate,
+        "unresolved_D0_samples_in_startup_prefix": unresolved_startup_samples,
         "negative_current_samples_in_unmeasured_startup": negative_startup_samples,
+        "algorithm_assignment_basis": "assumed fixed order from manifest; no algorithm ID is transmitted",
+        "final_validation_completion_proven": False,
         "capture": capture.metadata,
         "integration": {
-            "rule": "half-open GPIO RUN gates [rise,fall); charge = sum(current_A)/fs",
+            "rule": "half-open D0 RUN gates [rise,fall); charge = sum(current_A)/fs",
             "duration_rule": "RUN sample count / fs; includes loop and GPIO gate overhead",
-            "energy_rule": "assumed constant DUT voltage * charge; divided by configured iterations for per-call values",
+            "energy_rule": "assumed constant DUT voltage * charge; divided by manifest iterations for per-call values",
             "baseline_subtracted": False, "mcu_times_used": False,
             "assumed_constant_voltage_V": voltage,
         },
-        "startup_baseline_selection": "last 2 seconds of the last contiguous IDLE_VALID region before first RUN",
+        "startup_baseline_selection": "last 2 seconds of defined LOW before first RUN; inferred control idle, not separately marked",
         "startup_baseline": startup_baseline,
-        "runs": runs, "marked_idle_windows": idle_windows,
+        "runs": runs, "low_intervals": low_intervals,
         "limitations": [
-            "Nominal timebase does not prove absence of device/serial packet loss.",
-            "Only one complete marked sequence is accepted; unmarked resets before the first RUN cannot be inferred.",
-            "IDLE_VALID identifies intended idle state; current dispersion is reported, not a calibrated stability test.",
+            "Structural pass only: D0 does not authenticate algorithms, board identity, firmware or iteration counts.",
+            "No DONE/ERROR/IDLE channels exist. A sufficiently long trailing LOW cannot prove completion of final validation or distinguish a hang while LOW.",
+            "Faults that latch HIGH, incomplete gates, extra rises and visibly short gaps are rejected, but not all resets or corrupted sequences are detectable.",
+            "Nominal timebase does not prove absence of device/serial packet loss, especially if upstream software rebuilt uniform indices.",
+            "The baseline is inferred from the final 2 s LOW before the first RUN; no separate marker proves idle state, calibration or current stability.",
+            "LOW gaps include possible preparation/validation/control waits; trailing LOW may include the platform final state. They are not pure idle measurements.",
             "Voltage is not sampled. Energy assumes constant voltage; nominal or caller-supplied voltage is not independently verified.",
             "GPIO aperture/phase and instrument timing uncertainty are not removed from gate boundaries.",
             "Within-window current samples and repeated calls are not independent cold-boot replicates.",
-            "Iteration counts come from the experiment manifest; GPIO gates do not independently count kernel calls.",
+            "D1 through D7 are intentionally ignored, including unknown, mixed or noisy states.",
         ],
     }
 
@@ -539,8 +523,8 @@ def main(argv=None) -> int:
     parser.add_argument("--current-unit", choices=tuple(CURRENT_UNITS))
     parser.add_argument("--time-column")
     parser.add_argument("--time-unit", choices=tuple(TIME_UNITS))
-    parser.add_argument("--digital-columns", help="Eight comma-separated column names in D0,D1,...,D7 order")
-    parser.add_argument("--digital-bitstring-column", help="Eight 0/1 characters, D0 first")
+    parser.add_argument("--digital-column", help="Single column containing the D0 RUN marker")
+    parser.add_argument("--digital-bitstring-column", help="Eight-character bitstring, D0 first; other channels ignored")
     parser.add_argument("--index-column", help="Optional integer sample index for additional gap checks")
     parser.add_argument("--delimiter", default=",")
     parser.add_argument("--max-samples", type=int, default=DEFAULT_MAX_SAMPLES)
@@ -559,7 +543,7 @@ def main(argv=None) -> int:
         input_before = args.input.stat()
         if args.input.suffix.lower() == ".ppk2":
             if any(x is not None for x in (args.csv_profile, args.current_column, args.current_unit,
-                                           args.time_column, args.time_unit, args.digital_columns,
+                                           args.time_column, args.time_unit, args.digital_column,
                                            args.digital_bitstring_column, args.index_column)) or args.delimiter != ",":
                 raise CaptureError("CSV options do not apply to native PPK2 files")
             context = open_native(args.input, expected_rate=rate, max_samples=args.max_samples)
@@ -568,7 +552,7 @@ def main(argv=None) -> int:
                 args.input, sample_rate_hz=rate, profile=args.csv_profile,
                 current_column=args.current_column, current_unit=args.current_unit,
                 time_column=args.time_column, time_unit=args.time_unit,
-                digital_columns=args.digital_columns.split(",") if args.digital_columns else None,
+                digital_column=args.digital_column,
                 digital_bitstring_column=args.digital_bitstring_column,
                 index_column=args.index_column, delimiter=args.delimiter, max_samples=args.max_samples)
         else:

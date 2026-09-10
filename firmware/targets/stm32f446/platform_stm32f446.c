@@ -13,10 +13,8 @@
 #endif
 _Static_assert(BENCH_EXPECTED_CPU_HZ == 100000000u, "CPU profile mismatch");
 _Static_assert(BENCH_EXPECTED_OSCILLATOR_HZ == 16000000u, "HSI profile mismatch");
-_Static_assert(BENCH_SIGNAL_GPIO_PORT == 2, "This target uses GPIOC");
-_Static_assert(BENCH_PIN_RUN == 0 && BENCH_PIN_ID0 == 1 && BENCH_PIN_ID1 == 2 &&
-    BENCH_PIN_ID2 == 3 && BENCH_PIN_ID3 == 4 && BENCH_PIN_IDLE == 5 &&
-    BENCH_PIN_ERROR == 6 && BENCH_PIN_DONE == 7, "PC0..PC7 signal map required");
+_Static_assert(BENCH_SIGNAL_GPIO_PORT == 2, "STM32F446 RUN must use GPIOC");
+_Static_assert(BENCH_PIN_RUN == 0, "STM32F446 RUN must use PC0");
 
 /* HSI/16 *200 /2: SYSCLK100 MHz. Q/5 and R/2 are valid but unused. */
 #define PLL_CONFIG (16u | (200u << 6) | (5u << 24) | (2u << 28))
@@ -24,14 +22,12 @@ _Static_assert(BENCH_PIN_RUN == 0 && BENCH_PIN_ID0 == 1 && BENCH_PIN_ID1 == 2 &&
 #define FPU_ACCESS (0xfu << 20)
 static bool configured;
 
-void bench_platform_signals(unsigned id, bool run, bool idle, bool error, bool done)
+void bench_platform_marker(bool high)
 {
-    GPIOC->BSRR = 1u << 16;
-    uint32_t bits = ((id & 15u) << 1) | ((uint32_t)idle << 5) |
-        ((uint32_t)error << 6) | ((uint32_t)done << 7);
-    GPIOC->BSRR = ((~bits & 0xffu) << 16) | bits;
+    /* A single BSRR write changes PC0 without disturbing any other pin. */
     __DMB();
-    if (run) GPIOC->BSRR = 1u;
+    GPIOC->BSRR = high ? (1u << BENCH_PIN_RUN) : (1u << (BENCH_PIN_RUN + 16u));
+    __DMB();
 }
 
 static bool wait_ready(volatile uint32_t *reg, uint32_t mask, uint32_t expected)
@@ -138,9 +134,12 @@ bool bench_platform_init(void)
 {
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
     (void)RCC->AHB1ENR;
-    GPIOC->BSRR = 0xffu << 16;
-    GPIOC->MODER = (GPIOC->MODER & ~0xffffu) | 0x5555u;
-    GPIOC->OTYPER &= ~0xffu; GPIOC->OSPEEDR &= ~0xffffu; GPIOC->PUPDR &= ~0xffffu;
+    GPIOC->BSRR = 1u << (BENCH_PIN_RUN + 16u);
+    GPIOC->MODER = (GPIOC->MODER & ~(3u << (2u * BENCH_PIN_RUN))) |
+        (1u << (2u * BENCH_PIN_RUN));
+    GPIOC->OTYPER &= ~(1u << BENCH_PIN_RUN);
+    GPIOC->OSPEEDR &= ~(3u << (2u * BENCH_PIN_RUN));
+    GPIOC->PUPDR &= ~(3u << (2u * BENCH_PIN_RUN));
     GPIOA->BSRR = 1u << (5 + 16); /* Nucleo LD2, PA5 active-high: off. */
     GPIOA->MODER = (GPIOA->MODER & ~(3u << 10)) | (1u << 10);
     SysTick->CTRL = 0;
@@ -203,7 +202,7 @@ void bench_platform_wait_ms(uint32_t milliseconds)
 void bench_platform_finish(void) { for (;;) __WFI(); }
 static void fault_stop(void)
 {
-    bench_platform_signals(0, false, false, true, false);
+    bench_platform_marker(true);
     for (;;) __NOP();
 }
 void HardFault_Handler(void) { fault_stop(); }

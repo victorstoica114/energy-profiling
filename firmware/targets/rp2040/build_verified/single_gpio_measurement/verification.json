@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "target": "rp2040",
+  "profile": "single_gpio_measurement",
+  "campaign": "energy-profiling-v3-single-gpio",
+  "archive_time_utc": "2026-09-10T07:54:41.125170+00:00",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v3-rp2040",
+  "native_compile_and_link_passed": true,
+  "build_exit_code": 0,
+  "hardware_flashed": false,
+  "hardware_execution_validated": false,
+  "diagnostics_enabled": false,
+  "marker_gpio": "GPIO2",
+  "source_snapshot_note": "Project source/header/config/input hashes observed after the successful final build. Documentation is excluded. No earlier archive was changed.",
+  "manifest_sha256_at_archive": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+  "compiler": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]",
+  "compiler_executable_sha256": "11b40f9628830944e9e916dc7d19bbfff71ba83ebf42aa2364458fb84738b957",
+  "sdk_identity_evidence": "sdk.lock.json",
+  "sdk_lock_sha256": "f374b236d8a17e97a157c8eb965b6b28de2dc18c39437e904c3fa19c05c77b0b",
+  "artifact_sha256": {
+    "energy_bench_rp2040.elf": "1f95859155cbf8a9368d47ff8f1c7ff8a817ba70cc0a8ecfe669cb3748f71eba",
+    "energy_bench_rp2040.bin": "d96f5cad69eb9fd587e880992b42387366bc6515d11301c7db8698da87c02458",
+    "energy_bench_rp2040.elf.map": "e81a23aacfdb93b5daafe111636d8dda8cd23b247b1c06da305cede1bdb62d1e",
+    "energy_bench_rp2040.uf2": "85ccf6b07845d379e9b647698950b2bffca27c34174072c9c67d34f648d84e15",
+    "energy_bench_rp2040.hex": "cb281ec80d0074cef75dcdaeb726f4511e92d0342102d68bb526cf49462ef225"
+  },
+  "common_compile_flags": {
+    "bench_runner.c": [
+      "-mcpu=cortex-m0plus",
+      "-O3",
+      "-std=gnu11",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_data.c": [
+      "-mcpu=cortex-m0plus",
+      "-O3",
+      "-std=gnu11",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_algorithms.c": [
+      "-mcpu=cortex-m0plus",
+      "-O3",
+      "-std=gnu11",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ],
+    "bench_kernels.c": [
+      "-mcpu=cortex-m0plus",
+      "-O3",
+      "-std=gnu11",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-lto"
+    ]
+  },
+  "static_checks": {
+    "bench_main_present": true,
+    "bench_platform_marker_present": true,
+    "bench_kernel_run_present": true,
+    "my_rle_encode_present": true,
+    "my_delta_encode_present": true,
+    "my_lz77_encode_present": true,
+    "my_huffman_encode_present": true,
+    "my_aes_encrypt_present": true,
+    "my_sha256_hash_present": true,
+    "my_chacha20_encrypt_present": true,
+    "my_crc32_present": true,
+    "my_fft_present": true,
+    "my_fir_filter_present": true,
+    "my_iir_filter_present": true,
+    "my_dct_present": true,
+    "obsolete_signals_symbol_present": false,
+    "report_symbol_present": false,
+    "BENCH_event_literal_present": false,
+    "single_marker_disassembly_extracted": true,
+    "elf_iterations_match_manifest": true,
+    "elf_inputs_match_frozen_data": true
+  },
+  "elf_iteration_constants": [
+    3000,
+    3000,
+    200,
+    500,
+    100,
+    500,
+    3000,
+    3000,
+    20,
+    300,
+    50,
+    1
+  ],
+  "elf_input_sha256": {
+    "compression": "44a2a279b86d1e7d98c24c5bd341a66adec17470de9e7b0ffa4ffc7092b7dab2",
+    "crypto": "b81c57d8f1f5c17f190e279e86f781dee155b05a779fe741a12a6bfacde47b23",
+    "dsp": "f7ed02ed3c339a9290b4d5a9981e472ae967a86d8d3e2735948c819650a28cb7"
+  },
+  "marker_disassembly_review": "SIO base0xd0000000; mask4; HIGH writes offset20(GPIO_OUT_SET), LOW writes offset24(GPIO_OUT_CLR); dmb barriers; HIGH path has no clear write.",
+  "loop_disassembly_review": "bench_main loads the immutable repetition table, calls bench_kernel_run in a counted loop, and reaches marker(false) only through the successful batch path. Kernel failure writes marker(true) and finishes without a preliminary marker(false).",
+  "verification_limits": [
+    "Native build and static binary inspection only; no new firmware was flashed or executed on hardware.",
+    "Single GPIO carries batch boundaries; workload identity follows manifest order and is not transmitted electrically.",
+    "Physical oscillator frequency, supply isolation, marker waveform and PPK2 captures are not validated by compilation."
+  ]
+}

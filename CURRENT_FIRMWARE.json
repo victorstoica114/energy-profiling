@@ -1,66 +1,56 @@
 {
-  "schema_version": 1,
-  "experiment_id": "energy-profiling-v2-f446",
-  "experiment_sha256": "618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b",
-  "state": "all_three_diagnostic_suites_passed; measurement_images_programmed; PPK2_energy_pilot_pending",
+  "schema_version": 2,
+  "experiment_id": "energy-profiling-v3-single-gpio",
+  "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+  "state": "single_gpio_measurement_images_compiled_not_programmed; hardware_revalidation_and_PPK2_pilot_pending",
+  "gpio_protocol": "single_run_v1",
+  "digital_channels": {
+    "RUN": 0
+  },
+  "last_programmed_firmware": {
+    "experiment_id": "energy-profiling-v2-f446",
+    "manifest": "hardware/2026-09-09/firmware_manifest_v2.json",
+    "sha256": "e4f83daaeb2d3fdc684b1fc310505fdce41e7cc1b63e82f65dcf26679d5c7c4b",
+    "recorded_date": "2026-09-09",
+    "gpio_protocol": "eight_digital_signals",
+    "matches_current_protocol": false
+  },
   "boards": {
     "esp32": {
       "model": "ESP32-D0WD-V3 rev3.1",
-      "diagnostic_acceptance": "hardware/2026-09-09/esp32_diagnostic_01.json",
-      "diagnostic_acceptance_sha256": "4f6ba0aeb54f30198ab89dbfd2ab67724a793c1bf1e2dfaea9179a554e04644f",
-      "programming_record": "hardware/2026-09-09/esp32_measurement_programming.json",
-      "programming_record_sha256": "cf267bfc295deee2db880145f40faf870c422dc965dec5fa4b0f21b30e43fa72",
-      "installed_profile": "measurement",
+      "marker_pin": 18,
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
+      "last_recorded_installed_profile": "measurement",
       "profiles": {
-        "diagnostic": {
-          "primary_image": "firmware/targets/esp32/build_verified/diagnostic/energy_bench_esp32.bin",
-          "sha256": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4",
-          "verification": "firmware/targets/esp32/build_verified/diagnostic/verification.json",
-          "diagnostics_enabled": true,
-          "flash_images": [
-            {
-              "offset": "0x1000",
-              "path": "firmware/targets/esp32/build_verified/diagnostic/bootloader/bootloader.bin",
-              "sha256": "405580f0ee48093a5fc9e28c28ca5e7578587f8ef7e169fee9c667abeaf33f08"
-            },
-            {
-              "offset": "0x8000",
-              "path": "firmware/targets/esp32/build_verified/diagnostic/partition_table/partition-table.bin",
-              "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
-            },
-            {
-              "offset": "0x10000",
-              "path": "firmware/targets/esp32/build_verified/diagnostic/energy_bench_esp32.bin",
-              "sha256": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4"
-            }
-          ],
-          "flash_parameters": {
-            "mode": "DIO",
-            "frequency": "40MHz",
-            "size": "4MB",
-            "preserve_compiled_headers": true
-          }
-        },
-        "measurement": {
-          "primary_image": "firmware/targets/esp32/build_verified/measurement/energy_bench_esp32.bin",
-          "sha256": "37d19f83d36e1a28f9114396eb85a0722229afa64fd422f7e58982ff9c03246f",
-          "verification": "firmware/targets/esp32/build_verified/measurement/verification.json",
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/esp32/build_verified/single_gpio_measurement/energy_bench_esp32.bin",
+          "sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
+          "verification": "firmware/targets/esp32/build_verified/single_gpio_measurement/verification.json",
+          "verification_sha256": "2b50794f8ba58685fc78d05862852208f7a835f8a66c7d748430228194d811d3",
+          "source_manifest": "firmware/targets/esp32/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "636cdf12c7ec919434bb2e06fcdc2b6ba623fd194760a957d2491a2b5874f012",
           "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
           "flash_images": [
             {
               "offset": "0x1000",
-              "path": "firmware/targets/esp32/build_verified/measurement/bootloader/bootloader.bin",
-              "sha256": "1360a52ff796f4bc8f97e64228fa92a370f5fca80d20e55e425bbca8502fbd4f"
+              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/bootloader/bootloader.bin",
+              "sha256": "f29111807dbbf3827bf3b744d305a92b6408d5f8b40734ed0011b23874dc19d4"
             },
             {
               "offset": "0x8000",
-              "path": "firmware/targets/esp32/build_verified/measurement/partition_table/partition-table.bin",
+              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/partition_table/partition-table.bin",
               "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
             },
             {
               "offset": "0x10000",
-              "path": "firmware/targets/esp32/build_verified/measurement/energy_bench_esp32.bin",
-              "sha256": "37d19f83d36e1a28f9114396eb85a0722229afa64fd422f7e58982ff9c03246f"
+              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/energy_bench_esp32.bin",
+              "sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd"
             }
           ],
           "flash_parameters": {
@@ -74,48 +64,48 @@
     },
     "rp2040": {
       "model": "Raspberry Pi Pico RP2040",
-      "diagnostic_acceptance": "hardware/2026-09-09/rp2040_diagnostic_01.json",
-      "diagnostic_acceptance_sha256": "ad3f8ccf563bd94acf82902d87b09fc54b874cb327513a5903bd34a33b5638b5",
-      "programming_record": "hardware/2026-09-09/rp2040_measurement_programming.json",
-      "programming_record_sha256": "6d8f0ba3381911454a9d6959c227b5eb27fcf434df7552c8c8c05dd85f5665b9",
-      "installed_profile": "measurement",
+      "marker_pin": 2,
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
+      "last_recorded_installed_profile": "measurement",
       "profiles": {
-        "diagnostic": {
-          "primary_image": "firmware/targets/rp2040/build_verified/diagnostic/energy_bench_rp2040.uf2",
-          "sha256": "e5ad488bced8c660779e56745814102151bcaa0cc8882a966b59433e89a9c764",
-          "verification": "firmware/targets/rp2040/build_verified/diagnostic/verification.json",
-          "diagnostics_enabled": true,
-          "format": "RP2040 UF2 with embedded target addresses"
-        },
-        "measurement": {
-          "primary_image": "firmware/targets/rp2040/build_verified/measurement/energy_bench_rp2040.uf2",
-          "sha256": "41105817977609b020e7f7a27e26e6670f8ed8cca692b27c282027506ca25cee",
-          "verification": "firmware/targets/rp2040/build_verified/measurement/verification.json",
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/rp2040/build_verified/single_gpio_measurement/energy_bench_rp2040.uf2",
+          "sha256": "85ccf6b07845d379e9b647698950b2bffca27c34174072c9c67d34f648d84e15",
+          "verification": "firmware/targets/rp2040/build_verified/single_gpio_measurement/verification.json",
+          "verification_sha256": "38d3a8e21611a7bdbf2ee3be75fa9def3362ea53c855b854c171d1aee39204c2",
+          "source_manifest": "firmware/targets/rp2040/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "d834fcf67e4ede3d156279ad23546a5e4f52db64aa8cf17a2cfcbeafdeccdcc0",
           "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
           "format": "RP2040 UF2 with embedded target addresses"
         }
       }
     },
     "stm32": {
       "model": "NUCLEO-F446RE",
-      "diagnostic_acceptance": "hardware/2026-09-09/stm32_diagnostic_01.json",
-      "diagnostic_acceptance_sha256": "c67a293bd1a98b9f7ad50f03281ce4a455d4a705a1cfd61716fe3864a00c06c0",
-      "programming_record": "hardware/2026-09-09/stm32_measurement_programming.json",
-      "programming_record_sha256": "27f121320072acc21de37c70a1e46195763b9c20d1e12dc0945f923373697fab",
-      "installed_profile": "measurement",
+      "marker_pin": "PC0",
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
+      "last_recorded_installed_profile": "measurement",
       "profiles": {
-        "diagnostic": {
-          "primary_image": "firmware/targets/stm32f446/build_verified/diagnostic/energy_bench_stm32f446.bin",
-          "sha256": "4772e435f0f4b4ddf1d7617b4a3944d838307c31e5f0287146ebea0bdbc8f54b",
-          "verification": "firmware/targets/stm32f446/build_verified/diagnostic/verification.json",
-          "diagnostics_enabled": true,
-          "load_address": "0x08000000"
-        },
-        "measurement": {
-          "primary_image": "firmware/targets/stm32f446/build_verified/measurement/energy_bench_stm32f446.bin",
-          "sha256": "dbc411628bf48f3a2c29864e4b5c2c8a438d2de173cf01b17cdf96e294f93f54",
-          "verification": "firmware/targets/stm32f446/build_verified/measurement/verification.json",
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/energy_bench_stm32f446.bin",
+          "sha256": "159849461b7f3ade75b4b4674f4302327964ec31fc1404bc8609fd47f9e80b2d",
+          "verification": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/verification.json",
+          "verification_sha256": "fc0623d92ee76a7d836e89e73dbab7343d3d2bd5ee591511311745a756dbc532",
+          "source_manifest": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "176eb8933293106920c50a1efdb4052e150f29b5a9fe52d4b8a64141e283c145",
           "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
           "load_address": "0x08000000"
         }
       }
