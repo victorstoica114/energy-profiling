@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "board": "rp2040",
+  "profile": "diagnostic_uart",
+  "diagnostics_enabled": true,
+  "diagnostic_transport": "UART0",
+  "archive_time_utc": "2026-09-09T19:29:01.149571+00:00",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-rp2040-uart-diagnostics",
+  "build_exit_code": 0,
+  "native_compile_and_link_passed": true,
+  "hardware_execution_evidence": "Tracked separately by hardware test operator under hardware/2026-09-09; this file certifies the build and static checks only.",
+  "not_energy_measurement": true,
+  "static_checks": {
+    "bench_platform_report_present": true,
+    "BENCH_event_literal_present": true,
+    "serial_symbols_checked": [
+      "stdio_usb_init",
+      "tusb_init",
+      "uart_init"
+    ],
+    "serial_symbols_present": [
+      "uart_init"
+    ]
+  },
+  "source_snapshot_note": "Hashes observed when archiving. Compiler commands and build logs are retained; existing parent build_verified artifacts remain historical.",
+  "compiler": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]",
+  "sdk": {
+    "name": "Pico SDK",
+    "version": "2.2.0",
+    "commit": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779"
+  },
+  "artifact_sha256": {
+    "energy_bench_rp2040.elf": "ba053a6227d8768c76407d4c691306300b81277199917d43a5739d6ddb979904",
+    "energy_bench_rp2040.bin": "c53139cefd120bb1b7f12ba2d7238943d5cc16e3b07f6b3dfb9d9eae246dbc29",
+    "energy_bench_rp2040.uf2": "742b506865de5f098d4b3dc03b243e5a23757efc51e21ab99e7d2ff627827627",
+    "energy_bench_rp2040.hex": "46a44920d3fc0e1d7af5b5e2bf8b052d68b42508ff90d3cfccedceb63e280776"
+  },
+  "manifest_sha256_at_archive": "618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b"
+}

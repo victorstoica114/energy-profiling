@@ -1,0 +1,952 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (cos)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (sin)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (cosf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (sqrt)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (sqrtf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o) (__ieee754_rem_pio2)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o) (__ieee754_sqrt)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o) (__ieee754_rem_pio2f)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o) (__ieee754_sqrtf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o) (__kernel_cos)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o) (__kernel_rem_pio2)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o) (__kernel_sin)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o) (__kernel_cosf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o) (__kernel_rem_pio2f)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o) (__kernel_sinf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o) (fabs)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o) (floor)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o) (__fdlib_version)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o) (matherr)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o) (scalbn)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o) (fabsf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o) (floorf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o) (scalbnf)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj (__errno)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o) (_impure_ptr)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj (__libc_init_array)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj (memcmp)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (memcpy)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (memset)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (__aeabi_dmul)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (__aeabi_dsub)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (__aeabi_ddiv)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o) (__aeabi_dcmpeq)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o) (__aeabi_dcmpun)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+                              c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o) (__aeabi_d2iz)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (__aeabi_d2uiz)
+c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)
+                              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj (__aeabi_d2f)
+
+Allocating common symbols
+Common symbol       size              file
+
+bench_failure_reason
+                    0x4               CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+bench_result_digests
+                    0x30              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+bench_completed_calls
+                    0x30              CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+bench_failed_algorithm
+                    0x4               CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .text._sbrk    0x0000000000000000       0x40 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .text._exit    0x0000000000000000       0x18 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .bss.position.5897
+                0x0000000000000000        0x4 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .text          0x0000000000000000       0x14 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .rodata.APBPrescTable
+                0x0000000000000000        0x8 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .text.reverse_bits
+                0x0000000000000000       0x34 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .text          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .data          0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss           0x0000000000000000        0x0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.bench_kernel_output_bytes
+                0x0000000000000000       0x40 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.bench_kernel_output_floats
+                0x0000000000000000       0x40 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.bench_kernel_input_length
+                0x0000000000000000        0xc CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.bench_kernel_name.str1.4
+                0x0000000000000000        0x8 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.bench_kernel_name
+                0x0000000000000000       0x18 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.str1.4
+                0x0000000000000000       0x50 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.names.6765
+                0x0000000000000000       0x34 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+ .rodata._global_impure_ptr
+                0x0000000000000000        0x4 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+ .text          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .text          0x0000000000000000      0x254 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+ .debug_frame   0x0000000000000000       0x30 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+ .ARM.attributes
+                0x0000000000000000       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldf3.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+ .data          0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)
+ .bss           0x0000000000000000        0x0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000008000000 0x0000000000080000 xr
+RAM              0x0000000020000000 0x0000000000020000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+LOAD CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a
+START GROUP
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a
+END GROUP
+START GROUP
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libnosys.a
+END GROUP
+START GROUP
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a
+LOAD c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libnosys.a
+END GROUP
+                0x0000000020020000                _estack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x0000000000004000                _Min_Stack_Size = 0x4000
+
+.isr_vector     0x0000000008000000      0x1c4
+ *(.isr_vector)
+ .isr_vector    0x0000000008000000      0x1c4 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+                0x0000000008000000                g_pfnVectors
+
+.text           0x00000000080001c8     0xacd0
+ *(.text*)
+ .text.uart_unsigned
+                0x00000000080001c8       0x60 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .text.fault_stop
+                0x0000000008000228       0x1c CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .text.bench_platform_signals
+                0x0000000008000244       0x40 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x0000000008000244                bench_platform_signals
+ .text.bench_platform_report
+                0x0000000008000284      0x370 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x0000000008000284                bench_platform_report
+ .text.bench_platform_check
+                0x00000000080005f4       0xec CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080005f4                bench_platform_check
+ .text.bench_platform_init
+                0x00000000080006e0      0x27c CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080006e0                bench_platform_init
+ .text.bench_platform_wait_ms
+                0x000000000800095c       0x50 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x000000000800095c                bench_platform_wait_ms
+ .text.bench_platform_finish
+                0x00000000080009ac        0x4 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009ac                bench_platform_finish
+ .text.HardFault_Handler
+                0x00000000080009b0        0x8 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009b0                HardFault_Handler
+ .text.MemManage_Handler
+                0x00000000080009b8        0x8 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009b8                MemManage_Handler
+ .text.BusFault_Handler
+                0x00000000080009c0        0x8 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009c0                BusFault_Handler
+ .text.UsageFault_Handler
+                0x00000000080009c8        0x8 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009c8                UsageFault_Handler
+ .text.NMI_Handler
+                0x00000000080009d0        0x8 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009d0                NMI_Handler
+ .text.startup.main
+                0x00000000080009d8        0xc CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                0x00000000080009d8                main
+ .text._init    0x00000000080009e4        0x4 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+                0x00000000080009e4                _init
+ .text._fini    0x00000000080009e8        0x4 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+                0x00000000080009e8                _fini
+ .text.Reset_Handler
+                0x00000000080009ec       0x50 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+                0x00000000080009ec                Reset_Handler
+ .text.Default_Handler
+                0x0000000008000a3c        0x2 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+                0x0000000008000a3c                RTC_Alarm_IRQHandler
+                0x0000000008000a3c                EXTI2_IRQHandler
+                0x0000000008000a3c                TIM8_CC_IRQHandler
+                0x0000000008000a3c                DebugMon_Handler
+                0x0000000008000a3c                FMPI2C1_EV_IRQHandler
+                0x0000000008000a3c                SPI4_IRQHandler
+                0x0000000008000a3c                TIM1_CC_IRQHandler
+                0x0000000008000a3c                DMA2_Stream5_IRQHandler
+                0x0000000008000a3c                DMA1_Stream5_IRQHandler
+                0x0000000008000a3c                SysTick_Handler
+                0x0000000008000a3c                PVD_IRQHandler
+                0x0000000008000a3c                SDIO_IRQHandler
+                0x0000000008000a3c                TAMP_STAMP_IRQHandler
+                0x0000000008000a3c                PendSV_Handler
+                0x0000000008000a3c                CAN2_RX1_IRQHandler
+                0x0000000008000a3c                EXTI3_IRQHandler
+                0x0000000008000a3c                TIM8_TRG_COM_TIM14_IRQHandler
+                0x0000000008000a3c                TIM1_UP_TIM10_IRQHandler
+                0x0000000008000a3c                TIM8_UP_TIM13_IRQHandler
+                0x0000000008000a3c                I2C3_ER_IRQHandler
+                0x0000000008000a3c                EXTI0_IRQHandler
+                0x0000000008000a3c                I2C2_EV_IRQHandler
+                0x0000000008000a3c                DMA1_Stream2_IRQHandler
+                0x0000000008000a3c                CAN1_RX0_IRQHandler
+                0x0000000008000a3c                FPU_IRQHandler
+                0x0000000008000a3c                OTG_HS_WKUP_IRQHandler
+                0x0000000008000a3c                CAN2_SCE_IRQHandler
+                0x0000000008000a3c                DMA2_Stream2_IRQHandler
+                0x0000000008000a3c                SPI1_IRQHandler
+                0x0000000008000a3c                TIM6_DAC_IRQHandler
+                0x0000000008000a3c                TIM1_BRK_TIM9_IRQHandler
+                0x0000000008000a3c                DCMI_IRQHandler
+                0x0000000008000a3c                CAN2_RX0_IRQHandler
+                0x0000000008000a3c                DMA2_Stream3_IRQHandler
+                0x0000000008000a3c                SAI2_IRQHandler
+                0x0000000008000a3c                USART6_IRQHandler
+                0x0000000008000a3c                USART3_IRQHandler
+                0x0000000008000a3c                CAN1_RX1_IRQHandler
+                0x0000000008000a3c                UART5_IRQHandler
+                0x0000000008000a3c                DMA2_Stream0_IRQHandler
+                0x0000000008000a3c                TIM4_IRQHandler
+                0x0000000008000a3c                QUADSPI_IRQHandler
+                0x0000000008000a3c                I2C1_EV_IRQHandler
+                0x0000000008000a3c                DMA1_Stream6_IRQHandler
+                0x0000000008000a3c                DMA1_Stream1_IRQHandler
+                0x0000000008000a3c                UART4_IRQHandler
+                0x0000000008000a3c                TIM3_IRQHandler
+                0x0000000008000a3c                RCC_IRQHandler
+                0x0000000008000a3c                TIM8_BRK_TIM12_IRQHandler
+                0x0000000008000a3c                Default_Handler
+                0x0000000008000a3c                CEC_IRQHandler
+                0x0000000008000a3c                EXTI15_10_IRQHandler
+                0x0000000008000a3c                ADC_IRQHandler
+                0x0000000008000a3c                DMA1_Stream7_IRQHandler
+                0x0000000008000a3c                TIM7_IRQHandler
+                0x0000000008000a3c                CAN2_TX_IRQHandler
+                0x0000000008000a3c                TIM5_IRQHandler
+                0x0000000008000a3c                DMA2_Stream7_IRQHandler
+                0x0000000008000a3c                I2C3_EV_IRQHandler
+                0x0000000008000a3c                EXTI9_5_IRQHandler
+                0x0000000008000a3c                RTC_WKUP_IRQHandler
+                0x0000000008000a3c                SPDIF_RX_IRQHandler
+                0x0000000008000a3c                SPI2_IRQHandler
+                0x0000000008000a3c                OTG_HS_EP1_IN_IRQHandler
+                0x0000000008000a3c                DMA1_Stream0_IRQHandler
+                0x0000000008000a3c                CAN1_TX_IRQHandler
+                0x0000000008000a3c                SVC_Handler
+                0x0000000008000a3c                FMPI2C1_ER_IRQHandler
+                0x0000000008000a3c                EXTI4_IRQHandler
+                0x0000000008000a3c                OTG_HS_EP1_OUT_IRQHandler
+                0x0000000008000a3c                WWDG_IRQHandler
+                0x0000000008000a3c                TIM2_IRQHandler
+                0x0000000008000a3c                OTG_FS_WKUP_IRQHandler
+                0x0000000008000a3c                TIM1_TRG_COM_TIM11_IRQHandler
+                0x0000000008000a3c                OTG_HS_IRQHandler
+                0x0000000008000a3c                EXTI1_IRQHandler
+                0x0000000008000a3c                USART2_IRQHandler
+                0x0000000008000a3c                I2C2_ER_IRQHandler
+                0x0000000008000a3c                DMA2_Stream1_IRQHandler
+                0x0000000008000a3c                CAN1_SCE_IRQHandler
+                0x0000000008000a3c                FLASH_IRQHandler
+                0x0000000008000a3c                DMA2_Stream4_IRQHandler
+                0x0000000008000a3c                USART1_IRQHandler
+                0x0000000008000a3c                OTG_FS_IRQHandler
+                0x0000000008000a3c                SPI3_IRQHandler
+                0x0000000008000a3c                DMA1_Stream4_IRQHandler
+                0x0000000008000a3c                I2C1_ER_IRQHandler
+                0x0000000008000a3c                FMC_IRQHandler
+                0x0000000008000a3c                DMA2_Stream6_IRQHandler
+                0x0000000008000a3c                SAI1_IRQHandler
+                0x0000000008000a3c                DMA1_Stream3_IRQHandler
+ *fill*         0x0000000008000a3e        0x2 
+ .text.SystemInit
+                0x0000000008000a40       0x14 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+                0x0000000008000a40                SystemInit
+ .text.SystemCoreClockUpdate
+                0x0000000008000a54       0x70 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+                0x0000000008000a54                SystemCoreClockUpdate
+ .text.fail     0x0000000008000ac4       0x48 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .text.bench_main
+                0x0000000008000b0c      0x20c CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+                0x0000000008000b0c                bench_main
+ .text.AES_encrypt_block
+                0x0000000008000d18      0x194 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .text.extract_min_node.constprop.0
+                0x0000000008000eac       0x84 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .text.my_rle_encode
+                0x0000000008000f30       0x94 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008000f30                my_rle_encode
+ .text.my_delta_encode
+                0x0000000008000fc4       0x30 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008000fc4                my_delta_encode
+ .text.my_lz77_encode
+                0x0000000008000ff4       0xd4 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008000ff4                my_lz77_encode
+ .text.my_huffman_encode
+                0x00000000080010c8      0x34c CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080010c8                my_huffman_encode
+ .text.my_aes_encrypt
+                0x0000000008001414      0x188 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008001414                my_aes_encrypt
+ .text.sha256_transform
+                0x000000000800159c      0x154 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x000000000800159c                sha256_transform
+ .text.my_sha256_hash
+                0x00000000080016f0      0x100 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080016f0                my_sha256_hash
+ .text.chacha20_quarter_round
+                0x00000000080017f0       0x48 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080017f0                chacha20_quarter_round
+ .text.chacha20_mixing
+                0x0000000008001838       0xa0 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008001838                chacha20_mixing
+ .text.my_chacha20_encrypt
+                0x00000000080018d8       0xd4 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080018d8                my_chacha20_encrypt
+ .text.my_crc32
+                0x00000000080019ac       0x40 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080019ac                my_crc32
+ *fill*         0x00000000080019ec        0x4 
+ .text.my_fft   0x00000000080019f0      0x3c8 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x00000000080019f0                my_fft
+ .text.my_fir_filter
+                0x0000000008001db8       0x88 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008001db8                my_fir_filter
+ .text.my_iir_filter
+                0x0000000008001e40      0x1e8 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008001e40                my_iir_filter
+ .text.my_dct   0x0000000008002028      0x10c CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+                0x0000000008002028                my_dct
+ .text.verify_huffman
+                0x0000000008002134      0x224 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.verify_filter
+                0x0000000008002358       0xdc CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .text.bench_kernel_prepare
+                0x0000000008002434      0x138 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+                0x0000000008002434                bench_kernel_prepare
+ .text.bench_kernel_run
+                0x000000000800256c      0x210 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+                0x000000000800256c                bench_kernel_run
+ .text.bench_kernel_verify
+                0x000000000800277c      0x3a8 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+                0x000000000800277c                bench_kernel_verify
+ .text.bench_kernel_digest
+                0x0000000008002b24       0xa8 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+                0x0000000008002b24                bench_kernel_digest
+ *fill*         0x0000000008002bcc        0x4 
+ .text.cos      0x0000000008002bd0       0xa8 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+                0x0000000008002bd0                cos
+ .text.sin      0x0000000008002c78       0xb0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+                0x0000000008002c78                sin
+ .text.cosf     0x0000000008002d28       0x90 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+                0x0000000008002d28                cosf
+ .text.sqrt     0x0000000008002db8       0xbc c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+                0x0000000008002db8                sqrt
+ .text.sqrtf    0x0000000008002e74       0xb0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+                0x0000000008002e74                sqrtf
+ *fill*         0x0000000008002f24        0x4 
+ .text.__ieee754_rem_pio2
+                0x0000000008002f28      0x46c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+                0x0000000008002f28                __ieee754_rem_pio2
+ .text.__ieee754_sqrt
+                0x0000000008003394      0x188 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+                0x0000000008003394                __ieee754_sqrt
+ .text.__ieee754_rem_pio2f
+                0x000000000800351c      0x294 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+                0x000000000800351c                __ieee754_rem_pio2f
+ .text.__ieee754_sqrtf
+                0x00000000080037b0        0x8 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+                0x00000000080037b0                __ieee754_sqrtf
+ .text.__kernel_cos
+                0x00000000080037b8      0x27c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+                0x00000000080037b8                __kernel_cos
+ *fill*         0x0000000008003a34        0x4 
+ .text.__kernel_rem_pio2
+                0x0000000008003a38      0x850 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+                0x0000000008003a38                __kernel_rem_pio2
+ .text.__kernel_sin
+                0x0000000008004288      0x17c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+                0x0000000008004288                __kernel_sin
+ .text.__kernel_cosf
+                0x0000000008004404      0x104 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+                0x0000000008004404                __kernel_cosf
+ .text.__kernel_rem_pio2f
+                0x0000000008004508      0x66c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+                0x0000000008004508                __kernel_rem_pio2f
+ .text.__kernel_sinf
+                0x0000000008004b74       0x90 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+                0x0000000008004b74                __kernel_sinf
+ .text.fabs     0x0000000008004c04       0x14 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+                0x0000000008004c04                fabs
+ .text.floor    0x0000000008004c18      0x108 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+                0x0000000008004c18                floor
+ .text.matherr  0x0000000008004d20        0x4 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+                0x0000000008004d20                matherr
+ *fill*         0x0000000008004d24        0x4 
+ .text.scalbn   0x0000000008004d28      0x124 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+                0x0000000008004d28                scalbn
+ .text.fabsf    0x0000000008004e4c       0x10 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+                0x0000000008004e4c                fabsf
+ .text.floorf   0x0000000008004e5c       0x8c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+                0x0000000008004e5c                floorf
+ .text.scalbnf  0x0000000008004ee8       0xe4 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+                0x0000000008004ee8                scalbnf
+ .text.__errno  0x0000000008004fcc        0xc c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+                0x0000000008004fcc                __errno
+ .text.__libc_init_array
+                0x0000000008004fd8       0x48 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+                0x0000000008004fd8                __libc_init_array
+ .text.memcmp   0x0000000008005020       0x1c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+                0x0000000008005020                memcmp
+ .text.memcpy   0x000000000800503c       0x1c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+                0x000000000800503c                memcpy
+ .text.memset   0x0000000008005058       0x10 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+                0x0000000008005058                memset
+ .text          0x0000000008005068      0x378 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+                0x0000000008005068                __aeabi_drsub
+                0x0000000008005070                __aeabi_dsub
+                0x0000000008005070                __subdf3
+                0x0000000008005074                __aeabi_dadd
+                0x0000000008005074                __adddf3
+                0x00000000080052ec                __floatunsidf
+                0x00000000080052ec                __aeabi_ui2d
+                0x000000000800530c                __floatsidf
+                0x000000000800530c                __aeabi_i2d
+                0x0000000008005330                __aeabi_f2d
+                0x0000000008005330                __extendsfdf2
+                0x0000000008005374                __floatundidf
+                0x0000000008005374                __aeabi_ul2d
+                0x0000000008005384                __floatdidf
+                0x0000000008005384                __aeabi_l2d
+ .text          0x00000000080053e0      0x424 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+                0x00000000080053e0                __aeabi_dmul
+                0x00000000080053e0                __muldf3
+                0x0000000008005634                __divdf3
+                0x0000000008005634                __aeabi_ddiv
+ .text          0x0000000008005804      0x110 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+                0x0000000008005804                __gtdf2
+                0x0000000008005804                __gedf2
+                0x000000000800580c                __ltdf2
+                0x000000000800580c                __ledf2
+                0x0000000008005814                __nedf2
+                0x0000000008005814                __eqdf2
+                0x0000000008005814                __cmpdf2
+                0x0000000008005890                __aeabi_cdrcmple
+                0x00000000080058a0                __aeabi_cdcmpeq
+                0x00000000080058a0                __aeabi_cdcmple
+                0x00000000080058b0                __aeabi_dcmpeq
+                0x00000000080058c4                __aeabi_dcmplt
+                0x00000000080058d8                __aeabi_dcmple
+                0x00000000080058ec                __aeabi_dcmpge
+                0x0000000008005900                __aeabi_dcmpgt
+ .text          0x0000000008005914       0x2c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+                0x0000000008005914                __unorddf2
+                0x0000000008005914                __aeabi_dcmpun
+ .text          0x0000000008005940       0x50 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+                0x0000000008005940                __aeabi_d2iz
+                0x0000000008005940                __fixdfsi
+ .text          0x0000000008005990       0x40 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+                0x0000000008005990                __aeabi_d2uiz
+                0x0000000008005990                __fixunsdfsi
+ .text          0x00000000080059d0       0xa0 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)
+                0x00000000080059d0                __truncdfsf2
+                0x00000000080059d0                __aeabi_d2f
+ *(.rodata*)
+ .rodata.bench_platform_report.str1.4
+                0x0000000008005a70       0xc9 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ *fill*         0x0000000008005b39        0x3 
+ .rodata.AHBPrescTable
+                0x0000000008005b3c       0x10 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+                0x0000000008005b3c                AHBPrescTable
+ .rodata.fail.str1.4
+                0x0000000008005b4c        0x6 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ *fill*         0x0000000008005b52        0x2 
+ .rodata.bench_main.str1.4
+                0x0000000008005b54       0x1d CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ *fill*         0x0000000008005b71        0x3 
+ .rodata.bench_iterations
+                0x0000000008005b74       0x30 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .rodata.bench_compression_input
+                0x0000000008005ba4      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+                0x0000000008005ba4                bench_compression_input
+ .rodata.bench_crypto_input
+                0x00000000080063a4      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+                0x00000000080063a4                bench_crypto_input
+ .rodata.bench_dsp_input
+                0x0000000008006ba4      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+                0x0000000008006ba4                bench_dsp_input
+ .rodata        0x00000000080073a4       0x20 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .rodata.k      0x00000000080073c4      0x100 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .rodata.rcon   0x00000000080074c4        0xb CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ *fill*         0x00000000080074cf        0x1 
+ .rodata.sbox   0x00000000080074d0      0x100 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .rodata.bench_kernel_run.str1.4
+                0x00000000080075d0        0xe CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ *fill*         0x00000000080075de        0x2 
+ .rodata.aes_key
+                0x00000000080075e0       0x10 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.chacha_key
+                0x00000000080075f0       0x20 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.chacha_nonce
+                0x0000000008007610        0xc CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_aes
+                0x000000000800761c      0x810 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_chacha20
+                0x0000000008007e2c      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_dct
+                0x000000000800862c     0x2000 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_dsp_period
+                0x000000000800a62c       0x80 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_fft_period
+                0x000000000800a6ac      0x200 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.golden_sha256
+                0x000000000800a8ac       0x20 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.taps.6697
+                0x000000000800a8cc       0x14 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .rodata.sqrt.str1.4
+                0x000000000800a8e0        0x5 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ *fill*         0x000000000800a8e5        0x3 
+ .rodata.sqrtf.str1.4
+                0x000000000800a8e8        0x6 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ *fill*         0x000000000800a8ee        0x2 
+ .rodata.npio2_hw
+                0x000000000800a8f0       0x80 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .rodata.two_over_pi
+                0x000000000800a970      0x108 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .rodata.npio2_hw
+                0x000000000800aa78       0x80 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .rodata.two_over_pi
+                0x000000000800aaf8      0x318 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .rodata.PIo2   0x000000000800ae10       0x40 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .rodata.init_jk
+                0x000000000800ae50       0x10 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .rodata.PIo2   0x000000000800ae60       0x2c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .rodata.init_jk
+                0x000000000800ae8c        0xc c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ *(.init)
+ *(.fini)
+                0x000000000800ae98                . = ALIGN (0x4)
+
+.glue_7         0x000000000800ae98        0x0
+ .glue_7        0x000000000800ae98        0x0 linker stubs
+
+.glue_7t        0x000000000800ae98        0x0
+ .glue_7t       0x000000000800ae98        0x0 linker stubs
+
+.vfp11_veneer   0x000000000800ae98        0x0
+ .vfp11_veneer  0x000000000800ae98        0x0 linker stubs
+
+.v4_bx          0x000000000800ae98        0x0
+ .v4_bx         0x000000000800ae98        0x0 linker stubs
+
+.iplt           0x000000000800ae98        0x0
+ .iplt          0x000000000800ae98        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+
+.rel.dyn        0x000000000800ae98        0x0
+ .rel.iplt      0x000000000800ae98        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+
+.ARM.extab
+ *(.ARM.extab*)
+
+.ARM.exidx      0x000000000800ae98        0x0
+                0x000000000800ae98                __exidx_start = .
+ *(.ARM.exidx*)
+                0x000000000800ae98                __exidx_end = .
+
+.preinit_array  0x000000000800ae98        0x0
+                0x000000000800ae98                PROVIDE (__preinit_array_start = .)
+ *(.preinit_array*)
+                0x000000000800ae98                PROVIDE (__preinit_array_end = .)
+
+.init_array     0x000000000800ae98        0x0
+                0x000000000800ae98                PROVIDE (__init_array_start = .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array*)
+                0x000000000800ae98                PROVIDE (__init_array_end = .)
+
+.fini_array     0x000000000800ae98        0x0
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array*)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+                0x000000000800ae98                _sidata = LOADADDR (.data)
+
+.data           0x0000000020000000       0x6c load address 0x000000000800ae98
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _sdata = .
+ *(.data*)
+ .data.SystemCoreClock
+                0x0000000020000000        0x4 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+                0x0000000020000000                SystemCoreClock
+ .data.__fdlib_version
+                0x0000000020000004        0x1 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+                0x0000000020000004                __fdlib_version
+ *fill*         0x0000000020000005        0x3 
+ .data._impure_ptr
+                0x0000000020000008        0x4 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+                0x0000000020000008                _impure_ptr
+ .data.impure_data
+                0x000000002000000c       0x60 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+                0x000000002000006c                . = ALIGN (0x4)
+                0x000000002000006c                _edata = .
+
+.igot.plt       0x000000002000006c        0x0 load address 0x000000000800af04
+ .igot.plt      0x000000002000006c        0x0 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+
+.bss            0x000000002000006c     0x9da4 load address 0x000000000800af04
+                0x0000000020000070                . = ALIGN (0x8)
+ *fill*         0x000000002000006c        0x4 
+                0x0000000020000070                _sbss = .
+ *(.bss*)
+ .bss.configured
+                0x0000000020000070        0x1 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .bss.uart_ready
+                0x0000000020000071        0x1 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ *fill*         0x0000000020000072        0x2 
+ .bss.env_static.7896
+                0x0000000020000074     0x1404 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .bss.fft_imag_workspace
+                0x0000000020001478     0x2000 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .bss.fft_real_workspace
+                0x0000000020003478     0x2000 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .bss.active_id
+                0x0000000020005478        0x4 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.byte_out  0x000000002000547c     0x1910 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.decoded   0x0000000020006d8c      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.float_out
+                0x000000002000758c     0x2008 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.golden_crypto
+                0x0000000020009594        0x1 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.golden_dsp
+                0x0000000020009595        0x1 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ *fill*         0x0000000020009596        0x2 
+ .bss.input_data
+                0x0000000020009598      0x800 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.input_len
+                0x0000000020009d98        0x4 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .bss.last_success
+                0x0000000020009d9c        0x1 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ *fill*         0x0000000020009d9d        0x3 
+ .bss.output_len
+                0x0000000020009da0        0x4 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ *(COMMON)
+ COMMON         0x0000000020009da4       0x68 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+                0x0000000020009da4                bench_failure_reason
+                0x0000000020009da8                bench_result_digests
+                0x0000000020009dd8                bench_completed_calls
+                0x0000000020009e08                bench_failed_algorithm
+                0x0000000020009e10                . = ALIGN (0x8)
+ *fill*         0x0000000020009e0c        0x4 
+                0x0000000020009e10                _ebss = .
+                0x0000000020009e10                _end = .
+                0x000000002001c000                __heap_limit = (_estack - _Min_Stack_Size)
+                0x0000000000000001                ASSERT ((_end <= __heap_limit), Static data collides with reserved stack)
+OUTPUT(energy_bench_stm32f446.elf elf32-littlearm)
+
+.comment        0x0000000000000000       0x66
+ .comment       0x0000000000000000       0x66 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+                                         0x67 (size before relaxing)
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .comment       0x0000000000000066       0x67 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x34 CMakeFiles/energy_bench_stm32f446.dir/platform_stm32f446.c.obj
+ .ARM.attributes
+                0x0000000000000034       0x34 CMakeFiles/energy_bench_stm32f446.dir/runtime.c.obj
+ .ARM.attributes
+                0x0000000000000068       0x21 CMakeFiles/energy_bench_stm32f446.dir/c4d13ec574a9b7d3f54bc69743a1be94/cmsis-device-f4-0fa0e489e053/Source/Templates/gcc/startup_stm32f446xx.s.obj
+ .ARM.attributes
+                0x0000000000000089       0x34 CMakeFiles/energy_bench_stm32f446.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053/Source/Templates/system_stm32f4xx.c.obj
+ .ARM.attributes
+                0x00000000000000bd       0x34 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.obj
+ .ARM.attributes
+                0x00000000000000f1       0x39 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.obj
+ .ARM.attributes
+                0x000000000000012a       0x34 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.obj
+ .ARM.attributes
+                0x000000000000015e       0x34 CMakeFiles/energy_bench_stm32f446.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.obj
+ .ARM.attributes
+                0x0000000000000192       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+ .ARM.attributes
+                0x00000000000001c6       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+ .ARM.attributes
+                0x00000000000001fa       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+ .ARM.attributes
+                0x000000000000022e       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ .ARM.attributes
+                0x0000000000000262       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ .ARM.attributes
+                0x0000000000000296       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .ARM.attributes
+                0x00000000000002ca       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+ .ARM.attributes
+                0x00000000000002fe       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .ARM.attributes
+                0x0000000000000332       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+ .ARM.attributes
+                0x0000000000000366       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+ .ARM.attributes
+                0x000000000000039a       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .ARM.attributes
+                0x00000000000003ce       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+ .ARM.attributes
+                0x0000000000000402       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+ .ARM.attributes
+                0x0000000000000436       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .ARM.attributes
+                0x000000000000046a       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+ .ARM.attributes
+                0x000000000000049e       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+ .ARM.attributes
+                0x00000000000004d2       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+ .ARM.attributes
+                0x0000000000000506       0x32 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_lib_ver.o)
+ .ARM.attributes
+                0x0000000000000538       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+ .ARM.attributes
+                0x000000000000056c       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+ .ARM.attributes
+                0x00000000000005a0       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+ .ARM.attributes
+                0x00000000000005d4       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+ .ARM.attributes
+                0x0000000000000608       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+ .ARM.attributes
+                0x000000000000063c       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+ .ARM.attributes
+                0x0000000000000670       0x32 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-impure.o)
+ .ARM.attributes
+                0x00000000000006a2       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .ARM.attributes
+                0x00000000000006d6       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x000000000000070a       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+ .ARM.attributes
+                0x000000000000073e       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x0000000000000772       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+ .ARM.attributes
+                0x0000000000000790       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+ .ARM.attributes
+                0x00000000000007ae       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+ .ARM.attributes
+                0x00000000000007cc       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+ .ARM.attributes
+                0x00000000000007ea       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+ .ARM.attributes
+                0x0000000000000808       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+ .ARM.attributes
+                0x0000000000000826       0x1e c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)
+
+.debug_frame    0x0000000000000000      0x828
+ .debug_frame   0x0000000000000000       0x3c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_cos.o)
+ .debug_frame   0x000000000000003c       0x3c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_sin.o)
+ .debug_frame   0x0000000000000078       0x34 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_cos.o)
+ .debug_frame   0x00000000000000ac       0x4c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-w_sqrt.o)
+ .debug_frame   0x00000000000000f8       0x50 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-wf_sqrt.o)
+ .debug_frame   0x0000000000000148       0x7c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_rem_pio2.o)
+ .debug_frame   0x00000000000001c4       0x30 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-e_sqrt.o)
+ .debug_frame   0x00000000000001f4       0x44 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_rem_pio2.o)
+ .debug_frame   0x0000000000000238       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-ef_sqrt.o)
+ .debug_frame   0x0000000000000258       0x70 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_cos.o)
+ .debug_frame   0x00000000000002c8       0x58 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_rem_pio2.o)
+ .debug_frame   0x0000000000000320       0x48 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-k_sin.o)
+ .debug_frame   0x0000000000000368       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_cos.o)
+ .debug_frame   0x0000000000000388       0x5c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_rem_pio2.o)
+ .debug_frame   0x00000000000003e4       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-kf_sin.o)
+ .debug_frame   0x0000000000000404       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_fabs.o)
+ .debug_frame   0x0000000000000424       0x30 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_floor.o)
+ .debug_frame   0x0000000000000454       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_matherr.o)
+ .debug_frame   0x0000000000000474       0x2c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-s_scalbn.o)
+ .debug_frame   0x00000000000004a0       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_fabs.o)
+ .debug_frame   0x00000000000004c0       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_floor.o)
+ .debug_frame   0x00000000000004e0       0x3c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a(lib_a-sf_scalbn.o)
+ .debug_frame   0x000000000000051c       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-errno.o)
+ .debug_frame   0x000000000000053c       0x2c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .debug_frame   0x0000000000000568       0x2c c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcmp.o)
+ .debug_frame   0x0000000000000594       0x28 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x00000000000005bc       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x00000000000005dc       0xac c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_addsubdf3.o)
+ .debug_frame   0x0000000000000688       0x50 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_muldivdf3.o)
+ .debug_frame   0x00000000000006d8       0xc4 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_cmpdf2.o)
+ .debug_frame   0x000000000000079c       0x20 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_unorddf2.o)
+ .debug_frame   0x00000000000007bc       0x24 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixdfsi.o)
+ .debug_frame   0x00000000000007e0       0x24 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_fixunsdfsi.o)
+ .debug_frame   0x0000000000000804       0x24 c:/users/user/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/9.2.1/thumb/v7e-m+fp/hard\libgcc.a(_arm_truncdfsf2.o)

@@ -1,0 +1,25 @@
+{
+  "board": "Raspberry Pi Pico RP2040",
+  "firmware_profile": "measurement",
+  "firmware_sha256": "41105817977609b020e7f7a27e26e6670f8ed8cca692b27c282027506ca25cee",
+  "programming_transport": "ROM UF2 mass storage F: RPI-RP2",
+  "diagnostic_usb_present": false,
+  "ports_after_programming": [
+    {
+      "port": "COM1",
+      "vid": null,
+      "pid": null
+    },
+    {
+      "port": "COM4",
+      "vid": 6790,
+      "pid": 29987
+    },
+    {
+      "port": "COM6",
+      "vid": 1155,
+      "pid": 14155
+    }
+  ],
+  "scope": "programmed USB/UART-disabled image; USB disappearance is not proof of completed GPIO sequence; PPK2 pilot pending"
+}

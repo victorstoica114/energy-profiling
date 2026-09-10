@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  46860	      0	  41528	  88388	  15944	C:\Users\User\AppData\Local\Temp\energy-native-build-verified\rp2040\energy_bench_rp2040.elf

@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "board": "esp32",
+  "profile": "diagnostic",
+  "diagnostics_enabled": true,
+  "diagnostic_transport": "UART0",
+  "archive_time_utc": "2026-09-09T19:29:00.314771+00:00",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-esp32-diagnostics",
+  "build_exit_code": 0,
+  "native_compile_and_link_passed": true,
+  "hardware_execution_evidence": "Tracked separately by hardware test operator under hardware/2026-09-09; this file certifies the build and static checks only.",
+  "not_energy_measurement": true,
+  "static_checks": {
+    "bench_platform_report_present": true,
+    "BENCH_event_literal_present": true,
+    "serial_symbols_checked": [
+      "uart_driver_install",
+      "uart_param_config",
+      "uart_write_bytes",
+      "uart_wait_tx_done"
+    ],
+    "serial_symbols_present": [
+      "uart_driver_install",
+      "uart_param_config",
+      "uart_write_bytes",
+      "uart_wait_tx_done"
+    ]
+  },
+  "source_snapshot_note": "Hashes observed when archiving. Compiler commands and build logs are retained; existing parent build_verified artifacts remain historical.",
+  "compiler": "xtensa-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+  "sdk": {
+    "name": "ESP-IDF",
+    "version": "5.5.4"
+  },
+  "artifact_sha256": {
+    "energy_bench_esp32.elf": "6566aba5965bfff7921d0ce17945c55f34181995ae449f07186e3b79f106f5c6",
+    "energy_bench_esp32.bin": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4",
+    "bootloader/bootloader.bin": "405580f0ee48093a5fc9e28c28ca5e7578587f8ef7e169fee9c667abeaf33f08",
+    "partition_table/partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+  },
+  "manifest_sha256_at_archive": "618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b",
+  "flash_header": {
+    "mode": "DIO",
+    "frequency_MHz": 40,
+    "size_MB": 4,
+    "validated_with": "esptool 4.12.0 image_info --version 2",
+    "as_flashed_readback": "not performed by build agent"
+  },
+  "flash_offsets": {
+    "bootloader/bootloader.bin": "0x1000",
+    "partition_table/partition-table.bin": "0x8000",
+    "energy_bench_esp32.bin": "0x10000"
+  }
+}

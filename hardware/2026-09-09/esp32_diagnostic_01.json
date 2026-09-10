@@ -1,0 +1,173 @@
+{
+  "board": "esp32",
+  "status": "passed",
+  "scope": "diagnostic functional execution; no time, current or energy measurement",
+  "firmware_path": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-esp32-diagnostics\\energy_bench_esp32.bin",
+  "firmware_sha256": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4",
+  "experiment_sha256": "618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b",
+  "events": [
+    {
+      "event": "BOOT",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    },
+    {
+      "event": "START",
+      "id": 1,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 1,
+      "calls": 3000,
+      "digest": "a6842b8a"
+    },
+    {
+      "event": "START",
+      "id": 2,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 2,
+      "calls": 3000,
+      "digest": "02775fd9"
+    },
+    {
+      "event": "START",
+      "id": 3,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 3,
+      "calls": 200,
+      "digest": "db04f40d"
+    },
+    {
+      "event": "START",
+      "id": 4,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 4,
+      "calls": 200,
+      "digest": "8e6acb7f"
+    },
+    {
+      "event": "START",
+      "id": 5,
+      "calls": 1000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 5,
+      "calls": 1000,
+      "digest": "9c8d0100"
+    },
+    {
+      "event": "START",
+      "id": 6,
+      "calls": 1000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 6,
+      "calls": 1000,
+      "digest": "02821d41"
+    },
+    {
+      "event": "START",
+      "id": 7,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 7,
+      "calls": 3000,
+      "digest": "086609c9"
+    },
+    {
+      "event": "START",
+      "id": 8,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 8,
+      "calls": 3000,
+      "digest": "fc2541f1"
+    },
+    {
+      "event": "START",
+      "id": 9,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 9,
+      "calls": 50,
+      "digest": "4188afdf"
+    },
+    {
+      "event": "START",
+      "id": 10,
+      "calls": 300,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 10,
+      "calls": 300,
+      "digest": "b19fcb91"
+    },
+    {
+      "event": "START",
+      "id": 11,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 11,
+      "calls": 50,
+      "digest": "01ccddb5"
+    },
+    {
+      "event": "START",
+      "id": 12,
+      "calls": 1,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 12,
+      "calls": 1,
+      "digest": "6cf439f7"
+    },
+    {
+      "event": "DONE",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    }
+  ],
+  "configuration_lines": [
+    "BENCH CONFIG board=esp32 diagnostics=1 cpu_hz=240000000 fpu=single_precision radio=uninitialized core=0 transport=UART0 tx=1 rx=3 baud=115200 check=1"
+  ],
+  "error": null,
+  "port": "COM4",
+  "validated_algorithms": 12,
+  "log_sha256": "cbdb6510abb168d145852ebbacd5f5d9c80a714d9b62075d91ba6f3978c85ed2"
+}

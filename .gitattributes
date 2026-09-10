@@ -1,0 +1,3 @@
+# Preserve exact file bytes: archived source and firmware hashes are evidence.
+# Disable automatic line-ending conversion on commit and checkout.
+* -text

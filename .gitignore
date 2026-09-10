@@ -1,0 +1,12 @@
+build/
+build-*/
+.deps/
+captures/
+results/
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/settings.json
+
+# Local delivery bookkeeping
+.delivery_manifest.json

@@ -1,0 +1,488 @@
+400d3ab4 <bench_platform_signals>:
+400d3ab4:	004136               	entry	a1, 32
+400d3ab7:	0182c0               	slli	a8, a2, 20
+400d3aba:	04a020               	extui	a10, a2, 0, 1
+400d3abd:	158580               	extui	a8, a8, 21, 2
+400d3ac0:	01aad0               	slli	a10, a10, 19
+400d3ac3:	049320               	extui	a9, a2, 3, 1
+400d3ac6:	0188b0               	slli	a8, a8, 21
+400d3ac9:	2088a0               	or	a8, a8, a10
+400d3acc:	019990               	slli	a9, a9, 23
+400d3acf:	208890               	or	a8, a8, a9
+400d3ad2:	016650               	slli	a6, a6, 27
+400d3ad5:	208860               	or	a8, a8, a6
+400d3ad8:	015560               	slli	a5, a5, 26
+400d3adb:	f25291               	l32r	a9, 400d0424 <_stext+0x404> (3ff44000 <GPIO>)
+400d3ade:	f252b1               	l32r	a11, 400d0428 <_stext+0x408> (40000 <UserFrameTotalSize+0x3ff00>)
+400d3ae1:	f252a1               	l32r	a10, 400d042c <_stext+0x40c> (eec0000 <UserFrameTotalSize+0xeebff00>)
+400d3ae4:	208850               	or	a8, a8, a5
+400d3ae7:	014470               	slli	a4, a4, 25
+400d3aea:	208840               	or	a8, a8, a4
+400d3aed:	0020c0               	memw
+400d3af0:	39b9                	s32i.n	a11, a9, 12
+400d3af2:	30a8a0               	xor	a10, a8, a10
+400d3af5:	0020c0               	memw
+400d3af8:	39a9                	s32i.n	a10, a9, 12
+400d3afa:	743030               	extui	a3, a3, 0, 8
+400d3afd:	0020c0               	memw
+400d3b00:	2989                	s32i.n	a8, a9, 8
+400d3b02:	0020c0               	memw
+400d3b05:	338c                	beqz.n	a3, 400d3b0c <bench_platform_signals+0x58>
+400d3b07:	0020c0               	memw
+400d3b0a:	29b9                	s32i.n	a11, a9, 8
+400d3b0c:	f01d                	retw.n
+	...
+
+400d3ca4 <bench_main>:
+400d3ca4:	004136               	entry	a1, 32
+400d3ca7:	ffeb25               	call8	400d3b58 <bench_platform_init>
+400d3caa:	01a072               	movi	a7, 1
+400d3cad:	f1ee31               	l32r	a3, 400d0468 <_stext+0x448> (3f404b48 <bench_iterations>)
+400d3cb0:	9adc                	bnez.n	a10, 400d3ccd <bench_main+0x29>
+400d3cb2:	f1ec81               	l32r	a8, 400d0464 <_stext+0x444> (3ffb1e50 <bench_failed_algorithm>)
+400d3cb5:	0aed                	mov.n	a14, a10
+400d3cb7:	07dd                	mov.n	a13, a7
+400d3cb9:	0acd                	mov.n	a12, a10
+400d3cbb:	20baa0               	or	a11, a10, a10
+400d3cbe:	0020c0               	memw
+400d3cc1:	0068a2               	s32i	a10, a8, 0
+400d3cc4:	ffdee5               	call8	400d3ab4 <bench_platform_signals>
+400d3cc7:	fff4a5               	call8	400d3c10 <bench_platform_finish>
+400d3cca:	005586               	j	400d3e24 <bench_main+0x180>
+400d3ccd:	00a0e2               	movi	a14, 0
+400d3cd0:	20dee0               	or	a13, a14, a14
+400d3cd3:	0ecd                	mov.n	a12, a14
+400d3cd5:	0ebd                	mov.n	a11, a14
+400d3cd7:	0ead                	mov.n	a10, a14
+400d3cd9:	ffdda5               	call8	400d3ab4 <bench_platform_signals>
+400d3cdc:	ffe325               	call8	400d3b10 <bench_platform_check>
+400d3cdf:	1acc                	bnez.n	a10, 400d3ce4 <bench_main+0x40>
+400d3ce1:	002ac6               	j	400d3d90 <bench_main+0xec>
+400d3ce4:	0d57b6               	bltui	a7, 5, 400d3cf5 <bench_main+0x51>
+400d3ce7:	880c                	movi.n	a8, 8
+400d3ce9:	f1dcb1               	l32r	a11, 400d045c <_stext+0x43c> (3f405378 <bench_crypto_input>)
+400d3cec:	02b877               	bgeu	a8, a7, 400d3cf2 <bench_main+0x4e>
+400d3cef:	004746               	j	400d3e10 <bench_main+0x16c>
+400d3cf2:	004746               	j	400d3e13 <bench_main+0x16f>
+400d3cf5:	f174c1               	l32r	a12, 400d02c8 <_stext+0x2a8> (800 <UserFrameTotalSize+0x700>)
+400d3cf8:	f1ddb1               	l32r	a11, 400d046c <_stext+0x44c> (3f405b78 <bench_compression_input>)
+400d3cfb:	07ad                	mov.n	a10, a7
+400d3cfd:	003fa5               	call8	400d40f8 <bench_kernel_prepare>
+400d3d00:	08ca16               	beqz	a10, 400d3d90 <bench_main+0xec>
+400d3d03:	0e0c                	movi.n	a14, 0
+400d3d05:	0ead                	mov.n	a10, a14
+400d3d07:	0edd                	mov.n	a13, a14
+400d3d09:	1c0c                	movi.n	a12, 1
+400d3d0b:	0ebd                	mov.n	a11, a14
+400d3d0d:	ffda65               	call8	400d3ab4 <bench_platform_signals>
+400d3d10:	f1d2a1               	l32r	a10, 400d0458 <_stext+0x438> (1388 <UserFrameTotalSize+0x1288>)
+400d3d13:	021726               	beqi	a7, 1, 400d3d19 <bench_main+0x75>
+400d3d16:	e8a3a2               	movi	a10, 0x3e8
+400d3d19:	fff065               	call8	400d3c20 <bench_platform_wait_ms>
+400d3d1c:	0e0c                	movi.n	a14, 0
+400d3d1e:	0edd                	mov.n	a13, a14
+400d3d20:	0ecd                	mov.n	a12, a14
+400d3d22:	0ebd                	mov.n	a11, a14
+400d3d24:	20a770               	or	a10, a7, a7
+400d3d27:	ffd8e5               	call8	400d3ab4 <bench_platform_signals>
+400d3d2a:	1a0c                	movi.n	a10, 1
+400d3d2c:	ffef25               	call8	400d3c20 <bench_platform_wait_ms>
+400d3d2f:	ffde25               	call8	400d3b10 <bench_platform_check>
+400d3d32:	0a5d                	mov.n	a5, a10
+400d3d34:	9acc                	bnez.n	a10, 400d3d41 <bench_main+0x9d>
+400d3d36:	0aed                	mov.n	a14, a10
+400d3d38:	1d0c                	movi.n	a13, 1
+400d3d3a:	0acd                	mov.n	a12, a10
+400d3d3c:	0abd                	mov.n	a11, a10
+400d3d3e:	001606               	j	400d3d9a <bench_main+0xf6>
+400d3d41:	002362               	l32i	a6, a3, 0
+400d3d44:	ffc742               	addi	a4, a7, -1
+400d3d47:	00a0e2               	movi	a14, 0
+400d3d4a:	1b0c                	movi.n	a11, 1
+400d3d4c:	0edd                	mov.n	a13, a14
+400d3d4e:	0ecd                	mov.n	a12, a14
+400d3d50:	07ad                	mov.n	a10, a7
+400d3d52:	ffd625               	call8	400d3ab4 <bench_platform_signals>
+400d3d55:	f68c                	beqz.n	a6, 400d3d68 <bench_main+0xc4>
+400d3d57:	020c                	movi.n	a2, 0
+400d3d59:	20a770               	or	a10, a7, a7
+400d3d5c:	004e25               	call8	400d4240 <bench_kernel_run>
+400d3d5f:	00ba16               	beqz	a10, 400d3d6e <bench_main+0xca>
+400d3d62:	01c222               	addi	a2, a2, 1
+400d3d65:	f09627               	bne	a6, a2, 400d3d59 <bench_main+0xb5>
+400d3d68:	050c                	movi.n	a5, 0
+400d3d6a:	0000c6               	j	400d3d71 <bench_main+0xcd>
+400d3d6d:	622000               	excw
+400d3d70:	a0e220               	addx4	a14, a2, a2
+400d3d73:	dee000               	excw
+400d3d76:	0ecd20               	excw
+400d3d79:	0ebd                	mov.n	a11, a14
+400d3d7b:	07ad                	mov.n	a10, a7
+400d3d7d:	ffd365               	call8	400d3ab4 <bench_platform_signals>
+400d3d80:	f1bc81               	l32r	a8, 400d0470 <_stext+0x450> (3ffb1e84 <bench_completed_calls>)
+400d3d83:	1124e0               	slli	a2, a4, 2
+400d3d86:	a04480               	addx4	a4, a4, a8
+400d3d89:	0020c0               	memw
+400d3d8c:	0469                	s32i.n	a6, a4, 0
+400d3d8e:	b59c                	beqz.n	a5, 400d3dad <bench_main+0x109>
+400d3d90:	00a0e2               	movi	a14, 0
+400d3d93:	01a0d2               	movi	a13, 1
+400d3d96:	0ecd                	mov.n	a12, a14
+400d3d98:	0ebd                	mov.n	a11, a14
+400d3d9a:	f1b281               	l32r	a8, 400d0464 <_stext+0x444> (3ffb1e50 <bench_failed_algorithm>)
+400d3d9d:	07ad                	mov.n	a10, a7
+400d3d9f:	0020c0               	memw
+400d3da2:	0879                	s32i.n	a7, a8, 0
+400d3da4:	ffd0e5               	call8	400d3ab4 <bench_platform_signals>
+400d3da7:	ffe6a5               	call8	400d3c10 <bench_platform_finish>
+400d3daa:	001d86               	j	400d3e24 <bench_main+0x180>
+400d3dad:	ffd625               	call8	400d3b10 <bench_platform_check>
+400d3db0:	fdca16               	beqz	a10, 400d3d90 <bench_main+0xec>
+400d3db3:	20a770               	or	a10, a7, a7
+400d3db6:	006ea5               	call8	400d44a0 <bench_kernel_verify>
+400d3db9:	fd3a16               	beqz	a10, 400d3d90 <bench_main+0xec>
+400d3dbc:	07ad                	mov.n	a10, a7
+400d3dbe:	00a265               	call8	400d47e4 <bench_kernel_digest>
+400d3dc1:	f1ac81               	l32r	a8, 400d0474 <_stext+0x454> (3ffb1e54 <bench_result_digests>)
+400d3dc4:	771b                	addi.n	a7, a7, 1
+400d3dc6:	882a                	add.n	a8, a8, a2
+400d3dc8:	0020c0               	memw
+400d3dcb:	08a9                	s32i.n	a10, a8, 0
+400d3dcd:	d80c                	movi.n	a8, 13
+400d3dcf:	334b                	addi.n	a3, a3, 4
+400d3dd1:	021787               	beq	a7, a8, 400d3dd7 <bench_main+0x133>
+400d3dd4:	ffbd46               	j	400d3ccd <bench_main+0x29>
+400d3dd7:	1e0c                	movi.n	a14, 1
+400d3dd9:	05dd                	mov.n	a13, a5
+400d3ddb:	0ecd                	mov.n	a12, a14
+400d3ddd:	05bd                	mov.n	a11, a5
+400d3ddf:	20a550               	or	a10, a5, a5
+400d3de2:	ffcd25               	call8	400d3ab4 <bench_platform_signals>
+400d3de5:	d0a7a2               	movi	a10, 0x7d0
+400d3de8:	ffe365               	call8	400d3c20 <bench_platform_wait_ms>
+400d3deb:	1e0c                	movi.n	a14, 1
+400d3ded:	05dd                	mov.n	a13, a5
+400d3def:	05cd                	mov.n	a12, a5
+400d3df1:	05bd                	mov.n	a11, a5
+400d3df3:	05ad                	mov.n	a10, a5
+400d3df5:	ffcbe5               	call8	400d3ab4 <bench_platform_signals>
+400d3df8:	ffe165               	call8	400d3c10 <bench_platform_finish>
+400d3dfb:	000946               	j	400d3e24 <bench_main+0x180>
+400d3dfe:	0e0c                	movi.n	a14, 0
+400d3e00:	0edd                	mov.n	a13, a14
+400d3e02:	1c0c                	movi.n	a12, 1
+400d3e04:	0ebd                	mov.n	a11, a14
+400d3e06:	20aee0               	or	a10, a14, a14
+400d3e09:	ffcaa5               	call8	400d3ab4 <bench_platform_signals>
+400d3e0c:	ffc186               	j	400d3d16 <bench_main+0x72>
+400d3e0f:	94b100               	extui	a11, a0, 1, 10
+400d3e12:	2dc1f1               	l32r	a15, 4009f518 <_coredump_iram_end+0x14d6c>
+400d3e15:	07adf1               	l32r	a15, 40095ccc <_coredump_iram_end+0xb520>
+400d3e18:	002de5               	call8	400d40f8 <bench_kernel_prepare>
+400d3e1b:	fdfa56               	bnez	a10, 400d3dfe <bench_main+0x15a>
+400d3e1e:	ffdb86               	j	400d3d90 <bench_main+0xec>
+400d3e21:	000000               	ill
+400d3e24:	f01d                	retw.n
+	...
+
+400d4240 <bench_kernel_run>:
+400d4240:	00a136               	entry	a1, 80
+400d4243:	f09881               	l32r	a8, 400d04a4 <_stext+0x484> (3ffb1ec0 <active_id>)
+400d4246:	f09871               	l32r	a7, 400d04a8 <_stext+0x488> (3ffb1eb6 <last_success>)
+400d4249:	08a8                	l32i.n	a10, a8, 0
+400d424b:	090c                	movi.n	a9, 0
+400d424d:	c08a20               	sub	a8, a10, a2
+400d4250:	1b0c                	movi.n	a11, 1
+400d4252:	004792               	s8i	a9, a7, 0
+400d4255:	83b880               	moveqz	a11, a8, a8
+400d4258:	07c856               	bnez	a8, 400d42d8 <bench_kernel_run+0x98>
+400d425b:	190c                	movi.n	a9, 1
+400d425d:	939ba0               	movnez	a9, a11, a10
+400d4260:	074956               	bnez	a9, 400d42d8 <bench_kernel_run+0x98>
+400d4263:	f08731               	l32r	a3, 400d0480 <_stext+0x460> (3ffb46cc <byte_out>)
+400d4266:	f09261               	l32r	a6, 400d04b0 <_stext+0x490> (83a76d21 <_rtc_slow_reserved_end+0x33a74d21>)
+400d4269:	0388                	l32i.n	a8, a3, 0
+400d426b:	699867               	bne	a8, a6, 400d42d8 <bench_kernel_run+0x98>
+400d426e:	19d342               	addmi	a4, a3, 0x1900
+400d4271:	3488                	l32i.n	a8, a4, 12
+400d4273:	619867               	bne	a8, a6, 400d42d8 <bench_kernel_run+0x98>
+400d4276:	f08d81               	l32r	a8, 400d04ac <_stext+0x48c> (3ffb26c4 <float_out>)
+400d4279:	0888                	l32i.n	a8, a8, 0
+400d427b:	8189                	s32i.n	a8, a1, 32
+400d427d:	579867               	bne	a8, a6, 400d42d8 <bench_kernel_run+0x98>
+400d4280:	f09a81               	l32r	a8, 400d04e8 <_stext+0x4c8> (3ffb46c4 <float_out+0x2000>)
+400d4283:	1888                	l32i.n	a8, a8, 4
+400d4285:	8189                	s32i.n	a8, a1, 32
+400d4287:	4d9867               	bne	a8, a6, 400d42d8 <bench_kernel_run+0x98>
+400d428a:	f07b51               	l32r	a5, 400d0478 <_stext+0x458> (3ffb1eb8 <output_len>)
+400d428d:	0599                	s32i.n	a9, a5, 0
+400d428f:	027266               	bnei	a2, 7, 400d4295 <bench_kernel_run+0x55>
+400d4292:	0030c6               	j	400d4359 <bench_kernel_run+0x119>
+400d4295:	1c82f6               	bgeui	a2, 8, 400d42b5 <bench_kernel_run+0x75>
+400d4298:	024266               	bnei	a2, 4, 400d429e <bench_kernel_run+0x5e>
+400d429b:	002046               	j	400d4320 <bench_kernel_run+0xe0>
+400d429e:	0a52f6               	bgeui	a2, 5, 400d42ac <bench_kernel_run+0x6c>
+400d42a1:	4c2226               	beqi	a2, 2, 400d42f1 <bench_kernel_run+0xb1>
+400d42a4:	353266               	bnei	a2, 3, 400d42dd <bench_kernel_run+0x9d>
+400d42a7:	001686               	j	400d4305 <bench_kernel_run+0xc5>
+400d42aa:	260000               	excw
+400d42ad:	460252               	l8ui	a5, a2, 70
+400d42b0:	860025               	call8	4005a2b4 <fflush+0xf20>
+400d42b3:	003b46029266001f 	{ l8ui	a1, a0, 102; excw }
+400d42bb:	a90c                	movi.n	a9, 10
+400d42bd:	093927               	bltu	a9, a2, 400d42ca <bench_kernel_run+0x8a>
+400d42c0:	028226               	beqi	a2, 8, 400d42c6 <bench_kernel_run+0x86>
+400d42c3:	003346               	j	400d4394 <bench_kernel_run+0x154>
+400d42c6:	002a46               	j	400d4373 <bench_kernel_run+0x133>
+400d42c9:	b90c00               	excw
+400d42cc:	029297               	bne	a2, a9, 400d42d2 <bench_kernel_run+0x92>
+400d42cf:	004046               	j	400d43d4 <bench_kernel_run+0x194>
+400d42d2:	02a266               	bnei	a2, 12, 400d42d8 <bench_kernel_run+0x98>
+400d42d5:	0055c6               	j	400d4430 <bench_kernel_run+0x1f0>
+400d42d8:	020c                	movi.n	a2, 0
+400d42da:	006f86               	j	400d449c <bench_kernel_run+0x25c>
+400d42dd:	f06791               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d42e0:	f06bc1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d42e3:	09b8                	l32i.n	a11, a9, 0
+400d42e5:	f067a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d42e8:	0acc65               	call8	400defb0 <my_rle_encode>
+400d42eb:	005706               	j	400d444b <bench_kernel_run+0x20b>
+400d42ee:	000000               	ill
+400d42f1:	f06291               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d42f4:	f066c1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d42f7:	09b8                	l32i.n	a11, a9, 0
+400d42f9:	f062a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d42fc:	0ad3a5               	call8	400df038 <my_delta_encode>
+400d42ff:	005206               	j	400d444b <bench_kernel_run+0x20b>
+400d4302:	000000               	ill
+400d4305:	f05d91               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4308:	f06fc1               	l32r	a12, 400d04c4 <_stext+0x4a4> (3ffb46d4 <byte_out+0x8>)
+400d430b:	0029b2               	l32i	a11, a9, 0
+400d430e:	f05da1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d4311:	0163b2               	s32i	a11, a3, 4
+400d4314:	0ad565               	call8	400df06c <my_lz77_encode>
+400d4317:	fbda96               	bltz	a10, 400d42d8 <bench_kernel_run+0x98>
+400d431a:	04caa2               	addi	a10, a10, 4
+400d431d:	004b46               	j	400d444e <bench_kernel_run+0x20e>
+400d4320:	f05791               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4323:	f05ac1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d4326:	09b8                	l32i.n	a11, a9, 0
+400d4328:	f057a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d432b:	007ea5               	call8	400d4b14 <my_huffman_encode>
+400d432e:	004646               	j	400d444b <bench_kernel_run+0x20b>
+400d4331:	000000               	ill
+400d4334:	f05291               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4337:	f064d1               	l32r	a13, 400d04c8 <_stext+0x4a8> (3f4063b8 <aes_key>)
+400d433a:	f054c1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d433d:	09b8                	l32i.n	a11, a9, 0
+400d433f:	f051a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d4342:	00b6e5               	call8	400d4eb0 <my_aes_encrypt>
+400d4345:	004086               	j	400d444b <bench_kernel_run+0x20b>
+400d4348:	f04d91               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d434b:	f050c1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d434e:	09b8                	l32i.n	a11, a9, 0
+400d4350:	f04da1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d4353:	00e765               	call8	400d51c8 <my_sha256_hash>
+400d4356:	003c46               	j	400d444b <bench_kernel_run+0x20b>
+400d4359:	f04891               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d435c:	f05ce1               	l32r	a14, 400d04cc <_stext+0x4ac> (3f40638c <chacha_nonce>)
+400d435f:	f05cd1               	l32r	a13, 400d04d0 <_stext+0x4b0> (3f406398 <chacha_key>)
+400d4362:	f04ac1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d4365:	09b8                	l32i.n	a11, a9, 0
+400d4367:	f047a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d436a:	011f25               	call8	400d555c <my_chacha20_encrypt>
+400d436d:	003686               	j	400d444b <bench_kernel_run+0x20b>
+400d4370:	000000               	ill
+400d4373:	f04291               	l32r	a9, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4376:	f043a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d4379:	0029b2               	l32i	a11, a9, 0
+400d437c:	00a092               	movi	a9, 0
+400d437f:	10c1c2               	addi	a12, a1, 16
+400d4382:	046192               	s32i	a9, a1, 16
+400d4385:	0147e5               	call8	400d5804 <my_crc32>
+400d4388:	f4ca56               	bnez	a10, 400d42d8 <bench_kernel_run+0x98>
+400d438b:	4198                	l32i.n	a9, a1, 16
+400d438d:	4a0c                	movi.n	a10, 4
+400d438f:	1399                	s32i.n	a9, a3, 4
+400d4391:	002e46               	j	400d444e <bench_kernel_run+0x20e>
+400d4394:	f03a81               	l32r	a8, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4397:	f04fc1               	l32r	a12, 400d04d4 <_stext+0x4b4> (3ffb26c8 <float_out+0x4>)
+400d439a:	08b8                	l32i.n	a11, a8, 0
+400d439c:	f03aa1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d439f:	014a65               	call8	400d5844 <my_fft>
+400d43a2:	f32a56               	bnez	a10, 400d42d8 <bench_kernel_run+0x98>
+400d43a5:	002646               	j	400d4442 <bench_kernel_run+0x202>
+400d43a8:	4b9100               	olt.s	b9, f1, f0
+400d43ab:	3481f0               	extui	a8, a15, 1, 4
+400d43ae:	29f2f0               	excw
+400d43b1:	099200               	l32e	a0, a2, -28
+400d43b4:	35c104               	excw
+400d43b7:	28b2f0               	excw
+400d43ba:	32a100               	orbc	b10, b1, b0
+400d43bd:	a0e2f0               	addx4	a14, a2, a15
+400d43c0:	c1d205               	call0	400960e4 <_coredump_iram_end+0xb938>
+400d43c3:	41f910               	srli	a15, a1, 9
+400d43c6:	144192               	s8i	a9, a1, 20
+400d43c9:	0ad665               	call8	400df130 <my_fir_filter>
+400d43cc:	f08a56               	bnez	a10, 400d42d8 <bench_kernel_run+0x98>
+400d43cf:	001546               	j	400d4428 <bench_kernel_run+0x1e8>
+400d43d2:	a10000               	sll	a0, a0
+400d43d5:	b1f042               	s32ri	a4, a0, 0x2c4
+400d43d8:	82f042               	s32ri	a4, a0, 0x208
+400d43db:	010a                	add.n	a0, a1, a0
+400d43dd:	000a92               	l8ui	a9, a10, 0
+400d43e0:	001bc2               	l16ui	a12, a11, 0
+400d43e3:	020aa2               	l8ui	a10, a10, 2
+400d43e6:	204182               	s8i	a8, a1, 32
+400d43e9:	020b82               	l8ui	a8, a11, 2
+400d43ec:	f024b1               	l32r	a11, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d43ef:	03a0e2               	movi	a14, 3
+400d43f2:	154192               	s8i	a9, a1, 21
+400d43f5:	200192               	l8ui	a9, a1, 32
+400d43f8:	15c1d2               	addi	a13, a1, 21
+400d43fb:	2441a2               	s8i	a10, a1, 36
+400d43fe:	002bb2               	l32i	a11, a11, 0
+400d4401:	0061e2               	s32i	a14, a1, 0
+400d4404:	014d92               	s8i	a9, a13, 1
+400d4407:	240192               	l8ui	a9, a1, 36
+400d440a:	1351c2               	s16i	a12, a1, 38
+400d440d:	024d92               	s8i	a9, a13, 2
+400d4410:	131192               	l16ui	a9, a1, 38
+400d4413:	f01ec1               	l32r	a12, 400d048c <_stext+0x46c> (3ffb46d0 <byte_out+0x4>)
+400d4416:	f01ba1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d4419:	10c1f2               	addi	a15, a1, 16
+400d441c:	085192               	s16i	a9, a1, 16
+400d441f:	124182               	s8i	a8, a1, 18
+400d4422:	0180a5               	call8	400d5c2c <my_iir_filter>
+400d4425:	eafa56               	bnez	a10, 400d42d8 <bench_kernel_run+0x98>
+400d4428:	f01581               	l32r	a8, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d442b:	08a8                	l32i.n	a10, a8, 0
+400d442d:	000686               	j	400d444b <bench_kernel_run+0x20b>
+400d4430:	f01381               	l32r	a8, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4433:	f028c1               	l32r	a12, 400d04d4 <_stext+0x4b4> (3ffb26c8 <float_out+0x4>)
+400d4436:	0028b2               	l32i	a11, a8, 0
+400d4439:	f012a1               	l32r	a10, 400d0484 <_stext+0x464> (3ffb5fdc <input_data>)
+400d443c:	019ea5               	call8	400d5e28 <my_dct>
+400d443f:	e95a56               	bnez	a10, 400d42d8 <bench_kernel_run+0x98>
+400d4442:	f00e81               	l32r	a8, 400d047c <_stext+0x45c> (3ffb1ebc <input_len>)
+400d4445:	0028a2               	l32i	a10, a8, 0
+400d4448:	11aae0               	slli	a10, a10, 2
+400d444b:	e89a96               	bltz	a10, 400d42d8 <bench_kernel_run+0x98>
+400d444e:	002382               	l32i	a8, a3, 0
+400d4451:	021867               	beq	a8, a6, 400d4457 <bench_kernel_run+0x217>
+400d4454:	ffa006               	j	400d42d8 <bench_kernel_run+0x98>
+400d4457:	3488                	l32i.n	a8, a4, 12
+400d4459:	021867               	beq	a8, a6, 400d445f <bench_kernel_run+0x21f>
+400d445c:	ff9e06               	j	400d42d8 <bench_kernel_run+0x98>
+400d445f:	f01381               	l32r	a8, 400d04ac <_stext+0x48c> (3ffb26c4 <float_out>)
+400d4462:	0888                	l32i.n	a8, a8, 0
+400d4464:	021867               	beq	a8, a6, 400d446a <bench_kernel_run+0x22a>
+400d4467:	ff9b46               	j	400d42d8 <bench_kernel_run+0x98>
+400d446a:	f01f81               	l32r	a8, 400d04e8 <_stext+0x4c8> (3ffb46c4 <float_out+0x2000>)
+400d446d:	1888                	l32i.n	a8, a8, 4
+400d446f:	021867               	beq	a8, a6, 400d4475 <bench_kernel_run+0x235>
+400d4472:	ff9886               	j	400d42d8 <bench_kernel_run+0x98>
+400d4475:	f7c2b2               	addi	a11, a2, -9
+400d4478:	080c                	movi.n	a8, 0
+400d447a:	190c                	movi.n	a9, 1
+400d447c:	8398b0               	moveqz	a9, a8, a11
+400d447f:	f4c222               	addi	a2, a2, -12
+400d4482:	1b0c                	movi.n	a11, 1
+400d4484:	05a9                	s32i.n	a10, a5, 0
+400d4486:	938b20               	movnez	a8, a11, a2
+400d4489:	080987               	bnone	a9, a8, 400d4495 <bench_kernel_run+0x255>
+400d448c:	f01681               	l32r	a8, 400d04e4 <_stext+0x4c4> (1908 <UserFrameTotalSize+0x1808>)
+400d448f:	02a8a7               	bge	a8, a10, 400d4495 <bench_kernel_run+0x255>
+400d4492:	ff9086               	j	400d42d8 <bench_kernel_run+0x98>
+400d4495:	180c                	movi.n	a8, 1
+400d4497:	004782               	s8i	a8, a7, 0
+400d449a:	120c                	movi.n	a2, 1
+400d449c:	f01d                	retw.n
+	...
+
+400d5e28 <my_dct>:
+400d5e28:	008136               	entry	a1, 64
+400d5e2b:	930b                	addi.n	a9, a3, -1
+400d5e2d:	40f480               	nsau	a8, a4
+400d5e30:	209390               	or	a9, a3, a9
+400d5e33:	418580               	srli	a8, a8, 5
+400d5e36:	059f90               	extui	a9, a9, 31, 1
+400d5e39:	208890               	or	a8, a8, a9
+400d5e3c:	0c0856               	bnez	a8, 400d5f00 <my_dct+0xd8>
+400d5e3f:	150c                	movi.n	a5, 1
+400d5e41:	935820               	movnez	a5, a8, a2
+400d5e44:	0b8556               	bnez	a5, 400d5f00 <my_dct+0xd8>
+400d5e47:	ca0300               	float.s	f0, a3, 0
+400d5e4a:	1163e0               	slli	a6, a3, 2
+400d5e4d:	0a1000               	add.s	f1, f0, f0
+400d5e50:	004103               	ssi	f0, a1, 0
+400d5e53:	faa140               	rfr	a10, f1
+400d5e56:	e9c981               	l32r	a8, 400d057c <_stext+0x55c> (40002c34 <__extendsfdf2>)
+400d5e59:	0008e0               	callx8	a8
+400d5e5c:	0acd                	mov.n	a12, a10
+400d5e5e:	0bdd                	mov.n	a13, a11
+400d5e60:	e9c1a1               	l32r	a10, 400d0564 <_stext+0x544> (54442d18 <_rtc_slow_reserved_end+0x4440d18>)
+400d5e63:	e9d2b1               	l32r	a11, 400d05ac <_stext+0x58c> (400921fb <_coredump_iram_end+0x7a4f>)
+400d5e66:	e9cb81               	l32r	a8, 400d0594 <_stext+0x574> (40002954 <__divdf3>)
+400d5e69:	0008e0               	callx8	a8
+400d5e6c:	e9c881               	l32r	a8, 400d058c <_stext+0x56c> (40002b90 <__truncdfsf2>)
+400d5e6f:	0008e0               	callx8	a8
+400d5e72:	0a8d                	mov.n	a8, a10
+400d5e74:	01b8                	l32i.n	a11, a1, 0
+400d5e76:	e9cea1               	l32r	a10, 400d05b0 <_stext+0x590> (3f800000 <_ext_ram_bss_end>)
+400d5e79:	2189                	s32i.n	a8, a1, 8
+400d5e7b:	094065               	call8	400df280 <__divsf3>
+400d5e7e:	0215e5               	call8	400d7fdc <sqrtf>
+400d5e81:	0a8d                	mov.n	a8, a10
+400d5e83:	0021b2               	l32i	a11, a1, 0
+400d5e86:	e8aca1               	l32r	a10, 400d0138 <_stext+0x118> (40000000 <_heap_end>)
+400d5e89:	056182               	s32i	a8, a1, 20
+400d5e8c:	093f25               	call8	400df280 <__divsf3>
+400d5e8f:	0214e5               	call8	400d7fdc <sqrtf>
+400d5e92:	61a9                	s32i.n	a10, a1, 24
+400d5e94:	4149                	s32i.n	a4, a1, 16
+400d5e96:	3159                	s32i.n	a5, a1, 12
+400d5e98:	0014c6               	j	400d5eef <my_dct+0xc7>
+400d5e9b:	a56000               	extui	a6, a0, 16, 11
+400d5e9e:	0a00e2               	l8ui	a14, a0, 10
+400d5ea1:	13da                	add.n	a1, a3, a13
+400d5ea3:	130141               	l32r	a4, 4009aaa8 <_coredump_iram_end+0x102fc>
+400d5ea6:	700201               	l32r	a0, 400b1eb0 <_sram1_iram_start+0x11eb0>
+400d5ea9:	108055               	call4	400e66b0 <_etext+0x594e>
+400d5eac:	402a00               	ssa8l	a10
+400d5eaf:	65faa0               	extui	a15, a10, 26, 7
+400d5eb2:	a20216               	beqz	a2, 400d58d6 <my_fft+0x92>
+400d5eb5:	400061               	l32r	a6, 400a5eb8 <_sram1_iram_start+0x5eb8>
+400d5eb8:	a280a2               	excw
+400d5ebb:	000a                	add.n	a0, a0, a0
+400d5ebd:	000113               	lsi	f1, a1, 0
+400d5ec0:	da0a00               	ufloat.s	f0, a10, 0
+400d5ec3:	441b                	addi.n	a4, a4, 1
+400d5ec5:	2a0010               	mul.s	f0, f0, f1
+400d5ec8:	010113               	lsi	f1, a1, 4
+400d5ecb:	0a1100               	add.s	f1, f1, f0
+400d5ece:	ca2437               	blt	a4, a3, 400d5e9c <my_dct+0x74>
+400d5ed1:	3188                	l32i.n	a8, a1, 12
+400d5ed3:	050103               	lsi	f0, a1, 20
+400d5ed6:	060123               	lsi	f2, a1, 24
+400d5ed9:	4198                	l32i.n	a9, a1, 16
+400d5edb:	9b0280               	movnez.s	f0, f2, a8
+400d5ede:	2a0010               	mul.s	f0, f0, f1
+400d5ee1:	881b                	addi.n	a8, a8, 1
+400d5ee3:	3189                	s32i.n	a8, a1, 12
+400d5ee5:	004903               	ssi	f0, a9, 0
+400d5ee8:	994b                	addi.n	a9, a9, 4
+400d5eea:	4199                	s32i.n	a9, a1, 16
+400d5eec:	15a837               	bge	a8, a3, 400d5f05 <my_dct+0xdd>
+400d5eef:	3188                	l32i.n	a8, a1, 12
+400d5ef1:	040c                	movi.n	a4, 0
+400d5ef3:	085d                	mov.n	a5, a8
+400d5ef5:	788a                	add.n	a7, a8, a8
+400d5ef7:	080c                	movi.n	a8, 0
+400d5ef9:	fa1850               	wfr	f1, a8
+400d5efc:	ffe706               	j	400d5e9c <my_dct+0x74>
+400d5eff:	f27c00               	rems	a7, a12, a0
+400d5f02:	000046               	j	400d5f07 <my_dct+0xdf>
+400d5f05:	020c                	movi.n	a2, 0
+400d5f07:	f01d                	retw.n
+400d5f09:	000000               	ill

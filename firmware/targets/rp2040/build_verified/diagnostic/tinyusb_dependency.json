@@ -1,0 +1,14 @@
+{
+  "name": "tinyusb",
+  "commit": "86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+  "pico_sdk_commit": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+  "gitlink_path": "lib/tinyusb",
+  "archive_url": "https://codeload.github.com/hathach/tinyusb/zip/86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+  "archive_sha256": "3011c90c128988012b553e5d2f0a90bc0b64046591c964bc1f9f6659edcd7e4b",
+  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-diagnostics-tinyusb-86ad6e56c170",
+  "archive_file_count": 2183,
+  "materialized_documentation_symlinks": {
+    "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/docs/contributing/code_of_conduct.rst": "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/CODE_OF_CONDUCT.rst",
+    "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/docs/info/contributors.rst": "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/CONTRIBUTORS.rst"
+  }
+}

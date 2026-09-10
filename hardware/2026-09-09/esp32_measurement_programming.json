@@ -1,0 +1,11 @@
+{
+  "board": "ESP32-D0WD-V3 revision3.1",
+  "firmware_profile": "measurement",
+  "firmware_sha256": "37d19f83d36e1a28f9114396eb85a0722229afa64fd422f7e58982ff9c03246f",
+  "programming_transport": "esptool5.2.0 COM4 460800 baud",
+  "flash_verification": "write-flash hash verified for bootloader,partition table,app; flash parameters kept from compiled images",
+  "uart_observation_seconds": 8,
+  "uart_text": "ets Jul 29 2019 12:21:46\r\n\r\nrst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)\r\nconfigsip: 0, SPIWP:0xee\r\nclk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00\r\nmode:DIO, clock div:2\r\nload:0x3fff0040,len:1460\r\nload:0x40078000,len:13644\r\nload:0x40080400,len:2828\r\nentry 0x40080550\r\n",
+  "application_diagnostic_events": 0,
+  "scope": "programmed UART-disabled image; immutable ROM boot output can remain; absence of diagnostic output is not proof of completed GPIO sequence; PPK2 pilot pending"
+}

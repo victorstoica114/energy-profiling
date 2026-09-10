@@ -1,0 +1,578 @@
+# CMakeFiles/energy_bench_rp2040.dir/c4d13ec574a9b7d3f54bc69743a1be94/pico-sdk-a1438dff1d38/src/rp2_common/pico_runtime_init/runtime_init_stack_guard.c.su
+runtime_init_stack_guard.c:10:6:runtime_init_per_core_install_stack_guard	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/c4d13ec574a9b7d3f54bc69743a1be94/pico-sdk-a1438dff1d38/src/rp2_common/pico_standard_binary_info/standard_binary_info.c.su
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/hardware_claim/claim.c.su
+claim.h:93:10:hw_claim_lock	0	static
+claim.h:102:6:hw_claim_unlock	0	static
+claim.h:70:6:hw_is_claimed	0	static
+claim.h:47:6:hw_claim_or_assert	24	static
+claim.h:59:5:hw_claim_unused_from_range	32	static
+claim.h:80:6:hw_claim_clear	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_sync/critical_section.c.su
+critical_section.h:45:6:critical_section_init	8	static
+critical_section.h:52:6:critical_section_init_with_lock_num	0	static
+critical_section.h:84:6:critical_section_deinit	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_sync/lock_core.c.su
+lock_core.h:72:6:lock_init	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_sync/mutex.c.su
+mutex.h:73:6:mutex_init	8	static
+mutex.h:82:6:recursive_mutex_init	8	static
+mutex.h:308:6:runtime_init_mutex	16	static
+mutex.h:92:6:mutex_enter_blocking	12	static
+mutex.h:102:6:recursive_mutex_enter_blocking	12	static
+mutex.h:115:6:mutex_try_enter	8	static
+mutex.h:143:6:recursive_mutex_try_enter	12	static
+mutex.h:212:6:mutex_enter_block_until	24	static
+mutex.h:129:6:mutex_try_enter_block_until	24	static
+mutex.h:156:6:mutex_enter_timeout_ms	24	static
+mutex.h:184:6:mutex_enter_timeout_us	16	static
+mutex.h:226:6:recursive_mutex_enter_block_until	24	static
+mutex.h:170:6:recursive_mutex_enter_timeout_ms	24	static
+mutex.h:198:6:recursive_mutex_enter_timeout_us	16	static
+mutex.h:233:6:mutex_exit	0	static
+mutex.h:240:6:recursive_mutex_exit	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_sync/sem.c.su
+sem.h:45:6:sem_init	16	static
+sem.h:53:5:sem_available	0	static
+sem.h:83:6:sem_acquire_blocking	8	static
+sem.h:123:6:sem_acquire_block_until	24	static
+sem.h:96:6:sem_acquire_timeout_ms	24	static
+sem.h:109:6:sem_acquire_timeout_us	16	static
+sem.h:134:6:sem_try_acquire	0	static
+sem.h:64:6:sem_release	8	static
+sem.h:74:6:sem_reset	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_time/time.c.su
+time.c:385:16:sleep_until_callback	0	static
+time.c:136:13:alarm_pool_irq_handler	56	static
+time.c:281:6:alarm_pool_post_alloc_init	24	static
+time.h:388:6:runtime_init_default_alarm_pool	8	static
+time.h:387:6:alarm_pool_init_default	8	static
+time.h:398:15:alarm_pool_get_default	0	static
+time.h:401:15:alarm_pool_create_on_timer	24	static
+time.h:429:15:alarm_pool_create_on_timer_with_unused_hardware_alarm	16	static
+time.h:476:6:alarm_pool_destroy	16	static
+time.h:518:12:alarm_pool_add_alarm_at_force_in_context	20	static
+time.h:499:12:alarm_pool_add_alarm_at	24	static
+time.h:602:6:alarm_pool_cancel_alarm	12	static
+time.h:458:6:alarm_pool_timer_alarm_num	0	static
+time.h:469:6:alarm_pool_core_num	0	static
+time.h:237:6:sleep_until	40	static
+time.h:247:6:sleep_us	16	static
+time.h:256:6:sleep_ms	8	static
+time.h:293:6:best_effort_wfe_or_timeout	48	static
+time.h:762:6:alarm_pool_add_repeating_timer_us	32	static
+time.h:837:6:cancel_repeating_timer	8	static
+time.h:403:21:alarm_pool_timer_for_timer_num	0	static
+time.h:405:21:alarm_pool_get_default_timer	0	static
+time.h:580:9:alarm_pool_remaining_alarm_time_us	24	static
+time.h:592:9:alarm_pool_remaining_alarm_time_ms	8	static
+time.h:696:9:remaining_alarm_time_us	8	static
+time.h:707:9:remaining_alarm_time_ms	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_time/timeout_helper.c.su
+timeout_helper.c:9:13:check_single_timeout_us	8	static
+timeout_helper.c:18:13:check_per_iteration_timeout_us	24	static
+timeout_helper.h:23:18:init_single_timeout_until	0	static
+timeout_helper.h:24:18:init_per_iteration_timeout_us	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_util/datetime.c.su
+datetime.h:55:12:pico_localtime_r	8	static
+datetime.h:63:8:pico_mktime	8	static
+datetime.h:34:6:datetime_to_str	40	static
+datetime.h:39:6:datetime_to_tm	0	static
+datetime.h:40:6:tm_to_datetime	0	static
+datetime.h:36:6:time_to_datetime	64	static
+datetime.h:37:6:datetime_to_time	48	static
+datetime.h:44:10:timespec_to_ms	16	static
+datetime.h:46:6:ms_to_timespec	16	static
+datetime.h:45:10:timespec_to_us	24	static
+datetime.h:47:6:us_to_timespec	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_util/pheap.c.su
+pheap.c:118:13:ph_dump_node	56	static
+pheap.h:129:24:ph_merge_nodes	16	static
+pheap.h:88:10:ph_create	24	static
+pheap.h:289:6:ph_post_alloc_init	12	static
+pheap.h:95:6:ph_clear	0	static
+pheap.h:104:6:ph_destroy	8	static
+pheap.c:42:17:ph_merge_two_pass	16	static
+pheap.c:55:24:ph_remove_any_head	24	static
+pheap.h:206:17:ph_remove_head	16	static
+pheap.h:234:6:ph_remove_and_free_node	16	static
+pheap.h:277:6:ph_dump	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/common/pico_util/queue.c.su
+queue.c:44:13:queue_add_internal	24	static
+queue.c:62:13:queue_remove_internal	24	static
+queue.c:82:13:queue_peek_internal	24	static
+queue.h:52:6:queue_init_with_spinlock	16	static
+queue.h:72:6:queue_free	8	static
+queue.h:166:6:queue_try_add	8	static
+queue.h:178:6:queue_try_remove	8	static
+queue.h:190:6:queue_try_peek	8	static
+queue.h:202:6:queue_add_blocking	8	static
+queue.h:212:6:queue_remove_blocking	8	static
+queue.h:222:6:queue_peek_blocking	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2040/pico_platform/platform.c.su
+platform.h:141:9:rp2040_chip_version	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_boot_lock/boot_lock.c.su
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_clocks/clocks.c.su
+clocks.c:40:13:clock_configure_internal	32	static
+clocks.c:204:13:clocks_irq_handler	16	static
+clocks.h:351:6:clock_stop	0	static
+clocks.h:319:6:clock_configure	40	static
+clocks.h:344:6:clock_configure_int_divider	32	static
+clocks.h:331:6:clock_configure_undivided	16	static
+clocks.h:359:10:clock_get_hz	0	static
+clocks.h:374:6:clock_set_reported_hz	0	static
+clocks.h:367:10:frequency_count_khz	16	static
+clocks.h:397:6:clocks_enable_resus	8	static
+clocks.h:419:6:clock_gpio_init_int_frac16	16	static
+clocks.h:494:6:clock_configure_gpin	40	static
+clocks.h:501:6:set_sys_clock_48mhz	24	static
+clocks.h:512:6:set_sys_clock_pll	32	static
+clocks.h:523:6:check_sys_clock_hz	48	static
+clocks.h:534:6:check_sys_clock_khz	48	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_gpio/gpio.c.su
+gpio.c:153:13:gpio_default_irq_handler	48	static
+gpio.c:28:5:gpio_get_pad	0	static
+gpio.h:259:6:gpio_set_function	8	static
+gpio.h:285:17:gpio_get_function	0	static
+gpio.h:297:6:gpio_set_pulls	0	static
+gpio.h:354:6:gpio_set_irqover	0	static
+gpio.h:370:6:gpio_set_inover	0	static
+gpio.h:362:6:gpio_set_outover	0	static
+gpio.h:378:6:gpio_set_oeover	0	static
+gpio.h:400:6:gpio_set_input_hysteresis_enabled	0	static
+gpio.h:408:6:gpio_is_input_hysteresis_enabled	0	static
+gpio.h:417:6:gpio_set_slew_rate	0	static
+gpio.h:426:21:gpio_get_slew_rate	0	static
+gpio.h:435:6:gpio_set_drive_strength	0	static
+gpio.h:444:26:gpio_get_drive_strength	0	static
+gpio.h:471:6:gpio_set_irq_enabled	12	static
+gpio.h:497:6:gpio_set_irq_callback	16	static
+gpio.h:530:6:gpio_set_irq_enabled_with_callback	16	static
+gpio.h:611:6:gpio_add_raw_irq_handler_with_order_priority_masked	24	static
+gpio.h:646:6:gpio_add_raw_irq_handler_with_order_priority_masked64	32	static
+gpio.h:716:6:gpio_add_raw_irq_handler_masked	8	static
+gpio.h:748:6:gpio_add_raw_irq_handler_masked64	8	static
+gpio.h:798:6:gpio_remove_raw_irq_handler_masked	8	static
+gpio.h:811:6:gpio_remove_raw_irq_handler_masked64	8	static
+gpio.h:542:6:gpio_set_dormant_irq_enabled	8	static
+gpio.h:386:6:gpio_set_input_enabled	0	static
+gpio.h:841:6:gpio_init	0	static
+gpio.h:848:6:gpio_deinit	0	static
+gpio.h:858:6:gpio_init_mask	28	static
+gpio.h:1409:13:gpio_debug_pins_init	8	static
+gpio.h:268:6:gpio_set_function_masked	24	static
+gpio.h:277:6:gpio_set_function_masked64	28	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_irq/irq.c.su
+irq.h:471:6:runtime_init_per_core_irq_priorities	0	static
+irq.h:252:6:irq_set_enabled	0	static
+irq.h:260:6:irq_is_enabled	0	static
+irq.h:268:6:irq_set_mask_enabled	0	static
+irq.h:277:6:irq_set_mask_n_enabled	0	static
+irq.h:464:6:irq_set_pending	0	static
+irq.h:426:6:irq_has_shared_handler	0	static
+irq.h:435:15:irq_get_vtable_handler	0	static
+irq.h:415:6:irq_has_handler	0	static
+irq.h:320:6:irq_set_exclusive_handler	16	static
+irq.h:333:15:irq_get_exclusive_handler	0	static
+irq.h:386:6:irq_add_shared_handler	48	static
+irq.h:404:6:irq_remove_handler	48	static
+irq.h:221:6:irq_set_priority	8	static
+irq.h:244:6:irq_get_priority	0	static
+irq.c:637:6:irq_add_tail_to_free_list	20	static
+irq.h:489:6:user_irq_claim	8	static
+irq.h:505:6:user_irq_unclaim	8	static
+irq.h:520:5:user_irq_claim_unused	16	static
+irq.h:537:6:user_irq_is_claimed	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_pll/pll.c.su
+pll.h:62:6:pll_init	24	static
+pll.h:72:6:pll_deinit	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_sync/sync.c.su
+sync.h:310:6:next_striped_spin_lock_num	0	static
+sync.h:321:6:spin_lock_claim	8	static
+sync.h:332:6:spin_lock_claim_mask	24	static
+sync.h:341:6:spin_lock_unclaim	8	static
+sync.h:349:5:spin_lock_claim_unused	16	static
+sync.h:359:6:spin_lock_is_claimed	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_sync_spin_lock/sync_spin_lock.c.su
+spin_lock.h:350:6:spin_locks_reset	0	static
+spin_lock.h:345:14:spin_lock_init	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_ticks/ticks.c.su
+ticks.h:56:6:tick_start	0	static
+ticks.h:64:6:tick_stop	0	static
+ticks.h:72:6:tick_is_running	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_timer/timer.c.su
+timer.c:146:13:hardware_alarm_irq_handler	32	static
+timer.h:285:6:timer_busy_wait_ms.part.0	16	static
+timer.h:356:6:timer_hardware_alarm_claim	8	static
+timer.h:367:6:hardware_alarm_claim	8	static
+timer.h:402:6:timer_hardware_alarm_unclaim	8	static
+timer.h:411:6:hardware_alarm_unclaim	8	static
+timer.h:422:6:timer_hardware_alarm_is_claimed	8	static
+timer.h:432:6:hardware_alarm_is_claimed	8	static
+timer.h:380:5:timer_hardware_alarm_claim_unused	16	static
+timer.h:392:5:hardware_alarm_claim_unused	16	static
+timer.h:230:10:timer_time_us_64	0	static
+timer.h:268:6:timer_busy_wait_us	16	static
+timer.h:285:6:timer_busy_wait_ms	8	static
+timer.h:302:6:timer_busy_wait_until	0	static
+timer.h:242:10:time_us_64	0	static
+timer.h:276:6:busy_wait_us	16	static
+timer.h:251:6:timer_busy_wait_us_32	8	static
+timer.h:259:6:busy_wait_us_32	8	static
+timer.h:293:6:busy_wait_ms	8	static
+timer.h:310:6:busy_wait_until	0	static
+timer.h:452:6:timer_hardware_alarm_set_callback	24	static
+timer.h:471:6:hardware_alarm_set_callback	8	static
+timer.h:485:6:timer_hardware_alarm_set_target	32	static
+timer.h:498:6:hardware_alarm_set_target	8	static
+timer.h:508:6:timer_hardware_alarm_cancel	12	static
+timer.h:517:6:hardware_alarm_cancel	8	static
+timer.h:533:6:timer_hardware_alarm_force_irq	12	static
+timer.h:548:6:hardware_alarm_force_irq	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_uart/uart.c.su
+uart.c:100:17:uart_disable_before_lcr_write	16	static
+uart.h:290:6:uart_deinit	0	static
+uart.h:312:6:uart_set_baudrate	16	static
+uart.h:280:6:uart_init	16	static
+uart.h:348:6:uart_set_format	16	static
+uart.h:411:6:uart_set_fifo_enabled	16	static
+uart.h:561:6:uart_set_break	16	static
+uart.h:569:6:uart_set_translate_crlf	0	static
+uart.h:589:6:uart_is_readable_within_us	12	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_vreg/vreg.c.su
+vreg.h:82:6:vreg_set_voltage	0	static
+vreg.h:90:19:vreg_get_voltage	0	static
+vreg.h:100:6:vreg_disable_voltage_limit	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_watchdog/watchdog.c.su
+watchdog.c:48:6:_watchdog_enable.part.0	0	static
+watchdog.h:62:6:watchdog_start_tick	8	static
+watchdog.h:68:6:watchdog_update	0	static
+watchdog.h:140:10:watchdog_get_time_remaining_us	0	static
+watchdog.h:152:10:watchdog_get_time_remaining_ms	8	static
+watchdog.c:48:6:_watchdog_enable	8	static
+watchdog.h:94:6:watchdog_enable	8	static
+watchdog.h:100:6:watchdog_disable	0	static
+watchdog.h:54:6:watchdog_reboot	8	static
+watchdog.h:109:6:watchdog_caused_reboot	0	static
+watchdog.h:128:6:watchdog_enable_caused_reboot	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/hardware_xosc/xosc.c.su
+xosc.h:37:6:xosc_init	0	static
+xosc.h:44:6:xosc_disable	0	static
+xosc.h:53:6:xosc_dormant	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_atomic/atomic.c.su
+atomic.c:24:7:__atomic_test_and_set_c	8	static
+atomic.c:47:6:__atomic_is_lock_free	0	static
+atomic.c:60:6:__atomic_load	16	static
+atomic.c:68:6:__atomic_store	16	static
+atomic.c:79:7:__atomic_compare_exchange	32	static
+atomic.c:94:6:__atomic_exchange	24	static
+atomic.c:121:1:__atomic_load_1	0	static
+atomic.c:121:1:__atomic_load_2	0	static
+atomic.c:121:1:__atomic_load_4	0	static
+atomic.c:121:1:__atomic_load_8	8	static
+atomic.c:132:1:__atomic_store_1	8	static
+atomic.c:132:1:__atomic_store_2	8	static
+atomic.c:132:1:__atomic_store_4	8	static
+atomic.c:132:1:__atomic_store_8	12	static
+atomic.c:150:1:__atomic_compare_exchange_1	16	static
+atomic.c:150:1:__atomic_compare_exchange_2	16	static
+atomic.c:150:1:__atomic_compare_exchange_4	16	static
+atomic.c:150:1:__atomic_compare_exchange_8	20	static
+atomic.c:163:1:__atomic_exchange_1	8	static
+atomic.c:163:1:__atomic_exchange_2	8	static
+atomic.c:163:1:__atomic_exchange_4	8	static
+atomic.c:163:1:__atomic_exchange_8	16	static
+atomic.c:189:1:__atomic_fetch_add_1	12	static
+atomic.c:189:1:__atomic_fetch_add_2	12	static
+atomic.c:189:1:__atomic_fetch_add_4	8	static
+atomic.c:189:1:__atomic_fetch_add_8	16	static
+atomic.c:194:1:__atomic_fetch_sub_1	12	static
+atomic.c:194:1:__atomic_fetch_sub_2	12	static
+atomic.c:194:1:__atomic_fetch_sub_4	8	static
+atomic.c:194:1:__atomic_fetch_sub_8	20	static
+atomic.c:199:1:__atomic_fetch_and_1	12	static
+atomic.c:199:1:__atomic_fetch_and_2	12	static
+atomic.c:199:1:__atomic_fetch_and_4	8	static
+atomic.c:199:1:__atomic_fetch_and_8	20	static
+atomic.c:204:1:__atomic_fetch_or_1	12	static
+atomic.c:204:1:__atomic_fetch_or_2	12	static
+atomic.c:204:1:__atomic_fetch_or_4	8	static
+atomic.c:204:1:__atomic_fetch_or_8	20	static
+atomic.c:209:1:__atomic_fetch_xor_1	12	static
+atomic.c:209:1:__atomic_fetch_xor_2	12	static
+atomic.c:209:1:__atomic_fetch_xor_4	8	static
+atomic.c:209:1:__atomic_fetch_xor_8	20	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_bootrom/bootrom.c.su
+bootrom.h:130:7:rom_func_lookup	8	static
+bootrom.h:138:7:rom_data_lookup	8	static
+bootrom.h:151:6:rom_funcs_lookup	24	static
+bootrom.h:261:32:rom_reset_usb_boot	16	static
+bootrom.h:283:32:rom_reset_usb_boot_extra	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_bootrom/bootrom_lock.c.su
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_clib_interface/newlib_interface.c.su
+unistd.h:18:6:_exit	0	static
+newlib_interface.c:50:14:_sbrk	0	static
+newlib_interface.c:79:12:_gettimeofday	16	static
+time.h:361:5:settimeofday	24	static
+newlib_interface.c:96:12:_times	8	static
+newlib_interface.c:108:14:_getpid	0	static
+newlib_interface.c:112:12:_kill	0	static
+newlib_interface.c:116:27:_read	8	static
+newlib_interface.c:125:27:_write	8	static
+newlib_interface.c:135:27:_open	0	static
+newlib_interface.c:139:27:_close	0	static
+newlib_interface.c:143:29:_lseek	0	static
+newlib_interface.c:147:27:_fstat	0	static
+newlib_interface.c:151:27:_isatty	0	static
+newlib_interface.c:155:27:_getentropy	0	static
+newlib_interface.c:161:6:exit	8	static
+assert.h:41:6:__assert_func	16	static
+runtime.h:48:6:runtime_init	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_cxx_options/new_delete.cpp.su
+new_delete.cpp:14:7:void* operator new(std::size_t)	8	static
+new_delete.cpp:18:7:void* operator new [](std::size_t)	8	static
+new_delete.cpp:22:6:void operator delete(void*)	8	static
+new_delete.cpp:24:6:void operator delete [](void*)	8	static
+new_delete.cpp:28:6:void operator delete(void*, std::size_t)	8	static
+new_delete.cpp:30:6:void operator delete [](void*, std::size_t)	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_double/double_init_rom_rp2040.c.su
+double_init_rom_rp2040.c:24:6:__aeabi_double_init	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_double/double_math.c.su
+double_math.c:389:15:dpow_int2	16	static
+double_math.c:543:12:drem_0	56	static
+double_math.c:352:15:dpow_1	64	static
+double_math.c:405:15:dpowint_0	32	static
+double_math.c:453:15:dpow_0	32	static
+double_math.c:95:8:__wrap_ldexp	12	static
+double_math.c:107:8:__wrap_copysign	8	static
+double_math.c:177:8:__wrap_trunc	16	static
+double_math.c:193:8:__wrap_round	20	static
+double_math.c:216:8:__wrap_floor	24	static
+double_math.c:237:8:__wrap_ceil	24	static
+double_math.c:258:8:__wrap_asin	24	static
+double_math.c:266:8:__wrap_acos	24	static
+double_math.c:274:8:__wrap_atan	16	static
+double_math.c:281:8:__wrap_sinh	24	static
+double_math.c:286:8:__wrap_cosh	24	static
+double_math.c:291:8:__wrap_tanh	24	static
+double_math.c:304:8:__wrap_asinh	16	static
+double_math.c:316:8:__wrap_acosh	24	static
+double_math.c:325:8:__wrap_atanh	24	static
+double_math.c:330:8:__wrap_exp2	16	static
+double_math.c:340:8:__wrap_log2	8	static
+double_math.c:341:8:__wrap_exp10	8	static
+double_math.c:342:8:__wrap_log10	8	static
+double_math.c:345:8:__wrap_expm1	8	static
+double_math.c:346:8:__wrap_log1p	8	static
+double_math.c:348:8:__wrap_fma	8	static
+double_math.c:423:8:__wrap_powint	16	static
+double_math.c:472:8:__wrap_pow	32	static
+double_math.c:514:8:__wrap_hypot	40	static
+double_math.c:529:8:__wrap_cbrt	24	static
+double_math.c:564:8:__wrap_fmod	32	static
+double_math.c:583:8:__wrap_remquo	64	static
+double_math.c:622:8:__wrap_drem	16	static
+double_math.c:624:8:__wrap_remainder	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_flash/flash.c.su
+flash.c:86:13:default_core_init_deinit	0	static
+flash.c:138:12:default_enter_safe_zone_timeout_ms	0	static
+flash.c:208:12:default_exit_safe_zone_timeout_ms	0	static
+flash.h:133:24:get_flash_safety_helper	0	static
+flash.h:63:6:flash_safe_execute_core_init	8	static
+flash.h:70:6:flash_safe_execute_core_deinit	8	static
+flash.h:87:5:flash_safe_execute	24	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_float/float_init_rom_rp2040.c.su
+float_init_rom_rp2040.c:22:6:__aeabi_float_init	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_float/float_math.c.su
+float_math.c:345:14:fpow_int2	16	static
+float_math.c:497:12:frem_0	32	static
+float_math.c:409:14:fpow_0	24	static
+float_math.c:361:14:fpowint_0	24	static
+float_math.c:92:7:__wrap_ldexpf	0	static
+float_math.c:103:7:__wrap_copysignf	0	static
+float_math.c:174:7:__wrap_truncf	0	static
+float_math.c:190:7:__wrap_roundf	0	static
+float_math.c:213:7:__wrap_floorf	0	static
+float_math.c:234:7:__wrap_ceilf	0	static
+float_math.c:255:7:__wrap_asinf	16	static
+float_math.c:263:7:__wrap_acosf	16	static
+float_math.c:271:7:__wrap_atanf	8	static
+float_math.c:278:7:__wrap_sinhf	16	static
+float_math.c:283:7:__wrap_coshf	16	static
+float_math.c:288:7:__wrap_tanhf	16	static
+float_math.c:301:7:__wrap_asinhf	16	static
+float_math.c:313:7:__wrap_acoshf	24	static
+float_math.c:322:7:__wrap_atanhf	16	static
+float_math.c:327:7:__wrap_exp2f	8	static
+float_math.c:328:7:__wrap_log2f	8	static
+float_math.c:329:7:__wrap_exp10f	8	static
+float_math.c:330:7:__wrap_log10f	8	static
+float_math.c:332:7:__wrap_expm1f	8	static
+float_math.c:333:7:__wrap_log1pf	8	static
+float_math.c:334:7:__wrap_fmaf	24	static
+float_math.c:379:7:__wrap_powintf	16	static
+float_math.c:428:7:__wrap_powf	24	static
+float_math.c:468:7:__wrap_hypotf	16	static
+float_math.c:483:7:__wrap_cbrtf	8	static
+float_math.c:518:7:__wrap_fmodf	16	static
+float_math.c:539:7:__wrap_remquof	40	static
+float_math.c:578:7:__wrap_dremf	8	static
+float_math.c:580:7:__wrap_remainderf	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_malloc/malloc.c.su
+malloc.c:68:7:__wrap_malloc	8	static
+malloc.c:83:7:__wrap_calloc	16	static
+malloc.c:98:7:__wrap_realloc	8	static
+malloc.c:113:6:__wrap_free	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_platform_common/common.c.su
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_platform_panic/panic.c.su
+panic.h:31:32:panic	16	static
+panic.h:20:32:panic_unsupported	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_printf/printf.c.su
+printf.c:128:20:_out_buffer	0	static
+printf.c:135:20:_out_null	0	static
+printf.c:180:15:_out_rev	40	static
+printf.c:208:15:_ntoa_format	48	static
+printf.c:259:15:_ntoa_long	112	static
+printf.c:285:15:_ntoa_long_long	120	static
+printf.c:913:20:_out_char	8	static
+printf.c:143:20:_out_fct	8	static
+printf.c:447:15:_etoa	104	static
+printf.c:322:15:_ftoa	128	static
+printf.c:561:12:_vsnprintf	120	static
+printf.c:876:5:__wrap_sprintf	28	static
+printf.c:884:5:__wrap_snprintf	24	static
+printf.c:892:5:__wrap_vsnprintf	16	static
+printf.h:80:5:vfctprintf	24	static
+printf.h:66:6:weak_raw_vprintf	24	static
+printf.h:65:25:weak_raw_printf	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_runtime/runtime.c.su
+runtime.c:54:13:first_per_core_initializer	0	static
+assert.h:40:13:hard_assertion_failure	8	static
+runtime.h:50:6:runtime_run_initializers	16	static
+runtime.h:51:6:runtime_run_per_core_initializers	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_runtime_init/runtime_init.c.su
+runtime_init.h:141:6:runtime_init_early_resets	0	static
+runtime_init.h:163:6:runtime_init_usb_power_down	0	static
+runtime_init.h:255:6:runtime_init_post_clock_resets	0	static
+runtime_init.h:281:6:runtime_init_rp2040_gpio_ie_disable	0	static
+runtime_init.h:305:6:runtime_init_spin_locks_reset	8	static
+runtime_init.c:214:6:runtime_init_install_ram_vector_table	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_runtime_init/runtime_init_clocks.c.su
+runtime_init.h:233:6:runtime_init_clocks	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_stdio/stdio.c.su
+stdio.c:59:13:stdio_out_chars_no_crlf	8	static
+stdio.c:63:13:stdio_out_chars_crlf	32	static
+stdio.c:180:13:stdio_stack_buffer_flush.part.0	24	static
+stdio.c:191:13:stdio_buffered_printer	16	static
+stdio.c:44:6:stdout_serialize_begin	8	static
+stdio.c:48:6:stdout_serialize_end	8	static
+stdio.h:187:5:stdio_put_string	48	static
+stdio.h:173:5:stdio_get_until	40	static
+stdio.h:133:5:stdio_putchar_raw	16	static
+stdio.h:145:5:stdio_puts_raw	16	static
+stdio.h:108:6:stdio_set_driver_enabled	0	static
+stdio.h:84:6:stdio_flush	8	static
+stdio.h:69:6:stdio_init_all	0	static
+stdio.h:79:6:stdio_deinit_all	8	static
+stdio.h:92:5:stdio_getchar_timeout_us	16	static
+stdio.h:118:6:stdio_filter_driver	0	static
+stdio.h:128:6:stdio_set_translate_crlf	0	static
+stdio.h:160:6:stdio_set_chars_available_callback	16	static
+stdio.c:294:5:__wrap_getchar	16	static
+stdio.c:302:5:__wrap_putchar	16	static
+stdio.c:308:5:__wrap_puts	16	static
+stdio.c:317:5:__wrap_vprintf	152	static
+stdio.c:346:24:__wrap_printf	16	static
+
+# CMakeFiles/energy_bench_rp2040.dir/C_/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38/src/rp2_common/pico_stdlib/stdlib.c.su
+stdlib.h:85:6:setup_default_uart	8	static
+
+# CMakeFiles/energy_bench_rp2040.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_data.c.su
+
+# CMakeFiles/energy_bench_rp2040.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/bench_runner.c.su
+bench_runner.c:22:13:fail	16	static
+bench_runner.c:34:6:bench_main	48	static
+
+# CMakeFiles/energy_bench_rp2040.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_algorithms.c.su
+bench_algorithms.c:421:13:AES_encrypt_block	56	static
+bench_algorithms.c:123:24:extract_min_node.constprop	24	static
+bench_algorithms.c:13:5:my_rle_encode	48	static
+bench_algorithms.c:40:5:my_delta_encode	16	static
+bench_algorithms.c:60:5:my_lz77_encode	56	static
+bench_algorithms.c:175:5:my_huffman_encode	1344	static
+bench_algorithms.c:441:5:my_aes_encrypt	248	static
+bench_algorithms.c:491:6:sha256_transform	352	static
+bench_algorithms.c:539:5:my_sha256_hash	128	static
+bench_algorithms.c:586:6:chacha20_quarter_round	12	static
+bench_algorithms.c:605:6:chacha20_mixing	88	static
+bench_algorithms.c:639:5:my_chacha20_encrypt	176	static
+bench_algorithms.c:678:5:my_crc32	16	static
+bench_algorithms.c:703:10:reverse_bits	20	static
+bench_algorithms.c:714:5:my_fft	136	static
+bench_algorithms.c:774:5:my_fir_filter	40	static
+bench_algorithms.c:808:5:my_iir_filter	80	static
+bench_algorithms.c:857:5:my_dct	64	static
+
+# CMakeFiles/energy_bench_rp2040.dir/e502336a13e88ccf0dc0c121ce6d3ef9/analysis/remeasurement/project_stage/firmware/common/kernels/bench_kernels.c.su
+bench_kernels.c:152:13:verify_huffman	744	static
+bench_kernels.c:188:13:verify_filter	48	static
+bench_kernels.c:59:6:bench_kernel_prepare	24	static
+bench_kernels.c:74:6:bench_kernel_run	64	static
+bench_kernels.c:219:6:bench_kernel_verify	48	static
+bench_kernels.c:242:16:bench_kernel_output_bytes	0	static
+bench_kernels.c:247:14:bench_kernel_output_floats	0	static
+bench_kernels.c:252:8:bench_kernel_input_length	0	static
+bench_kernels.c:253:10:bench_kernel_digest	16	static
+bench_kernels.c:263:13:bench_kernel_name	0	static
+
+# CMakeFiles/energy_bench_rp2040.dir/platform_rp2040.c.su
+platform_rp2040.c:20:6:bench_platform_signals	20	static
+platform_rp2040.c:30:6:bench_platform_check	8	static
+platform_rp2040.c:43:6:bench_platform_init	32	static
+platform_rp2040.c:68:6:bench_platform_wait_ms	24	static
+platform_rp2040.c:76:6:bench_platform_finish	0	static
+platform_rp2040.c:81:5:main	8	static
+

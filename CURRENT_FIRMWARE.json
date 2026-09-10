@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "experiment_id": "energy-profiling-v2-f446",
+  "experiment_sha256": "618da7f1177a7e51427990ca6a4ed2693af8c41940297596813aa12e75387b7b",
+  "state": "all_three_diagnostic_suites_passed; measurement_images_programmed; PPK2_energy_pilot_pending",
+  "boards": {
+    "esp32": {
+      "model": "ESP32-D0WD-V3 rev3.1",
+      "diagnostic_acceptance": "hardware/2026-09-09/esp32_diagnostic_01.json",
+      "diagnostic_acceptance_sha256": "4f6ba0aeb54f30198ab89dbfd2ab67724a793c1bf1e2dfaea9179a554e04644f",
+      "programming_record": "hardware/2026-09-09/esp32_measurement_programming.json",
+      "programming_record_sha256": "cf267bfc295deee2db880145f40faf870c422dc965dec5fa4b0f21b30e43fa72",
+      "installed_profile": "measurement",
+      "profiles": {
+        "diagnostic": {
+          "primary_image": "firmware/targets/esp32/build_verified/diagnostic/energy_bench_esp32.bin",
+          "sha256": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4",
+          "verification": "firmware/targets/esp32/build_verified/diagnostic/verification.json",
+          "diagnostics_enabled": true,
+          "flash_images": [
+            {
+              "offset": "0x1000",
+              "path": "firmware/targets/esp32/build_verified/diagnostic/bootloader/bootloader.bin",
+              "sha256": "405580f0ee48093a5fc9e28c28ca5e7578587f8ef7e169fee9c667abeaf33f08"
+            },
+            {
+              "offset": "0x8000",
+              "path": "firmware/targets/esp32/build_verified/diagnostic/partition_table/partition-table.bin",
+              "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+            },
+            {
+              "offset": "0x10000",
+              "path": "firmware/targets/esp32/build_verified/diagnostic/energy_bench_esp32.bin",
+              "sha256": "d5f8d3d0efd53a0111a69adc4ae4c440fbde0a984a511f1092bf81a89e41aeb4"
+            }
+          ],
+          "flash_parameters": {
+            "mode": "DIO",
+            "frequency": "40MHz",
+            "size": "4MB",
+            "preserve_compiled_headers": true
+          }
+        },
+        "measurement": {
+          "primary_image": "firmware/targets/esp32/build_verified/measurement/energy_bench_esp32.bin",
+          "sha256": "37d19f83d36e1a28f9114396eb85a0722229afa64fd422f7e58982ff9c03246f",
+          "verification": "firmware/targets/esp32/build_verified/measurement/verification.json",
+          "diagnostics_enabled": false,
+          "flash_images": [
+            {
+              "offset": "0x1000",
+              "path": "firmware/targets/esp32/build_verified/measurement/bootloader/bootloader.bin",
+              "sha256": "1360a52ff796f4bc8f97e64228fa92a370f5fca80d20e55e425bbca8502fbd4f"
+            },
+            {
+              "offset": "0x8000",
+              "path": "firmware/targets/esp32/build_verified/measurement/partition_table/partition-table.bin",
+              "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+            },
+            {
+              "offset": "0x10000",
+              "path": "firmware/targets/esp32/build_verified/measurement/energy_bench_esp32.bin",
+              "sha256": "37d19f83d36e1a28f9114396eb85a0722229afa64fd422f7e58982ff9c03246f"
+            }
+          ],
+          "flash_parameters": {
+            "mode": "DIO",
+            "frequency": "40MHz",
+            "size": "4MB",
+            "preserve_compiled_headers": true
+          }
+        }
+      }
+    },
+    "rp2040": {
+      "model": "Raspberry Pi Pico RP2040",
+      "diagnostic_acceptance": "hardware/2026-09-09/rp2040_diagnostic_01.json",
+      "diagnostic_acceptance_sha256": "ad3f8ccf563bd94acf82902d87b09fc54b874cb327513a5903bd34a33b5638b5",
+      "programming_record": "hardware/2026-09-09/rp2040_measurement_programming.json",
+      "programming_record_sha256": "6d8f0ba3381911454a9d6959c227b5eb27fcf434df7552c8c8c05dd85f5665b9",
+      "installed_profile": "measurement",
+      "profiles": {
+        "diagnostic": {
+          "primary_image": "firmware/targets/rp2040/build_verified/diagnostic/energy_bench_rp2040.uf2",
+          "sha256": "e5ad488bced8c660779e56745814102151bcaa0cc8882a966b59433e89a9c764",
+          "verification": "firmware/targets/rp2040/build_verified/diagnostic/verification.json",
+          "diagnostics_enabled": true,
+          "format": "RP2040 UF2 with embedded target addresses"
+        },
+        "measurement": {
+          "primary_image": "firmware/targets/rp2040/build_verified/measurement/energy_bench_rp2040.uf2",
+          "sha256": "41105817977609b020e7f7a27e26e6670f8ed8cca692b27c282027506ca25cee",
+          "verification": "firmware/targets/rp2040/build_verified/measurement/verification.json",
+          "diagnostics_enabled": false,
+          "format": "RP2040 UF2 with embedded target addresses"
+        }
+      }
+    },
+    "stm32": {
+      "model": "NUCLEO-F446RE",
+      "diagnostic_acceptance": "hardware/2026-09-09/stm32_diagnostic_01.json",
+      "diagnostic_acceptance_sha256": "c67a293bd1a98b9f7ad50f03281ce4a455d4a705a1cfd61716fe3864a00c06c0",
+      "programming_record": "hardware/2026-09-09/stm32_measurement_programming.json",
+      "programming_record_sha256": "27f121320072acc21de37c70a1e46195763b9c20d1e12dc0945f923373697fab",
+      "installed_profile": "measurement",
+      "profiles": {
+        "diagnostic": {
+          "primary_image": "firmware/targets/stm32f446/build_verified/diagnostic/energy_bench_stm32f446.bin",
+          "sha256": "4772e435f0f4b4ddf1d7617b4a3944d838307c31e5f0287146ebea0bdbc8f54b",
+          "verification": "firmware/targets/stm32f446/build_verified/diagnostic/verification.json",
+          "diagnostics_enabled": true,
+          "load_address": "0x08000000"
+        },
+        "measurement": {
+          "primary_image": "firmware/targets/stm32f446/build_verified/measurement/energy_bench_stm32f446.bin",
+          "sha256": "dbc411628bf48f3a2c29864e4b5c2c8a438d2de173cf01b17cdf96e294f93f54",
+          "verification": "firmware/targets/stm32f446/build_verified/measurement/verification.json",
+          "diagnostics_enabled": false,
+          "load_address": "0x08000000"
+        }
+      }
+    }
+  }
+}

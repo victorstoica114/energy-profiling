@@ -1,0 +1,5 @@
+Final incremental native verification after the successful full build.
+arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+ninja: no work to do.
+   text	   data	    bss	    dec	    hex	filename
+  42984	    108	  40348	  83440	  145f0	C:\Users\User\AppData\Local\Temp\energy-native-build-verified\stm32\energy_bench_stm32.elf

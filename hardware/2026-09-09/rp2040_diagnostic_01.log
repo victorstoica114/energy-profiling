@@ -1,0 +1,27 @@
+17.953000	BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=133000000 fpu=software radio=absent core=0 transport=USB_CDC check=1
+17.953000	BENCH event=BOOT id=0 calls=0 digest=00000000
+22.937000	BENCH event=START id=1 calls=3000 digest=00000000
+24.187000	BENCH event=PASS id=1 calls=3000 digest=a6842b8a
+25.187000	BENCH event=START id=2 calls=3000 digest=00000000
+25.703000	BENCH event=PASS id=2 calls=3000 digest=02775fd9
+26.703000	BENCH event=START id=3 calls=200 digest=00000000
+31.219000	BENCH event=PASS id=3 calls=200 digest=db04f40d
+32.219000	BENCH event=START id=4 calls=500 digest=00000000
+34.703000	BENCH event=PASS id=4 calls=500 digest=8e6acb7f
+35.703000	BENCH event=START id=5 calls=100 digest=00000000
+36.453000	BENCH event=PASS id=5 calls=100 digest=9c8d0100
+37.453000	BENCH event=START id=6 calls=500 digest=00000000
+38.375000	BENCH event=PASS id=6 calls=500 digest=02821d41
+39.375000	BENCH event=START id=7 calls=3000 digest=00000000
+44.594000	BENCH event=PASS id=7 calls=3000 digest=086609c9
+45.594000	BENCH event=START id=8 calls=3000 digest=00000000
+48.844000	BENCH event=PASS id=8 calls=3000 digest=fc2541f1
+49.844000	BENCH event=START id=9 calls=20 digest=00000000
+54.687000	BENCH event=PASS id=9 calls=20 digest=4188afdf
+55.687000	BENCH event=START id=10 calls=300 digest=00000000
+56.344000	BENCH event=PASS id=10 calls=300 digest=b19fcb91
+57.344000	BENCH event=START id=11 calls=50 digest=00000000
+58.812000	BENCH event=PASS id=11 calls=50 digest=01ccddb5
+59.812000	BENCH event=START id=12 calls=1 digest=00000000
+89.594000	BENCH event=PASS id=12 calls=1 digest=23132232
+91.594000	BENCH event=DONE id=0 calls=0 digest=00000000

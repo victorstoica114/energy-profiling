@@ -1,0 +1,11 @@
+{
+  "board": "NUCLEO-F446RE",
+  "firmware_profile": "measurement",
+  "firmware_sha256": "dbc411628bf48f3a2c29864e4b5c2c8a438d2de173cf01b17cdf96e294f93f54",
+  "programming_transport": "ST-LINK mass storage G: NODE_F446RE",
+  "stlink_fail_txt": null,
+  "uart_observation_seconds": 8,
+  "uart_bytes_observed": 0,
+  "uart_text": "",
+  "scope": "programmed UART-disabled image; serial silence is not proof of completed GPIO sequence; PPK2 pilot pending"
+}

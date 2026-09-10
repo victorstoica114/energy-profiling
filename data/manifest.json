@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "input_bytes": 2048,
+  "canonical_definition": "Frozen .bin and .hex files; C arrays must contain the same exact bytes.",
+  "generation": {
+    "compression": "[00*32 || FF*32 || 00..3F || (000001010202030310203040AA55AA55)*8]*8",
+    "crypto": "xorshift32, unsigned modulo2^32, seed0x1A2B3C4D, shifts13left/17right/5left, emit lowbyte after each full update,2048updates",
+    "dsp": "u[n]=floor(128+100*sin(2*pi*n/128)+0.5),n0..127; period128 repeated16times; frozen byte table is authoritative"
+  },
+  "files": {
+    "compression": {
+      "bytes": 2048,
+      "sha256": "44a2a279b86d1e7d98c24c5bd341a66adec17470de9e7b0ffa4ffc7092b7dab2"
+    },
+    "crypto": {
+      "bytes": 2048,
+      "sha256": "b81c57d8f1f5c17f190e279e86f781dee155b05a779fe741a12a6bfacde47b23"
+    },
+    "dsp": {
+      "bytes": 2048,
+      "sha256": "f7ed02ed3c339a9290b4d5a9981e472ae967a86d8d3e2735948c819650a28cb7"
+    }
+  }
+}

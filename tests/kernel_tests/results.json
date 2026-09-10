@@ -1,0 +1,624 @@
+{
+  "checks": 119,
+  "all_12_kernels_passed": true,
+  "repeat_reset_checked": true,
+  "corruption_rejected_for_all_12": true,
+  "max_fft_absolute_error": 1.3406215568778634e-06,
+  "max_dct_absolute_error": 0.00146621880256248,
+  "command": [
+    "gcc",
+    "-std=c11",
+    "-O2",
+    "-fno-lto",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-shared",
+    "-I",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\project_stage\\firmware\\common\\include",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\project_stage\\firmware\\common\\kernels\\bench_algorithms.c",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\project_stage\\firmware\\common\\kernels\\bench_kernels.c",
+    "-o",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\project_stage\\tests\\kernel_tests\\build\\bench_kernels_host.dll",
+    "-lm"
+  ],
+  "cases": [
+    {
+      "kernel": 5,
+      "bytes": 16,
+      "reference": "NIST AES-128 ECB",
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 64,
+      "reference": "RFC 8439 2.3.2",
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 10,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 255,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 256,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 257,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 1,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 10,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 255,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 256,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 257,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 2,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 10,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 255,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 256,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 257,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 3,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 10,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 255,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 256,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 257,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 4,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 3,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 15,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 16,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 17,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 55,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 56,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 63,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 65,
+      "result": "pass"
+    },
+    {
+      "kernel": 5,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 3,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 15,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 16,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 17,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 55,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 56,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 63,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 65,
+      "result": "pass"
+    },
+    {
+      "kernel": 6,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 3,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 15,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 16,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 17,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 55,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 56,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 63,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 65,
+      "result": "pass"
+    },
+    {
+      "kernel": 7,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 3,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 15,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 16,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 17,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 55,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 56,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 63,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 65,
+      "result": "pass"
+    },
+    {
+      "kernel": 8,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 10,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 0,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 64,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 11,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 9,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 9,
+      "bytes": 8,
+      "result": "pass"
+    },
+    {
+      "kernel": 9,
+      "bytes": 8,
+      "result": "pass"
+    },
+    {
+      "kernel": 9,
+      "bytes": 32,
+      "result": "pass"
+    },
+    {
+      "kernel": 9,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 1,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 8,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 8,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 32,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 2048,
+      "result": "pass"
+    },
+    {
+      "kernel": 12,
+      "bytes": 7,
+      "result": "pass"
+    }
+  ]
+}

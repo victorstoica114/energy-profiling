@@ -1,0 +1,20 @@
+{
+  "method": "Independent Python standard-library references; direct DFT and orthonormal DCT, AES algebraic S-box, explicit ChaCha rounds, hashlib/zlib",
+  "inputs": {
+    "compression": "44a2a279b86d1e7d98c24c5bd341a66adec17470de9e7b0ffa4ffc7092b7dab2",
+    "crypto": "b81c57d8f1f5c17f190e279e86f781dee155b05a779fe741a12a6bfacde47b23",
+    "dsp": "f7ed02ed3c339a9290b4d5a9981e472ae967a86d8d3e2735948c819650a28cb7"
+  },
+  "output_hashes": {
+    "golden_aes": "02104adad8385d9c1831c9b5bc7ebff0c44f7e4f60f60fa1ee902454e79d6f60",
+    "golden_sha256": "e5f0411d11712a0343a61661902404b2658972e2678e4696e8ad8a90ba46c2f7",
+    "golden_chacha20": "366b564097e3bc7b98b61c331c70f7b0331bc7a2085af9d7dd97f4768aebe083",
+    "golden_crc32": "ab62fb4c60b21c174c93f4e0fe267b88126e19c1cd7f8abb97ad065746deddf5",
+    "golden_dsp_period": "e12f3c5aff3a9aeba9ce5a6cbedd46e0fd39e363861466bf230ea991bdaf7d56"
+  },
+  "references": [
+    "https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/AES_Core128.pdf",
+    "https://www.rfc-editor.org/rfc/rfc8439#section-2.3.2",
+    "https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.dct.html"
+  ]
+}

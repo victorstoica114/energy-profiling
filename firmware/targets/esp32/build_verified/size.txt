@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+ 112109	  53420	  43665	 209194	  3312a	C:/Users/User/AppData/Local/Temp/energy-bench-esp32-verified/energy_bench_esp32.elf
