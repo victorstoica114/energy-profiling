@@ -1,12 +1,8 @@
-build/
-build-*/
-.deps/
-captures/
-results/
+.venv/
 __pycache__/
+tests/__pycache__/
+tools/__pycache__/
 *.pyc
-.DS_Store
-.vscode/settings.json
-
-# Local delivery bookkeeping
-.delivery_manifest.json
+captures/**/capture.csv
+captures_noreg/**/capture.csv
+module radio/

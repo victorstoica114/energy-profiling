@@ -1,3 +1,14 @@
 # Preserve exact file bytes: archived source and firmware hashes are evidence.
 # Disable automatic line-ending conversion on commit and checkout.
 * -text
+*.raw4 filter=lfs diff=lfs merge=lfs -text
+*.csv -diff -merge -text
+captures/**/capture_metadata.json -diff -merge -text
+captures/**/failure.json -diff -merge -text
+captures/**/analysis/*.json -diff -merge -text
+captures_noreg/**/capture_metadata.json -diff -merge -text
+captures_noreg/**/failure.json -diff -merge -text
+captures_noreg/**/analysis/*.json -diff -merge -text
+diagnostics/**/failure.json -diff -merge -text
+results/**/*.json -diff -merge -text
+dataset/raw_inventory.json -diff -merge -text

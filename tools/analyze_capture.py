@@ -29,6 +29,13 @@ TIME_UNITS = {"s": 1.0, "ms": 1e-3, "us": 1e-6}
 REQUIRED_RATE = 100_000
 DEFAULT_MAX_SAMPLES = 60_000_000
 NORDIC_COMMIT = "881d596480f60dea045ad6f3643afdc3f9d5a0a6"
+PAUSE_SHORT_TOLERANCE_FRACTION = {
+    "esp32": 0.01,
+    "rp2040": 0.01,
+    # F446 control delays use the uncalibrated-for-this-fixture HSI16 RC clock.
+    # Keep this structural allowance separate from RUN-window integration.
+    "stm32": 0.02,
+}
 
 
 class CaptureError(ValueError):
@@ -343,7 +350,8 @@ class Moments:
 
 
 def analyze(capture: Capture, iterations: dict, *, voltage: float,
-            startup_idle_seconds: float = 2.0) -> dict:
+            startup_idle_seconds: float = 2.0,
+            pause_short_tolerance_fraction: float = 0.01) -> dict:
     """Check one sequence of 12 D0 gates; their algorithm identities are assumed."""
     rate = require_rate(capture.sample_rate_hz)
     voltage = finite_number(voltage, "voltage", positive=True)
@@ -351,9 +359,15 @@ def analyze(capture: Capture, iterations: dict, *, voltage: float,
         raise CaptureError("Exact positive iteration counts for all 12 algorithms are required")
     if startup_idle_seconds != 2.0:
         raise CaptureError("Baseline selection is fixed to the last 2 s LOW before the first RUN")
+    pause_short_tolerance_fraction = finite_number(
+        pause_short_tolerance_fraction, "pause short tolerance fraction"
+    )
+    if not 0 <= pause_short_tolerance_fraction <= 0.10:
+        raise CaptureError("Pause short tolerance fraction must be between 0 and 0.10")
     baseline_count = int(rate) * 2
-    minimum_startup_count = int(rate) * 5 * 99 // 100
-    minimum_gap_count = int(rate) * 99 // 100
+    accepted_fraction = 1.0 - pause_short_tolerance_fraction
+    minimum_startup_count = math.ceil(rate * 5 * accepted_fraction - 1e-9)
+    minimum_gap_count = math.ceil(rate * accepted_fraction - 1e-9)
     minimum_tail_count = int(rate) * 3
     baseline_tail = deque(maxlen=baseline_count)
     startup_baseline = None
@@ -450,7 +464,7 @@ def analyze(capture: Capture, iterations: dict, *, voltage: float,
         "sample_rate_Hz": rate, "sample_count": sample_count,
         "first_to_last_sample_span_s": (sample_count - 1) / rate,
         "sample_count_times_dt_s": sample_count / rate,
-        "startup_and_gap_short_tolerance_fraction": 0.01,
+        "startup_and_gap_short_tolerance_fraction": pause_short_tolerance_fraction,
         "minimum_capture_tail_s": 3.0,
         "trailing_low_duration_s": active_low.n / rate,
         "unresolved_D0_samples_in_startup_prefix": unresolved_startup_samples,
@@ -558,7 +572,12 @@ def main(argv=None) -> int:
         else:
             raise CaptureError("Supported input extensions: .ppk2 and .csv")
         with context as capture:
-            report = analyze(capture, manifest["boards"][args.board]["iterations"], voltage=voltage)
+            report = analyze(
+                capture,
+                manifest["boards"][args.board]["iterations"],
+                voltage=voltage,
+                pause_short_tolerance_fraction=PAUSE_SHORT_TOLERANCE_FRACTION[args.board],
+            )
         report["provenance"] = {
             "board": args.board, "input_path": str(args.input.resolve()),
             "input_sha256": file_hash(args.input),

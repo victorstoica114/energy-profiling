@@ -103,6 +103,20 @@ class CaptureAnalysisTests(unittest.TestCase):
         self.assertEqual(result["low_intervals"][0]["duration_s"], 4.95)
         self.assertEqual(result["low_intervals"][1]["duration_s"], 0.99)
 
+    def test_explicit_two_percent_pause_tolerance_is_reported_and_bounded(self):
+        result = a.analyze(
+            capture(sequence(startup=490_000, gap=98_000)), COUNTS, voltage=3.3,
+            pause_short_tolerance_fraction=0.02,
+        )
+        self.assertEqual(result["startup_and_gap_short_tolerance_fraction"], 0.02)
+        self.assertEqual(result["low_intervals"][0]["minimum_accepted_duration_s"], 4.9)
+        self.assertEqual(result["low_intervals"][1]["minimum_accepted_duration_s"], 0.98)
+        with self.assertRaisesRegex(a.CaptureError, "inter_workload_low LOW"):
+            a.analyze(
+                capture(sequence(gap=97_999)), COUNTS, voltage=3.3,
+                pause_short_tolerance_fraction=0.02,
+            )
+
     def test_boot_preparation_and_trailing_low_have_no_upper_bound(self):
         result = a.analyze(capture(sequence(startup=620_000, gap=120_000, tail=410_000)), COUNTS, voltage=3.3)
         self.assertEqual(result["startup_baseline"]["start_sample_inclusive"], 420_000)

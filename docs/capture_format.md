@@ -12,7 +12,7 @@ Lower sampling settings average data before storage and cannot restore native ti
 
 Exactly twelve complete HIGH pulses are assigned by position to RLE, Delta, LZ77, Huffman, AES-128, SHA-256, ChaCha20, CRC32, FFT, FIR, IIR and DCT. The board manifest supplies each batch's call count. The analyzer does not detect the algorithm from current shape or count individual calls inside a pulse.
 
-Before the first pulse, there must be at least **495000 defined LOW samples**; each of the eleven inter-workload LOW gaps requires at least **99000 samples**. These are nominal 5 s and 1 s MCU pause lower bounds with 1% tolerance. No upper bounds apply because initialization, preparation and verification can lengthen LOW intervals. The recording must include at least **300000 trailing LOW samples**, three seconds, after the twelfth falling edge. This final recording minimum does not use the MCU pause tolerance.
+Before the first pulse, ESP32 and RP2040 must have at least **495000 defined LOW samples**; each of their eleven inter-workload LOW gaps requires at least **99000 samples**. These are nominal 5 s and 1 s MCU pause lower bounds with 1% tolerance. NUCLEO-F446RE uses the internal HSI16 RC oscillator for its control timer, so its explicitly reported structural allowance is 2%: **490000 startup samples** and **98000 samples per inter-workload gap**. The F446 pilot measured all eleven nominal 1 s gaps between 0.98579 and 0.99163 s with a continuous PPK2 sample counter. This board-specific allowance affects only LOW-interval validation, never RUN boundaries, duration, charge or energy integration. No upper bounds apply because initialization, preparation and verification can lengthen LOW intervals. The recording must include at least **300000 trailing LOW samples**, three seconds, after the twelfth falling edge. This final recording minimum does not use the MCU pause tolerance.
 
 The startup baseline is the **last 200000 LOW samples immediately before the first HIGH**, corresponding to two seconds. Firmware performs initialization, preparation and platform checks before the nominal five-second pause, leaving the selected baseline as operational idle apart from timer/gate boundary overhead. Other complete LOW intervals are not labeled idle: they can contain preparation, verification, active waiting or final platform sleep.
 
@@ -84,6 +84,19 @@ low_intervals distinguishes startup_low, inter_workload_low and trailing_low. st
 Current mean, population standard deviation, minimum and maximum describe each selected window. They do not establish independent samples, calibrated current stability or confidence across repeated experiments. JSON also preserves protocol checks, voltage basis, limitations, the selected manifest and SHA-256 hashes of capture, manifest and analyzer. The workload CSV contains twelve structurally accepted active-window rows. Rejected captures produce no new analysis files.
 
 Independent cold boots must be recorded and analyzed separately; between-capture statistics are a separate step. Historical eight-signal files require their matching historical analyzer/manifest and must not be relabeled as this protocol merely by ignoring seven channels.
+
+## Automated PPK2 collection
+
+The optional collector uses the same generic CSV interface and runs this analyzer automatically:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-ppk2.txt
+.\.venv\Scripts\python.exe tools\capture_ppk2.py --list-devices
+.\.venv\Scripts\python.exe tools\capture_ppk2.py --board rp2040 --physical-board-id PICO-01 --ambient-temperature-c 23.0 --confirm-wiring
+```
+
+Each unique capture directory contains `transport.raw4`, `capture.csv`, `capture_metadata.json` and analyzer output under `analysis/`. The raw file is the exact four-byte stream consumed by `ppk2-api`, not a Nordic `.ppk2` archive. CSV columns are explicit sample index, reconstructed time in microseconds, calibrated current in microamperes and D0. The collector rejects a discontinuity in the rolling 6-bit hardware sample counter and also compares represented time with host elapsed time; exact 64-sample-multiple losses are not independently excluded. Partial files and `failure.json` are retained on errors for diagnosis. Use `--captures 10` for a campaign only after a physical one-run pilot passes. Multi-capture runs require `--measured-voltage-v`, temperature and a physical board identifier; document the external voltage measurement and uncertainty basis with the campaign records.
 
 ## Parser checks
 
