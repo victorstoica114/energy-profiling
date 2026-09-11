@@ -1,18 +1,29 @@
 # NUCLEO-F446RE measurement target
 
-Current STM32 target: NUCLEO-F446RE, experiment **energy-profiling-v4-max-clock**, schema 2. The target uses the actual F446 CMSIS header/vector table, 512 KiB Flash, 128 KiB SRAM and a 16 KiB linker stack reservation. Startup rejects device ID other than 0x421 or a Flash-size register other than 512 KiB.
+Current STM32 target: NUCLEO-F446RE, with separate `max_clock` and `common160` measurement profiles (schema 2). The target uses the actual F446 CMSIS header/vector table, 512 KiB Flash, 128 KiB SRAM and a 16 KiB linker stack reservation. Startup rejects device ID other than 0x421 or a Flash-size register other than 512 KiB.
 
 This README describes the measurement image, **BENCH_DIAGNOSTICS=OFF**.
 
 ## Clock and runtime
 
-Nominal CPU frequency is **180 MHz**, the maximum specified STM32F446 frequency. HSI16 /16 x360 /2 supplies SYSCLK without ST-LINK MCO or an assumed external crystal. AHB=180 MHz, APB1=45 MHz (/4), APB2=90 MHz (/2). These APB limits apply with OverDrive enabled. The unused PLL Q output is 72 MHz; USB is disabled and does not require a 48 MHz clock.
+The default **max_clock** profile retains nominal CPU **180 MHz**, the maximum specified STM32F446 frequency. The additional **common160** profile uses nominal CPU **160 MHz** for comparison with ESP32 and RP2040 at the same CPU frequency. Both use HSI16 through the PLL without ST-LINK MCO or an assumed external crystal.
 
-At the measured 3.3 V supply, Scale 1, OverDrive, five Flash wait states, prefetch and the Flash instruction/data caches are explicit. Startup selects HSI, starts the PLL, waits for voltage scaling and both OverDrive readiness flags, applies and reads back the Flash configuration, then switches to PLL. GPIO clocks are gated during the power transition with RUN and the LED latched LOW; TIM2 starts afterward. Removing the board's external 3.3 V regulator does not disable the MCU's internal core regulator or its OverDrive requirement.
+| Setting | max_clock | common160 |
+|---|---|---|
+| Experiment manifest | `config/experiment.json` | `config/experiment.common160.json` |
+| SYSCLK / AHB | 180 MHz | 160 MHz |
+| PLL M / N / P | 16 / 360 / 2 | 16 / 320 / 2 |
+| APB1 / APB2 | 45 / 90 MHz | 40 / 80 MHz |
+| Internal regulator | Scale 1, OverDrive enabled | Scale 1, OverDrive disabled |
+| Flash wait states | 5 | 5 |
+| TIM2 input / prescaler | 90 MHz / 8999 | 80 MHz / 7999 |
+| Unused PLL Q output | 72 MHz | 64 MHz |
+
+At the measured 3.3 V supply, five Flash wait states are required above 150 MHz in both profiles. Prefetch and the Flash instruction/data caches remain enabled. Scale 1 without OverDrive supports 160 MHz; OverDrive is required for 180 MHz. Startup selects HSI, configures the selected regulator mode, starts the PLL, waits for the applicable voltage readiness flags, applies and reads back the Flash configuration, then switches to PLL. GPIO clocks are gated during the power transition with RUN and the LED latched LOW; TIM2 starts afterward. Removing the board's external 3.3 V regulator does not disable the MCU's internal core regulator. USB remains disabled; the unused Q output need not be 48 MHz.
 
 FPU access and hard-float compiler flags are enabled and checked. Single precision uses the FPU; double arithmetic remains software. Before and after measured batches, runtime guards check clock selection, PLL and bus divisors, power-mode readiness, Flash latency/cache settings and the pause-timer configuration. Register checks validate the nominal clock configuration, not HSI's exact physical frequency or drift; an independent clock/timer measurement is required during validation. [ST DS10693, Tables 16, 17 and 43](https://www.st.com/resource/en/datasheet/stm32f446re.pdf) and [RM0390, OverDrive entry and RCC sections](https://www.st.com/resource/en/reference_manual/dm00135183.pdf) define the device and clock tree.
 
-TIM2 receives the 90 MHz APB1 timer clock, divided by 9000 (PSC=8999), for busy-polled control pauses without IRQ. The 10 kHz timer preserves the five-second startup pause, one-second gaps and two-second final pause. SysTick is stopped. The CPU does not measure RUN duration. After final verification and the two-second LOW pause, the target enters WFI with RUN LOW.
+TIM2 divides its APB1 timer clock to 10 kHz using the profile-specific prescaler shown above, for busy-polled control pauses without IRQ. The 10 kHz timer preserves the five-second startup pause, one-second gaps and two-second final pause. SysTick is stopped. The CPU does not measure RUN duration. After final verification and the two-second LOW pause, the target enters WFI with RUN LOW.
 
 ## Single measurement output and power
 
@@ -36,6 +47,8 @@ Dependencies are pinned in sdk.lock.json: cmsis-device-f4 v2.6.11 and CMSIS_5 5.
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_arms.ps1 -ArmGccBin C:/path/to/gcc/bin -DepsRoot C:/short/deps -BuildRoot C:/short/build-max-clock -Only stm32
 ```
 
-The helper output directory is stm32f446. BIN load address is **0x08000000**. Build helpers do not flash devices.
+For the additional profile, append `-ClockProfile common160` and use a separate build root. The helper output directories are `stm32f446` for max_clock and `stm32f446-common160` for common160. Direct CMake builds select `-DBENCH_CLOCK_PROFILE=max_clock` or `-DBENCH_CLOCK_PROFILE=common160`; changing profiles in an existing configured build directory is rejected. BIN load address is **0x08000000**. Build helpers do not flash devices.
 
-Current measurement artifacts belong in build_verified/max_clock_measurement. Use the [current-image manifest](../../../CURRENT_FIRMWARE.json) to identify the intended image and its programming/validation state. Successful compilation is not programming, a hardware run or a PPK2 energy capture. New energy results require independent captures with this exact firmware and its matching experiment manifest.
+The existing measurement archive remains `build_verified/max_clock_measurement`; the additional archive is `build_verified/common160_measurement`. Use the [current-image manifest](../../../CURRENT_FIRMWARE.json) to identify the intended image and its programming/validation state. Successful compilation is not programming, a hardware run or a PPK2 energy capture. New energy results require independent captures with this exact firmware and its matching experiment manifest.
+
+The common160 profile requires its own independent captures for all twelve workloads and active-idle reference. Equal nominal CPU frequency does not equate bus frequencies, memory systems, FPU capabilities, internal regulator settings or physical oscillator accuracy. Do not combine captures from the two profiles or rescale max_clock energies into common160 results.

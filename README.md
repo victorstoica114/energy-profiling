@@ -1,10 +1,12 @@
 # Energy Profiling
 
-Firmware and offline analysis for measuring ESP32, RP2040 and **NUCLEO-F446RE** workloads with Nordic PPK2. Release **v1.1.0** defines **`energy-profiling-v4-max-clock`**, experiment schema 2. One digital output marks the twelve fixed-count workload batches; the algorithm is inferred from pulse order.
+Firmware and offline analysis for measuring ESP32, RP2040 and **NUCLEO-F446RE** workloads with Nordic PPK2. Release **v1.2.0** adds a **common 160 MHz comparison** (`energy-profiling-v5-common160`) alongside the maximum-clock experiment (`energy-profiling-v4-max-clock`, originally released as v1.1.0). Both use experiment schema 2 and one digital output to mark the twelve fixed-count workload batches; the algorithm is inferred from pulse order.
+
+The default remains **max_clock**, so existing acquisition commands keep their current meaning. Select **common160** explicitly for the new comparison. See the [160 MHz configuration and campaign guide](docs/COMMON_CLOCK_160.md), [its exact image manifest](profiles/common160/CURRENT_FIRMWARE.json) and the [release downloads](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.2.0). All three boards require ten new captures at 160 MHz; these data are separate from the maximum-clock campaign.
 
 The common C library executes twelve algorithms on identical inputs across boards, retaining the repetition counts documented in the original experiment. Native adapters use ESP-IDF, Pico SDK and STM32 CMSIS. The firmware does not calculate algorithm duration or energy.
 
-| Platform | Nominal CPU clock | Required operating configuration |
+| Platform | Maximum-clock experiment | Required operating configuration |
 |---|---:|---|
 | ESP32-D0WD-V3 | 240 MHz | One application core; Wi-Fi and Bluetooth uninitialized |
 | RP2040, Marble Pico | 200 MHz | Internal core regulator 1.15 V; QSPI Flash 50 MHz |
@@ -12,7 +14,7 @@ The common C library executes twelve algorithms on identical inputs across board
 
 These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. The existing CSV captures belong to the preceding campaign. **New RP2040 and STM32 measurements are required before reporting results for this release.** ESP32 captures can be retained only with their original provenance and confirmation that its measured configuration remains equivalent.
 
-**Functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. New PPK2 captures remain pending.
+**Maximum-clock functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. New PPK2 captures remain pending.
 
 ## Hardware used in the tests
 
@@ -60,6 +62,7 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 ## Documentation and source
 
 - [Firmware specification](firmware/README.md): measurement behavior, compilation, inputs, algorithm contracts, memory, board configuration and measured boundaries.
+- [Common 160 MHz comparison](docs/COMMON_CLOCK_160.md): supported clocks, internal supply settings, build selection, new images and thirty-capture campaign.
 - [Experiment manifest](config/experiment.json): fixed order, repetitions, input size, target clocks, single output pin and pauses.
 - [Autonomous runner](firmware/common/bench_runner.c) and [common kernels](firmware/common/kernels).
 - [Board targets](firmware/targets) and [input manifest](data/manifest.json).
@@ -73,7 +76,7 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 - [Raw-data archive and reproduction guide](dataset/README.md), with a SHA-256 inventory of all final, pilot, rejected and incomplete PPK2 transports.
 - [Selected full CSV dataset](ROW_Data/README.md): 30 regulator-removed captures, organized into ESP32, RP2040 and STM32F446 folders, with acquisition metadata, original analyses and hashes.
 
-The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) records image hashes, build status and observed programming status separately. Current images are archived under each target's `build_verified/max_clock_measurement`. Earlier firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
+The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) records image hashes, build status and observed programming status separately. Maximum-clock images are archived under each target's `build_verified/max_clock_measurement`; common160 images and their separate manifest use `build_verified/common160_measurement` and `profiles/common160/CURRENT_FIRMWARE.json`. Earlier firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
 ## Selected CSV data and article analysis
 

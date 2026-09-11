@@ -1,0 +1,82 @@
+{
+  "created_utc": "2026-09-11T15:24:43.897334+00:00",
+  "target": "rp2040",
+  "profile": "common160_measurement",
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-common160-rp2040",
+  "build_result": "passed",
+  "compiler": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]",
+  "native_compile_and_link_passed": true,
+  "native_flags_verified": true,
+  "diagnostics": false,
+  "diagnostics_enabled": false,
+  "diagnostic_transport": null,
+  "cpu_hz": 160000000,
+  "embedded_iteration_counts": [
+    3000,
+    3000,
+    200,
+    500,
+    100,
+    500,
+    3000,
+    3000,
+    20,
+    300,
+    50,
+    1
+  ],
+  "all_twelve_kernel_symbols_present": true,
+  "embedded_inputs_match_frozen_data": true,
+  "common_objects_compared_to_max_clock_build": {
+    "bench_data.c.obj": {
+      "whole_object_identical": false,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_runner.c.obj": {
+      "whole_object_identical": false,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_kernels.c.obj": {
+      "whole_object_identical": false,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_algorithms.c.obj": {
+      "whole_object_identical": false,
+      "allocated_code_and_data_sections_identical": true
+    }
+  },
+  "measurement_serial_strings_absent": true,
+  "max_clock_regression_bin_identical": true,
+  "max_clock_bin_sha256": "82f84e599cf54ac7ad24b6a9c17884c70b891908da86d8463b20bd788a2df65c",
+  "hardware_programmed": false,
+  "hardware_execution_validated": false,
+  "diagnostic_functional_validation": {
+    "passed": false,
+    "status": "pending"
+  },
+  "ppk2_capture_validated": false,
+  "artifact_sha256": {
+    "energy_bench_rp2040.bin": "838209429491a1cb5c353076180b9493673f2b33f195ffae0b22cb8c152f0c4f",
+    "energy_bench_rp2040.dis": "d90f8874dcbb74cf22ba27f03e360012c1186ca726057949033fded989c45bd1",
+    "energy_bench_rp2040.elf": "c13ecdc235eb241a5d9c0b56b7a923eb8350b3011804a44b8e099657843d1b56",
+    "energy_bench_rp2040.elf.map": "ba7f35e1de4f8f066cfdd1d81c227cf6ecf7a57d42b1d136faa973e616560dc6",
+    "energy_bench_rp2040.hex": "a9e1a5e8b81cb76fba275b97b18f7eca7792c5ccfc9348d3789d15bb17612631",
+    "energy_bench_rp2040.uf2": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de"
+  },
+  "size_output": "   text\t   data\t    bss\t    dec\t    hex\tfilename\n  46964\t      0\t  41532\t  88496\t  159b0\tD:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\builds\\rp2040-common160\\energy_bench_rp2040.elf\n",
+  "core_voltage_mv": 1150,
+  "peripheral_clock_hz": 48000000,
+  "flash_divider": 4,
+  "flash_clock_hz": 40000000,
+  "pll_vco_hz": 1440000000,
+  "pll_postdiv1": 3,
+  "pll_postdiv2": 3,
+  "frequency_counter_acceptance_khz": [
+    159840,
+    160160
+  ],
+  "uf2_payload_matches_bin": true
+}

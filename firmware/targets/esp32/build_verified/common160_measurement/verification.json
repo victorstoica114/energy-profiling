@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-09-11T15:22:56.651148+00:00",
+  "board": "esp32",
+  "clock_profile": "common160",
+  "cpu_hz": 160000000,
+  "experiment_id": "energy-profiling-v5-common160",
+  "application_version": "1.2.0",
+  "diagnostics_enabled": false,
+  "native_compile_and_link_passed": true,
+  "hardware_programmed": false,
+  "hardware_execution_validated": false,
+  "flash_readback_attestation": false,
+  "ppk2_capture_validated": false,
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v5-esp32-common160",
+  "project_compile_units": 5,
+  "verified_common_flags": [
+    "-DBENCH_COMMON_CLOCK_160=1",
+    "-DBENCH_DIAGNOSTICS=0",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-lto"
+  ],
+  "sdk_config_changes_are_cpu_frequency_only": true,
+  "measurement_has_no_bench_platform_report": true,
+  "source_manifest_sha256": "b517c51f0ae4796874c44585db80edcb41d82fade0807c73dd63932fa74eaafb",
+  "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "image_sha256": {
+    "energy_bench_esp32.bin": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+    "energy_bench_esp32.elf": "a4f4119009a9bb1a32a54095dbc08becd3dd070f297d40c89e7edd28fab55ae3",
+    "bootloader/bootloader.bin": "faa1aba03b3a385e6dbcc38883aa635abba2a8a4c9ff19f7cc9f393409f08e13",
+    "partition_table/partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+  },
+  "configuration_note": "160 MHz uses SDK digital-core bias 1.10 V nominal with Flash40; APB80. No external voltage/clock calibration performed."
+}

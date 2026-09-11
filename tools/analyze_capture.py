@@ -87,9 +87,9 @@ def load_manifest(path: Path, board: str) -> dict:
     if type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 2:
         raise CaptureError("Expected single-GPIO experiment manifest schema_version 2; legacy protocols are unsupported")
     if manifest.get("experiment_id") not in {
-        "energy-profiling-v3-single-gpio", "energy-profiling-v4-max-clock",
+        "energy-profiling-v3-single-gpio", "energy-profiling-v4-max-clock", "energy-profiling-v5-common160",
     }:
-        raise CaptureError("Expected a supported single-GPIO experiment (v3 or v4-max-clock)")
+        raise CaptureError("Expected a supported single-GPIO experiment (v3, v4-max-clock or v5-common160)")
     channels = manifest.get("digital_channels")
     if channels != {"RUN": 0} or type(channels["RUN"]) is not int:
         raise CaptureError("Manifest must assign only RUN to D0")
@@ -110,6 +110,12 @@ def load_manifest(path: Path, board: str) -> dict:
     boards = manifest.get("boards")
     if not isinstance(boards, dict) or not isinstance(boards.get(board), dict):
         raise CaptureError(f"Manifest has no board {board!r}")
+    if manifest["experiment_id"] == "energy-profiling-v5-common160":
+        for name in ("esp32", "rp2040", "stm32"):
+            spec = boards.get(name)
+            clock = spec.get("target_cpu_hz") if isinstance(spec, dict) else None
+            if type(clock) is not int or clock != 160_000_000:
+                raise CaptureError(f"common160 requires {name} target_cpu_hz=160000000")
     expected_pin = {"esp32": 18, "rp2040": 2, "stm32": "PC0"}.get(board)
     pin = boards[board].get("marker_pin")
     if expected_pin is None or type(pin) is not type(expected_pin) or pin != expected_pin:

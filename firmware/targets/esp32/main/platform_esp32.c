@@ -13,12 +13,14 @@
 #include "hal/uart_ll.h"
 #if BENCH_DIAGNOSTICS
 #include "driver/uart.h"
+#include "soc/rtc_cntl_reg.h"
+#include "soc/soc.h"
 #include <stdio.h>
 #include <string.h>
 #endif
 
-#if CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ != 240
-#error "Benchmark requires a fixed 240 MHz CPU"
+#if CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ != 160 && CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ != 240
+#error "Benchmark requires the fixed 160 MHz or 240 MHz CPU profile"
 #endif
 #if !CONFIG_FREERTOS_UNICORE || CONFIG_PM_ENABLE || CONFIG_BT_ENABLED
 #error "Benchmark requires unicore, PM disabled, and Bluetooth disabled"
@@ -27,7 +29,8 @@
 #error "Uninterrupted fixed-count kernels require task watchdog disabled"
 #endif
 
-_Static_assert(BENCH_EXPECTED_CPU_HZ == 240000000u, "CPU profile mismatch");
+_Static_assert(BENCH_EXPECTED_CPU_HZ == CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ * 1000000u,
+               "sdkconfig CPU frequency differs from the selected benchmark profile");
 _Static_assert(BENCH_PIN_RUN == 18, "ESP32 RUN pin mismatch");
 enum { RUN_PIN = BENCH_PIN_RUN };
 #define RUN_MASK (1u << RUN_PIN)
@@ -141,12 +144,15 @@ bool bench_platform_init(void)
     configured = true;
     bool valid = bench_platform_check();
 #if BENCH_DIAGNOSTICS
-    uint32_t hz = 0;
+    uint32_t hz = 0, apb_hz = 0;
     esp_clk_tree_src_get_freq_hz(SOC_MOD_CLK_CPU, ESP_CLK_TREE_SRC_FREQ_PRECISION_EXACT, &hz);
-    char line[224];
+    esp_clk_tree_src_get_freq_hz(SOC_MOD_CLK_APB, ESP_CLK_TREE_SRC_FREQ_PRECISION_EXACT, &apb_hz);
+    const uint32_t dbias = REG_GET_FIELD(RTC_CNTL_REG, RTC_CNTL_DIG_DBIAS_WAK);
+    char line[272];
     snprintf(line, sizeof line,
-        "BENCH CONFIG board=esp32 diagnostics=1 cpu_hz=%lu fpu=single_precision radio=uninitialized core=%u transport=UART0 tx=1 rx=3 baud=115200 check=%u\r\n",
-        (unsigned long)hz, (unsigned)xPortGetCoreID(), (unsigned)valid);
+        "BENCH CONFIG board=esp32 diagnostics=1 cpu_hz=%lu apb_hz=%lu dig_dbias_wak=%lu fpu=single_precision radio=uninitialized core=%u transport=UART0 tx=1 rx=3 baud=115200 check=%u\r\n",
+        (unsigned long)hz, (unsigned long)apb_hz, (unsigned long)dbias,
+        (unsigned)xPortGetCoreID(), (unsigned)valid);
     diagnostic_write(line);
 #endif
     return valid;

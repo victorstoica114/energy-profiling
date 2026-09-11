@@ -18,6 +18,7 @@ ALGORITHMS = (
     "ChaCha20", "CRC32", "FFT", "FIR", "IIR", "DCT",
 )
 BOARDS = ("esp32", "rp2040", "stm32")
+COMMON160_EXPERIMENT_ID = "energy-profiling-v5-common160"
 
 
 class CampaignError(ValueError):
@@ -83,6 +84,12 @@ def validate_profile(project_root: Path, board: str, board_spec: dict, campaign:
     Schema 1 remains readable for historical campaigns but cannot opt into
     cross-experiment reuse without the stricter schema and its required pins.
     """
+    campaign_common160 = campaign.get("experiment_id") == COMMON160_EXPERIMENT_ID
+    board_common160 = board_spec.get("experiment_id") == COMMON160_EXPERIMENT_ID
+    if campaign_common160 and campaign["schema_version"] != 2:
+        raise CampaignError("common160 campaigns require schema 2 with pinned new captures")
+    if campaign_common160 != board_common160:
+        raise CampaignError(f"{board}: common160 captures cannot be mixed with other experiment profiles")
     if campaign["schema_version"] == 1:
         if "experiment_id" in board_spec:
             raise CampaignError("Per-board experiment overrides require campaign schema 2")
@@ -105,6 +112,15 @@ def validate_profile(project_root: Path, board: str, board_spec: dict, campaign:
     if type(target_cpu_hz) is not int or target_cpu_hz <= 0:
         raise CampaignError(f"{board}: missing or invalid target CPU clock")
     require_equal(manifest.get("boards", {}).get(board, {}).get("target_cpu_hz"), target_cpu_hz, f"{board} target CPU clock")
+    if campaign_common160:
+        require_equal(target_cpu_hz, 160_000_000, f"{board} common160 target CPU clock")
+        for name in BOARDS:
+            spec = manifest.get("boards", {}).get(name)
+            clock = spec.get("target_cpu_hz") if isinstance(spec, dict) else None
+            if type(clock) is not int or clock != 160_000_000:
+                raise CampaignError(f"common160 experiment must set {name} target CPU clock to 160000000")
+        if justification:
+            raise CampaignError(f"{board}: common160 requires new captures without historical reuse")
     require_sha256(board_spec.get("expected_firmware_sha256"), f"{board} expected image hash")
     if board_spec.get("onboard_regulator_removed") is not True:
         raise CampaignError(f"{board}: regulator-removal selection must be explicitly true")
@@ -221,6 +237,8 @@ def main(argv=None) -> int:
         campaign = read_json(campaign_path)
         if type(campaign.get("schema_version")) is not int or campaign["schema_version"] not in (1, 2):
             raise CampaignError("Supported campaign schemas are 1 and 2")
+        if campaign.get("experiment_id") == COMMON160_EXPERIMENT_ID and campaign["schema_version"] != 2:
+            raise CampaignError("common160 campaigns require schema 2 with pinned new captures")
         if campaign["schema_version"] == 2:
             require_equal(campaign.get("status"), "ready_for_analysis", "campaign acquisition status")
         require_equal(tuple(campaign.get("boards", {})), BOARDS, "campaign board order")

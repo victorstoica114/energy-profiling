@@ -1,0 +1,32 @@
+{
+  "environment": {
+    "IDF_PATH": "C:\\Users\\User\\.platformio\\packages\\framework-espidf",
+    "IDF_TOOLS_PATH": "C:/Espressif",
+    "IDF_PYTHON_ENV_PATH": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-idf55-python",
+    "ESP_ROM_ELF_DIR": "C:/Users/User/.platformio/packages/tool-esp-rom-elfs",
+    "PATH_prepend": [
+      "C:\\Users\\User\\.platformio\\packages\\toolchain-xtensa-esp-elf\\bin",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\energy-idf55-python\\Scripts"
+    ]
+  },
+  "configure_argv": [
+    "C:/Espressif/tools/cmake/3.30.2/bin/cmake.exe",
+    "-S",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\repo_stage\\firmware\\targets\\esp32",
+    "-B",
+    "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v5-esp32-common160",
+    "-G",
+    "Ninja",
+    "-DCMAKE_MAKE_PROGRAM=C:/Espressif/tools/ninja/1.12.1/ninja.exe",
+    "-DPYTHON=C:\\Users\\User\\AppData\\Local\\Temp\\energy-idf55-python\\Scripts\\python.exe",
+    "-DBENCH_CLOCK_PROFILE=common160",
+    "-DBENCH_DIAGNOSTICS=OFF"
+  ],
+  "build_argv": [
+    "C:/Espressif/tools/cmake/3.30.2/bin/cmake.exe",
+    "--build",
+    "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v5-esp32-common160",
+    "--parallel",
+    "6"
+  ]
+}

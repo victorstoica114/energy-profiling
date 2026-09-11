@@ -2,7 +2,11 @@
 
 Updated **11 September 2026** for **energy-profiling-v4-max-clock**, release **v1.1.0**, experiment schema 2. The twelve workload variants, frozen input bytes, per-board call counts and single-GPIO protocol are preserved. CPU, regulator and related clock settings are explicit parts of the new experiment.
 
-## Current firmware evidence
+## Common160 addition, release v1.2.0
+
+The separate `energy-profiling-v5-common160` configuration and its native images are recorded in [profiles/common160/CURRENT_FIRMWARE.json](../profiles/common160/CURRENT_FIRMWARE.json). Build evidence and pending 160 MHz hardware validation are distinct from the completed maximum-clock functional checks below. No board was automatically reflashed by adding this profile. All three boards require new 160 MHz diagnostics and PPK2 captures; see [COMMON_CLOCK_160.md](COMMON_CLOCK_160.md).
+
+## Maximum-clock firmware evidence
 
 | Target | Configured measurement profile | Validation recorded so far |
 |---|---|---|

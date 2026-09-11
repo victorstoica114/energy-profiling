@@ -29,6 +29,22 @@ SAMPLE_RATE_HZ = 100_000
 ALGORITHM_COUNT = 12
 DEFAULT_TAIL_S = 3.0
 ACTIVE_EXPERIMENT_ID = "energy-profiling-v4-max-clock"
+CLOCK_PROFILES = {
+    "max_clock": {
+        "experiment_id": ACTIVE_EXPERIMENT_ID,
+        "manifest": Path("config/experiment.json"),
+        "current_firmware": Path("CURRENT_FIRMWARE.json"),
+        "output_root": Path("captures_max_clock"),
+        "target_cpu_hz": {"esp32": 240_000_000, "rp2040": 200_000_000, "stm32": 180_000_000},
+    },
+    "common160": {
+        "experiment_id": "energy-profiling-v5-common160",
+        "manifest": Path("config/experiment.common160.json"),
+        "current_firmware": Path("profiles/common160/CURRENT_FIRMWARE.json"),
+        "output_root": Path("captures_common160"),
+        "target_cpu_hz": {"esp32": 160_000_000, "rp2040": 160_000_000, "stm32": 160_000_000},
+    },
+}
 BOARD_PINS = {"esp32": "GPIO18", "rp2040": "GP2", "stm32": "PC0 (CN7 pin 38)"}
 
 
@@ -476,15 +492,37 @@ def resolve_firmware(project_root: Path, current: dict, board: str, requested: P
     return path, basis
 
 
+def validate_experiment_profile(manifest: dict, clock_profile: str) -> None:
+    """Reject a relabelled or wrong-clock experiment before opening the PPK2."""
+    if clock_profile not in CLOCK_PROFILES:
+        raise AcquisitionError(f"Unsupported clock profile: {clock_profile!r}")
+    selected = CLOCK_PROFILES[clock_profile]
+    if manifest.get("experiment_id") != selected["experiment_id"]:
+        raise AcquisitionError(
+            f"Acquisition requires experiment {selected['experiment_id']} for --clock-profile {clock_profile}"
+        )
+    if type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 2:
+        raise AcquisitionError("Acquisition requires experiment schema_version 2")
+    boards = manifest.get("boards")
+    if not isinstance(boards, dict):
+        raise AcquisitionError("Acquisition manifest must define all three board clocks")
+    for board, expected_hz in selected["target_cpu_hz"].items():
+        spec = boards.get(board)
+        actual_hz = spec.get("target_cpu_hz") if isinstance(spec, dict) else None
+        if type(actual_hz) is not int or actual_hz != expected_hz:
+            raise AcquisitionError(
+                f"{clock_profile} requires {board} target_cpu_hz={expected_hz}; received {actual_hz!r}"
+            )
+
+
 def validate_firmware_identity(current: dict, manifest: dict, manifest_path: Path,
-                               board: str, firmware_path: Path) -> None:
+                               board: str, firmware_path: Path, *, clock_profile: str = "max_clock") -> None:
     """Bind an expected silent image to the exact experiment file before power-on.
 
     This verifies the archived identity, not the contents of the DUT's flash.
     An explicit --firmware path still has to match the selected profile's bytes.
     """
-    if manifest.get("experiment_id") != ACTIVE_EXPERIMENT_ID:
-        raise AcquisitionError(f"Acquisition requires experiment {ACTIVE_EXPERIMENT_ID}")
+    validate_experiment_profile(manifest, clock_profile)
     if current.get("experiment_id") != manifest["experiment_id"]:
         raise AcquisitionError("CURRENT_FIRMWARE experiment does not match the acquisition manifest")
     if current.get("experiment_sha256") != sha256_file(manifest_path):
@@ -561,11 +599,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--list-devices", action="store_true", help="List PPK2 control ports and exit")
     parser.add_argument("--power-off", action="store_true", help="Stop acquisition, request DUT power OFF, and exit")
     parser.add_argument("--board", choices=tuple(BOARD_PINS))
+    parser.add_argument("--clock-profile", choices=tuple(CLOCK_PROFILES), default="max_clock",
+                        help="Select the acquisition experiment and default paths (default: max_clock)")
     parser.add_argument("--port", help="PPK2 control COM port; auto-selects when exactly one is present")
-    parser.add_argument("--manifest", type=Path, default=Path("config/experiment.json"))
-    parser.add_argument("--current-firmware", type=Path, default=Path("CURRENT_FIRMWARE.json"))
+    parser.add_argument("--manifest", type=Path, help="Override the selected profile's experiment path")
+    parser.add_argument("--current-firmware", type=Path, help="Override the selected profile's image manifest path")
     parser.add_argument("--firmware", type=Path, help="Expected programmed image; its hash is recorded, not attested")
-    parser.add_argument("--output-root", type=Path, default=Path("captures_max_clock"))
+    parser.add_argument("--output-root", type=Path, help="Override captures_max_clock or captures_common160")
     parser.add_argument("--captures", type=int, default=1, help="Independent cold-boot captures (campaign minimum: 10)")
     parser.add_argument("--voltage-mv", type=int, default=3300, help="PPK2 Source Meter setpoint")
     parser.add_argument("--measured-voltage-v", type=float, help="Externally measured DUT voltage under load")
@@ -587,8 +627,17 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def apply_clock_profile_defaults(args: argparse.Namespace) -> argparse.Namespace:
+    """Resolve dependent defaults while preserving every explicit path override."""
+    selected = CLOCK_PROFILES[args.clock_profile]
+    for option in ("manifest", "current_firmware", "output_root"):
+        if getattr(args, option) is None:
+            setattr(args, option, selected[option])
+    return args
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    args = apply_clock_profile_defaults(build_parser().parse_args(argv))
     try:
         devices = list_ppk2_devices()
         if args.list_devices:
@@ -633,8 +682,7 @@ def main(argv: list[str] | None = None) -> int:
         project_root = Path(__file__).resolve().parents[1]
         manifest_path = args.manifest.resolve()
         manifest = load_json(manifest_path)
-        if manifest.get("experiment_id") != ACTIVE_EXPERIMENT_ID:
-            raise AcquisitionError(f"Manifest is not the active experiment {ACTIVE_EXPERIMENT_ID}")
+        validate_experiment_profile(manifest, args.clock_profile)
         if manifest.get("sample_rate_Hz") != SAMPLE_RATE_HZ:
             raise AcquisitionError("Manifest sample rate must be exactly 100000 Hz")
         nominal_mv = round(float(manifest.get("nominal_voltage_V", 0)) * 1000)
@@ -658,12 +706,14 @@ def main(argv: list[str] | None = None) -> int:
         current_path = args.current_firmware.resolve()
         current = load_json(current_path)
         firmware_path, firmware_basis = resolve_firmware(project_root, current, args.board, args.firmware)
-        validate_firmware_identity(current, manifest, manifest_path, args.board, firmware_path)
+        validate_firmware_identity(current, manifest, manifest_path, args.board, firmware_path,
+                                   clock_profile=args.clock_profile)
         port, serial_number = select_device(devices, args.port)
         output_root = args.output_root.resolve()
 
         print(f"PPK2 {serial_number or '(serial unavailable)'} on {port}; Source Meter {args.voltage_mv} mV")
-        print(f"DUT {args.board}: {BOARD_PINS[args.board]} -> D0; {args.captures} cold-boot capture(s)")
+        print(f"DUT {args.board}, {args.clock_profile}: {BOARD_PINS[args.board]} -> D0; "
+              f"{args.captures} cold-boot capture(s)")
         if args.measured_voltage_v is None:
             print("WARNING: no external DUT voltage supplied; energy will use the unverified manifest nominal voltage")
         if not args.physical_board_id:
@@ -685,6 +735,7 @@ def main(argv: list[str] | None = None) -> int:
                 base_metadata = {
                     "schema_version": 1,
                     "experiment_id": manifest["experiment_id"],
+                    "clock_profile": args.clock_profile,
                     "board": args.board,
                     "physical_board_id": args.physical_board_id,
                     "run_pin_to_ppk2_d0": BOARD_PINS[args.board],

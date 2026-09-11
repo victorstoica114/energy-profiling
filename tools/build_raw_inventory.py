@@ -60,7 +60,7 @@ def infer_board(relative_path: Path) -> str:
 def build_inventory(project_root: Path, campaign_paths: list[Path]) -> dict:
     selections = campaign_selections(project_root, campaign_paths)
     raw_paths: list[Path] = []
-    for root_name in ("captures", "captures_noreg", "diagnostics"):
+    for root_name in ("captures", "captures_noreg", "captures_max_clock", "captures_common160", "diagnostics"):
         root = project_root / root_name
         if root.is_dir():
             raw_paths.extend(root.rglob("*.raw4"))

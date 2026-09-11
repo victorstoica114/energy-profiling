@@ -1,0 +1,219 @@
+{
+  "schema_version": 2,
+  "release_version": "1.2.0",
+  "experiment_id": "energy-profiling-v5-common160",
+  "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "updated_utc": "2026-09-11T15:25:26.723468+00:00",
+  "clock_profile": "common160",
+  "state": "all_native_measurement_and_diagnostic_builds_passed; new_common160_hardware_validation_and_ppk2_captures_pending",
+  "gpio_protocol": "single_run_v1",
+  "digital_channels": {
+    "RUN": 0
+  },
+  "hardware_scope": "These are new 160 MHz images. Existing maximum-clock diagnostic PASS/programming records remain valid for their exact original images; no common160 hardware execution is inferred from them.",
+  "boards": {
+    "esp32": {
+      "model": "ESP32-D0WD-V3 rev3.1",
+      "cpu_hz": 160000000,
+      "marker_pin": 18,
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "profiles": {
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
+          "sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+          "verification": "firmware/targets/esp32/build_verified/common160_measurement/verification.json",
+          "verification_sha256": "ac110c092058e2c4b899c8333a9ea97eeeebd046ef2f960d4133fd8cbe695309",
+          "source_manifest": "firmware/targets/esp32/build_verified/common160_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "b517c51f0ae4796874c44585db80edcb41d82fade0807c73dd63932fa74eaafb",
+          "experiment_manifest": "firmware/targets/esp32/build_verified/common160_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+          "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": false,
+            "status": "pending_common160_hardware_run",
+            "applies_to": "separate_common160_diagnostic_image"
+          },
+          "flash_images": [
+            {
+              "offset": "0x1000",
+              "path": "firmware/targets/esp32/build_verified/common160_measurement/bootloader/bootloader.bin",
+              "sha256": "faa1aba03b3a385e6dbcc38883aa635abba2a8a4c9ff19f7cc9f393409f08e13"
+            },
+            {
+              "offset": "0x8000",
+              "path": "firmware/targets/esp32/build_verified/common160_measurement/partition_table/partition-table.bin",
+              "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+            },
+            {
+              "offset": "0x10000",
+              "path": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
+              "sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a"
+            }
+          ],
+          "flash_parameters": {
+            "mode": "DIO",
+            "frequency": "40MHz",
+            "size": "4MB",
+            "preserve_compiled_headers": true
+          }
+        }
+      },
+      "diagnostic_image": {
+        "primary_image": "firmware/targets/esp32/build_verified/common160_diagnostic/energy_bench_esp32.bin",
+        "sha256": "b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a",
+        "verification": "firmware/targets/esp32/build_verified/common160_diagnostic/verification.json",
+        "verification_sha256": "c5103c5ae93ca7c1a49cf8e2c82cda4cb11c78bb3c7fe59c6a8b532d074801ae",
+        "source_manifest": "firmware/targets/esp32/build_verified/common160_diagnostic/source_sha256_at_archive.json",
+        "source_manifest_sha256": "b517c51f0ae4796874c44585db80edcb41d82fade0807c73dd63932fa74eaafb",
+        "experiment_manifest": "firmware/targets/esp32/build_verified/common160_diagnostic/experiment_manifest_at_archive.json",
+        "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+        "diagnostics_enabled": true,
+        "native_compile_and_link_passed": true,
+        "hardware_programmed": false,
+        "hardware_execution_validated": false,
+        "ppk2_capture_validated": false,
+        "flash_readback_attestation": false,
+        "diagnostic_functional_validation": {
+          "passed": false,
+          "status": "pending_common160_hardware_run",
+          "applies_to": "separate_common160_diagnostic_image"
+        },
+        "flash_images": [
+          {
+            "offset": "0x1000",
+            "path": "firmware/targets/esp32/build_verified/common160_diagnostic/bootloader/bootloader.bin",
+            "sha256": "9a0781900ed2ad2994633f6e57763b7a486dc037ea52134552db7f427203327c"
+          },
+          {
+            "offset": "0x8000",
+            "path": "firmware/targets/esp32/build_verified/common160_diagnostic/partition_table/partition-table.bin",
+            "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+          },
+          {
+            "offset": "0x10000",
+            "path": "firmware/targets/esp32/build_verified/common160_diagnostic/energy_bench_esp32.bin",
+            "sha256": "b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a"
+          }
+        ],
+        "flash_parameters": {
+          "mode": "DIO",
+          "frequency": "40MHz",
+          "size": "4MB",
+          "preserve_compiled_headers": true
+        }
+      }
+    },
+    "rp2040": {
+      "model": "Marble Pico with RP2040",
+      "cpu_hz": 160000000,
+      "marker_pin": 2,
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "profiles": {
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/rp2040/build_verified/common160_measurement/energy_bench_rp2040.uf2",
+          "sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+          "verification": "firmware/targets/rp2040/build_verified/common160_measurement/verification.json",
+          "verification_sha256": "d76bf55a46f58fa6b2a8edbf424c3ad399e7438505f3f07b4decac93bc0b04f7",
+          "source_manifest": "firmware/targets/rp2040/build_verified/common160_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "ace6195bfd471f7c0005c110089f54cf95c13207ecaa4abcffe78da36dcc823b",
+          "experiment_manifest": "firmware/targets/rp2040/build_verified/common160_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+          "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": false,
+            "status": "pending_common160_hardware_run",
+            "applies_to": "separate_common160_diagnostic_image"
+          },
+          "format": "RP2040 UF2 with embedded target addresses"
+        }
+      },
+      "diagnostic_image": {
+        "primary_image": "firmware/targets/rp2040/build_verified/common160_diagnostic/energy_bench_rp2040.uf2",
+        "sha256": "b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8",
+        "verification": "firmware/targets/rp2040/build_verified/common160_diagnostic/verification.json",
+        "verification_sha256": "4d9dfa9465b8e72ab30c02dc71edd16324885dea7577f88d2e92f22438c70383",
+        "source_manifest": "firmware/targets/rp2040/build_verified/common160_diagnostic/source_sha256_at_archive.json",
+        "source_manifest_sha256": "ace6195bfd471f7c0005c110089f54cf95c13207ecaa4abcffe78da36dcc823b",
+        "experiment_manifest": "firmware/targets/rp2040/build_verified/common160_diagnostic/experiment_manifest_at_archive.json",
+        "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+        "diagnostics_enabled": true,
+        "native_compile_and_link_passed": true,
+        "hardware_programmed": false,
+        "hardware_execution_validated": false,
+        "ppk2_capture_validated": false,
+        "flash_readback_attestation": false,
+        "diagnostic_functional_validation": {
+          "passed": false,
+          "status": "pending_common160_hardware_run",
+          "applies_to": "separate_common160_diagnostic_image"
+        },
+        "format": "RP2040 UF2 with embedded target addresses"
+      }
+    },
+    "stm32": {
+      "model": "NUCLEO-F446RE",
+      "cpu_hz": 160000000,
+      "marker_pin": "PC0",
+      "candidate_profile": "single_gpio_measurement",
+      "candidate_programmed": false,
+      "profiles": {
+        "single_gpio_measurement": {
+          "primary_image": "firmware/targets/stm32f446/build_verified/common160_measurement/energy_bench_stm32f446.bin",
+          "sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+          "verification": "firmware/targets/stm32f446/build_verified/common160_measurement/verification.json",
+          "verification_sha256": "00e22b6b7ec8ad66afa00cdc298dbebf82373e62ef3347f820e7a07887444516",
+          "source_manifest": "firmware/targets/stm32f446/build_verified/common160_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "1c9d0e960d594f72b9aeebe94cfc7c722c7e56630e3c013fe42b0a2e9160e189",
+          "experiment_manifest": "firmware/targets/stm32f446/build_verified/common160_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+          "diagnostics_enabled": false,
+          "native_compile_and_link_passed": true,
+          "hardware_programmed": false,
+          "hardware_execution_validated": false,
+          "ppk2_capture_validated": false,
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": false,
+            "status": "pending_common160_hardware_run",
+            "applies_to": "separate_common160_diagnostic_image"
+          },
+          "load_address": "0x08000000"
+        }
+      },
+      "diagnostic_image": {
+        "primary_image": "firmware/targets/stm32f446/build_verified/common160_diagnostic/energy_bench_stm32f446.bin",
+        "sha256": "7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e",
+        "verification": "firmware/targets/stm32f446/build_verified/common160_diagnostic/verification.json",
+        "verification_sha256": "b80493887a1478478c316d757848067692fded794c22554ad456bf72fab01468",
+        "source_manifest": "firmware/targets/stm32f446/build_verified/common160_diagnostic/source_sha256_at_archive.json",
+        "source_manifest_sha256": "1c9d0e960d594f72b9aeebe94cfc7c722c7e56630e3c013fe42b0a2e9160e189",
+        "experiment_manifest": "firmware/targets/stm32f446/build_verified/common160_diagnostic/experiment_manifest_at_archive.json",
+        "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+        "diagnostics_enabled": true,
+        "native_compile_and_link_passed": true,
+        "hardware_programmed": false,
+        "hardware_execution_validated": false,
+        "ppk2_capture_validated": false,
+        "flash_readback_attestation": false,
+        "diagnostic_functional_validation": {
+          "passed": false,
+          "status": "pending_common160_hardware_run",
+          "applies_to": "separate_common160_diagnostic_image"
+        },
+        "load_address": "0x08000000"
+      }
+    }
+  }
+}

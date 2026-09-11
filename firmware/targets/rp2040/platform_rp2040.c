@@ -21,7 +21,11 @@
 #endif
 #endif
 
+#if BENCH_COMMON_CLOCK_160
+_Static_assert(BENCH_EXPECTED_CPU_HZ == 160000000u, "CPU profile mismatch");
+#else
 _Static_assert(BENCH_EXPECTED_CPU_HZ == 200000000u, "CPU profile mismatch");
+#endif
 _Static_assert(BENCH_PIN_RUN == 2, "RP2040 RUN pin mismatch");
 _Static_assert(PICO_FLASH_SPI_CLKDIV == 4, "RP2040 Flash clock divider mismatch");
 enum { RUN_PIN = BENCH_PIN_RUN };
@@ -110,7 +114,9 @@ bool bench_platform_check(void)
 #endif
     /* Independent peripheral counter relative to clk_ref; not an external calibration. */
     uint32_t khz = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_CLK_SYS);
-    return khz >= 199800u && khz <= 200200u;
+    uint32_t target_khz = BENCH_EXPECTED_CPU_HZ / 1000u;
+    return khz >= target_khz - target_khz / 1000u &&
+        khz <= target_khz + target_khz / 1000u;
 }
 
 bool bench_platform_init(void)
@@ -121,7 +127,7 @@ bool bench_platform_init(void)
     /* Pico onboard LED explicitly off. Core 1 is never launched. */
     gpio_init(25); gpio_put(25, 0); gpio_set_dir(25, GPIO_OUT);
     /* The removed board regulator is distinct from this internal core supply.
-       Raise DVDD and allow 1 ms settling at the SDK startup clock before 200 MHz. */
+       Raise DVDD and allow 1 ms settling at the SDK startup clock before raising clk_sys to the selected profile. */
     vreg_set_voltage(VREG_VOLTAGE_1_15);
     busy_wait_at_least_cycles(clock_get_hz(clk_sys) / 1000u);
     if (vreg_get_voltage() != VREG_VOLTAGE_1_15 ||
@@ -143,13 +149,19 @@ bool bench_platform_init(void)
 #if BENCH_DIAGNOSTICS
     char line[320];
     snprintf(line, sizeof line,
-        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu peri_hz=%lu vreg_target_mv=1150 vreg_sel=%u vreg_rok=%u flash_div=%lu flash_hz=%lu flash_jedec_id=%06lx fpu=software radio=absent core=%u transport=%s check=%u\r\n",
+        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu peri_hz=%lu vreg_target_mv=1150 vreg_sel=%u vreg_rok=%u flash_div=%lu flash_hz=%lu flash_jedec_id=%06lx clock_profile=%s fpu=software radio=absent core=%u transport=%s check=%u\r\n",
         (unsigned long)clock_get_hz(clk_sys), (unsigned long)clock_get_hz(clk_peri),
         (unsigned)vreg_get_voltage(),
         (unsigned)((vreg_and_chip_reset_hw->vreg & VREG_AND_CHIP_RESET_VREG_ROK_BITS) != 0),
         (unsigned long)ssi_hw->baudr,
         (unsigned long)(ssi_hw->baudr ? clock_get_hz(clk_sys) / ssi_hw->baudr : 0u),
-        (unsigned long)diagnostic_flash_jedec_id, get_core_num(),
+        (unsigned long)diagnostic_flash_jedec_id,
+#if BENCH_COMMON_CLOCK_160
+        "common160",
+#else
+        "max_clock",
+#endif
+        get_core_num(),
 #if BENCH_DIAGNOSTIC_USB
         "USB_CDC",
 #else

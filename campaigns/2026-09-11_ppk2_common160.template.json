@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "campaign_id": "2026-09-11_ppk2_energy_profiling_v5_common160",
+  "status": "pending_acquisition",
+  "experiment_id": "energy-profiling-v5-common160",
+  "campaign_scope_note": "Separate comparison with every CPU configured to 160 MHz. Acquire ten NEW independent regulator-removed cold boots on each of ESP32, RP2040 and STM32F446 using the pinned common160 silent images. No historical or maximum-clock capture may be reused or relabelled. This pending template contains no measurements and cannot be summarized until completed.",
+  "instrument": {
+    "model": "Nordic Power Profiler Kit II",
+    "serial_number": "F7839E12B2AE",
+    "mode": "source_meter",
+    "setpoint_mV": 3300,
+    "sample_rate_Hz": 100000
+  },
+  "boards": {
+    "esp32": {
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "model": "ESP32-D0WD-V3 rev3.1",
+      "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": null,
+        "voltage_absolute_uncertainty_V": null,
+        "voltage_uncertainty_note": "Record the actual new session voltage measurement and assigned uncertainty.",
+        "ambient_temperature_C": null,
+        "temperature_note": "Record the actual new common160 acquisition session; do not copy historical conditions."
+      },
+      "capture_directories": [],
+      "capture_file_sha256": {}
+    },
+    "rp2040": {
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "model": "Marble Pico (RP2040; Pico-compatible SDK board profile)",
+      "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": null,
+        "voltage_absolute_uncertainty_V": null,
+        "voltage_uncertainty_note": "Record the actual new session voltage measurement and assigned uncertainty.",
+        "ambient_temperature_C": null,
+        "temperature_note": "Record the actual new common160 acquisition session; do not copy historical conditions."
+      },
+      "capture_directories": [],
+      "capture_file_sha256": {}
+    },
+    "stm32": {
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "model": "NUCLEO-F446RE",
+      "fixture": "PPK2 VOUT to CN6 +3V3 with JP6 fitted; PC0/CN7 pin 38 to D0; ST-LINK electrically isolated and DUT USB disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": null,
+        "voltage_absolute_uncertainty_V": null,
+        "voltage_uncertainty_note": "Record the actual new session voltage measurement and assigned uncertainty.",
+        "ambient_temperature_C": null,
+        "temperature_note": "Record the actual new common160 acquisition session; do not copy historical conditions."
+      },
+      "capture_directories": [],
+      "capture_file_sha256": {}
+    }
+  },
+  "analysis_policy": {
+    "required_cold_boot_captures_per_board": 10,
+    "algorithm_identity": "Fixed ordinal order of twelve complete D0 HIGH windows.",
+    "pause_short_tolerance_fraction": {
+      "esp32": 0.01,
+      "rp2040": 0.01,
+      "stm32": 0.02
+    },
+    "stm32_tolerance_note": "Declare the two-percent HSI-clock LOW-pause tolerance before capture; use the identical value in acquisition and analysis. It affects LOW acceptance only, never RUN integration or the external PPK2 timebase.",
+    "historical_reuse_policy": "No cross-profile or historical reuse is permitted for common160. Every board requires a new common160 capture set, an immutable schema-2 experiment-file pin, an expected primary-image pin and per-capture metadata/analysis pins. Expected image identity does not attest DUT flash contents."
+  },
+  "completion_requirements": [
+    "Use --clock-profile common160 when acquiring all three boards. The default acquisition directory is captures_common160/<board>/. Keep maximum-clock and historical captures unchanged.",
+    "Before acquisition, verify the common160 image archive and copy each primary-image SHA-256 from profiles/common160/CURRENT_FIRMWARE.json into expected_firmware_sha256. Never substitute a maximum-clock or historical image.",
+    "Acquire ten new independent cold boots per board under the regulator-removed fixture. Record actual session environment values, PPK2 serial number, source setpoint and sample rate.",
+    "Fill each capture_directories list and capture_file_sha256 object with the exact project-relative paths and SHA-256 hashes of capture_metadata.json and analysis/capture.analysis.json.",
+    "Save a completed campaign JSON separately, set status to ready_for_analysis, and run tools/summarize_campaign.py with an unused output directory. Retain this pending template. No pulse waveform or metadata may be relabelled as a common160 measurement."
+  ],
+  "clock_profile": "common160"
+}

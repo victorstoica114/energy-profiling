@@ -1,0 +1,69 @@
+{
+  "configure_powershell": "$env:PICO_TOOLCHAIN_PATH = 'C:/Users/User/.platformio/packages/toolchain-gccarmnoneeabi'\n& cmake -S 'D:/Documente/Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing/analysis/common_clock_transition/repo_stage/firmware/targets/rp2040' -B 'C:/Users/User/AppData/Local/Temp/energy-common160-rp2040-diagnostic' -G Ninja '-DBENCH_CLOCK_PROFILE=common160' '-DBENCH_DIAGNOSTICS=ON' '-DPICO_SDK_PATH=C:/Users/User/AppData/Local/Temp/energy-native-sdks-verified/pico-sdk-a1438dff1d38' '-DBENCH_DIAGNOSTIC_TRANSPORT=USB' '-DPICO_TINYUSB_PATH=C:/Users/User/AppData/Local/Temp/energy-diagnostics-tinyusb-86ad6e56c170'",
+  "configure_exit_code": 0,
+  "build_powershell": "& cmake --build 'C:/Users/User/AppData/Local/Temp/energy-common160-rp2040-diagnostic' --parallel",
+  "build_exit_code": 0,
+  "profile": "common160",
+  "diagnostics": true,
+  "hardware_actions_performed": false,
+  "sdk_lock": [
+    {
+      "name": "pico-sdk",
+      "repository": "raspberrypi/pico-sdk",
+      "tag": "2.2.0",
+      "commit": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+      "archive_sha256": "38914a916c57318d984f48a063a89d76bcd4911d70b30ddcf4924578bb2eec3c",
+      "archive_url": "https://codeload.github.com/raspberrypi/pico-sdk/zip/a1438dff1d38bd9c65dbd693f0e5db4b9ae91779"
+    }
+  ],
+  "primary_references": [
+    {
+      "title": "RP2040 Datasheet",
+      "build_date": "2025-02-20",
+      "build_version": "3184e62-clean",
+      "pages": [
+        9,
+        183,
+        229,
+        234,
+        622
+      ],
+      "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+    },
+    {
+      "title": "STM32F446xC/E datasheet DS10693",
+      "revision": 11,
+      "pages": [
+        22,
+        76
+      ],
+      "url": "https://www.st.com/resource/en/datasheet/stm32f446re.pdf"
+    },
+    {
+      "title": "STM32F446 reference manual RM0390",
+      "sections": [
+        "3.4.1/Table5",
+        "5.1.3",
+        "6/RCC"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/dm00135183.pdf"
+    }
+  ],
+  "uf2_powershell": "& 'C:/Users/User/.platformio/packages/tool-rp2040tools/elf2uf2.exe' 'C:/Users/User/AppData/Local/Temp/energy-common160-rp2040-diagnostic/energy_bench_rp2040.elf' 'C:/Users/User/AppData/Local/Temp/energy-common160-rp2040-diagnostic/energy_bench_rp2040.uf2'",
+  "uf2_exit_code": 0,
+  "configuration_note": "Measurement does not require TinyUSB. USB diagnostics use the separate pinned dependency below; configuring without that dependency is now rejected.",
+  "tinyusb_dependency": {
+    "name": "tinyusb",
+    "commit": "86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+    "pico_sdk_commit": "a1438dff1d38bd9c65dbd693f0e5db4b9ae91779",
+    "gitlink_path": "lib/tinyusb",
+    "archive_url": "https://codeload.github.com/hathach/tinyusb/zip/86ad6e56c1700e85f1c5678607a762cfe3aa2f47",
+    "archive_sha256": "3011c90c128988012b553e5d2f0a90bc0b64046591c964bc1f9f6659edcd7e4b",
+    "path": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-diagnostics-tinyusb-86ad6e56c170",
+    "archive_file_count": 2183,
+    "materialized_documentation_symlinks": {
+      "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/docs/contributing/code_of_conduct.rst": "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/CODE_OF_CONDUCT.rst",
+      "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/docs/info/contributors.rst": "tinyusb-86ad6e56c1700e85f1c5678607a762cfe3aa2f47/CONTRIBUTORS.rst"
+    }
+  }
+}

@@ -4,6 +4,10 @@ Specification checked against the source on **11 September 2026**, for **`energy
 
 **The measurement application emits no diagnostic messages and requires no DUT USB or UART connection.** It uses one GPIO output connected to PPK2 D0. HIGH normally marks a fixed-count batch; LOW is outside that batch. No separate algorithm-ID, ERROR, DONE or IDLE_VALID output exists. A detected fault latches the same output HIGH until reset.
 
+## Common-frequency extension
+
+Release v1.2.0 adds the supported `common160` selection for all three targets. The workload contracts, frozen inputs, call counts, compiler policies and single-GPIO boundaries below apply to both experiments. The per-platform clock descriptions below identify the original **maximum-clock profile**; the [common160 specification](../docs/COMMON_CLOCK_160.md) defines the 160 MHz clock, bus, regulator and Flash settings. Its configuration is [experiment.common160.json](../config/experiment.common160.json), and its images have a [separate manifest](../profiles/common160/CURRENT_FIRMWARE.json). Build selection is explicit and checked; no frequency changes occur during a measured batch.
+
 ## 1. Experiment identity and authoritative files
 
 | Item | Defining file |

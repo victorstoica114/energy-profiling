@@ -58,12 +58,30 @@ def artifacts():
     config = json.loads((ROOT / "config/experiment.json").read_text(encoding="utf-8"))
     if config.get("schema_version") != 2 or config.get("digital_channels") != {"RUN": 0}:
         raise ValueError("This generator requires the single-GPIO experiment manifest")
-    generated = '/* Generated from config/experiment.json; do not edit by hand. */\n#ifndef BENCH_CONFIG_H\n#define BENCH_CONFIG_H\n#include <stdint.h>\n'
+    common = json.loads((ROOT / "config/experiment.common160.json").read_text(encoding="utf-8"))
+    if common.get("experiment_id") != "energy-profiling-v5-common160":
+        raise ValueError("Unexpected common-frequency experiment identity")
+    for key in ("schema_version", "algorithms", "input_bytes", "digital_channels", "gpio_protocol",
+                "startup_idle_ms", "inter_algorithm_idle_ms", "post_suite_idle_ms"):
+        if common[key] != config[key]:
+            raise ValueError("Clock profiles must preserve benchmark field: " + key)
+    for board in ("esp32", "rp2040", "stm32"):
+        if common["boards"][board]["target_cpu_hz"] != 160000000:
+            raise ValueError("Common profile requires exactly 160 MHz for every board")
+        for key in ("iterations", "marker_pin", "fpu_policy", "radio"):
+            if common["boards"][board][key] != config["boards"][board][key]:
+                raise ValueError("Clock profiles must preserve board field: " + board + "." + key)
+    generated = '/* Generated from config/experiment.json and config/experiment.common160.json; do not edit by hand. */\n#ifndef BENCH_CONFIG_H\n#define BENCH_CONFIG_H\n#include <stdint.h>\n'
+    generated += '#ifndef BENCH_COMMON_CLOCK_160\n#define BENCH_COMMON_CLOCK_160 0\n#endif\n'
+    generated += '#if BENCH_COMMON_CLOCK_160 != 0 && BENCH_COMMON_CLOCK_160 != 1\n#error Invalid clock profile selector\n#endif\n'
+    generated += '#if BENCH_COMMON_CLOCK_160\n#define BENCH_EXPERIMENT_ID "' + common["experiment_id"] + '"\n#else\n#define BENCH_EXPERIMENT_ID "' + config["experiment_id"] + '"\n#endif\n'
     generated += '#if (defined(BENCH_BOARD_ESP32) + defined(BENCH_BOARD_RP2040) + defined(BENCH_BOARD_STM32)) != 1\n#error Select exactly one BENCH_BOARD target\n#endif\n'
     for index, board in enumerate(("esp32", "rp2040", "stm32")):
         generated += ('#if' if index == 0 else '#elif') + f' defined(BENCH_BOARD_{board.upper()})\n'
         counts = [config["boards"][board]["iterations"][a["name"]] for a in config["algorithms"]]
-        generated += f'#define BENCH_BOARD_NAME "{board}"\n#define BENCH_EXPECTED_CPU_HZ {config["boards"][board]["target_cpu_hz"]}u\n'
+        generated += f'#define BENCH_BOARD_NAME "{board}"\n'
+        generated += '#if BENCH_COMMON_CLOCK_160\n#define BENCH_EXPECTED_CPU_HZ 160000000u\n#else\n'
+        generated += f'#define BENCH_EXPECTED_CPU_HZ {config["boards"][board]["target_cpu_hz"]}u\n#endif\n'
         board_config = config["boards"][board]
         pin = board_config["marker_pin"]
         if board == "stm32":

@@ -1,0 +1,40 @@
+{
+  "version": "5.5.4",
+  "path": "C:\\Users\\User\\.platformio\\packages\\framework-espidf",
+  "source_sha256": {
+    "version.txt": "700f229a57ae9fd02ed761816c7411d4a8bc76101330692764cff95a0ce1dec1",
+    "package.json": "b140a22728d866707b3deac19db25cad3bb72ebe31fc4630f83e100087466127",
+    "tools/tools.json": "113bf865724ddf0c6e554c2da3cd55b39655f0b220fdf5a52ab0518d04dffde3",
+    "components/esp_hw_support/port/esp32/rtc_clk.c": "c5762bd90405fd98e2d12187eda7c892cfdba8d7b45c4f57e01ba0bc6b525e16",
+    "components/esp_hw_support/port/esp32/include/soc/rtc.h": "f5d523a157d3ad92f3ffa479d39f6a581f60d43de74ed16cedc69abe107fce87",
+    "components/esp_system/port/soc/esp32/Kconfig.cpu": "a45bed3b3cebabc8c986eb80dab2634d555a7f82d46fdd0c10618e63d033a2b0"
+  },
+  "toolchain_package": {
+    "name": "toolchain-xtensa-esp-elf",
+    "version": "14.2.0+20260121",
+    "description": "GCC Toolchain for Espressif ESP32 Xtensa MCUs",
+    "keywords": [
+      "build tools",
+      "compiler",
+      "assembler",
+      "linker",
+      "preprocessor",
+      "espressif",
+      "esp32",
+      "esp32s2",
+      "esp32s3"
+    ],
+    "license": "GPL-2.0-or-later",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/espressif/crosstool-NG"
+    },
+    "system": [
+      "*"
+    ]
+  },
+  "toolchain_sha256": {
+    "xtensa-esp32-elf-gcc.exe": "ac8d55c45dbcaefe082299357245d7f12786c61a4e3c06a8e21f31d6890fb29e",
+    "xtensa-esp-elf-gcc.exe": "094877bcd88608c16165886d8a9a8e420f7365b0b4d91d27d83192eaa3e56ba8"
+  }
+}

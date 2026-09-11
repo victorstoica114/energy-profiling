@@ -12,24 +12,80 @@ from serial.tools import list_ports
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT = re.compile(r"^BENCH event=(BOOT|START|PASS|DONE|ERROR) id=(\d+) calls=(\d+) digest=([0-9a-f]{8})$")
+CLOCK_PROFILES = {
+    'max_clock': ('energy-profiling-v4-max-clock', 'config/experiment.json',
+                  {'esp32': 240000000, 'rp2040': 200000000, 'stm32': 180000000}),
+    'common160': ('energy-profiling-v5-common160', 'config/experiment.common160.json',
+                  {'esp32': 160000000, 'rp2040': 160000000, 'stm32': 160000000}),
+}
+BOARD_LABELS = {'esp32': {'esp32'}, 'rp2040': {'rp2040'}, 'stm32': {'stm32', 'NUCLEO-F446RE'}}
 
 
-def main():
+def validate_experiment(config, clock_profile):
+    expected_id, _, clocks = CLOCK_PROFILES[clock_profile]
+    if config.get('experiment_id') != expected_id:
+        raise ValueError(f'Selected {clock_profile} requires experiment {expected_id}')
+    if type(config.get('schema_version')) is not int or config['schema_version'] != 2:
+        raise ValueError('Diagnostic validation requires experiment schema_version 2')
+    boards = config.get('boards')
+    if not isinstance(boards, dict):
+        raise ValueError('Experiment must define all three board clocks')
+    for board, expected_hz in clocks.items():
+        spec = boards.get(board)
+        actual = spec.get('target_cpu_hz') if isinstance(spec, dict) else None
+        if type(actual) is not int or actual != expected_hz:
+            raise ValueError(f'{clock_profile} requires {board} target_cpu_hz={expected_hz}')
+
+
+def validate_configuration_line(line, board, clock_profile, expected_hz):
+    """Check declared clock fields; older max-clock streams may omit CONFIG."""
+    tokens = line.split()
+    start = 2 if tokens[:2] == ['BENCH', 'CONFIG'] else 1
+    fields = {}
+    for token in tokens[start:]:
+        key, separator, value = token.partition('=')
+        if not separator or not key or not value or key in fields:
+            raise RuntimeError('Malformed or duplicate CONFIG field: ' + token)
+        fields[key] = value
+    if 'clock_profile' in fields and fields['clock_profile'] != clock_profile:
+        raise RuntimeError(f'CONFIG clock_profile does not match selected {clock_profile}')
+    if 'cpu_hz' in fields and fields['cpu_hz'] != str(expected_hz):
+        raise RuntimeError(f'CONFIG cpu_hz must be {expected_hz} for selected {clock_profile}')
+    if 'diagnostics' in fields and fields['diagnostics'] != '1':
+        raise RuntimeError('CONFIG must report diagnostics=1')
+    if 'check' in fields and fields['check'] != '1':
+        raise RuntimeError('CONFIG reports a failed platform check')
+    if 'board' in fields and fields['board'] not in BOARD_LABELS[board]:
+        raise RuntimeError('CONFIG board does not match selected target')
+    # ESP32 reports its checked CPU clock without a clock_profile field. The
+    # selected manifest supplies its identity; CPU160 and diagnostics=1 are
+    # still mandatory before any common160 benchmark events are accepted.
+    complete = {'cpu_hz', 'diagnostics'} <= fields.keys()
+    return fields, complete
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--board', choices=('esp32', 'rp2040', 'stm32'), required=True)
+    parser.add_argument('--clock-profile', choices=tuple(CLOCK_PROFILES), default='max_clock')
+    parser.add_argument('--manifest', type=Path, help='Override the selected clock profile experiment path')
     parser.add_argument('--port', required=True, help='COMn, or auto for Pico USB diagnostics')
     parser.add_argument('--firmware', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True, help='New output file prefix')
     parser.add_argument('--timeout', type=float, default=600)
     parser.add_argument('--reset', choices=('none', 'esp32'), default='none')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.reset == 'esp32' and args.board != 'esp32':
         parser.error('ESP32 reset sequence is only valid for the ESP32 target')
     if args.port == 'auto' and args.board != 'rp2040':
         parser.error('Automatic selection is limited to the Pico diagnostic USB identity')
-    config_path = ROOT / 'config/experiment.json'
+    config_path = args.manifest if args.manifest is not None else ROOT / CLOCK_PROFILES[args.clock_profile][1]
     config_bytes = config_path.read_bytes()
     config = json.loads(config_bytes)
+    try:
+        validate_experiment(config, args.clock_profile)
+    except (ValueError, AttributeError) as exc:
+        parser.error(str(exc))
     firmware_sha = hashlib.sha256(args.firmware.read_bytes()).hexdigest()
     expected = [config['boards'][args.board]['iterations'][a['name']] for a in config['algorithms']]
     log_path = args.output.with_suffix('.log')
@@ -40,10 +96,13 @@ def main():
     start = time.monotonic()
     evidence = {
         'board': args.board, 'status': 'incomplete',
+        'experiment_id': config['experiment_id'], 'clock_profile': args.clock_profile,
+        'experiment_manifest_path': str(config_path.resolve()),
+        'target_cpu_hz': config['boards'][args.board]['target_cpu_hz'],
         'scope': 'diagnostic functional execution; no time, current or energy measurement',
         'firmware_path': str(args.firmware), 'firmware_sha256': firmware_sha,
         'experiment_sha256': hashlib.sha256(config_bytes).hexdigest(),
-        'events': [], 'configuration_lines': [], 'error': None,
+        'events': [], 'configuration_lines': [], 'configuration_verified': False, 'error': None,
     }
     connection = None
     state, next_id = 'boot', 1
@@ -93,6 +152,15 @@ def main():
                     print(line, flush=True)
                     if line.startswith('CONFIG') or line.startswith('BENCH CONFIG'):
                         evidence['configuration_lines'].append(line)
+                        if state == 'complete':
+                            raise RuntimeError('Unexpected CONFIG after DONE; possible board restart')
+                        if args.clock_profile == 'common160' and state != 'boot':
+                            raise RuntimeError('Unexpected CONFIG after common160 BOOT')
+                        fields, complete = validate_configuration_line(
+                            line, args.board, args.clock_profile, evidence['target_cpu_hz'])
+                        if complete:
+                            evidence['configuration_verified'] = True
+                            evidence['reported_configuration'] = fields
                     match = EVENT.fullmatch(line)
                     if not match:
                         if line.startswith('BENCH event='):
@@ -104,6 +172,8 @@ def main():
                     if event == 'ERROR':
                         raise RuntimeError(f'Firmware ERROR at algorithm {identifier}, reason={int(digest,16)}')
                     if state == 'boot' and event == 'BOOT' and identifier == 0 and count == 0 and digest == '00000000':
+                        if args.clock_profile == 'common160' and not evidence['configuration_verified']:
+                            raise RuntimeError('common160 requires CONFIG cpu_hz=160000000 diagnostics=1 before BOOT')
                         state = 'start'
                     elif state == 'start' and event == 'START' and identifier == next_id and count == expected[next_id-1] and digest == '00000000':
                         state = 'pass'

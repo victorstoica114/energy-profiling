@@ -1,0 +1,26 @@
+{
+  "CONFIG_ESP32_DEFAULT_CPU_FREQ_160": {
+    "max_clock": null,
+    "common160": "y"
+  },
+  "CONFIG_ESP32_DEFAULT_CPU_FREQ_240": {
+    "max_clock": "y",
+    "common160": null
+  },
+  "CONFIG_ESP32_DEFAULT_CPU_FREQ_MHZ": {
+    "max_clock": "240",
+    "common160": "160"
+  },
+  "CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ": {
+    "max_clock": "240",
+    "common160": "160"
+  },
+  "CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160": {
+    "max_clock": null,
+    "common160": "y"
+  },
+  "CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240": {
+    "max_clock": "y",
+    "common160": null
+  }
+}

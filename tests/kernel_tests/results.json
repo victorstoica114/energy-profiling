@@ -15,11 +15,11 @@
     "-Werror",
     "-shared",
     "-I",
-    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\single_gpio_work\\firmware\\common\\include",
-    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\single_gpio_work\\firmware\\common\\kernels\\bench_algorithms.c",
-    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\single_gpio_work\\firmware\\common\\kernels\\bench_kernels.c",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\repo_stage\\firmware\\common\\include",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\repo_stage\\firmware\\common\\kernels\\bench_algorithms.c",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\repo_stage\\firmware\\common\\kernels\\bench_kernels.c",
     "-o",
-    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\remeasurement\\single_gpio_work\\tests\\kernel_tests\\build\\bench_kernels_host.dll",
+    "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\repo_stage\\tests\\kernel_tests\\build\\bench_kernels_host.dll",
     "-lm"
   ],
   "cases": [

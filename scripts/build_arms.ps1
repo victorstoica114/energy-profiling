@@ -3,7 +3,11 @@ param(
     [string]$DepsRoot,
     [string]$BuildRoot,
     [string]$Elf2Uf2,
+    [string]$PicoTinyUsbPath,
     [ValidateSet('both','stm32','rp2040')][string]$Only = 'both',
+    [ValidateSet('max_clock','common160')][string]$ClockProfile = 'max_clock',
+    [ValidateSet('PA2_USART2','PC10_USART3')][string]$Stm32DiagnosticTransport = 'PA2_USART2',
+    [ValidateSet('USB','UART0')][string]$PicoDiagnosticTransport = 'USB',
     [switch]$Diagnostics
 )
 $ErrorActionPreference = 'Stop'
@@ -45,19 +49,26 @@ if ($Only -ne 'rp2040') {
 # All three exist: the fetch tool verifies their full extracted tree without downloads.
 & python (Join-Path $PSScriptRoot 'fetch_native_sdks.py') --dest $DepsRoot
 if ($LASTEXITCODE -ne 0) { throw 'SDK tree verification failed' }
-$BuildSuffix = if ($Diagnostics) { '-diagnostic' } else { '' }
+$BuildSuffix = if ($ClockProfile -eq 'common160') { '-common160' } else { '' }
+if ($Diagnostics) { $BuildSuffix += '-diagnostic' }
 $DiagnosticValue = if ($Diagnostics) { 'ON' } else { 'OFF' }
 $StmBuild = Join-Path $BuildRoot ($Stm32Target + $BuildSuffix)
+if ($Diagnostics -and $Stm32DiagnosticTransport -eq 'PC10_USART3') { $StmBuild += '-pc10' }
 $PicoBuild = Join-Path $BuildRoot ('rp2040' + $BuildSuffix)
 if ($Only -ne 'rp2040') {
-& cmake -S (Join-Path $ProjectRoot "firmware/targets/$Stm32Target") -B $StmBuild -G Ninja "-DARM_GCC_BIN=$ArmGccBin" "-DSTM32_CMSIS_DEVICE_PATH=$StmDevice" "-DCMSIS_CORE_PATH=$CmsisCore" "-DBENCH_DIAGNOSTICS=$DiagnosticValue"
+& cmake -S (Join-Path $ProjectRoot "firmware/targets/$Stm32Target") -B $StmBuild -G Ninja "-DARM_GCC_BIN=$ArmGccBin" "-DSTM32_CMSIS_DEVICE_PATH=$StmDevice" "-DCMSIS_CORE_PATH=$CmsisCore" "-DBENCH_DIAGNOSTICS=$DiagnosticValue" "-DBENCH_CLOCK_PROFILE=$ClockProfile" "-DBENCH_STM32_DIAGNOSTIC_TRANSPORT=$Stm32DiagnosticTransport"
 if ($LASTEXITCODE -ne 0) { throw 'STM32 configure failed' }
 & cmake --build $StmBuild --parallel
 if ($LASTEXITCODE -ne 0) { throw 'STM32 build failed' }
 }
 if ($Only -ne 'stm32') {
 $env:PICO_TOOLCHAIN_PATH = Split-Path -Parent $ArmGccBin
-& cmake -S (Join-Path $ProjectRoot 'firmware/targets/rp2040') -B $PicoBuild -G Ninja "-DPICO_SDK_PATH=$PicoSdk" "-DBENCH_DIAGNOSTICS=$DiagnosticValue"
+$PicoExtraArguments = @()
+if ($PicoTinyUsbPath) {
+    $ResolvedTinyUsb = (Resolve-Path -LiteralPath $PicoTinyUsbPath).Path.Replace('\','/')
+    $PicoExtraArguments += "-DPICO_TINYUSB_PATH=$ResolvedTinyUsb"
+}
+& cmake -S (Join-Path $ProjectRoot 'firmware/targets/rp2040') -B $PicoBuild -G Ninja "-DPICO_SDK_PATH=$PicoSdk" "-DBENCH_DIAGNOSTICS=$DiagnosticValue" "-DBENCH_CLOCK_PROFILE=$ClockProfile" "-DBENCH_DIAGNOSTIC_TRANSPORT=$PicoDiagnosticTransport" @PicoExtraArguments
 if ($LASTEXITCODE -ne 0) { throw 'RP2040 configure failed' }
 & cmake --build $PicoBuild --parallel
 if ($LASTEXITCODE -ne 0) { throw 'RP2040 build failed' }

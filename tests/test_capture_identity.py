@@ -20,7 +20,7 @@ class CaptureIdentityTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        self.manifest = {"experiment_id": p.ACTIVE_EXPERIMENT_ID}
+        self.manifest = json.loads((ROOT / "config/experiment.json").read_text(encoding="utf-8"))
         self.manifest_path = self.root / "experiment.json"
         self.manifest_path.write_text(json.dumps(self.manifest), encoding="utf-8")
         self.image = self.root / "firmware.bin"

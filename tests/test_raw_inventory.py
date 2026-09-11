@@ -8,6 +8,28 @@ from tools.build_raw_inventory import build_inventory
 
 
 class RawInventoryTests(unittest.TestCase):
+    def test_separate_clock_profile_roots_are_included_without_merging_campaigns(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            common_dir = "captures_common160/rp2040/synthetic_common"
+            max_dir = "captures_max_clock/rp2040/synthetic_max"
+            for relative in (common_dir, max_dir):
+                capture = root / relative
+                capture.mkdir(parents=True)
+                (capture / "transport.raw4").write_bytes(b"\0\0\0\0")
+            campaign = root / "common.json"
+            campaign.write_text(json.dumps({
+                "campaign_id": "synthetic_common160",
+                "boards": {"rp2040": {"capture_directories": [common_dir]}},
+            }), encoding="utf-8")
+            report = build_inventory(root, [campaign])
+            rows = {row["capture_directory"]: row for row in report["rows"]}
+            self.assertEqual(report["raw_file_count"], 2)
+            self.assertEqual(rows[common_dir]["selected_campaigns"], "synthetic_common160")
+            self.assertEqual(rows[common_dir]["role"], "selected_final")
+            self.assertEqual(rows[max_dir]["selected_campaigns"], "")
+            self.assertEqual(rows[max_dir]["role"], "pilot")
+
     def test_selected_pilot_rejected_and_incomplete_are_classified(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

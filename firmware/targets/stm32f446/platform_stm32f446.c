@@ -11,19 +11,33 @@
 #if HSI_VALUE != 16000000U
 #error "This independent-power profile uses the factory-trimmed 16 MHz HSI"
 #endif
+#if BENCH_COMMON_CLOCK_160
+_Static_assert(BENCH_EXPECTED_CPU_HZ == 160000000u, "CPU profile mismatch");
+#else
 _Static_assert(BENCH_EXPECTED_CPU_HZ == 180000000u, "CPU profile mismatch");
+#endif
 _Static_assert(BENCH_EXPECTED_OSCILLATOR_HZ == 16000000u, "HSI profile mismatch");
 _Static_assert(BENCH_SIGNAL_GPIO_PORT == 2, "STM32F446 RUN must use GPIOC");
 _Static_assert(BENCH_PIN_RUN == 0, "STM32F446 RUN must use PC0");
 
+#if BENCH_COMMON_CLOCK_160
+/* HSI/16 *320 /2: SYSCLK 160 MHz. Q/5 = 64 MHz and R/2 are unused. */
+#define PLL_CONFIG (16u | (320u << 6) | (5u << 24) | (2u << 28))
+#define POWER_CONFIG PWR_CR_VOS
+#define POWER_READY PWR_CSR_VOSRDY
+#define GAP_TIMER_PRESCALER 7999u
+#else
 /* HSI/16 *360 /2: SYSCLK 180 MHz. Q/5 = 72 MHz and R/2 are unused. */
 #define PLL_CONFIG (16u | (360u << 6) | (5u << 24) | (2u << 28))
-#define BUS_CONFIG (RCC_CFGR_PPRE1_DIV4 | RCC_CFGR_PPRE2_DIV2)
-#define FLASH_CONFIG (FLASH_ACR_LATENCY_5WS | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
-#define FLASH_CONFIG_MASK (FLASH_ACR_LATENCY | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
 #define POWER_CONFIG (PWR_CR_VOS | PWR_CR_ODEN | PWR_CR_ODSWEN)
 #define POWER_READY (PWR_CSR_VOSRDY | PWR_CSR_ODRDY | PWR_CSR_ODSWRDY)
 #define GAP_TIMER_PRESCALER 8999u
+#endif
+#define POWER_CONFIG_MASK (PWR_CR_VOS | PWR_CR_ODEN | PWR_CR_ODSWEN)
+#define POWER_READY_MASK (PWR_CSR_VOSRDY | PWR_CSR_ODRDY | PWR_CSR_ODSWRDY)
+#define BUS_CONFIG (RCC_CFGR_PPRE1_DIV4 | RCC_CFGR_PPRE2_DIV2)
+#define FLASH_CONFIG (FLASH_ACR_LATENCY_5WS | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
+#define FLASH_CONFIG_MASK (FLASH_ACR_LATENCY | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
 #define FPU_ACCESS (0xfu << 20)
 _Static_assert(BENCH_EXPECTED_CPU_HZ / 2u / (GAP_TIMER_PRESCALER + 1u) == 10000u,
     "TIM2 must retain the 10 kHz control-pause clock");
@@ -45,24 +59,40 @@ static bool wait_ready(volatile uint32_t *reg, uint32_t mask, uint32_t expected)
 }
 
 #if BENCH_DIAGNOSTICS
+#if BENCH_STM32_DIAGNOSTIC_PC10
+#define DIAGNOSTIC_USART USART3
+#define DIAGNOSTIC_USART_ENABLE RCC_APB1ENR_USART3EN
+#else
+#define DIAGNOSTIC_USART USART2
+#define DIAGNOSTIC_USART_ENABLE RCC_APB1ENR_USART2EN
+#endif
 static bool uart_ready;
 static void diagnostic_uart_init(void)
 {
-    RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+    RCC->APB1ENR |= DIAGNOSTIC_USART_ENABLE;
     (void)RCC->APB1ENR;
+#if BENCH_STM32_DIAGNOSTIC_PC10
+    /* PC10 AF7 is USART3_TX at CN7 pin 1; RX is not required. */
+    GPIOC->MODER = (GPIOC->MODER & ~(3u << 20)) | (2u << 20);
+    GPIOC->OTYPER &= ~(1u << 10);
+    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~(3u << 20)) | (1u << 20);
+    GPIOC->PUPDR &= ~(3u << 20);
+    GPIOC->AFR[1] = (GPIOC->AFR[1] & ~(15u << 8)) | (7u << 8);
+#else
     /* PA2 AF7 is USART2_TX to onboard ST-Link VCP. RX is not required. */
     GPIOA->MODER = (GPIOA->MODER & ~(3u << 4)) | (2u << 4);
     GPIOA->OTYPER &= ~(1u << 2);
     GPIOA->OSPEEDR = (GPIOA->OSPEEDR & ~(3u << 4)) | (1u << 4);
     GPIOA->PUPDR &= ~(3u << 4);
     GPIOA->AFR[0] = (GPIOA->AFR[0] & ~(15u << 8)) | (7u << 8);
-    USART2->CR1 = 0; USART2->CR2 = 0; USART2->CR3 = 0;
+#endif
+    DIAGNOSTIC_USART->CR1 = 0; DIAGNOSTIC_USART->CR2 = 0; DIAGNOSTIC_USART->CR3 = 0;
     uart_ready = true;
 }
 static void uart_character(char value)
 {
-    while ((USART2->SR & USART_SR_TXE) == 0) __NOP();
-    USART2->DR = (uint8_t)value;
+    while ((DIAGNOSTIC_USART->SR & USART_SR_TXE) == 0) __NOP();
+    DIAGNOSTIC_USART->DR = (uint8_t)value;
 }
 static void uart_text(const char *text)
 {
@@ -86,9 +116,9 @@ void bench_platform_report(const char *event, unsigned id, unsigned calls, uint3
     SystemCoreClockUpdate();
     uint32_t prescaler = (RCC->CFGR >> 10) & 7u;
     uint32_t pclk = SystemCoreClock >> (prescaler < 4u ? 0u : prescaler - 3u);
-    USART2->CR1 = 0;
-    USART2->BRR = (pclk + 57600u) / 115200u;
-    USART2->CR1 = USART_CR1_UE | USART_CR1_TE; /* 115200, 8N1, no RX/IRQ/DMA. */
+    DIAGNOSTIC_USART->CR1 = 0;
+    DIAGNOSTIC_USART->BRR = (pclk + 57600u) / 115200u;
+    DIAGNOSTIC_USART->CR1 = USART_CR1_UE | USART_CR1_TE; /* 115200, 8N1, no RX/IRQ/DMA. */
     if (event[0] == 'B' && event[1] == 'O') {
         uint32_t apb2 = (RCC->CFGR >> 13) & 7u;
         uart_text("CONFIG board=NUCLEO-F446RE diagnostics=1 clock=HSI cpu_hz=");
@@ -105,6 +135,16 @@ void bench_platform_report(const char *event, unsigned id, unsigned calls, uint3
         uart_text(" pwr_cr="); uart_hex(PWR->CR);
         uart_text(" pwr_csr="); uart_hex(PWR->CSR);
         uart_text(" tim2_psc="); uart_unsigned(TIM2->PSC);
+#if BENCH_COMMON_CLOCK_160
+        uart_text(" clock_profile=common160");
+#else
+        uart_text(" clock_profile=max_clock");
+#endif
+#if BENCH_STM32_DIAGNOSTIC_PC10
+        uart_text(" transport=USART3_PC10");
+#else
+        uart_text(" transport=USART2_PA2");
+#endif
         uart_text("\r\n");
     }
     uart_text("BENCH event="); uart_text(event);
@@ -113,7 +153,7 @@ void bench_platform_report(const char *event, unsigned id, unsigned calls, uint3
     uart_text(" digest=");
     uart_hex(digest);
     uart_text("\r\n");
-    while ((USART2->SR & USART_SR_TC) == 0) __NOP();
+    while ((DIAGNOSTIC_USART->SR & USART_SR_TC) == 0) __NOP();
 }
 #endif
 
@@ -133,20 +173,24 @@ bool bench_platform_check(void)
         (RCC->DCKCFGR & RCC_DCKCFGR_TIMPRE) == 0 &&
         (SCB->CPACR & FPU_ACCESS) == FPU_ACCESS &&
         (FLASH->ACR & FLASH_CONFIG_MASK) == FLASH_CONFIG &&
-        (PWR->CR & POWER_CONFIG) == POWER_CONFIG &&
-        (PWR->CSR & POWER_READY) == POWER_READY &&
+        (PWR->CR & POWER_CONFIG_MASK) == POWER_CONFIG &&
+        (PWR->CSR & POWER_READY_MASK) == POWER_READY &&
         (RCC->APB1ENR & RCC_APB1ENR_TIM2EN) != 0 &&
         TIM2->PSC == GAP_TIMER_PRESCALER && TIM2->DIER == 0 &&
         (RCC->AHB2ENR & RCC_AHB2ENR_OTGFSEN) == 0 &&
         (RCC->AHB1ENR & (RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN |
             RCC_AHB1ENR_CRCEN | RCC_AHB1ENR_OTGHSEN)) == 0 &&
+#if BENCH_DIAGNOSTICS && BENCH_STM32_DIAGNOSTIC_PC10
+        (RCC->APB1ENR & (RCC_APB1ENR_USART2EN | RCC_APB1ENR_USART3EN)) == RCC_APB1ENR_USART3EN;
+#else
         (RCC->APB1ENR & RCC_APB1ENR_USART2EN) ==
             (BENCH_DIAGNOSTICS ? RCC_APB1ENR_USART2EN : 0u);
+#endif
 }
 
 static bool configure_clock(void)
 {
-    /* RM0390: enter OverDrive while SYSCLK is HSI, before enabling peripherals. */
+    /* RM0390: select power mode on HSI before enabling peripherals. */
     RCC->CR = (RCC->CR & ~RCC_CR_HSITRIM) | RCC_CR_HSION | RCC_CR_HSITRIM_4;
     if (!wait_ready(&RCC->CR, RCC_CR_HSIRDY, RCC_CR_HSIRDY)) return false;
     RCC->CFGR &= ~RCC_CFGR_SW;
@@ -160,11 +204,13 @@ static bool configure_clock(void)
     RCC->PLLCFGR = PLL_CONFIG;
     RCC->CR |= RCC_CR_PLLON;
     if (!wait_ready(&PWR->CSR, PWR_CSR_VOSRDY, PWR_CSR_VOSRDY)) return false;
+#if !BENCH_COMMON_CLOCK_160
     PWR->CR |= PWR_CR_ODEN;
     if (!wait_ready(&PWR->CSR, PWR_CSR_ODRDY, PWR_CSR_ODRDY)) return false;
     PWR->CR |= PWR_CR_ODSWEN;
     if (!wait_ready(&PWR->CSR, PWR_CSR_ODSWRDY, PWR_CSR_ODSWRDY)) return false;
-    /* Five wait states are required at 180 MHz for the measured 3.3 V rail. */
+#endif
+    /* Five wait states cover both 160 and 180 MHz at the measured 3.3 V rail. */
     FLASH->ACR = FLASH_CONFIG;
     if (!wait_ready(&FLASH->ACR, FLASH_CONFIG_MASK, FLASH_CONFIG)) return false;
     RCC->CFGR = (RCC->CFGR & ~(RCC_CFGR_HPRE | RCC_CFGR_PPRE1 | RCC_CFGR_PPRE2)) | BUS_CONFIG;
@@ -191,6 +237,9 @@ bool bench_platform_init(void)
     GPIOA->MODER = (GPIOA->MODER & ~(3u << 10)) | (1u << 10);
     SysTick->CTRL = 0;
     RCC->APB1ENR &= ~(RCC_APB1ENR_USART2EN | RCC_APB1ENR_TIM2EN);
+#if BENCH_DIAGNOSTICS && BENCH_STM32_DIAGNOSTIC_PC10
+    RCC->APB1ENR &= ~RCC_APB1ENR_USART3EN;
+#endif
     /* Both VCP pins remain analog/high-impedance in measurement firmware. */
     GPIOA->MODER |= (3u << 4) | (3u << 6);
     GPIOA->PUPDR &= ~((3u << 4) | (3u << 6));
@@ -216,7 +265,7 @@ bool bench_platform_init(void)
     RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
     (void)RCC->APB1ENR;
     TIM2->CR1 = 0; TIM2->DIER = 0;
-    TIM2->PSC = GAP_TIMER_PRESCALER; /* 180 MHz /4 x2 /9000 = 10 kHz. */
+    TIM2->PSC = GAP_TIMER_PRESCALER; /* APB1 x2 / (PSC+1) = 10 kHz in either profile. */
     configured = true;
     return bench_platform_check();
 }

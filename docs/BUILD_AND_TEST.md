@@ -2,6 +2,26 @@
 
 Run commands from the Energy Profiling project root. External SDK trees and intermediate build directories are dependencies, not experiment source. Source, inputs, configuration and delivered artifacts have separate hashes. Current source: **energy-profiling-v4-max-clock**, release **v1.1.0**, experiment schema 2. Historical firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
+## Select a clock profile
+
+Release v1.2.0 adds `-DBENCH_CLOCK_PROFILE=common160` to all three native targets; omitting it selects `max_clock`. Use distinct build directories for each profile and for diagnostics versus measurement firmware. A cached build directory rejects a change of clock profile. ESP32 uses build-local SDK configuration and the selected profile defaults. The [common160 guide](COMMON_CLOCK_160.md) gives the exact operating points and acquisition selection. The archived v1.1.0 maximum-clock images retain their original bytes and build provenance.
+
+For ARM, add `-ClockProfile common160` to `scripts/build_arms.ps1`. Direct CMake commands accept `-DBENCH_CLOCK_PROFILE=common160 -DBENCH_DIAGNOSTICS=OFF`. For an ESP-IDF 5.5.4 terminal:
+
+```powershell
+idf.py -C firmware/targets/esp32 -B build/esp32-common160 -DBENCH_CLOCK_PROFILE=common160 -DBENCH_DIAGNOSTICS=OFF build
+```
+
+Use `BENCH_DIAGNOSTICS=ON` only for the separate functional check and reinstall the matching OFF image afterward. New 160 MHz builds are not evidence that the board has been flashed.
+
+Select the same profile in the serial validator so the log receives the correct experiment identity. For an STM32 common160 diagnostic using PC10:
+
+```powershell
+python tools/serial_validation.py --clock-profile common160 --board stm32 --port COM6 --firmware path/to/diagnostic/energy_bench_stm32f446.bin --output hardware/common160/stm32_run01
+```
+
+Replace the port/image path and use a fresh output prefix. Common160 validation requires the 160 MHz configuration before BOOT, then twelve exact-count START/PASS pairs and DONE. STM32's `BENCH_STM32_DIAGNOSTIC_TRANSPORT=PC10_USART3` selects target CN7 pin 1 to ST-LINK CN3 pin 1 RX, bypassing open SB63; the default diagnostic route remains PA2/USART2. This transport option has no effect when diagnostics are OFF.
+
 ## Host checks
 
 Requirements: Python 3.11+, GCC, CMake and Ninja. Kernel and capture-analyzer checks use no external Python packages.

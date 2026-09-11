@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
+include(${CMAKE_CURRENT_LIST_DIR}/scripts/bench_clock_profile.cmake)
 project(energy_profiling_host_checks C)
 enable_testing()
 set(CMAKE_C_STANDARD 11)
@@ -16,7 +17,8 @@ foreach(board ESP32 RP2040 STM32)
             firmware/common/bench_data.c
             tests/runner_simulation.c)
         target_include_directories(${test_name}_test PRIVATE firmware/common/include)
-        target_compile_definitions(${test_name}_test PRIVATE BENCH_BOARD_${board}=1)
+        target_compile_definitions(${test_name}_test PRIVATE BENCH_BOARD_${board}=1
+            BENCH_COMMON_CLOCK_160=${BENCH_COMMON_CLOCK_160})
         if(diagnostics)
             target_compile_definitions(${test_name}_test PRIVATE BENCH_DIAGNOSTICS=1)
         endif()

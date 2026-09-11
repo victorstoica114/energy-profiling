@@ -1,0 +1,8 @@
+{
+  "energy_bench_rp2040.bin": "838209429491a1cb5c353076180b9493673f2b33f195ffae0b22cb8c152f0c4f",
+  "energy_bench_rp2040.dis": "d90f8874dcbb74cf22ba27f03e360012c1186ca726057949033fded989c45bd1",
+  "energy_bench_rp2040.elf": "c13ecdc235eb241a5d9c0b56b7a923eb8350b3011804a44b8e099657843d1b56",
+  "energy_bench_rp2040.elf.map": "ba7f35e1de4f8f066cfdd1d81c227cf6ecf7a57d42b1d136faa973e616560dc6",
+  "energy_bench_rp2040.hex": "a9e1a5e8b81cb76fba275b97b18f7eca7792c5ccfc9348d3789d15bb17612631",
+  "energy_bench_rp2040.uf2": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de"
+}

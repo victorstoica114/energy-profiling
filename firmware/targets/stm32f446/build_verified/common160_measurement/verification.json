@@ -1,0 +1,78 @@
+{
+  "created_utc": "2026-09-11T15:24:43.240263+00:00",
+  "target": "stm32f446",
+  "profile": "common160_measurement",
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-common160-stm32f446",
+  "build_result": "passed",
+  "compiler": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]",
+  "native_compile_and_link_passed": true,
+  "native_flags_verified": true,
+  "diagnostics": false,
+  "diagnostics_enabled": false,
+  "diagnostic_transport": null,
+  "cpu_hz": 160000000,
+  "embedded_iteration_counts": [
+    3000,
+    3000,
+    200,
+    100,
+    100,
+    500,
+    3000,
+    3000,
+    20,
+    300,
+    50,
+    1
+  ],
+  "all_twelve_kernel_symbols_present": true,
+  "embedded_inputs_match_frozen_data": true,
+  "common_objects_compared_to_max_clock_build": {
+    "bench_data.c.obj": {
+      "whole_object_identical": true,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_runner.c.obj": {
+      "whole_object_identical": true,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_kernels.c.obj": {
+      "whole_object_identical": true,
+      "allocated_code_and_data_sections_identical": true
+    },
+    "bench_algorithms.c.obj": {
+      "whole_object_identical": true,
+      "allocated_code_and_data_sections_identical": true
+    }
+  },
+  "measurement_serial_strings_absent": true,
+  "max_clock_regression_bin_identical": true,
+  "max_clock_bin_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+  "hardware_programmed": false,
+  "hardware_execution_validated": false,
+  "diagnostic_functional_validation": {
+    "passed": false,
+    "status": "pending"
+  },
+  "ppk2_capture_validated": false,
+  "artifact_sha256": {
+    "energy_bench_stm32f446.bin": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+    "energy_bench_stm32f446.elf": "54f41572e1ce84a417fc3be1f36d4dcb45a4105b7dc1ab0d2b8868a14439c490",
+    "energy_bench_stm32f446.hex": "818202913150ae7121e4cc21977049bbd053669ee0c336de8a78f3b1ed181a51",
+    "energy_bench_stm32f446.map": "94d554fd4d6ef5ba9f78b826d45aeddc92c462a36f22d4524e38c2730af5f3c7"
+  },
+  "size_output": "   text\t   data\t    bss\t    dec\t    hex\tfilename\n  43284\t    108\t  40356\t  83748\t  14724\tD:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common_clock_transition\\builds\\stm32f446-common160\\energy_bench_stm32f446.elf\n",
+  "apb1_hz": 40000000,
+  "apb2_hz": 80000000,
+  "pllcfgr_expected_hex": "25005010",
+  "power_config_mask_hex": "0003c000",
+  "power_config_expected_hex": "0000c000",
+  "power_ready_mask_hex": "00034000",
+  "power_ready_expected_hex": "00004000",
+  "flash_acr_masked_expected_hex": "00000705",
+  "tim2_prescaler": 7999,
+  "tim2_tick_hz": 10000
+}

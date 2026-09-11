@@ -104,6 +104,98 @@ class CampaignProfileTests(unittest.TestCase):
         self.save_and_pin()
         self.validate()
 
+    def select_common160(self):
+        self.profile = json.loads((ROOT / "config/experiment.common160.json").read_text(encoding="utf-8"))
+        self.campaign["experiment_id"] = self.profile["experiment_id"]
+        self.board["experiment_id"] = self.profile["experiment_id"]
+        self.board["target_cpu_hz"] = 160000000
+        self.board["reuse_justification"] = None
+        self.metadata["experiment_id"] = self.profile["experiment_id"]
+        self.pin_profile()
+
+    def pin_profile(self):
+        self.profile_path.write_text(json.dumps(self.profile), encoding="utf-8")
+        digest = s.sha256(self.profile_path)
+        self.board["experiment_manifest_sha256"] = digest
+        self.metadata["provenance"]["manifest_sha256"] = digest
+        self.analysis["provenance"]["manifest_sha256"] = digest
+        self.analysis["provenance"]["experiment_manifest"] = copy.deepcopy(self.profile)
+        self.save_and_pin()
+
+    def test_common160_capture_passes_with_its_own_profile_and_image_pins(self):
+        self.select_common160()
+        _, _, index = self.validate()
+        self.assertEqual(index["experiment_id"], "energy-profiling-v5-common160")
+        self.assertEqual(index["expected_firmware_sha256"], self.image_hash)
+
+    def test_common160_rejects_max_and_historical_reuse_even_with_justification(self):
+        for path in ("config/experiment.json", "campaigns/profiles/energy-profiling-v3-single-gpio.json"):
+            self.profile = json.loads((ROOT / path).read_text(encoding="utf-8"))
+            self.board["experiment_id"] = self.profile["experiment_id"]
+            self.board["target_cpu_hz"] = self.profile["boards"]["esp32"]["target_cpu_hz"]
+            self.board["reuse_justification"] = "Attempted explicit cross-profile reuse."
+            self.metadata["experiment_id"] = self.profile["experiment_id"]
+            self.campaign["experiment_id"] = "energy-profiling-v5-common160"
+            self.pin_profile()
+            with self.subTest(profile=path), self.assertRaisesRegex(s.CampaignError, "cannot be mixed"):
+                self.validate()
+
+    def test_max_campaign_cannot_import_common160_with_justification(self):
+        self.select_common160()
+        self.campaign["experiment_id"] = "energy-profiling-v4-max-clock"
+        self.board["reuse_justification"] = "Attempted common160 reuse in the maximum-clock campaign."
+        with self.assertRaisesRegex(s.CampaignError, "cannot be mixed"):
+            self.validate()
+
+    def test_common160_rejects_schema_downgrade_and_missing_board_identity(self):
+        self.select_common160()
+        self.campaign["schema_version"] = 1
+        self.board.pop("experiment_id")
+        with self.assertRaisesRegex(s.CampaignError, "require schema 2"):
+            self.validate()
+        self.campaign["schema_version"] = 2
+        with self.assertRaisesRegex(s.CampaignError, "cannot be mixed"):
+            self.validate()
+
+    def test_common160_cannot_hide_wrong_clock_by_repinning_manifest(self):
+        for board, clock in (("esp32", 240000000), ("rp2040", 200000000), ("stm32", 180000000)):
+            self.select_common160()
+            self.profile["boards"][board]["target_cpu_hz"] = clock
+            self.pin_profile()
+            with self.subTest(board=board), self.assertRaisesRegex(s.CampaignError, "target CPU clock"):
+                self.validate()
+
+    def test_common160_cannot_relabel_old_metadata_or_image(self):
+        self.select_common160()
+        self.metadata["experiment_id"] = "energy-profiling-v3-single-gpio"
+        self.save_and_pin()
+        with self.assertRaisesRegex(s.CampaignError, "experiment"):
+            self.validate()
+        self.select_common160()
+        self.metadata["provenance"]["expected_firmware_sha256"] = "0" * 64
+        self.save_and_pin()
+        with self.assertRaisesRegex(s.CampaignError, "expected firmware hash"):
+            self.validate()
+
+    def test_common160_template_contains_no_reused_captures_and_cannot_be_summarized(self):
+        path = ROOT / "campaigns/2026-09-11_ppk2_common160.template.json"
+        template = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(template["analysis_policy"]["required_cold_boot_captures_per_board"], 10)
+        self.assertEqual(template["experiment_id"], "energy-profiling-v5-common160")
+        for board in ("esp32", "rp2040", "stm32"):
+            spec = template["boards"][board]
+            self.assertEqual(spec["capture_directories"], [])
+            self.assertEqual(spec["capture_file_sha256"], {})
+            self.assertIsNone(spec["reuse_justification"])
+            self.assertEqual(spec["target_cpu_hz"], 160000000)
+            self.assertEqual(spec["experiment_manifest"], "config/experiment.common160.json")
+            self.assertEqual(spec["experiment_manifest_sha256"], s.sha256(ROOT / spec["experiment_manifest"]))
+        output = self.root / "no_common160_results"
+        with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            code = s.main([str(path), "--project-root", str(self.root), "--output-dir", str(output)])
+        self.assertEqual(code, 2)
+        self.assertFalse(output.exists())
+
     def test_missing_explicit_override_or_justification_is_rejected(self):
         saved = copy.deepcopy(self.board)
         for key in ("experiment_id", "reuse_justification"):

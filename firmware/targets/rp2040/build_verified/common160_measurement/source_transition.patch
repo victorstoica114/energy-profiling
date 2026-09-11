@@ -1,0 +1,167 @@
+--- v1.1.0/firmware/targets/rp2040/CMakeLists.txt
++++ common160/firmware/targets/rp2040/CMakeLists.txt
+@@ -1,4 +1,5 @@
+ cmake_minimum_required(VERSION 3.20)
++include(${CMAKE_CURRENT_LIST_DIR}/../../../scripts/bench_clock_profile.cmake)
+ option(BENCH_DIAGNOSTICS "Functional serial feedback; never use this profile for energy capture" OFF)
+ set(BENCH_DIAGNOSTIC_TRANSPORT "USB" CACHE STRING "Diagnostic transport: USB or UART0")
+ set_property(CACHE BENCH_DIAGNOSTIC_TRANSPORT PROPERTY STRINGS USB UART0)
+@@ -22,9 +23,12 @@
+ project(energy_bench_rp2040 C CXX ASM)
+ set(CMAKE_C_STANDARD 11)
+ # Applies to boot2 as well as application/SDK translation units: QSPI stays
+-# at 50 MHz when clk_sys reaches 200 MHz on the tested Marble Pico board.
++# at 50 MHz (max_clock) or 40 MHz (common160) on the tested Marble Pico board.
+ add_compile_definitions(PICO_FLASH_SPI_CLKDIV=4)
+ pico_sdk_init()
++if(BENCH_DIAGNOSTICS AND BENCH_DIAGNOSTIC_TRANSPORT STREQUAL "USB" AND NOT TARGET tinyusb_device)
++  message(FATAL_ERROR "USB diagnostics require TinyUSB; set PICO_TINYUSB_PATH to the pinned diagnostic dependency")
++endif()
+ if(NOT PICO_PLATFORM STREQUAL "rp2040")
+   message(FATAL_ERROR "This benchmark target requires RP2040")
+ endif()
+@@ -34,7 +38,7 @@
+ include(${CMAKE_CURRENT_LIST_DIR}/../../common/bench_sources.cmake)
+ add_executable(energy_bench_rp2040 platform_rp2040.c ${BENCH_COMMON_SOURCES})
+ target_include_directories(energy_bench_rp2040 PRIVATE ${BENCH_COMMON_INCLUDE_DIRS})
+-target_compile_definitions(energy_bench_rp2040 PRIVATE BENCH_BOARD_RP2040=1 PICO_STACK_SIZE=4096 BENCH_DIAGNOSTICS=$<BOOL:${BENCH_DIAGNOSTICS}>)
++target_compile_definitions(energy_bench_rp2040 PRIVATE BENCH_BOARD_RP2040=1 PICO_STACK_SIZE=4096 BENCH_DIAGNOSTICS=$<BOOL:${BENCH_DIAGNOSTICS}> BENCH_COMMON_CLOCK_160=${BENCH_COMMON_CLOCK_160})
+ target_compile_options(energy_bench_rp2040 PRIVATE -O2 -fno-fast-math -ffp-contract=off -fno-lto -fstack-usage -Wall -Wextra)
+ target_link_libraries(energy_bench_rp2040 pico_stdlib hardware_clocks hardware_timer hardware_vreg m)
+ if(BENCH_DIAGNOSTICS)
+--- v1.1.0/firmware/targets/rp2040/platform_rp2040.c
++++ common160/firmware/targets/rp2040/platform_rp2040.c
+@@ -21,7 +21,11 @@
+ #endif
+ #endif
+ 
++#if BENCH_COMMON_CLOCK_160
++_Static_assert(BENCH_EXPECTED_CPU_HZ == 160000000u, "CPU profile mismatch");
++#else
+ _Static_assert(BENCH_EXPECTED_CPU_HZ == 200000000u, "CPU profile mismatch");
++#endif
+ _Static_assert(BENCH_PIN_RUN == 2, "RP2040 RUN pin mismatch");
+ _Static_assert(PICO_FLASH_SPI_CLKDIV == 4, "RP2040 Flash clock divider mismatch");
+ enum { RUN_PIN = BENCH_PIN_RUN };
+@@ -110,7 +114,9 @@
+ #endif
+     /* Independent peripheral counter relative to clk_ref; not an external calibration. */
+     uint32_t khz = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_CLK_SYS);
+-    return khz >= 199800u && khz <= 200200u;
++    uint32_t target_khz = BENCH_EXPECTED_CPU_HZ / 1000u;
++    return khz >= target_khz - target_khz / 1000u &&
++        khz <= target_khz + target_khz / 1000u;
+ }
+ 
+ bool bench_platform_init(void)
+@@ -121,7 +127,7 @@
+     /* Pico onboard LED explicitly off. Core 1 is never launched. */
+     gpio_init(25); gpio_put(25, 0); gpio_set_dir(25, GPIO_OUT);
+     /* The removed board regulator is distinct from this internal core supply.
+-       Raise DVDD and allow 1 ms settling at the SDK startup clock before 200 MHz. */
++       Raise DVDD and allow 1 ms settling at the SDK startup clock before raising clk_sys to the selected profile. */
+     vreg_set_voltage(VREG_VOLTAGE_1_15);
+     busy_wait_at_least_cycles(clock_get_hz(clk_sys) / 1000u);
+     if (vreg_get_voltage() != VREG_VOLTAGE_1_15 ||
+@@ -143,13 +149,19 @@
+ #if BENCH_DIAGNOSTICS
+     char line[320];
+     snprintf(line, sizeof line,
+-        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu peri_hz=%lu vreg_target_mv=1150 vreg_sel=%u vreg_rok=%u flash_div=%lu flash_hz=%lu flash_jedec_id=%06lx fpu=software radio=absent core=%u transport=%s check=%u\r\n",
++        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu peri_hz=%lu vreg_target_mv=1150 vreg_sel=%u vreg_rok=%u flash_div=%lu flash_hz=%lu flash_jedec_id=%06lx clock_profile=%s fpu=software radio=absent core=%u transport=%s check=%u\r\n",
+         (unsigned long)clock_get_hz(clk_sys), (unsigned long)clock_get_hz(clk_peri),
+         (unsigned)vreg_get_voltage(),
+         (unsigned)((vreg_and_chip_reset_hw->vreg & VREG_AND_CHIP_RESET_VREG_ROK_BITS) != 0),
+         (unsigned long)ssi_hw->baudr,
+         (unsigned long)(ssi_hw->baudr ? clock_get_hz(clk_sys) / ssi_hw->baudr : 0u),
+-        (unsigned long)diagnostic_flash_jedec_id, get_core_num(),
++        (unsigned long)diagnostic_flash_jedec_id,
++#if BENCH_COMMON_CLOCK_160
++        "common160",
++#else
++        "max_clock",
++#endif
++        get_core_num(),
+ #if BENCH_DIAGNOSTIC_USB
+         "USB_CDC",
+ #else
+--- v1.1.0/firmware/targets/rp2040/README.md
++++ common160/firmware/targets/rp2040/README.md
+@@ -1,6 +1,6 @@
+ # RP2040 measurement target
+ 
+-Marble Pico board with RP2040, using the Pico-compatible SDK board profile and 2 MiB configured Flash address space. Native Pico SDK, nominal CPU **200 MHz**, internal core regulator **1.15 V**, experiment `energy-profiling-v4-max-clock`, schema 2. This README describes **BENCH_DIAGNOSTICS=OFF** measurement firmware.
++Marble Pico board with RP2040, using the Pico-compatible SDK board profile and 2 MiB configured Flash address space. Native Pico SDK, default **max_clock** CPU **200 MHz** or additional **common160** CPU **160 MHz**, both with internal core regulator **1.15 V** (schema 2). This README describes **BENCH_DIAGNOSTICS=OFF** measurement firmware.
+ 
+ ## Single measurement output
+ 
+@@ -14,11 +14,11 @@
+ 
+ USB/UART stdio is disabled. UART0/1, USBCTRL and ADC are held in reset; clk_usb and clk_adc are stopped before measurement. GPIO0/1 are disconnected without pulls and the GP25 LED is held LOW/off. PLL_USB remains enabled because the SDK uses its 48 MHz output for clk_peri. clk_rtc remains at 46875 Hz. The SDK default alarm pool/handler is compiled in, but the application registers no periodic callbacks and does not globally mask interrupts. The measurement image does not enumerate as USB CDC.
+ 
+-SDK startup uses its default 125 MHz clock. Before the first preparation or measurement window, the firmware sets the internal core regulator to 1.15 V, waits at least 1 ms for settling, checks the voltage-selection and regulation-status bits, and switches clk_sys to 200 MHz. With the configured 12 MHz crystal, the SDK selects a 1200 MHz PLL VCO and post-dividers 6 and 1. The [RP2040 datasheet](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf), Sections 2.15.3 and 5.6, documents 200 MHz operation at this core voltage. The external board regulator remains removed and the PPK2 continues to supply the 3V3 rail at 3.3 V; it does not supply the core directly.
++SDK startup uses its default 125 MHz clock. Before the first preparation or measurement window, the firmware sets the internal core regulator to 1.15 V, waits at least 1 ms for settling, checks the voltage-selection and regulation-status bits, and switches clk_sys to the selected profile. With the configured 12 MHz crystal, the pinned SDK selects a 1200 MHz PLL VCO and post-dividers 6 and 1 for 200 MHz, or a 1440 MHz VCO and post-dividers 3 and 3 for 160 MHz. The [RP2040 datasheet](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf), Sections 2.15.3 and 5.6, documents 200 MHz operation at this core voltage. The external board regulator remains removed and the PPK2 continues to supply the 3V3 rail at 3.3 V; it does not supply the core directly.
+ 
+-The Flash boot stage and application both use `PICO_FLASH_SPI_CLKDIV=4`, giving a 50 MHz QSPI clock during RUN. This conservative setting is deliberate: the CPU maximum does not imply running the external Flash at its maximum. The new measurements describe this complete clock configuration; previously measured energies cannot be rescaled into results for the current firmware.
++The Flash boot stage and application both use `PICO_FLASH_SPI_CLKDIV=4`, giving a 50 MHz QSPI clock during RUN at 200 MHz, or 40 MHz at 160 MHz. This conservative setting is deliberate: the CPU maximum does not imply running the external Flash at its maximum. The new measurements describe this complete clock configuration; previously measured energies cannot be rescaled into results for the current firmware.
+ 
+-Clock configuration is checked using clock_get_hz and the hardware frequency counter, accepting 200000 kHz +/-0.1% relative to clk_ref. Checks also require clk_peri at 48 MHz, the internal regulator selected at 1.15 V and reporting regulation, and the SSI Flash divider at 4. These register and counter checks are not external oscillator or voltage calibration. The hardware timer is read only for fixed control gaps, busy-polling while the CPU remains awake. PPK2 provides the benchmark timebase. After final verification and a two-second LOW pause, execution enters WFI with RUN LOW; that final state is not the active baseline.
++Clock configuration is checked using clock_get_hz and the hardware frequency counter, accepting the selected CPU frequency +/-0.1% relative to clk_ref (199800?200200 kHz or 159840?160160 kHz). Checks also require clk_peri at 48 MHz, the internal regulator selected at 1.15 V and reporting regulation, and the SSI Flash divider at 4. These register and counter checks are not external oscillator or voltage calibration. The hardware timer is read only for fixed control gaps, busy-polling while the CPU remains awake. PPK2 provides the benchmark timebase. After final verification and a two-second LOW pause, execution enters WFI with RUN LOW; that final state is not the active baseline.
+ 
+ ## Build
+ 
+@@ -43,6 +43,8 @@
+ elf2uf2 build/rp2040-max-clock/energy_bench_rp2040.elf build/rp2040-max-clock/energy_bench_rp2040.uf2
+ ```
+ 
+-Current artifacts belong in `build_verified/max_clock_measurement`, with compiler commands, source hashes and verification.json. [CURRENT_FIRMWARE.json](../../../CURRENT_FIRMWARE.json) identifies the current build and recorded programming status. Its `single_gpio_measurement` profile key is retained for collector compatibility and points to this current archive. Earlier firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0). Earlier measurement sets and validation logs must not be relabeled as current results.
++Select `-DBENCH_CLOCK_PROFILE=common160` in a fresh CMake build directory, or add `-ClockProfile common160` to the ARM helper, to build the additional profile. The default is `max_clock`. CMake rejects changing the selected profile inside an existing configured build directory. The helper gives common160 its own `rp2040-common160` output directory.
+ 
+-Record the physical board and its Flash part when validating this Pico-compatible profile. Compilation and static checks are not a PPK2 hardware acceptance capture. The 200 MHz profile requires new captures for all twelve workloads and its active-idle reference. [Official Pico clock API](https://www.raspberrypi.com/documentation/pico-sdk/hardware.html#hardware_clocks).
++Existing max_clock artifacts remain in `build_verified/max_clock_measurement`; additional common160 artifacts belong in `build_verified/common160_measurement`, with their own compiler commands, source hashes and verification.json. The matching manifests are `config/experiment.json` and `config/experiment.common160.json`. [CURRENT_FIRMWARE.json](../../../CURRENT_FIRMWARE.json) identifies the current build and recorded programming status. Its `single_gpio_measurement` profile key retains the max_clock identity for collector compatibility; the additional profile is recorded separately. Earlier firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0). Earlier measurement sets and validation logs must not be relabeled as current results.
++
++Record the physical board and its Flash part when validating this Pico-compatible profile. Compilation and static checks are not a PPK2 hardware acceptance capture. Each clock profile requires independent captures for all twelve workloads and its active-idle reference. Equal nominal CPU frequency does not equate PLL VCO, external Flash, peripheral clocks, memory architecture, floating-point implementation or oscillator accuracy across boards. [Official Pico clock API](https://www.raspberrypi.com/documentation/pico-sdk/hardware.html#hardware_clocks).
+--- v1.1.0/scripts/build_arms.ps1
++++ common160/scripts/build_arms.ps1
+@@ -3,7 +3,11 @@
+     [string]$DepsRoot,
+     [string]$BuildRoot,
+     [string]$Elf2Uf2,
++    [string]$PicoTinyUsbPath,
+     [ValidateSet('both','stm32','rp2040')][string]$Only = 'both',
++    [ValidateSet('max_clock','common160')][string]$ClockProfile = 'max_clock',
++    [ValidateSet('PA2_USART2','PC10_USART3')][string]$Stm32DiagnosticTransport = 'PA2_USART2',
++    [ValidateSet('USB','UART0')][string]$PicoDiagnosticTransport = 'USB',
+     [switch]$Diagnostics
+ )
+ $ErrorActionPreference = 'Stop'
+@@ -45,19 +49,26 @@
+ # All three exist: the fetch tool verifies their full extracted tree without downloads.
+ & python (Join-Path $PSScriptRoot 'fetch_native_sdks.py') --dest $DepsRoot
+ if ($LASTEXITCODE -ne 0) { throw 'SDK tree verification failed' }
+-$BuildSuffix = if ($Diagnostics) { '-diagnostic' } else { '' }
++$BuildSuffix = if ($ClockProfile -eq 'common160') { '-common160' } else { '' }
++if ($Diagnostics) { $BuildSuffix += '-diagnostic' }
+ $DiagnosticValue = if ($Diagnostics) { 'ON' } else { 'OFF' }
+ $StmBuild = Join-Path $BuildRoot ($Stm32Target + $BuildSuffix)
++if ($Diagnostics -and $Stm32DiagnosticTransport -eq 'PC10_USART3') { $StmBuild += '-pc10' }
+ $PicoBuild = Join-Path $BuildRoot ('rp2040' + $BuildSuffix)
+ if ($Only -ne 'rp2040') {
+-& cmake -S (Join-Path $ProjectRoot "firmware/targets/$Stm32Target") -B $StmBuild -G Ninja "-DARM_GCC_BIN=$ArmGccBin" "-DSTM32_CMSIS_DEVICE_PATH=$StmDevice" "-DCMSIS_CORE_PATH=$CmsisCore" "-DBENCH_DIAGNOSTICS=$DiagnosticValue"
++& cmake -S (Join-Path $ProjectRoot "firmware/targets/$Stm32Target") -B $StmBuild -G Ninja "-DARM_GCC_BIN=$ArmGccBin" "-DSTM32_CMSIS_DEVICE_PATH=$StmDevice" "-DCMSIS_CORE_PATH=$CmsisCore" "-DBENCH_DIAGNOSTICS=$DiagnosticValue" "-DBENCH_CLOCK_PROFILE=$ClockProfile" "-DBENCH_STM32_DIAGNOSTIC_TRANSPORT=$Stm32DiagnosticTransport"
+ if ($LASTEXITCODE -ne 0) { throw 'STM32 configure failed' }
+ & cmake --build $StmBuild --parallel
+ if ($LASTEXITCODE -ne 0) { throw 'STM32 build failed' }
+ }
+ if ($Only -ne 'stm32') {
+ $env:PICO_TOOLCHAIN_PATH = Split-Path -Parent $ArmGccBin
+-& cmake -S (Join-Path $ProjectRoot 'firmware/targets/rp2040') -B $PicoBuild -G Ninja "-DPICO_SDK_PATH=$PicoSdk" "-DBENCH_DIAGNOSTICS=$DiagnosticValue"
++$PicoExtraArguments = @()
++if ($PicoTinyUsbPath) {
++    $ResolvedTinyUsb = (Resolve-Path -LiteralPath $PicoTinyUsbPath).Path.Replace('\','/')
++    $PicoExtraArguments += "-DPICO_TINYUSB_PATH=$ResolvedTinyUsb"
++}
++& cmake -S (Join-Path $ProjectRoot 'firmware/targets/rp2040') -B $PicoBuild -G Ninja "-DPICO_SDK_PATH=$PicoSdk" "-DBENCH_DIAGNOSTICS=$DiagnosticValue" "-DBENCH_CLOCK_PROFILE=$ClockProfile" "-DBENCH_DIAGNOSTIC_TRANSPORT=$PicoDiagnosticTransport" @PicoExtraArguments
+ if ($LASTEXITCODE -ne 0) { throw 'RP2040 configure failed' }
+ & cmake --build $PicoBuild --parallel
+ if ($LASTEXITCODE -ne 0) { throw 'RP2040 build failed' }

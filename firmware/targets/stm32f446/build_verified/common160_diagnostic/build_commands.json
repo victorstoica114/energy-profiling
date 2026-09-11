@@ -1,0 +1,60 @@
+{
+  "configure_powershell": "& cmake -S 'D:/Documente/Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing/analysis/common_clock_transition/repo_stage/firmware/targets/stm32f446' -B 'C:/Users/User/AppData/Local/Temp/energy-common160-stm32f446-diagnostic' -G Ninja '-DBENCH_CLOCK_PROFILE=common160' '-DBENCH_DIAGNOSTICS=ON' '-DARM_GCC_BIN=C:/Users/User/.platformio/packages/toolchain-gccarmnoneeabi/bin' '-DSTM32_CMSIS_DEVICE_PATH=C:/Users/User/AppData/Local/Temp/energy-native-sdks-verified/cmsis-device-f4-0fa0e489e053' '-DCMSIS_CORE_PATH=C:/Users/User/AppData/Local/Temp/energy-native-sdks-verified/CMSIS_5-2b7495b8535b' '-DBENCH_STM32_DIAGNOSTIC_TRANSPORT=PC10_USART3'",
+  "configure_exit_code": 0,
+  "build_powershell": "& cmake --build 'C:/Users/User/AppData/Local/Temp/energy-common160-stm32f446-diagnostic' --parallel",
+  "build_exit_code": 0,
+  "profile": "common160",
+  "diagnostics": true,
+  "hardware_actions_performed": false,
+  "sdk_lock": [
+    {
+      "name": "cmsis-device-f4",
+      "repository": "STMicroelectronics/cmsis-device-f4",
+      "tag": "v2.6.11",
+      "commit": "0fa0e489e053fa1ca7790bb40b4d76458f64c55d",
+      "archive_sha256": "c52b7e008d10c28d3a5edb664f88b466b07a6ac8a7a0b741504933a7a0bfb571",
+      "archive_url": "https://codeload.github.com/STMicroelectronics/cmsis-device-f4/zip/0fa0e489e053fa1ca7790bb40b4d76458f64c55d"
+    },
+    {
+      "name": "CMSIS_5",
+      "repository": "ARM-software/CMSIS_5",
+      "tag": "5.9.0",
+      "commit": "2b7495b8535bdcb306dac29b9ded4cfb679d7e5c",
+      "archive_sha256": "9ed0b6ebe8be4470bc5b20190df4a8ea863cdb9651b44689947d1c7783fdf8e4",
+      "archive_url": "https://codeload.github.com/ARM-software/CMSIS_5/zip/2b7495b8535bdcb306dac29b9ded4cfb679d7e5c"
+    }
+  ],
+  "primary_references": [
+    {
+      "title": "RP2040 Datasheet",
+      "build_date": "2025-02-20",
+      "build_version": "3184e62-clean",
+      "pages": [
+        9,
+        183,
+        229,
+        234,
+        622
+      ],
+      "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+    },
+    {
+      "title": "STM32F446xC/E datasheet DS10693",
+      "revision": 11,
+      "pages": [
+        22,
+        76
+      ],
+      "url": "https://www.st.com/resource/en/datasheet/stm32f446re.pdf"
+    },
+    {
+      "title": "STM32F446 reference manual RM0390",
+      "sections": [
+        "3.4.1/Table5",
+        "5.1.3",
+        "6/RCC"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/dm00135183.pdf"
+    }
+  ]
+}

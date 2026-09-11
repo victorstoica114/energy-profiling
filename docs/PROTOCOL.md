@@ -2,6 +2,10 @@
 
 Current campaign: **`energy-profiling-v4-max-clock`**, release **v1.1.0**, experiment schema 2. [experiment.json](../config/experiment.json) defines the parameters and the [input manifest](../data/manifest.json) identifies the exact bytes. Existing waveform datasets belong to the preceding campaign. New RP2040 and STM32 captures must use the current manifest and new output directories; preserve older files and metadata unchanged.
 
+## Select the experiment
+
+The physical protocol below applies to both experiments. **max_clock remains the default**. For the new equal-frequency comparison use `--clock-profile common160`; this selects `config/experiment.common160.json`, `profiles/common160/CURRENT_FIRMWARE.json` and `captures_common160/`. All three CPUs then use nominal 160 MHz. Acquire ten new accepted cold boots per board; no earlier capture or idle baseline is reused. See the [common160 guide](COMMON_CLOCK_160.md) for the supported operating points and campaign template.
+
 ## Power and wiring
 
 Use PPK2 in Source Meter mode at a nominal 3300 mV. Connect VOUT to DUT 3V3, GND to DUT GND and LOGIC VCC to the measured 3V3 rail. Connect **only the measurement output to PPK2 D0**:
@@ -14,7 +18,7 @@ Use PPK2 in Source Meter mode at a nominal 3300 mV. Connect VOUT to DUT 3V3, GND
 
 No algorithm-ID, ERROR, DONE or IDLE_VALID wires are used. D1-D7 do not form part of the protocol. Instrumentation connections are part of the fixture and must remain consistent between captures. Disconnect DUT USB, external UART adapters, programmers and other power sources during acquisition. PPK2's own USB connection is required for data collection. A dedicated logic signal replaces the original LED marker.
 
-The onboard external voltage regulator is removed on each selected DUT. The PPK2 supplies the measured 3V3 rail directly. Internal MCU regulators remain part of the device: RP2040 selects 1.15 V internally for its 200 MHz CPU, while STM32F446 uses Scale 1 and OverDrive for its nominal 180 MHz CPU. ESP32 uses 240 MHz. Verify the current image and recorded configuration before acquisition; changing the PPK2 supply is not how the RP2040 core-voltage setting is applied.
+The onboard external voltage regulator is removed on each selected DUT. The PPK2 supplies the measured 3V3 rail directly. Internal MCU regulators remain part of the device. In max_clock, RP2040 selects 1.15 V for 200 MHz, STM32F446 uses Scale 1 and OverDrive at nominal 180 MHz, and ESP32 uses 240 MHz. In common160, RP2040 retains 1.15 V, STM32 uses Scale 1 with OverDrive disabled, and ESP-IDF applies its normal 160 MHz digital bias. These internal settings are documented in the common160 guide. Verify the current image and recorded configuration before acquisition; changing the PPK2 supply is not how the RP2040 core-voltage setting is applied.
 
 Direct external 3V3 power on NUCLEO-F446RE requires the UM1724 configuration: physically separate ST-LINK or open **SB2 and SB12**. Disabling UART in software does not provide electrical isolation. Check the actual PC0 routing and bridge arrangement before wiring, as described in the [F446 target](../firmware/targets/stm32f446/README.md). The internal HSI clock avoids dependence on a powered ST-LINK MCO. See [ST UM1724, section 7.5.3 and connector tables](https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf).
 
