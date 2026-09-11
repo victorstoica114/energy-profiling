@@ -12,9 +12,11 @@ The common C library executes twelve algorithms on identical inputs across board
 | RP2040, Marble Pico | 200 MHz | Internal core regulator 1.15 V; QSPI Flash 50 MHz |
 | NUCLEO-F446RE | 180 MHz | Scale 1 and OverDrive; internal HSI-derived PLL |
 
-These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. The existing CSV captures belong to the preceding campaign. **New RP2040 and STM32 measurements are required before reporting results for this release.** ESP32 captures can be retained only with their original provenance and confirmation that its measured configuration remains equivalent.
+These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. The existing CSV captures belong to the preceding campaign. **New RP2040 and STM32 measurements are required before reporting maximum-clock results.** Only that campaign permits retained ESP32 captures, with their original provenance and confirmation that its measured configuration remains equivalent.
 
 **Maximum-clock functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. New PPK2 captures remain pending.
+
+**Pico common160 functional validation also passed: all twelve workloads and final DONE at the configured 160 MHz.** The matching silent common160 UF2 was installed afterward and is the Pico's latest recorded programming state, replacing its earlier 200 MHz image. Common160 hardware validation remains pending for STM32F446 and ESP32, and all three common160 PPK2 capture sets remain pending. The [160 MHz diagnostic](hardware/common160/2026-09-11/rp2040_diagnostic_01.json) and [silent-image programming record](hardware/common160/2026-09-11/rp2040_measurement_programming_01.json) preserve the separate evidence.
 
 ## Hardware used in the tests
 

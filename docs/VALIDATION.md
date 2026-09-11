@@ -4,7 +4,11 @@ Updated **11 September 2026** for **energy-profiling-v4-max-clock**, release **v
 
 ## Common160 addition, release v1.2.0
 
-The separate `energy-profiling-v5-common160` configuration and its native images are recorded in [profiles/common160/CURRENT_FIRMWARE.json](../profiles/common160/CURRENT_FIRMWARE.json). Build evidence and pending 160 MHz hardware validation are distinct from the completed maximum-clock functional checks below. No board was automatically reflashed by adding this profile. All three boards require new 160 MHz diagnostics and PPK2 captures; see [COMMON_CLOCK_160.md](COMMON_CLOCK_160.md).
+The separate `energy-profiling-v5-common160` configuration and its native images are recorded in [profiles/common160/CURRENT_FIRMWARE.json](../profiles/common160/CURRENT_FIRMWARE.json). Native measurement and diagnostic builds passed on all three targets. Common160 hardware observations are recorded separately from the maximum-clock checks below.
+
+The [Pico common160 diagnostic](../hardware/common160/2026-09-11/rp2040_diagnostic_01.json) passed all twelve workloads with exact call counts and final DONE. It reported CPU 160000000 Hz, peripheral clock 48000000 Hz, VREG selection 12 (1.15 V) with regulation-ready asserted, Flash divider 4, derived Flash clock 40000000 Hz, active core 0 and platform check 1. The matching silent common160 UF2 was [programmed afterward](../hardware/common160/2026-09-11/rp2040_measurement_programming_01.json), with completed host transfer and disappearance of the ROM volume and diagnostic USB CDC. This 160 MHz image is the Pico's latest recorded installation. Silent-image execution and flash readback have not been independently validated.
+
+Common160 functional validation and programming remain pending for STM32F446 and ESP32. All three boards still require new common160 PPK2 pilots and ten accepted captures each; see [COMMON_CLOCK_160.md](COMMON_CLOCK_160.md).
 
 ## Maximum-clock firmware evidence
 
@@ -14,7 +18,7 @@ The separate `energy-profiling-v5-common160` configuration and its native images
 | RP2040, Marble Pico | 200 MHz; internal VREG 1.15 V; clk_peri 48 MHz; QSPI Flash 50 MHz | Native diagnostic and measurement builds passed; twelve functional PASS events and DONE observed; final serial-disabled measurement UF2 programmed |
 | NUCLEO-F446RE | Nominal 180 MHz; Scale 1/OverDrive; APB1/APB2 45/90 MHz; five Flash wait states | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image; original release serial-disabled measurement BIN reinstalled through ST-LINK mass storage |
 
-[CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records exact current image hashes, compilation, programming and validation separately. Current measurement archives are under `firmware/targets/<target>/build_verified/max_clock_measurement`. The manifest's `single_gpio_measurement` profile key remains for collector compatibility and points to that location. See the [hardware report](HARDWARE_VALIDATION.md) for observed device results.
+[CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records maximum-clock image hashes, compilation, historical programming and validation separately. Maximum-clock measurement archives are under `firmware/targets/<target>/build_verified/max_clock_measurement`. The manifest's `single_gpio_measurement` profile key remains for collector compatibility and points to that location. The earlier Pico 200 MHz PASS and programming records remain valid historical observations; its latest recorded installation is now common160. See the [hardware report](HARDWARE_VALIDATION.md) for observed device results.
 
 The RP2040 diagnostic confirmed CPU 200000000 Hz, peripheral clock 48000000 Hz, VREG selection 12 (1.15 V) with regulation-ready asserted, SSI divider 4 and JEDEC identifier `ef4017`. These are software/register observations, not independently calibrated physical clock or voltage measurements. A successful functional run with USB connected is not an energy capture. The final measurement image has application serial diagnostics disabled.
 

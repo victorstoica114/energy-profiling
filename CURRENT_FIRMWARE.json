@@ -3,8 +3,8 @@
   "release_version": "1.1.0",
   "experiment_id": "energy-profiling-v4-max-clock",
   "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
-  "updated_utc": "2026-09-11T14:55:56.450140+00:00",
-  "state": "rp2040_and_stm32_diagnostic_validation_passed; rp2040_and_stm32_silent_images_programmed; new_ppk2_captures_pending",
+  "updated_utc": "2026-09-11T15:52:06.762514+00:00",
+  "state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; stm32_max_clock_image_last_recorded_installed; rp2040_currently_common160; new_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -71,7 +71,7 @@
       "marker_pin": 2,
       "cpu_hz": 200000000,
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": true,
+      "candidate_programmed": false,
       "profiles": {
         "single_gpio_measurement": {
           "primary_image": "firmware/targets/rp2040/build_verified/max_clock_measurement/energy_bench_rp2040.uf2",
@@ -102,7 +102,14 @@
           "programming_evidence": "hardware/2026-09-11/rp2040_measurement_programming.json",
           "programming_evidence_sha256": "1b752f7da72fb3198e5418545a2ee45f902f35bc708bf2f0affc3f4792a2cd08"
         }
-      }
+      },
+      "current_installed_image": {
+        "clock_profile": "common160",
+        "diagnostics_enabled": false,
+        "sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+        "programmed_utc": "2026-09-11T15:52:06.762514+00:00"
+      },
+      "current_installation_note": "Pico was switched to common160 after its successful 160 MHz functional diagnostic. The max-clock 200 MHz validation and earlier programming records below remain historical evidence for that exact image."
     },
     "stm32": {
       "model": "NUCLEO-F446RE",

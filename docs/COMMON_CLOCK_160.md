@@ -83,4 +83,8 @@ The common160 campaign rejects mixed clock profiles. Retaining older ESP32 data 
 
 ## Validation state
 
-The new 160 MHz images have their own build and hardware evidence in [the profile manifest](../profiles/common160/CURRENT_FIRMWARE.json). Native build success is not a claim that these new images were flashed or run. The successful twelve-workload RP2040/STM32 diagnostics already recorded for v1.1.0 remain valid for those exact maximum-clock configurations. They are not relabeled as 160 MHz tests. New common160 hardware validation and PPK2 captures are recorded separately.
+The 160 MHz images have separate build and hardware records in [the profile manifest](../profiles/common160/CURRENT_FIRMWARE.json). Native build success alone does not establish programming or execution.
+
+On 11 September 2026, the [Pico common160 diagnostic](../hardware/common160/2026-09-11/rp2040_diagnostic_01.json) passed all twelve workloads with exact call counts and final DONE. It reported 160 MHz CPU, 48 MHz peripheral clock, VREG selection 12 (nominal 1.15 V) with regulation ready, Flash divider 4 and derived Flash clock 40 MHz. The [matching silent UF2 was installed afterward](../hardware/common160/2026-09-11/rp2040_measurement_programming_01.json) and is the Pico's latest recorded installation. The transfer and disappearance of the ROM volume/diagnostic CDC do not independently validate silent-image execution or attest flash contents.
+
+Common160 hardware validation and programming remain pending for STM32F446 and ESP32; all three common160 PPK2 capture sets remain pending. The successful RP2040 200 MHz and STM32 180 MHz diagnostics already recorded for v1.1.0 remain valid for those exact maximum-clock images. Their original logs and hashes are preserved separately from this new Pico 160 MHz run.

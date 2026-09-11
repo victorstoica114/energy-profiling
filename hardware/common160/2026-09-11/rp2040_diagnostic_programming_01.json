@@ -1,0 +1,41 @@
+﻿{
+    "programmed_utc":  "2026-09-11T15:48:56.3444986Z",
+    "board":  "rp2040",
+    "clock_profile":  "common160",
+    "cpu_hz":  160000000,
+    "image_sha256":  "b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8",
+    "diagnostics_enabled":  true,
+    "transport":  "RP2040 ROM UF2 mass storage",
+    "volume_label":  "RPI-RP2",
+    "boot_volume_info":  {
+                             "value":  "UF2 Bootloader v3.0\nModel: Raspberry Pi RP2\nBoard-ID: RPI-RP2\n",
+                             "PSPath":  "F:\\INFO_UF2.TXT",
+                             "PSParentPath":  "F:\\",
+                             "PSChildName":  "INFO_UF2.TXT",
+                             "PSDrive":  {
+                                             "CurrentLocation":  "",
+                                             "Name":  "F",
+                                             "Provider":  "Microsoft.PowerShell.Core\\FileSystem",
+                                             "Root":  "F:\\",
+                                             "Description":  "",
+                                             "MaximumSize":  null,
+                                             "Credential":  "System.Management.Automation.PSCredential",
+                                             "DisplayRoot":  null
+                                         },
+                             "PSProvider":  {
+                                                "ImplementingType":  "Microsoft.PowerShell.Commands.FileSystemProvider",
+                                                "HelpFile":  "System.Management.Automation.dll-Help.xml",
+                                                "Name":  "FileSystem",
+                                                "PSSnapIn":  "Microsoft.PowerShell.Core",
+                                                "ModuleName":  "Microsoft.PowerShell.Core",
+                                                "Module":  null,
+                                                "Description":  "",
+                                                "Capabilities":  52,
+                                                "Home":  "C:\\Users\\User",
+                                                "Drives":  "C D E F G W X Y Z"
+                                            },
+                             "ReadCount":  1
+                         },
+    "copy_completed_without_host_error":  true,
+    "flash_readback_attestation":  false
+}

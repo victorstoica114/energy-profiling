@@ -1,0 +1,196 @@
+{
+  "board": "rp2040",
+  "status": "passed",
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "experiment_manifest_path": "D:\\Documente\\Energy Profiling\\config\\experiment.common160.json",
+  "target_cpu_hz": 160000000,
+  "scope": "diagnostic functional execution; no time, current or energy measurement",
+  "firmware_path": "D:\\Documente\\Energy Profiling\\firmware\\targets\\rp2040\\build_verified\\common160_diagnostic\\energy_bench_rp2040.uf2",
+  "firmware_sha256": "b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8",
+  "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "events": [
+    {
+      "event": "BOOT",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    },
+    {
+      "event": "START",
+      "id": 1,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 1,
+      "calls": 3000,
+      "digest": "a6842b8a"
+    },
+    {
+      "event": "START",
+      "id": 2,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 2,
+      "calls": 3000,
+      "digest": "02775fd9"
+    },
+    {
+      "event": "START",
+      "id": 3,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 3,
+      "calls": 200,
+      "digest": "db04f40d"
+    },
+    {
+      "event": "START",
+      "id": 4,
+      "calls": 500,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 4,
+      "calls": 500,
+      "digest": "8e6acb7f"
+    },
+    {
+      "event": "START",
+      "id": 5,
+      "calls": 100,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 5,
+      "calls": 100,
+      "digest": "9c8d0100"
+    },
+    {
+      "event": "START",
+      "id": 6,
+      "calls": 500,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 6,
+      "calls": 500,
+      "digest": "02821d41"
+    },
+    {
+      "event": "START",
+      "id": 7,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 7,
+      "calls": 3000,
+      "digest": "086609c9"
+    },
+    {
+      "event": "START",
+      "id": 8,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 8,
+      "calls": 3000,
+      "digest": "fc2541f1"
+    },
+    {
+      "event": "START",
+      "id": 9,
+      "calls": 20,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 9,
+      "calls": 20,
+      "digest": "4188afdf"
+    },
+    {
+      "event": "START",
+      "id": 10,
+      "calls": 300,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 10,
+      "calls": 300,
+      "digest": "b19fcb91"
+    },
+    {
+      "event": "START",
+      "id": 11,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 11,
+      "calls": 50,
+      "digest": "01ccddb5"
+    },
+    {
+      "event": "START",
+      "id": 12,
+      "calls": 1,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 12,
+      "calls": 1,
+      "digest": "23132232"
+    },
+    {
+      "event": "DONE",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    }
+  ],
+  "configuration_lines": [
+    "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=160000000 peri_hz=48000000 vreg_target_mv=1150 vreg_sel=12 vreg_rok=1 flash_div=4 flash_hz=40000000 flash_jedec_id=ef4017 clock_profile=common160 fpu=software radio=absent core=0 transport=USB_CDC check=1"
+  ],
+  "configuration_verified": true,
+  "error": null,
+  "port": "COM7",
+  "reported_configuration": {
+    "board": "rp2040",
+    "diagnostics": "1",
+    "cpu_hz": "160000000",
+    "peri_hz": "48000000",
+    "vreg_target_mv": "1150",
+    "vreg_sel": "12",
+    "vreg_rok": "1",
+    "flash_div": "4",
+    "flash_hz": "40000000",
+    "flash_jedec_id": "ef4017",
+    "clock_profile": "common160",
+    "fpu": "software",
+    "radio": "absent",
+    "core": "0",
+    "transport": "USB_CDC",
+    "check": "1"
+  },
+  "validated_algorithms": 12,
+  "log_sha256": "4e3bf47be4455e7621a65a684781abe42c5b670fc23e4620518df31f4528ca6e"
+}
