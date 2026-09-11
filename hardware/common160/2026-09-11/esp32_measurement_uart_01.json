@@ -1,0 +1,19 @@
+{
+  "board": "esp32",
+  "clock_profile": "common160",
+  "port": "COM4",
+  "started_utc": "2026-09-11T16:10:10.730351+00:00",
+  "observation_seconds": 8.187999999849126,
+  "image_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+  "reset": "DTR false, RTS true for 0.1 s then false",
+  "received_bytes": 304,
+  "bench_messages": 0,
+  "rom_boot_seen": true,
+  "rom_boot_count": 1,
+  "panic_seen": false,
+  "log_sha256": "ac6ab7b30ad08aeb17636ca4f8bc091b20e6091de22dc87e8b9fa20fd66d9a00",
+  "scope": "Eight-second UART observation after reset. ESP ROM boot messages are permitted; no application BENCH messages expected. This does not establish complete silent-image execution or PPK2 gate validity.",
+  "ppk2_capture_validated": false,
+  "flash_readback_attestation": false,
+  "short_uart_observation_passed": true
+}

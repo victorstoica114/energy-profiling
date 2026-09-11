@@ -1,0 +1,37 @@
+0.094000	ets Jul 29 2019 12:21:46
+0.094000	
+0.109000	rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+0.109000	configsip: 0, SPIWP:0xee
+0.109000	clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+0.109000	mode:DIO, clock div:2
+0.125000	load:0x3fff0040,len:1460
+0.125000	load:0x40078000,len:13644
+0.125000	load:0x40080400,len:2828
+0.125000	entry 0x40080550
+0.234000	BENCH CONFIG board=esp32 diagnostics=1 cpu_hz=160000000 apb_hz=80000000 dig_dbias_wak=4 fpu=single_precision radio=uninitialized core=0 transport=UART0 tx=1 rx=3 baud=115200 check=1
+0.234000	BENCH event=BOOT id=0 calls=0 digest=00000000
+0.234000	BENCH event=START id=1 calls=3000 digest=00000000
+6.266000	BENCH event=PASS id=1 calls=3000 digest=a6842b8a
+6.266000	BENCH event=START id=2 calls=3000 digest=00000000
+7.547000	BENCH event=PASS id=2 calls=3000 digest=02775fd9
+7.547000	BENCH event=START id=3 calls=200 digest=00000000
+13.141000	BENCH event=PASS id=3 calls=200 digest=db04f40d
+13.141000	BENCH event=START id=4 calls=200 digest=00000000
+14.922000	BENCH event=PASS id=4 calls=200 digest=8e6acb7f
+14.922000	BENCH event=START id=5 calls=1000 digest=00000000
+20.656000	BENCH event=PASS id=5 calls=1000 digest=9c8d0100
+20.656000	BENCH event=START id=6 calls=1000 digest=00000000
+22.734000	BENCH event=PASS id=6 calls=1000 digest=02821d41
+22.734000	BENCH event=START id=7 calls=3000 digest=00000000
+25.453000	BENCH event=PASS id=7 calls=3000 digest=086609c9
+25.453000	BENCH event=START id=8 calls=3000 digest=00000000
+28.422000	BENCH event=PASS id=8 calls=3000 digest=fc2541f1
+28.422000	BENCH event=START id=9 calls=50 digest=00000000
+34.266000	BENCH event=PASS id=9 calls=50 digest=4188afdf
+34.266000	BENCH event=START id=10 calls=300 digest=00000000
+35.672000	BENCH event=PASS id=10 calls=300 digest=b19fcb91
+35.672000	BENCH event=START id=11 calls=50 digest=00000000
+37.641000	BENCH event=PASS id=11 calls=50 digest=01ccddb5
+37.641000	BENCH event=START id=12 calls=1 digest=00000000
+45.062000	BENCH event=PASS id=12 calls=1 digest=6cf439f7
+47.062000	BENCH event=DONE id=0 calls=0 digest=00000000

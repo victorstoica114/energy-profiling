@@ -1,0 +1,71 @@
+{
+  "board": "esp32",
+  "model": "ESP32-D0WD-V3 rev3.1",
+  "port": "COM4",
+  "clock_profile": "common160",
+  "cpu_hz": 160000000,
+  "diagnostics_enabled": false,
+  "experiment_id": "energy-profiling-v5-common160",
+  "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "started_utc": "2026-09-11T16:09:52.114883+00:00",
+  "programmed_utc": "2026-09-11T16:09:57.648789+00:00",
+  "image_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+  "flash_images": [
+    {
+      "offset": "0x1000",
+      "path": "firmware/targets/esp32/build_verified/common160_measurement/bootloader/bootloader.bin",
+      "sha256": "faa1aba03b3a385e6dbcc38883aa635abba2a8a4c9ff19f7cc9f393409f08e13"
+    },
+    {
+      "offset": "0x8000",
+      "path": "firmware/targets/esp32/build_verified/common160_measurement/partition_table/partition-table.bin",
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+    },
+    {
+      "offset": "0x10000",
+      "path": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
+      "sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a"
+    }
+  ],
+  "flash_parameters": {
+    "mode": "DIO",
+    "frequency": "40MHz",
+    "size": "4MB",
+    "preserve_compiled_headers": true
+  },
+  "command": [
+    "C:\\Users\\User\\scoop\\apps\\python313\\current\\Scripts\\esptool.exe",
+    "--chip",
+    "esp32",
+    "--port",
+    "COM4",
+    "--baud",
+    "460800",
+    "--before",
+    "default-reset",
+    "--after",
+    "no-reset",
+    "write-flash",
+    "--flash-mode",
+    "keep",
+    "--flash-freq",
+    "keep",
+    "--flash-size",
+    "keep",
+    "0x1000",
+    "D:\\Documente\\Energy Profiling\\firmware\\targets\\esp32\\build_verified\\common160_measurement\\bootloader\\bootloader.bin",
+    "0x8000",
+    "D:\\Documente\\Energy Profiling\\firmware\\targets\\esp32\\build_verified\\common160_measurement\\partition_table\\partition-table.bin",
+    "0x10000",
+    "D:\\Documente\\Energy Profiling\\firmware\\targets\\esp32\\build_verified\\common160_measurement\\energy_bench_esp32.bin"
+  ],
+  "tool": "esptool 5.2.0",
+  "exit_code": 0,
+  "programming_succeeded": true,
+  "all_three_segment_hashes_verified_by_esptool": true,
+  "verification_scope": "esptool verified each of the three written segments; no independent full-flash readback or PPK2 capture was performed.",
+  "flash_readback_attestation": false,
+  "ppk2_capture_validated": false,
+  "left_in_bootloader": true,
+  "log_sha256": "1fce6b784db8a7f8f9e877fa33a5ec5e1ee1a9cefb62dc8c1e04b805abf42f3a"
+}

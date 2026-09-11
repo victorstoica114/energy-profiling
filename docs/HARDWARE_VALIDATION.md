@@ -8,7 +8,7 @@ This report records **energy-profiling-v5-common160** (release **v1.2.0**) and t
 |---|---|---|---|
 | RP2040, Marble Pico | Twelve PASS events with exact call counts and DONE observed through USB CDC | Exact silent release UF2 installed through ROM mass storage; latest recorded Pico installation | Pending |
 | NUCLEO-F446RE | Pending | Pending | Pending |
-| ESP32-D0WD-V3 | Pending | Pending | Pending |
+| ESP32-D0WD-V3 | Twelve PASS events with exact call counts and DONE observed through UART0 | Exact silent release bootloader, partition table and application installed; esptool verified all three segment hashes | Pending |
 
 The [Pico common160 diagnostic record](../hardware/common160/2026-09-11/rp2040_diagnostic_01.json) identifies UF2 SHA-256 `b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8`. Its [serial log](../hardware/common160/2026-09-11/rp2040_diagnostic_01.log) contains the checked configuration and complete workload sequence:
 
@@ -28,7 +28,31 @@ After that diagnostic passed, the [programming record](../hardware/common160/202
 7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de
 ```
 
-The host copy completed without error, and both the ROM volume and diagnostic USB CDC disappeared. This is the Pico's latest recorded programming state, replacing its earlier maximum-clock image. These observations do not establish flash readback, independent execution validation of the silent image or a PPK2 energy capture. STM32 and ESP32 were not reprogrammed during this Pico validation; their common160 hardware checks remain pending. All three boards still require common160 PPK2 pilots and ten accepted cold-boot captures each.
+The host copy completed without error, and both the ROM volume and diagnostic USB CDC disappeared. This is the Pico's latest recorded programming state, replacing its earlier maximum-clock image. These observations do not establish flash readback, independent execution validation of the silent image or a PPK2 energy capture.
+
+The [ESP32 common160 diagnostic record](../hardware/common160/2026-09-11/esp32_diagnostic_01.json) identifies application BIN SHA-256 `b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a`. Its [programming record](../hardware/common160/2026-09-11/esp32_diagnostic_programming_01.json) and [esptool log](../hardware/common160/2026-09-11/esp32_diagnostic_programming_01.log) retain the three diagnostic segments and their verification. The [serial log](../hardware/common160/2026-09-11/esp32_diagnostic_01.log) records:
+
+| Observation | Recorded ESP32 common160 value |
+|---|---|
+| CPU frequency from clock API | 160000000 Hz |
+| APB clock | 80000000 Hz |
+| Digital-bias selection | 4, corresponding to SDK nominal 1.10 V |
+| Active core / platform check | 0 / 1 |
+| Floating point / radio state | Single precision / uninitialized |
+| Diagnostic transport | UART0, TX GPIO1, RX GPIO3, 115200 baud |
+| Functional sequence | Twelve PASS events with exact call counts and DONE |
+
+After that diagnostic passed, the [silent-image programming record](../hardware/common160/2026-09-11/esp32_measurement_programming_01.json) and [esptool log](../hardware/common160/2026-09-11/esp32_measurement_programming_01.log) document installation and successful hash verification of all three unchanged release segments:
+
+| Silent common160 segment | Flash offset | SHA-256 |
+|---|---|---|
+| Bootloader | `0x1000` | `faa1aba03b3a385e6dbcc38883aa635abba2a8a4c9ff19f7cc9f393409f08e13` |
+| Partition table | `0x8000` | `7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820` |
+| Application | `0x10000` | `7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a` |
+
+The compiled DIO, 40 MHz, 4 MiB Flash settings were preserved. Common160 is the ESP32's latest recorded installation. The [post-programming UART observation](../hardware/common160/2026-09-11/esp32_measurement_uart_01.json) and [UART log](../hardware/common160/2026-09-11/esp32_measurement_uart_01.log) contain 304 bytes from one ROM boot during approximately 8.188 seconds after reset, with no application BENCH messages or panic detected. This short observation does not establish workload completion. Esptool's segment verification is distinct from an independent flash-readback attestation. No PPK2 capture or independent validation of the silent application's complete execution has been obtained.
+
+STM32F446 common160 hardware validation and programming remain pending. All three boards still require common160 PPK2 pilots and ten accepted cold-boot captures each. The existing ten accepted ESP32 240 MHz captures remain unchanged and selected only for the maximum-clock campaign, with their original v3 manifest and expected-image provenance; no repeat 240 MHz acquisition is required.
 
 ## Recorded maximum-clock validation (v1.1.0)
 
@@ -36,7 +60,7 @@ The host copy completed without error, and both the ROM volume and diagnostic US
 |---|---|---|---|
 | RP2040, Marble Pico | Twelve PASS events and DONE observed at the configured 200 MHz operating point | Serial-disabled UF2 programmed through ROM mass storage after the functional run | Pending |
 | NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image | Original release serial-disabled BIN reinstalled through ST-LINK mass storage after the functional run | Pending |
-| ESP32-D0WD-V3 | Current build/programming status is recorded in CURRENT_FIRMWARE.json | See current manifest | Earlier accepted captures may be reused only with their original provenance and verified configuration equivalence |
+| ESP32-D0WD-V3 | Original capture/image provenance retained | Historical image identity retained; latest installation is common160 | Ten accepted regulator-removed 240 MHz captures retained with original v3 provenance; no repeat acquisition |
 
 The RP2040 run reported:
 

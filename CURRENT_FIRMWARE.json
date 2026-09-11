@@ -3,8 +3,8 @@
   "release_version": "1.1.0",
   "experiment_id": "energy-profiling-v4-max-clock",
   "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
-  "updated_utc": "2026-09-11T15:52:06.762514+00:00",
-  "state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; stm32_max_clock_image_last_recorded_installed; rp2040_currently_common160; new_ppk2_captures_pending",
+  "updated_utc": "2026-09-11T16:09:57.648789+00:00",
+  "state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; stm32_max_clock_image_last_recorded_installed; rp2040_esp32_currently_common160; existing_esp32_240MHz_captures_retained; new_rp2040_stm32_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -64,7 +64,14 @@
           },
           "benchmark_equivalence_to_v1_0_0": "SDK configuration, inputs, iteration counts, 22 benchmark/platform/kernel functions, and runtime text/rodata/data sections match; new image metadata differs. Existing captures retain original image hashes."
         }
-      }
+      },
+      "current_installed_image": {
+        "clock_profile": "common160",
+        "diagnostics_enabled": false,
+        "sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+        "programmed_utc": "2026-09-11T16:09:57.648789+00:00"
+      },
+      "current_installation_note": "ESP32 was switched to common160 after its successful 160 MHz functional diagnostic. The ten accepted regulator-removed 240 MHz captures retain their original v3 firmware provenance and remain the ESP32 maximum-clock dataset; no 240 MHz rerun was performed or is required for this transition."
     },
     "rp2040": {
       "model": "Marble Pico with RP2040",

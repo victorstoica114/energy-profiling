@@ -3,9 +3,9 @@
   "release_version": "1.2.0",
   "experiment_id": "energy-profiling-v5-common160",
   "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
-  "updated_utc": "2026-09-11T15:52:06.762514+00:00",
+  "updated_utc": "2026-09-11T16:09:57.648789+00:00",
   "clock_profile": "common160",
-  "state": "rp2040_common160_diagnostic_passed_and_silent_image_installed; esp32_stm32_common160_hardware_validation_pending; new_ppk2_captures_pending",
+  "state": "rp2040_esp32_common160_diagnostics_passed_and_silent_images_installed; stm32_common160_hardware_validation_pending; new_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -17,7 +17,7 @@
       "cpu_hz": 160000000,
       "marker_pin": 18,
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": false,
+      "candidate_programmed": true,
       "profiles": {
         "single_gpio_measurement": {
           "primary_image": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
@@ -30,14 +30,36 @@
           "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
-          "hardware_programmed": false,
+          "hardware_programmed": true,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
           "flash_readback_attestation": false,
           "diagnostic_functional_validation": {
-            "passed": false,
-            "status": "pending_common160_hardware_run",
-            "applies_to": "separate_common160_diagnostic_image"
+            "passed": true,
+            "status": "passed",
+            "applies_to": "separate_common160_diagnostic_image",
+            "validated_algorithms": 12,
+            "final_done_received": true,
+            "evidence": "hardware/common160/2026-09-11/esp32_diagnostic_01.json",
+            "evidence_sha256": "f879084efd8246ab7f9717568b80c1503be8a9e3a4d917e75c7284d5f852212f",
+            "log": "hardware/common160/2026-09-11/esp32_diagnostic_01.log",
+            "log_sha256": "ffde5298b687552dae5e695f701d679c34df6923c565b4c2b3f7d6f006a2575d",
+            "firmware_sha256": "b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a",
+            "configuration": {
+              "board": "esp32",
+              "diagnostics": "1",
+              "cpu_hz": "160000000",
+              "apb_hz": "80000000",
+              "dig_dbias_wak": "4",
+              "fpu": "single_precision",
+              "radio": "uninitialized",
+              "core": "0",
+              "transport": "UART0",
+              "tx": "1",
+              "rx": "3",
+              "baud": "115200",
+              "check": "1"
+            }
           },
           "flash_images": [
             {
@@ -61,6 +83,17 @@
             "frequency": "40MHz",
             "size": "4MB",
             "preserve_compiled_headers": true
+          },
+          "hardware_execution_validation_scope": "Separate common160 diagnostic execution passed. Independent silent-image PPK2 observation remains pending; the short UART observation only establishes the absence of BENCH messages during that interval.",
+          "programming_status": "silent_common160_measurement_three_segments_installed_after_diagnostic_PASS_and_DONE",
+          "programming_evidence": "hardware/common160/2026-09-11/esp32_measurement_programming_01.json",
+          "programming_evidence_sha256": "8d0bfd7718852378ea93bb6be058a05b70ba33794e32aa1d98fbec21a09940f8",
+          "short_uart_observation": {
+            "passed": true,
+            "evidence": "hardware/common160/2026-09-11/esp32_measurement_uart_01.json",
+            "evidence_sha256": "87a77f5659437bb1ef8d33459b14c3c9c8b4c8c45cc12a39b52ffd627b13beea",
+            "bench_messages": 0,
+            "rom_boot_messages_present": true
           }
         }
       },
@@ -75,14 +108,36 @@
         "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
         "diagnostics_enabled": true,
         "native_compile_and_link_passed": true,
-        "hardware_programmed": false,
-        "hardware_execution_validated": false,
+        "hardware_programmed": true,
+        "hardware_execution_validated": true,
         "ppk2_capture_validated": false,
         "flash_readback_attestation": false,
         "diagnostic_functional_validation": {
-          "passed": false,
-          "status": "pending_common160_hardware_run",
-          "applies_to": "separate_common160_diagnostic_image"
+          "passed": true,
+          "status": "passed",
+          "applies_to": "separate_common160_diagnostic_image",
+          "validated_algorithms": 12,
+          "final_done_received": true,
+          "evidence": "hardware/common160/2026-09-11/esp32_diagnostic_01.json",
+          "evidence_sha256": "f879084efd8246ab7f9717568b80c1503be8a9e3a4d917e75c7284d5f852212f",
+          "log": "hardware/common160/2026-09-11/esp32_diagnostic_01.log",
+          "log_sha256": "ffde5298b687552dae5e695f701d679c34df6923c565b4c2b3f7d6f006a2575d",
+          "firmware_sha256": "b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a",
+          "configuration": {
+            "board": "esp32",
+            "diagnostics": "1",
+            "cpu_hz": "160000000",
+            "apb_hz": "80000000",
+            "dig_dbias_wak": "4",
+            "fpu": "single_precision",
+            "radio": "uninitialized",
+            "core": "0",
+            "transport": "UART0",
+            "tx": "1",
+            "rx": "3",
+            "baud": "115200",
+            "check": "1"
+          }
         },
         "flash_images": [
           {
@@ -106,7 +161,15 @@
           "frequency": "40MHz",
           "size": "4MB",
           "preserve_compiled_headers": true
-        }
+        },
+        "currently_installed": false,
+        "current_installation_note": "Replaced with the three exact silent common160 measurement segments after the successful diagnostic run."
+      },
+      "current_installed_image": {
+        "clock_profile": "common160",
+        "diagnostics_enabled": false,
+        "sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+        "programmed_utc": "2026-09-11T16:09:57.648789+00:00"
       }
     },
     "rp2040": {

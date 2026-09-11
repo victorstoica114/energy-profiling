@@ -1,0 +1,193 @@
+{
+  "board": "esp32",
+  "status": "passed",
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "experiment_manifest_path": "D:\\Documente\\Energy Profiling\\config\\experiment.common160.json",
+  "target_cpu_hz": 160000000,
+  "scope": "diagnostic functional execution; no time, current or energy measurement",
+  "firmware_path": "D:\\Documente\\Energy Profiling\\firmware\\targets\\esp32\\build_verified\\common160_diagnostic\\energy_bench_esp32.bin",
+  "firmware_sha256": "b52ff8c65d4cdc47c23a1c0509e9202617bc29d0986a12ccf7313cd89efa1c8a",
+  "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "events": [
+    {
+      "event": "BOOT",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    },
+    {
+      "event": "START",
+      "id": 1,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 1,
+      "calls": 3000,
+      "digest": "a6842b8a"
+    },
+    {
+      "event": "START",
+      "id": 2,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 2,
+      "calls": 3000,
+      "digest": "02775fd9"
+    },
+    {
+      "event": "START",
+      "id": 3,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 3,
+      "calls": 200,
+      "digest": "db04f40d"
+    },
+    {
+      "event": "START",
+      "id": 4,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 4,
+      "calls": 200,
+      "digest": "8e6acb7f"
+    },
+    {
+      "event": "START",
+      "id": 5,
+      "calls": 1000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 5,
+      "calls": 1000,
+      "digest": "9c8d0100"
+    },
+    {
+      "event": "START",
+      "id": 6,
+      "calls": 1000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 6,
+      "calls": 1000,
+      "digest": "02821d41"
+    },
+    {
+      "event": "START",
+      "id": 7,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 7,
+      "calls": 3000,
+      "digest": "086609c9"
+    },
+    {
+      "event": "START",
+      "id": 8,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 8,
+      "calls": 3000,
+      "digest": "fc2541f1"
+    },
+    {
+      "event": "START",
+      "id": 9,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 9,
+      "calls": 50,
+      "digest": "4188afdf"
+    },
+    {
+      "event": "START",
+      "id": 10,
+      "calls": 300,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 10,
+      "calls": 300,
+      "digest": "b19fcb91"
+    },
+    {
+      "event": "START",
+      "id": 11,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 11,
+      "calls": 50,
+      "digest": "01ccddb5"
+    },
+    {
+      "event": "START",
+      "id": 12,
+      "calls": 1,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 12,
+      "calls": 1,
+      "digest": "6cf439f7"
+    },
+    {
+      "event": "DONE",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    }
+  ],
+  "configuration_lines": [
+    "BENCH CONFIG board=esp32 diagnostics=1 cpu_hz=160000000 apb_hz=80000000 dig_dbias_wak=4 fpu=single_precision radio=uninitialized core=0 transport=UART0 tx=1 rx=3 baud=115200 check=1"
+  ],
+  "configuration_verified": true,
+  "error": null,
+  "port": "COM4",
+  "reported_configuration": {
+    "board": "esp32",
+    "diagnostics": "1",
+    "cpu_hz": "160000000",
+    "apb_hz": "80000000",
+    "dig_dbias_wak": "4",
+    "fpu": "single_precision",
+    "radio": "uninitialized",
+    "core": "0",
+    "transport": "UART0",
+    "tx": "1",
+    "rx": "3",
+    "baud": "115200",
+    "check": "1"
+  },
+  "validated_algorithms": 12,
+  "log_sha256": "ffde5298b687552dae5e695f701d679c34df6923c565b4c2b3f7d6f006a2575d"
+}
