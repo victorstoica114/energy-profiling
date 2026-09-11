@@ -63,6 +63,7 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 
 ## Documentation and source
 
+- [Repository consistency audit](docs/REPOSITORY_AUDIT_2026-09-11.md): retained evidence, cleanup, tool corrections and verification results.
 - [Firmware specification](firmware/README.md): measurement behavior, compilation, inputs, algorithm contracts, memory, board configuration and measured boundaries.
 - [Common 160 MHz comparison](docs/COMMON_CLOCK_160.md): supported clocks, internal supply settings, build selection, images and completed thirty-capture campaign.
 - [Experiment manifest](config/experiment.json): fixed order, repetitions, input size, target clocks, single output pin and pauses.
@@ -72,14 +73,13 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 - [Original maximum-clock campaign plan](campaigns/MAX_CLOCK_CAMPAIGN.md): acquisition requirements and explicitly pinned ESP32 reuse. The [completed maximum-clock selection](ROW_Data/source_campaign.json) now records all 30 accepted captures.
 - [Automated PPK2 collector](tools/capture_ppk2.py), which power-cycles one DUT, stops after the twelve D0 windows plus the required LOW tail, preserves raw transport/CSV, and runs the structural analyzer.
 - [Build instructions](docs/BUILD_AND_TEST.md), [validation status](docs/VALIDATION.md) and [current hardware report](docs/HARDWARE_VALIDATION.md).
-- [Historical initial 30-capture PPK2 campaign](results/2026-09-10_ppk2/README.md), with aggregate CSV/JSON and a hash-linked capture index.
-- [Historical ESP32 no-regulator measurement update](results/2026-09-10_ppk2_esp32_noreg/README.md), with ten new cold-boot captures and a direct comparison against the original ESP32 fixture.
-- [Historical regulator-removed campaign update](results/2026-09-10_ppk2_regulators_removed/README.md), combining the new ESP32 and RP2040 series with the unchanged STM32 series.
-- [Historical raw-data inventory and reproduction guide](dataset/README.md), with a SHA-256 inventory of the earlier final, pilot, rejected and incomplete PPK2 transports.
+- [Accepted maximum-clock summaries](results/2026-09-11_max_clock/README.md): 36 board/workload groups, arithmetic means and sample SD, with a reproducible command.
+- [Current RAW inventory](dataset/README.md): all 60 accepted streams, with SHA-256 hashes and exact campaign membership.
+- [Measurement acceptance status](MEASUREMENT_STATUS.json): completed selections and expected measured-image identities, separate from immutable programming-time manifests.
 - [Accepted maximum-clock CSV dataset](ROW_Data/README.md): published selection/index and original experiment profiles for 30 captures; full curated CSVs and unchanged sidecars remain local in ESP32, RP2040 and STM32F446 folders. Original source captures are archived separately.
 - [Accepted common160 CSV dataset](ROW_Data/common160/README.md): thirty new v5 captures at nominal 160 MHz, with a separate [completed campaign](ROW_Data/common160/source_campaign.json), index and manifests. Maximum-clock data remain at the parent ROW_Data root.
 
-The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) records image hashes, build status and observed programming status separately. Maximum-clock images are archived under each target's `build_verified/max_clock_measurement`; common160 images and their separate manifest use `build_verified/common160_measurement` and `profiles/common160/CURRENT_FIRMWARE.json`. Earlier firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
+The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) and [the common160 image manifest](profiles/common160/CURRENT_FIRMWARE.json) preserve their exact programming-time bytes, including then-pending acquisition fields. Later campaign acceptance is recorded separately in [MEASUREMENT_STATUS.json](MEASUREMENT_STATUS.json). The measured ESP32 240 MHz image is the [retained v3 archive](firmware/targets/esp32/build_verified/single_gpio_measurement/README.md), restored byte-for-byte from v1.0.0. Maximum-clock RP2040/STM32 images are under `build_verified/max_clock_measurement`; the ESP32 v4 candidate in that location was not used for the retained captures. Common160 measurement images use `build_verified/common160_measurement`. All earlier releases remain in [Git history and release downloads](https://github.com/victorstoica114/energy-profiling/releases).
 
 ## Selected CSV data and article analysis
 
@@ -121,10 +121,10 @@ JP6 is open and PPK2 supplies the MCU VDD side of JP6. The completed campaign
 records this operator correction separately from unchanged acquisition metadata;
 the measured STM32 boundary is the supplied MCU VDD domain, not the whole board.
 
-The preceding local selection is archived in
-`ROW_Data_history/2026-09-10_ppk2_regulators_removed_csv`, also ignored by Git.
-Historical result directories retain their original measurements and labels;
-they are not the current maximum-clock article dataset.
+The working tree retains the two accepted campaign selections and their source
+captures. Superseded campaigns, unused pilots, old result reports and the old
+local CSV copy were removed during cleanup; existing Git history and release
+tags preserve the original published records.
 
 The article keeps derived `data/`, generated tables/figures and analysis scripts
 in its separate workspace. Those scripts use the sibling
@@ -141,7 +141,7 @@ numbers from the independent campaigns are not paired. Both campaigns are comple
 |---|---|---|---|---|
 | D0 | RUN | GPIO18 | GP2 | PC0 |
 
-Connect the selected MCU output to PPK2 D0, LOGIC VCC to the measured DUT 3V3 rail, and the grounds as specified in the [protocol](docs/PROTOCOL.md). In Source Meter mode, PPK2 VOUT supplies the board's 3V3 input. PPK2's own USB connection to the acquisition computer remains connected.
+Connect the selected MCU output to PPK2 D0, LOGIC VCC to the measured DUT 3V3 rail, and the grounds as specified in the [protocol](docs/PROTOCOL.md). In Source Meter mode, PPK2 VOUT supplies ESP32/Pico 3V3 with their board regulators removed. On Nucleo, the LDO remains fitted, JP6 is open and VOUT feeds the MCU VDD side of JP6; the measurement covers the circuitry connected to MCU VDD and excludes the isolated LDO and circuitry remaining on its board-side rail. PPK2's own USB connection to the acquisition computer remains connected.
 
 **HIGH marks one complete fixed-count kernel batch; LOW is outside the batch.** There are no additional algorithm-ID, error, completion or idle-validity outputs. Only D0 is interpreted by the analyzer; other PPK2 digital inputs are unused.
 
@@ -159,7 +159,7 @@ Each arrow between algorithms contains result verification, preparation of the n
 
 A detected fault latches the same RUN output **HIGH until reset**. Missing falling edges, extra pulses and incomplete sequences cause structural rejection. With one wire, a LOW tail cannot by itself prove that final verification finished, and some resets or hangs can be indistinguishable from an otherwise valid pulse sequence. Capture acceptance is a structural check, not an independent firmware attestation.
 
-Start recording before powering the DUT and keep at least **3 s of LOW after the twelfth falling edge**. The baseline is the last 2 s before the first rising edge. The analyzer checks lower bounds of 5 s before the first pulse and 1 s between pulses, allowing 1% for ESP32/RP2040 and 2% for the HSI-derived STM32 control delays; it requires a 3 s final LOW tail. These allowances affect structural checks, not RUN integration, and require confirmation in the new physical pilot. Preparation and verification make LOW intervals longer, so there is no upper-duration test for those intervals.
+Start recording before powering the DUT and keep at least **3 s of LOW after the twelfth falling edge**. The baseline is the last 2 s before the first rising edge. The analyzer checks lower bounds of 5 s before the first pulse and 1 s between pulses, allowing 1% for ESP32/RP2040 and 2% for the HSI-derived STM32 control delays; it requires a 3 s final LOW tail. These allowances affect structural checks, not RUN integration, and must be checked during the physical pilot for any new acquisition. Preparation and verification make LOW intervals longer, so there is no upper-duration test for those intervals.
 
 For scripted acquisition, install `requirements-ppk2.txt` in an isolated virtual environment and first run `python tools/capture_ppk2.py --list-devices`. A one-capture pilot for an ESP32 is:
 

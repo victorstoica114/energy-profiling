@@ -1,6 +1,6 @@
 # Building and checking the project
 
-Run commands from the Energy Profiling project root. External SDK trees and intermediate build directories are dependencies, not experiment source. Source, inputs, configuration and delivered artifacts have separate hashes. Current source: **energy-profiling-v4-max-clock**, release **v1.1.0**, experiment schema 2. Historical firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
+Run commands from the Energy Profiling project root. External SDK trees and intermediate build directories are dependencies, not experiment source. Source, inputs, configuration and delivered artifacts have separate hashes. Current release **v1.2.0** supports **energy-profiling-v4-max-clock** and **energy-profiling-v5-common160**, both experiment schema 2. Historical firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
 ## Select a clock profile
 
@@ -66,7 +66,7 @@ Retain application, bootloader, partition table and flashing arguments together;
 
 ## Artifact status and physical checks
 
-Current measurement artifacts are in `build_verified/max_clock_measurement` for ESP32, RP2040 and STM32F446. They record native build evidence and hashes. [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records compilation, observed programming and validation separately; **new compilation does not mean the board was flashed**. Its `single_gpio_measurement` profile key remains for collector compatibility and points to the current archive.
+Current measurement archives use `build_verified/common160_measurement` on all three targets and `build_verified/max_clock_measurement` for RP2040/STM32. The retained measured ESP32 240 MHz v3 archive is `build_verified/single_gpio_measurement`; the ESP32 v4 candidate under `max_clock_measurement` was not used for those retained captures. The archives record native build evidence and hashes. [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records compilation, observed programming and validation separately; **new compilation does not mean the board was flashed**. Its `single_gpio_measurement` profile key remains for collector compatibility. Both root and common160 image manifests preserve their programming-time bytes, including historical pending fields; completed capture acceptance is recorded separately in [MEASUREMENT_STATUS.json](../MEASUREMENT_STATUS.json).
 
 Before acquisition, check real DUT voltage, the one RUN pin, exported pulses, clock frequency and latched-fault behavior. F446's nominal HSI16/PLL configuration yields 180 MHz with Scale 1 and OverDrive; actual frequency/drift requires external validation. RP2040 uses 200 MHz, internal VREG 1.15 V and QSPI at 50 MHz. PC-powered UART/USB functional tests are not energy measurements. Nucleo direct 3V3 power requires the bridge preparation described in the [protocol](PROTOCOL.md).
 
@@ -95,9 +95,9 @@ The runner performs normal START reporting before the active idle pause. An ERRO
 
 Pico USB diagnostics read the Flash JEDEC identifier before enabling the serial transport and report CPU/peripheral clocks, the internal voltage-selection and regulation-ready bits, Flash divider, derived Flash clock and active core. The command temporarily disables interrupts while XIP is unavailable; it is compiled out of the measurement firmware. A USB CDC request for 1200 baud returns this diagnostic image to ROM BOOTSEL mode. Once a USB-disabled measurement image is installed, use the physical BOOTSEL procedure to return to programming mode.
 
-The serial collector needs pyserial. It records BOOT, twelve START/PASS pairs with exact call counts and DONE, rejecting ERROR/malformed sequences. Its timestamps are host times, never benchmark duration. It does not independently attest that the file supplied with --firmware is the executing image. Use the matching binary and experiment configuration. The [hardware report](HARDWARE_VALIDATION.md) separates observed current functional runs from pending PPK2 measurements.
+The serial collector needs pyserial. It records BOOT, twelve START/PASS pairs with exact call counts and DONE, rejecting ERROR/malformed sequences. Its timestamps are host times, never benchmark duration. It does not independently attest that the file supplied with --firmware is the executing image. Use the matching binary and experiment configuration. The [hardware report](HARDWARE_VALIDATION.md) separates observed functional runs and programming from the subsequent accepted PPK2 measurements.
 
-After functional validation, install the corresponding measurement image, record its hash and programming evidence, disconnect or isolate DUT USB/UART/programmers, and acquire a PPK2 pilot. Ten accepted full-suite captures with the new active-idle references are required for each changed RP2040 and STM32 configuration. Existing data and their original manifests remain historical evidence; firmware compilation does not update those measured values.
+After functional validation, install the corresponding measurement image, record its hash and programming evidence, disconnect or isolate DUT USB/UART/programmers, and acquire a PPK2 pilot. For any new campaign, acquire ten accepted full-suite captures with each capture's own active-idle reference. The current maximum-clock and common160 selections are complete, with ten accepted captures per board per profile. Their source and expected-image provenance remain unchanged; a new compilation does not change previously measured firmware.
 
 ```powershell
 python -m unittest discover -s tests -p test_serial_validation.py -v

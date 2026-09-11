@@ -1,14 +1,14 @@
 # Hardware validation - 11 September 2026
 
-This report records **energy-profiling-v5-common160** (release **v1.2.0**) and the preceding **energy-profiling-v4-max-clock** validation (release **v1.1.0**). It separates functional execution, programming of the measurement image and PPK2 energy acquisition. Exact image hashes and status are in the [common160 manifest](../profiles/common160/CURRENT_FIRMWARE.json) and [maximum-clock manifest](../CURRENT_FIRMWARE.json). Their separate archives retain the original images and source/build evidence.
+This report records **energy-profiling-v5-common160** (release **v1.2.0**) and the preceding **energy-profiling-v4-max-clock** validation (release **v1.1.0**). It separates functional execution, programming of the measurement image and PPK2 energy acquisition. Exact image hashes and status are in the [common160 manifest](../profiles/common160/CURRENT_FIRMWARE.json) and [maximum-clock manifest](../CURRENT_FIRMWARE.json). Their separate archives retain the original images and source/build evidence. Both image manifests remain byte-exact programming-time snapshots; their historical pending fields are superseded for campaign acceptance only by [MEASUREMENT_STATUS.json](../MEASUREMENT_STATUS.json) and the completed selections linked there.
 
 ## Common160 hardware observations
 
 | Board | Functional execution at 160 MHz | Common160 measurement-image programming | Common160 PPK2 campaign |
 |---|---|---|---|
-| RP2040, Marble Pico | Twelve PASS events with exact call counts and DONE observed through USB CDC | Exact silent release UF2 installed through ROM mass storage; latest recorded Pico installation | Pending |
-| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through USART3/PC10 | Exact silent release BIN installed through ST-LINK mass storage; completed host transfer and no `FAIL.TXT` | Pending |
-| ESP32-D0WD-V3 | Twelve PASS events with exact call counts and DONE observed through UART0 | Exact silent release bootloader, partition table and application installed; esptool verified all three segment hashes | Pending |
+| RP2040, Marble Pico | Twelve PASS events with exact call counts and DONE observed through USB CDC | Exact silent release UF2 installed through ROM mass storage; latest recorded Pico installation | Ten accepted subsequent captures |
+| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through USART3/PC10 | Exact silent release BIN installed through ST-LINK mass storage; completed host transfer and no `FAIL.TXT` | Ten accepted subsequent captures |
+| ESP32-D0WD-V3 | Twelve PASS events with exact call counts and DONE observed through UART0 | Exact silent release bootloader, partition table and application installed; esptool verified all three segment hashes | Ten accepted subsequent captures |
 
 The [Pico common160 diagnostic record](../hardware/common160/2026-09-11/rp2040_diagnostic_01.json) identifies UF2 SHA-256 `b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8`. Its [serial log](../hardware/common160/2026-09-11/rp2040_diagnostic_01.log) contains the checked configuration and complete workload sequence:
 
@@ -50,7 +50,7 @@ After that diagnostic passed, the [silent-image programming record](../hardware/
 | Partition table | `0x8000` | `7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820` |
 | Application | `0x10000` | `7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a` |
 
-The compiled DIO, 40 MHz, 4 MiB Flash settings were preserved. Common160 is the ESP32's latest recorded installation. The [post-programming UART observation](../hardware/common160/2026-09-11/esp32_measurement_uart_01.json) and [UART log](../hardware/common160/2026-09-11/esp32_measurement_uart_01.log) contain 304 bytes from one ROM boot during approximately 8.188 seconds after reset, with no application BENCH messages or panic detected. This short observation does not establish workload completion. Esptool's segment verification is distinct from an independent flash-readback attestation. No PPK2 capture or independent validation of the silent application's complete execution has been obtained.
+The compiled DIO, 40 MHz, 4 MiB Flash settings were preserved. Common160 is the ESP32's latest recorded installation. The [post-programming UART observation](../hardware/common160/2026-09-11/esp32_measurement_uart_01.json) and [UART log](../hardware/common160/2026-09-11/esp32_measurement_uart_01.log) contain 304 bytes from one ROM boot during approximately 8.188 seconds after reset, with no application BENCH messages or panic detected. This short observation does not establish workload completion. Esptool's segment verification is distinct from an independent flash-readback attestation. Ten subsequent common160 PPK2 captures are accepted. Independent validation of the silent application's complete execution has not been obtained; GPIO structure does not provide that attestation.
 
 The [STM32F446 common160 diagnostic record](../hardware/common160/2026-09-11/stm32f446_diagnostic_01.json) identifies BIN SHA-256 `7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e`. Its [programming record](../hardware/common160/2026-09-11/stm32f446_diagnostic_programming_01.json) documents the preceding ST-LINK mass-storage transfer. The diagnostic used USART3 TX on target PC10 (CN7 pin 1), connected to detached ST-LINK CN3 pin 1 (RX), with common ground. The [serial log](../hardware/common160/2026-09-11/stm32f446_diagnostic_01.log) records:
 
@@ -74,14 +74,14 @@ ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da
 
 The host copy to the ST-LINK `NODE_F446RE` mass-storage volume completed without error; no `FAIL.TXT` was present after five seconds. Common160 is the STM32's latest recorded installation, replacing the earlier 180 MHz measurement image. These observations do not independently attest flash contents, validate the silent image's complete execution or provide PPK2 energy measurements.
 
-All three common160 functional diagnostics passed and their silent measurement images were installed. All three boards still require common160 PPK2 pilots and ten accepted cold-boot captures each. The existing ten accepted ESP32 240 MHz captures remain unchanged and selected only for the maximum-clock campaign, with their original v3 manifest and expected-image provenance; no repeat 240 MHz acquisition is required.
+All three common160 functional diagnostics passed and their silent measurement images were installed. All thirty subsequent common160 cold-boot captures are accepted, ten per board, in the [completed common160 selection](../ROW_Data/common160/source_campaign.json). The existing ten accepted ESP32 240 MHz captures remain unchanged and selected only for the maximum-clock campaign, with their original v3 manifest and expected-image provenance; no repeat 240 MHz acquisition is required.
 
 ## Recorded maximum-clock validation (v1.1.0)
 
 | Board | Functional execution | Measurement-image programming | New PPK2 energy campaign |
 |---|---|---|---|
-| RP2040, Marble Pico | Twelve PASS events and DONE observed at the configured 200 MHz operating point | Serial-disabled UF2 programmed through ROM mass storage after the functional run | Pending |
-| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image | Original release serial-disabled BIN reinstalled through ST-LINK mass storage after the functional run | Pending |
+| RP2040, Marble Pico | Twelve PASS events and DONE observed at the configured 200 MHz operating point | Serial-disabled UF2 programmed through ROM mass storage after the functional run | Ten accepted subsequent captures |
+| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image | Original release serial-disabled BIN reinstalled through ST-LINK mass storage after the functional run | Ten accepted subsequent captures |
 | ESP32-D0WD-V3 | Original capture/image provenance retained | Historical image identity retained; latest installation is common160 | Ten accepted regulator-removed 240 MHz captures retained with original v3 provenance; no repeat acquisition |
 
 The RP2040 run reported:
@@ -127,7 +127,7 @@ The maximum-clock STM32 measurement BIN has SHA-256:
 9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd
 ```
 
-This original 180 MHz release image was reinstalled after the successful maximum-clock diagnostic run through the ST-LINK `NODE_F446RE` mass-storage volume. The [measurement programming record](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) reports transfer completion and no `FAIL.TXT` afterward. That installation was subsequently replaced by the common160 BIN recorded above. Flash readback and execution of the silent measurement image have not been independently validated, and the new maximum-clock PPK2 campaign remains pending. These follow-up hardware observations are recorded separately from the unchanged archived release build records.
+This original 180 MHz release image was reinstalled after the successful maximum-clock diagnostic run through the ST-LINK `NODE_F446RE` mass-storage volume. The [measurement programming record](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) reports transfer completion and no `FAIL.TXT` afterward. That installation was subsequently replaced by the common160 BIN recorded above. Flash readback and execution of the silent measurement image have not been independently validated, while ten subsequent maximum-clock STM32 PPK2 captures are accepted in the [completed maximum-clock selection](../ROW_Data/source_campaign.json). These follow-up hardware observations are recorded separately from the unchanged archived release build records.
 
 ## How to interpret this evidence
 
@@ -135,8 +135,10 @@ The recorded clocks and regulator fields are configuration/register observations
 
 Functional diagnostics and collection commands are described in [BUILD_AND_TEST.md](BUILD_AND_TEST.md). After any functional run, install the matching measurement image and record its hash and programming evidence. The physical acquisition uses only PPK2 power, ground, logic reference and one RUN wire, with DUT USB/UART/programmers disconnected or isolated.
 
-## Measurements still required for the maximum-clock campaign
+## Completed energy-acquisition campaigns
 
-Acquire and review a new PPK2 pilot for RP2040 and STM32 before the ten accepted full-suite cold boots for each. Confirm the supply rail, physical clock, twelve RUN windows, LOW gaps, fault behavior, export format and capture integrity. The active-idle reference must come from each new capture. Successful functional output and firmware programming do not provide workload energy values.
+The [maximum-clock selection](../ROW_Data/source_campaign.json) contains ten accepted captures per board: retained ESP32 v3 at 240 MHz, RP2040 v4 at 200 MHz and STM32 v4 at nominal 180 MHz. The [common160 selection](../ROW_Data/common160/source_campaign.json) independently contains ten new v5 captures per board. Together they contain 60 captures and 720 workload gates. Each accepted capture supplies its own active-idle reference; no baseline or waveform is reused between profiles.
 
-Existing waveform datasets remain the preceding campaign's evidence and have not been relabeled. Historical firmware and validation records remain available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0). Follow the [current acquisition protocol](PROTOCOL.md) and consult [validation status](VALIDATION.md) when combining retained ESP32 data with replacement measurements.
+The source capture, profile, expected-image and metadata hashes remain explicit. The accepted ESP32 240 MHz image is the retained v3 archive, not the unused v4 candidate. STM32's LDO remains fitted, with JP6 open and PPK2 feeding MCU VDD; ESP32/Pico board LDOs were removed. This fixture is recorded in the completed selections separately from original metadata. [MEASUREMENT_STATUS.json](../MEASUREMENT_STATUS.json) records subsequent capture acceptance without changing diagnostic, programming or independent execution-attestation records.
+
+Historical firmware and validation remain available through Git history and [release archives](https://github.com/victorstoica114/energy-profiling/releases). Follow the [acquisition protocol](PROTOCOL.md) for new measurements and consult [validation status](VALIDATION.md) for measurement limitations.

@@ -1,0 +1,11 @@
+{
+  "hardware_flashed": false,
+  "flash_mode": "dio",
+  "flash_frequency_mhz": 40,
+  "flash_capacity_mib": 4,
+  "files": {
+    "0x1000": "bootloader/bootloader.bin",
+    "0x8000": "partition_table/partition-table.bin",
+    "0x10000": "energy_bench_esp32.bin"
+  }
+}

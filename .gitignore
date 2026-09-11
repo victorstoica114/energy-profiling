@@ -11,3 +11,7 @@ module radio/
 /ROW_Data/*/run_*/
 /ROW_Data_history/
 /ROW_Data/common160/*/run_*/
+
+# Disposable host-check outputs; verified firmware archives remain tracked.
+/build/
+/tests/kernel_tests/build/

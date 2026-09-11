@@ -1,1 +1,0 @@
-xtensa-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0

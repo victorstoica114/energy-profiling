@@ -1,7 +1,0 @@
-Final incremental native verification after the successful full build.
-arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
-ninja: no work to do.
-   text	   data	    bss	    dec	    hex	filename
-  46860	      0	  41528	  88388	  15944	C:\Users\User\AppData\Local\Temp\energy-native-build-verified\rp2040\energy_bench_rp2040.elf
-
-After adding explicit Pico board/RP2040 CMake gates: configure passed, ninja: no work to do. Firmware binary unchanged.

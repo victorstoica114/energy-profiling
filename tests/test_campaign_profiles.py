@@ -270,5 +270,47 @@ class CampaignProfileTests(unittest.TestCase):
         self.assertFalse(output.exists())
 
 
+class FixtureSelectionTests(unittest.TestCase):
+    """Accepted selections must work directly without rewriting source metadata."""
+
+    def setUp(self):
+        self.campaign = json.loads((ROOT / "ROW_Data/source_campaign.json").read_text(encoding="utf-8"))
+
+    def test_completed_profiles_accept_their_documented_fixtures(self):
+        for path in ("ROW_Data/source_campaign.json", "ROW_Data/common160/source_campaign.json"):
+            campaign = json.loads((ROOT / path).read_text(encoding="utf-8"))
+            for board, selection in campaign["boards"].items():
+                with self.subTest(campaign=path, board=board):
+                    manifest = s.validate_profile(ROOT, board, selection, campaign)
+                    self.assertEqual(manifest["experiment_id"], selection["experiment_id"])
+
+    def test_stm32_isolation_requires_domain_and_recorded_correction(self):
+        original = self.campaign["boards"]["stm32"]
+        changes = (
+            ("onboard_regulator_isolated", False),
+            ("regulator_isolation_mechanism", "JP6_closed"),
+            ("supply_injection_domain", "board_3V3_rail"),
+            ("fixture_operator_correction", None),
+            ("fixture_operator_correction", {"statement": " ", "original_metadata_preserved": True}),
+            ("fixture_operator_correction", {"statement": "JP6 open", "original_metadata_preserved": False}),
+        )
+        for key, value in changes:
+            selection = copy.deepcopy(original)
+            selection[key] = value
+            with self.subTest(key=key, value=value), self.assertRaisesRegex(s.CampaignError, "JP6 isolation"):
+                s.validate_profile(ROOT, "stm32", selection, self.campaign)
+
+    def test_jp6_exception_cannot_be_applied_to_other_boards(self):
+        stm32 = self.campaign["boards"]["stm32"]
+        for board in ("esp32", "rp2040"):
+            selection = copy.deepcopy(self.campaign["boards"][board])
+            for key in ("onboard_regulator_removed", "onboard_regulator_isolated",
+                        "regulator_isolation_mechanism", "supply_injection_domain",
+                        "fixture_operator_correction"):
+                selection[key] = copy.deepcopy(stm32[key])
+            with self.subTest(board=board), self.assertRaisesRegex(s.CampaignError, "JP6 isolation"):
+                s.validate_profile(ROOT, board, selection, self.campaign)
+
+
 if __name__ == "__main__":
     unittest.main()

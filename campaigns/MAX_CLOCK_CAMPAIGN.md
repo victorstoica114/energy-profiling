@@ -1,7 +1,13 @@
 # Maximum-clock capture campaign
 
-`2026-09-11_ppk2_max_clock.template.json` is a pending acquisition plan, not a
-result. The collector writes new acquisitions to `captures_max_clock/` by
+The campaign is complete with ten accepted captures per board; see the
+[completed selection](../ROW_Data/source_campaign.json) and
+[current acceptance status](../MEASUREMENT_STATUS.json). Ten ESP32 v3 captures
+are retained and twenty RP2040/STM32 v4 captures are accepted.
+
+`2026-09-11_ppk2_max_clock.template.json` preserves the original pending
+acquisition plan. Its preparation fields are historical and are not the
+current acceptance status. The collector writes new acquisitions to `captures_max_clock/` by
 default and requires the v4 experiment and its matching silent image archive.
 Existing captures remain in their original locations.
 
@@ -11,15 +17,18 @@ expected firmware image, acquisition metadata and analysis JSON files by
 SHA-256. These records are not relabelled as executions of the v4 firmware.
 Their original voltage and approximate temperature records are retained.
 
-The RP2040 200 MHz / 1.15 V and STM32F446 180 MHz sections require ten new
-regulator-removed cold boots each. Empty capture lists and `null` environment
-values are deliberate. Fill the measured voltage, assigned absolute voltage
+The original RP2040 200 MHz / 1.15 V and STM32F446 180 MHz template sections
+requested ten new cold boots each. Their empty capture lists and `null`
+environment values remain unchanged; the completed selection records the
+accepted captures and environment. ESP32/Pico regulators were removed; the
+operator corrected STM32 to LDO fitted, JP6 open and PPK2 feeding MCU VDD.
+The original template is preserved separately from that correction. Fill the measured voltage, assigned absolute voltage
 uncertainty and ambient temperature from each new session; do not copy the
 historical values without a new observation. Physical board IDs retain the
 existing unit labels, including the legacy `RPI-PICO-RP2040-01-NOREG` label for
 the Marble Pico unit.
 
-For a completed campaign, save a separate JSON file based on the template:
+For any new campaign, save a separate JSON file based on the template:
 
 1. Confirm the PPK2 serial number, fixture, board IDs, image hashes and experiment
    file hash. A hash of the expected image does not attest the DUT's flash.
@@ -32,10 +41,10 @@ For a completed campaign, save a separate JSON file based on the template:
 4. Run the summarizer with a new, unused output directory, for example:
 
 ```powershell
-python tools/summarize_campaign.py campaigns/completed_max_clock.json --output-dir analysis/max_clock_results
+python tools/summarize_campaign.py ROW_Data/source_campaign.json --project-root . --output-dir results/max_clock_recheck
 ```
 
-The summarizer requires all 30 captures before writing results. Schema 2 binds
+The command above rechecks the accepted campaign; its output directory must be unused. The summarizer requires all 30 captures before writing results. Schema 2 binds
 each capture to its explicit board profile, including its manifest bytes,
 embedded analysis manifest, clock, repetition counts and expected image hash.
 It checks the original raw transport SHA-256 and byte count. Cross-profile

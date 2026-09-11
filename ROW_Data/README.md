@@ -45,9 +45,9 @@ removal and preserves the original template description. STM32 energy covers
 the supplied MCU VDD domain, not the complete Nucleo PCB. All boards use the
 3.3 V PPK2 supply, with DUT USB, UART and programmer connections absent.
 
-The prior local CSV selection is archived at
-`../ROW_Data_history/2026-09-10_ppk2_regulators_removed_csv` and is not used in
-the current article. Article analysis scripts resolve this current `ROW_Data`
+The superseded local CSV selection has been removed. Earlier published source
+records remain recoverable through the original Git history and release tags.
+Article analysis scripts resolve this current `ROW_Data`
 directory by default or through `PPK2_DATA_DIR`. Unrounded results and the
 independent full-waveform integration audit accompany the article workspace.
 The separate common160 campaign contributes no measurements to this selection.
@@ -58,4 +58,5 @@ The independent [common160 selection](common160/README.md) contains thirty new
 160 MHz captures, with its own manifests, index and local board/run folders.
 Maximum-clock data above remain unchanged. The [public common160 results and
 acceptance package](../results/2026-09-11_common160/README.md) provides audited
-summaries and the exact fixture adapter needed to reproduce them.
+summaries and the exact fixture adapter used to produce them. The current
+`tools/summarize_campaign.py` also accepts the explicitly documented JP6 fixture.

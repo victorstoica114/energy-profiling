@@ -35,10 +35,13 @@ it does not independently reintegrate the complete waveform CSVs.
 
 ## Why the fixture adapter is supplied
 
-The repository's [original summarizer](../../tools/summarize_campaign.py) is
-unchanged. Its physical-regulator-removal requirement does not represent the
-operator-confirmed STM32 fixture: the LDO remains fitted, JP6 is open and PPK2
-supplies MCU VDD. ESP32/Pico retain physical board-regulator removal.
+At acquisition, the original summarizer required physical regulator removal,
+which did not represent the operator-confirmed STM32 fixture: the LDO remains
+fitted, JP6 is open and PPK2 supplies MCU VDD. ESP32/Pico retain physical board
+regulator removal. The [current summarizer](../../tools/summarize_campaign.py)
+also accepts this documented fixture and requires a nonempty operator
+correction statement. The original source hash and exact adapter remain
+recorded in this package.
 
 The supplied adapter is an exact copy of the audited script. Its only change
 to the original validator is one fixture-validation block, admitting STM32

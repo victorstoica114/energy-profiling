@@ -1,0 +1,1640 @@
+{
+  "summary_schema_version": 1,
+  "status": "complete_30_capture_campaign",
+  "generated_utc": "2026-09-11T18:42:09.619Z",
+  "campaign": {
+    "schema_version": 2,
+    "campaign_id": "2026-09-11_ppk2_energy_profiling_v4_max_clock",
+    "status": "ready_for_analysis",
+    "experiment_id": "energy-profiling-v4-max-clock",
+    "campaign_scope_note": "Ten retained ESP32 240 MHz v3 captures from 2026-09-10, ten new RP2040 200 MHz / 1.15 V captures and ten new STM32F446 180 MHz captures from 2026-09-11. Each capture keeps its original metadata and image identity. On STM32 the LDO remains physically fitted and is electrically excluded from the supplied MCU VDD domain by open JP6.",
+    "instrument": {
+      "model": "Nordic Power Profiler Kit II",
+      "serial_number": "F7839E12B2AE",
+      "mode": "source_meter",
+      "setpoint_mV": 3300,
+      "sample_rate_Hz": 100000
+    },
+    "boards": {
+      "esp32": {
+        "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+        "model": "ESP32-D0WD-V3 rev3.1",
+        "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected.",
+        "onboard_regulator_removed": true,
+        "experiment_id": "energy-profiling-v3-single-gpio",
+        "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+        "experiment_manifest_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+        "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
+        "target_cpu_hz": 240000000,
+        "reuse_justification": "Reuse the ten identified regulator-removed ESP32 cold boots acquired on 2026-09-10 at 240 MHz. The ESP32 operating point, workloads, data and repetition counts are unchanged. Preserve their original v3 manifest and expected image identity; do not relabel these captures as executions of the newly built v4 image.",
+        "environment": {
+          "externally_measured_dut_voltage_V": 3.3,
+          "voltage_absolute_uncertainty_V": 0.01,
+          "voltage_uncertainty_note": "Conservative operator-assigned value; multimeter model and calibration were not recorded.",
+          "ambient_temperature_C": 25.0,
+          "temperature_note": "Approximate room temperature reported by the operator."
+        },
+        "capture_directories": [
+          "captures_noreg/esp32/20260910T123000.452016Z_esp32_001",
+          "captures_noreg/esp32/20260910T123122.837343Z_esp32_002",
+          "captures_noreg/esp32/20260910T123245.258284Z_esp32_003",
+          "captures_noreg/esp32/20260910T123403.832085Z_esp32_004",
+          "captures_noreg/esp32/20260910T123524.318691Z_esp32_005",
+          "captures_noreg/esp32/20260910T123640.511140Z_esp32_006",
+          "captures_noreg/esp32/20260910T123757.633087Z_esp32_007",
+          "captures_noreg/esp32/20260910T123913.826997Z_esp32_008",
+          "captures_noreg/esp32/20260910T124030.428881Z_esp32_009",
+          "captures_noreg/esp32/20260910T124147.218835Z_esp32_010"
+        ],
+        "capture_file_sha256": {
+          "captures_noreg/esp32/20260910T123000.452016Z_esp32_001": {
+            "metadata": "a7d9d620db5c87f5837f20879157f050752b6fc013e673ed8cc946314befca46",
+            "analysis": "eb9d29919a0388c52b78423de7c0fa0508c01201b36de2d4e4feba094a6cb414"
+          },
+          "captures_noreg/esp32/20260910T123122.837343Z_esp32_002": {
+            "metadata": "29339fe33ad6ee805d777eba478127a89d4b262d8787de4c67d8be564f2a34ea",
+            "analysis": "4dada31125aa06d5b746a2e5974b96eebd04855fc3b50478885841ee98f6503c"
+          },
+          "captures_noreg/esp32/20260910T123245.258284Z_esp32_003": {
+            "metadata": "1d66e03eb924cea953d09b7381232ab82e652bf0ae7f2bf9584058517136d8ca",
+            "analysis": "057d20e4d392281299e124577561218f78b1b1ddbdcc54db11dbbe9225489ecb"
+          },
+          "captures_noreg/esp32/20260910T123403.832085Z_esp32_004": {
+            "metadata": "0c0dd07105aa9b0919bff444ff9d5716420c0d36149df6839d99310e6583a54f",
+            "analysis": "2efe490a9ed15b9f2d2d14ff996f2ee2a87d46f28ea15c3ae162710090712bd2"
+          },
+          "captures_noreg/esp32/20260910T123524.318691Z_esp32_005": {
+            "metadata": "c992e6e744879a02dc46520f4ae3ae9127b51240579f5f2de46c847adb3b45e0",
+            "analysis": "62f15d9077d09bb4df8cbf5bef687467f5c75ebed78f774d42e6c43d7d511f2b"
+          },
+          "captures_noreg/esp32/20260910T123640.511140Z_esp32_006": {
+            "metadata": "c00d013d05795274ec19c85f402b8bdf529a815b7921815f4b5fe62a90df01a5",
+            "analysis": "8c1800f4a00b56310c5c3b23d48605334de00ad139653907109b5a522643e786"
+          },
+          "captures_noreg/esp32/20260910T123757.633087Z_esp32_007": {
+            "metadata": "5638f39932cd50917f3c548f12b9e8d83d8288336b18ef0c162667a913af21d7",
+            "analysis": "b6a1f5174d27e06449bab0cec2b44b1588d073e5c09490ad55e3d04c16fa652e"
+          },
+          "captures_noreg/esp32/20260910T123913.826997Z_esp32_008": {
+            "metadata": "8f56f03197b76fb5a8da2d6076920e49250c3f6ab03faeecf81a521941eeddf0",
+            "analysis": "fc3e8373419f3666b1d41ac92053ee91cfe8c20649c57357eba2346be534f19d"
+          },
+          "captures_noreg/esp32/20260910T124030.428881Z_esp32_009": {
+            "metadata": "1799cb3383a071b5228da21e23a98f927b979f55e14a762e251cef1e43fd6724",
+            "analysis": "3beacfa10ae7c5ec9d770cbcaf5590084905e64ecb4aa96cd27a522634353a51"
+          },
+          "captures_noreg/esp32/20260910T124147.218835Z_esp32_010": {
+            "metadata": "9230f69597848e24a476e2816fc89d46c1fa6295e08d863030d0d36b9aded781",
+            "analysis": "612404c8d55ac35a8c00cb4ae31af96ba998d9368fb8233250256da4f13b3292"
+          }
+        },
+        "regulator_isolated": true
+      },
+      "rp2040": {
+        "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+        "model": "Marble Pico with RP2040",
+        "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected.",
+        "onboard_regulator_removed": true,
+        "experiment_id": "energy-profiling-v4-max-clock",
+        "experiment_manifest": "config/experiment.json",
+        "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+        "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+        "target_cpu_hz": 200000000,
+        "reuse_justification": null,
+        "environment": {
+          "externally_measured_dut_voltage_V": 3.3,
+          "voltage_absolute_uncertainty_V": 0.01,
+          "ambient_temperature_C": 26.0,
+          "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+          "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+        },
+        "capture_directories": [
+          "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001",
+          "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002",
+          "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003",
+          "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004",
+          "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005",
+          "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006",
+          "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007",
+          "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008",
+          "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009",
+          "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010"
+        ],
+        "capture_file_sha256": {
+          "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001": {
+            "metadata": "6b2ce9b6b1212a39b4ea7ec103811e1f1a81d1b557f0eeba74489142e8dd5829",
+            "analysis": "0aceaf28f98099de0e23e1d9dbcb695683ebe9e8fd6d4c6bfa48bf45266edc19"
+          },
+          "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002": {
+            "metadata": "0f6ac4681675d835da5120d41a03f5180041e6383effc43f9f631f1cbf2e5be9",
+            "analysis": "b49ee1873eafd6d76a635a76fe65836a0c812e99071f5135ececef08654ed5cf"
+          },
+          "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003": {
+            "metadata": "5db747fb484de96b9dbf04d89eced2017b0d03bfdd728f126254e24a97bfe888",
+            "analysis": "2261627b28a6547be6d9599f0c98df05c1d4616b3ce223ed24b7a77a18a0c725"
+          },
+          "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004": {
+            "metadata": "ad5e223b532631cb251c58a15516446edd5e4b3b147b2c481a6125e96088f793",
+            "analysis": "01febf43e78a26d2d2d1a2426749f4818afe07db167dc9aec7dce67a34a87081"
+          },
+          "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005": {
+            "metadata": "00cc473c0398477568ebec004e348a8252316c62f369591b6b1162cc2145b5d3",
+            "analysis": "8ba64102f64abe1a7902855f643c7013a260d304109dad63ae17a80015fde911"
+          },
+          "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006": {
+            "metadata": "c03484da7241df156af117fc1d0b5290a4a56daa0df5003f3849378b2b90d87a",
+            "analysis": "8a3af881ac0480c367a46f21a88c2c828e08ebec59768318ca8b35d1350bbd31"
+          },
+          "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007": {
+            "metadata": "57d1dbdb8b059188993f2f049c8aaa855d23de3646496fdcd6c27fc3378d012d",
+            "analysis": "ad9cb90a9add0305eecc6d2905f5f0c3f436fddbaea06b0a3cc4d7514a105cc7"
+          },
+          "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008": {
+            "metadata": "73bc0e721bc369d156eab906004c58cfb2d70218423bf2048f2b82846d34de1b",
+            "analysis": "586abe9a845be489cf3447cc3da8dd5a87f79bb98aa9e2614a2dfc9171135317"
+          },
+          "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009": {
+            "metadata": "092f54bbe2a1af0cdb5af5eebeeaeaf7a7be93a9f072ebc98f0efcb877d2a225",
+            "analysis": "461b0f80a328747060f3aac75f954c439309f5aea51c275b9ed41bd3957e307d"
+          },
+          "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010": {
+            "metadata": "c36fc3b00b449c9191f778f8ddb261b89e79540bf76659a926fe80bbcaea2785",
+            "analysis": "29096fa768dab7b7b6d115d3afa35e1f2f8ca9ef0cd132a31d75a598cfd73a0b"
+          }
+        },
+        "regulator_isolated": true
+      },
+      "stm32": {
+        "physical_board_id": "NUCLEO-F446RE-01",
+        "model": "NUCLEO-F446RE",
+        "fixture": "PPK2 VOUT supplies the MCU VDD side of open JP6 at 3.3 V. The onboard LDO remains fitted and its output is isolated from that domain. PC0 reaches D0 via CN8 A5 pin 6 (SB51 fitted), as recorded in the original capture metadata. ST-LINK is electrically isolated; DUT USB, UART, programmers and other supply paths are disconnected.",
+        "onboard_regulator_removed": false,
+        "experiment_id": "energy-profiling-v4-max-clock",
+        "experiment_manifest": "config/experiment.json",
+        "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+        "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+        "target_cpu_hz": 180000000,
+        "reuse_justification": null,
+        "environment": {
+          "externally_measured_dut_voltage_V": 3.3,
+          "voltage_absolute_uncertainty_V": 0.01,
+          "ambient_temperature_C": 26.0,
+          "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+          "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+        },
+        "capture_directories": [
+          "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001",
+          "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002",
+          "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003",
+          "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004",
+          "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005",
+          "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006",
+          "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007",
+          "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008",
+          "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009",
+          "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010"
+        ],
+        "capture_file_sha256": {
+          "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001": {
+            "metadata": "1e843680b25bab4e227750a4cee1310a5f6e08d0ab4c91236bb8e554d9f1fdcf",
+            "analysis": "a81d1b99705484b1f677004e598d1aafd41032643dc9eedd08514a5829a061b3"
+          },
+          "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002": {
+            "metadata": "695f0ed2e24e5e608cfc326061b07f48dd22279d27fd8bc8c58f670b58949035",
+            "analysis": "7a9635630919fe712bbe51a13cf307b3193529f3ad4b18e41555046ef4ed6f8f"
+          },
+          "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003": {
+            "metadata": "553456e40195617baeec681f885fe88ca9e2e7017e5b1dedc8e0d411cf018634",
+            "analysis": "fddc524d06602147fb75e232e82ad67399b0acc5a9d7d984b6889bca5d07ac84"
+          },
+          "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004": {
+            "metadata": "7a49b22523cec68c8e76b7bff62f0eb289df37ac9877e8940b68320e16f95ea0",
+            "analysis": "5f863451341d16e9271638349e3af41fac2c4bc25dfa23cf0baed8d655750b3b"
+          },
+          "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005": {
+            "metadata": "9eff204a3373d1064c03cf468afa5988a34856927d1b7687938d40e8cb59ca1f",
+            "analysis": "12612d61b61bad38348321fc9e4fb9c5e4a85950df814f7bf0514a070cc52a96"
+          },
+          "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006": {
+            "metadata": "d35f2c1e8d3de03e3d6e0abb4d7df5b26c5d095be6ff8af20784a4c94b90adca",
+            "analysis": "39441ef2535f6c8bbb83d9cc7a504f4b7d0a5ff3ca42f2744d33e350f8702f96"
+          },
+          "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007": {
+            "metadata": "c06f6688b125d6be46191b5006666bf4b67318d38926b185c332bc109fece6ab",
+            "analysis": "35e55d6ff62c62b6d0094df395df100ccc3490ecffd3936929d5f7165ad1c61f"
+          },
+          "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008": {
+            "metadata": "8e78c72443d6e93d85c14e0fce1e82569567df03e918df9eb8f2518b3291954b",
+            "analysis": "79470651b14f00264b46152571ff2066368bfa56c615c0636914253fb40d2514"
+          },
+          "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009": {
+            "metadata": "5529fdc1dff74c2c177d3295559feb23ffc883e64c756319f0ebb16415ddba61",
+            "analysis": "c60bee2c3947c696e9fd07e9aad23d5a6e9f2875844e4e8e1bc837407e2b6135"
+          },
+          "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010": {
+            "metadata": "248d888f47bd7c5009da1ce9874653d55dbc8adbe881dacf72aadfc81421a600",
+            "analysis": "a3a13048e56d67f4f59fcddb3e340fe280fee7a59d61c4bedde267f9e7ddc9d1"
+          }
+        },
+        "regulator_isolated": true,
+        "source_template_fixture_description": "PPK2 VOUT to CN6 +3V3 with JP6 fitted; PC0/CN7 pin 38 to D0; ST-LINK electrically isolated and DUT USB disconnected.",
+        "source_template_onboard_regulator_removed": true,
+        "onboard_regulator_isolated": true,
+        "regulator_isolation_mechanism": "JP6_IDD_shunt_open",
+        "supply_injection_domain": "MCU_VDD_side_of_JP6",
+        "fixture_operator_correction": {
+          "source": "Operator clarification in the article revision conversation on 2026-09-11",
+          "scope": "Physical LDO presence and JP6 isolation; applies to the NUCLEO-F446RE measurement fixture.",
+          "statement": "The LDO remains physically fitted; open JP6 isolates its output and PPK2 supplies the MCU VDD side.",
+          "original_metadata_preserved": true,
+          "evidence_type": "operator report; not inferred from current traces or compiled firmware"
+        }
+      }
+    },
+    "analysis_policy": {
+      "required_cold_boot_captures_per_board": 10,
+      "algorithm_identity": "Fixed ordinal order of twelve complete D0 HIGH windows.",
+      "pause_short_tolerance_fraction": {
+        "esp32": 0.01,
+        "rp2040": 0.01,
+        "stm32": 0.02
+      },
+      "stm32_tolerance_note": "Declare the two-percent HSI-clock LOW-pause tolerance before capture; use the identical value in acquisition and analysis. It affects LOW acceptance only, never RUN integration or the external PPK2 timebase.",
+      "historical_reuse_policy": "Per-board experiment overrides require schema 2, an explicit justification, immutable experiment-file, primary-image, capture-metadata and capture-analysis SHA-256 pins, plus raw-transport verification. A new v4 image hash must never be substituted into old v3 capture metadata.",
+      "fixture_validation_note": "The repository validator requires physical regulator removal. The local adapter additionally accepts only STM32 with explicit removal=false, isolation=true, open JP6, supply on its MCU VDD side and the recorded operator correction. No timing, image, manifest, raw-data, count, environment or algorithm checks are relaxed."
+    },
+    "source_repository": {
+      "local_root": "D:\\Documente\\Energy Profiling",
+      "url": "https://github.com/victorstoica114/energy-profiling",
+      "commit": "7909bfd5966b0ecc976450e21fbe530d673d3ec1",
+      "template_path": "campaigns\\2026-09-11_ppk2_max_clock.template.json",
+      "template_sha256": "0fc59f71357133e0a3ecc2df4df24b27b28629ec68fac8fdc5f344a999de1ef3"
+    },
+    "completion_requirements_from_template": [
+      "Acquire ten independent cold boots per RP2040 and STM32 board under the stated regulator-removed fixture; put the new captures in captures_max_clock/<board>/.",
+      "Record actual new-session environment values per board and confirm the PPK2 serial number, source setpoint and sample rate.",
+      "Fill each new capture_directories list and capture_file_sha256 object with the exact project-relative paths and SHA-256 hashes of capture_metadata.json and analysis/capture.analysis.json.",
+      "Verify the archived v4 primary images and manifest pins still match the images actually selected for acquisition. Expected image hashes alone do not attest flashed DUT memory.",
+      "Save a completed campaign JSON separately, set status to ready_for_analysis, and run tools/summarize_campaign.py with an unused output directory. Retain this pending template and the original v3 metadata without editing their measurement identities."
+    ],
+    "selection_policy": "Use exactly the ten ESP32 paths pinned in the original maximum-clock template, plus all ten timestamp-ordered captures in each new captures_max_clock/rp2040 and captures_max_clock/stm32 directory. No captures are ranked or excluded based on numerical performance."
+  },
+  "capture_count": 30,
+  "capture_count_per_board": {
+    "esp32": 10,
+    "rp2040": 10,
+    "stm32": 10
+  },
+  "total_sample_count": 132329472,
+  "baseline": [
+    {
+      "board": "esp32",
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.05330968975902069,
+        "sample_standard_deviation": 4.501785899809362e-05,
+        "minimum": 0.0532366779990163,
+        "maximum": 0.05335780515154332
+      }
+    },
+    {
+      "board": "rp2040",
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03723219167130566,
+        "sample_standard_deviation": 8.526369157610411e-05,
+        "minimum": 0.037095608082274995,
+        "maximum": 0.037330820905217575
+      }
+    },
+    {
+      "board": "stm32",
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.021944758833936602,
+        "sample_standard_deviation": 0.00013762625160503494,
+        "minimum": 0.021861331648762954,
+        "maximum": 0.022322126553430233
+      }
+    }
+  ],
+  "workloads": [
+    {
+      "board": "esp32",
+      "sequence_position": 1,
+      "algorithm": "RLE",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.000202139,
+        "sample_standard_deviation": 1.6101529717892641e-09,
+        "minimum": 0.00020213666666666667,
+        "maximum": 0.00020213999999999999
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06275486647688011,
+        "sample_standard_deviation": 8.87971811484255e-05,
+        "minimum": 0.06263880863714064,
+        "maximum": 0.06294831755761073
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 1.268520596931785e-05,
+        "sample_standard_deviation": 1.7961163460195118e-08,
+        "minimum": 1.2661808777911606e-05,
+        "maximum": 1.2724372911095431e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 4.18611796987489e-05,
+        "sample_standard_deviation": 5.927183941864511e-08,
+        "minimum": 4.1783968967108295e-05,
+        "maximum": 4.199043060661492e-05
+      },
+      "energy_voltage_component_absolute_J": 1.268520596931785e-07
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 2,
+      "algorithm": "Delta",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 6.045866666666667e-05,
+        "sample_standard_deviation": 1.7213259316515153e-09,
+        "minimum": 6.045666666666667e-05,
+        "maximum": 6.046000000000001e-05
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.0656514826168961,
+        "sample_standard_deviation": 0.00011029056544737172,
+        "minimum": 0.06543696005732795,
+        "maximum": 0.06582683725685423
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 3.969201140692847e-06,
+        "sample_standard_deviation": 6.693513408549854e-09,
+        "minimum": 3.9563186050660476e-06,
+        "maximum": 3.979890580549407e-06
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 1.3098363764286392e-05,
+        "sample_standard_deviation": 2.2088594248214488e-08,
+        "minimum": 1.3055851396717958e-05,
+        "maximum": 1.3133638915813042e-05
+      },
+      "energy_voltage_component_absolute_J": 3.969201140692846e-08
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 3,
+      "algorithm": "LZ77",
+      "captures": 10,
+      "iterations_per_capture": 200,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.015259435000000002,
+        "sample_standard_deviation": 2.415229457683896e-08,
+        "minimum": 0.015259400000000001,
+        "maximum": 0.01525945
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06066863256101588,
+        "sample_standard_deviation": 0.0001377998570767359,
+        "minimum": 0.06041504313720747,
+        "maximum": 0.060885891592035134
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.00092576905540493,
+        "sample_standard_deviation": 2.102894145373004e-06,
+        "minimum": 0.0009218973092479036,
+        "maximum": 0.0009290852184540805
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0030550378828362685,
+        "sample_standard_deviation": 6.939550679730805e-06,
+        "minimum": 0.003042261120518082,
+        "maximum": 0.0030659812208984655
+      },
+      "energy_voltage_component_absolute_J": 9.2576905540493e-06
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 4,
+      "algorithm": "Huffman",
+      "captures": 10,
+      "iterations_per_capture": 200,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0025658049999999996,
+        "sample_standard_deviation": 1.581138830102228e-08,
+        "minimum": 0.0025657999999999996,
+        "maximum": 0.00256585
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06100933946032035,
+        "sample_standard_deviation": 0.00015136791379934822,
+        "minimum": 0.06078957233029572,
+        "maximum": 0.06127767641227943
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.00015653806797580205,
+        "sample_standard_deviation": 3.882654453276505e-07,
+        "minimum": 0.00015597388468507274,
+        "maximum": 0.00015722626213862654
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0005165756243201468,
+        "sample_standard_deviation": 1.281275969581229e-06,
+        "minimum": 0.0005147138194607401,
+        "maximum": 0.0005188466650574675
+      },
+      "energy_voltage_component_absolute_J": 1.5653806797580208e-06
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 5,
+      "algorithm": "AES-128",
+      "captures": 10,
+      "iterations_per_capture": 1000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0031507,
+        "sample_standard_deviation": 0.0,
+        "minimum": 0.0031507,
+        "maximum": 0.0031507
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06189170029543005,
+        "sample_standard_deviation": 0.00010977313015405169,
+        "minimum": 0.06175619261936734,
+        "maximum": 0.06207165263893276
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.00019500218012081144,
+        "sample_standard_deviation": 3.458622011763713e-07,
+        "minimum": 0.00019457523608584068,
+        "maximum": 0.00019556915596948547
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0006435071943986778,
+        "sample_standard_deviation": 1.1413452638820207e-06,
+        "minimum": 0.0006420982790832742,
+        "maximum": 0.000645378214699302
+      },
+      "energy_voltage_component_absolute_J": 1.950021801208115e-06
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 6,
+      "algorithm": "SHA-256",
+      "captures": 10,
+      "iterations_per_capture": 1000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.000713857,
+        "sample_standard_deviation": 4.8304589154201644e-09,
+        "minimum": 0.00071385,
+        "maximum": 0.0007138600000000001
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06333229725075024,
+        "sample_standard_deviation": 0.00010139061198561457,
+        "minimum": 0.06311506046330637,
+        "maximum": 0.0634569030291775
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 4.521020386065436e-05,
+        "sample_standard_deviation": 7.247737172771298e-08,
+        "minimum": 4.505468591173125e-05,
+        "maximum": 4.529934479640865e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00014919367274015936,
+        "sample_standard_deviation": 2.391753267014493e-07,
+        "minimum": 0.00014868046350871312,
+        "maximum": 0.00014948783782814853
+      },
+      "energy_voltage_component_absolute_J": 4.521020386065435e-07
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 7,
+      "algorithm": "ChaCha20",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00037885366666666665,
+        "sample_standard_deviation": 1.0540925534003424e-09,
+        "minimum": 0.00037885333333333333,
+        "maximum": 0.0003788566666666667
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06461875692040422,
+        "sample_standard_deviation": 9.015069363669873e-05,
+        "minimum": 0.06449946460328684,
+        "maximum": 0.06476257168625581
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 2.448105304070763e-05,
+        "sample_standard_deviation": 3.4190629573574285e-08,
+        "minimum": 2.4435837163170565e-05,
+        "maximum": 2.4535516158576968e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 8.078747503433519e-05,
+        "sample_standard_deviation": 1.1282907759279368e-07,
+        "minimum": 8.063826263846287e-05,
+        "maximum": 8.0967203323304e-05
+      },
+      "energy_voltage_component_absolute_J": 2.4481053040707635e-07
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 8,
+      "algorithm": "CRC32",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00043613699999999996,
+        "sample_standard_deviation": 1.054092553366057e-09,
+        "minimum": 0.0004361366666666667,
+        "maximum": 0.00043613999999999995
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06176021890518141,
+        "sample_standard_deviation": 0.000165225339890052,
+        "minimum": 0.06154213100386099,
+        "maximum": 0.06196619502503175
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 2.693591664959059e-05,
+        "sample_standard_deviation": 7.208456936832367e-08,
+        "minimum": 2.6840779875587256e-05,
+        "maximum": 2.7025729744233932e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 8.888852494364893e-05,
+        "sample_standard_deviation": 2.378790789154721e-07,
+        "minimum": 8.857457358943793e-05,
+        "maximum": 8.918490815597196e-05
+      },
+      "energy_voltage_component_absolute_J": 2.6935916649590583e-07
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 9,
+      "algorithm": "FFT",
+      "captures": 10,
+      "iterations_per_capture": 50,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.06435442,
+        "sample_standard_deviation": 6.324555320518626e-08,
+        "minimum": 0.06435439999999999,
+        "maximum": 0.0643546
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.058154237333215744,
+        "sample_standard_deviation": 7.276440043546534e-05,
+        "minimum": 0.05806166572463107,
+        "maximum": 0.05825435691160655
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.003742482213781646,
+        "sample_standard_deviation": 4.682409106529382e-06,
+        "minimum": 0.0037365236607091973,
+        "maximum": 0.0037489241864322926
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.012350191305479432,
+        "sample_standard_deviation": 1.5451950051546858e-05,
+        "minimum": 0.012330528080340351,
+        "maximum": 0.012371449815226565
+      },
+      "energy_voltage_component_absolute_J": 3.742482213781646e-05
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 10,
+      "algorithm": "FIR",
+      "captures": 10,
+      "iterations_per_capture": 300,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0008801433333333334,
+        "sample_standard_deviation": 1.6101529717997384e-08,
+        "minimum": 0.0008801333333333333,
+        "maximum": 0.0008801666666666667
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06165909064794062,
+        "sample_standard_deviation": 0.0001228781166915359,
+        "minimum": 0.06152440081321686,
+        "maximum": 0.06186494228734286
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 5.426883777041648e-05,
+        "sample_standard_deviation": 1.0826519802237709e-07,
+        "minimum": 5.414967596907259e-05,
+        "maximum": 5.4451460036576274e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00017908716464237436,
+        "sample_standard_deviation": 3.5727515347384995e-07,
+        "minimum": 0.00017869393069793954,
+        "maximum": 0.0001796898181207017
+      },
+      "energy_voltage_component_absolute_J": 5.426883777041647e-07
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 11,
+      "algorithm": "IIR",
+      "captures": 10,
+      "iterations_per_capture": 50,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.01283382,
+        "sample_standard_deviation": 6.324555320408912e-08,
+        "minimum": 0.0128338,
+        "maximum": 0.012834000000000002
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.05731164146148145,
+        "sample_standard_deviation": 8.20788903130298e-05,
+        "minimum": 0.05719373035265269,
+        "maximum": 0.05739904706994772
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0007355272885721041,
+        "sample_standard_deviation": 1.0519570426336606e-06,
+        "minimum": 0.000734012896599874,
+        "maximum": 0.0007366478902862951
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0024272400522879433,
+        "sample_standard_deviation": 3.4714582406910597e-06,
+        "minimum": 0.0024222425587795845,
+        "maximum": 0.0024309380379447737
+      },
+      "energy_voltage_component_absolute_J": 7.3552728857210405e-06
+    },
+    {
+      "board": "esp32",
+      "sequence_position": 12,
+      "algorithm": "DCT",
+      "captures": 10,
+      "iterations_per_capture": 1,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 4.26984,
+        "sample_standard_deviation": 6.666666666710341e-06,
+        "minimum": 4.26983,
+        "maximum": 4.26985
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.06036287332668068,
+        "sample_standard_deviation": 7.656663371323023e-05,
+        "minimum": 0.06021000781545128,
+        "maximum": 0.060456085637710856
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.2577398108238662,
+        "sample_standard_deviation": 0.0003267338245126243,
+        "minimum": 0.25708770187080465,
+        "maximum": 0.2581372081384669
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.8505413757187584,
+        "sample_standard_deviation": 0.0010782216208916743,
+        "minimum": 0.8483894161736553,
+        "maximum": 0.8518527868569408
+      },
+      "energy_voltage_component_absolute_J": 0.0025773981082386622
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 1,
+      "algorithm": "RLE",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0002743573333333333,
+        "sample_standard_deviation": 1.4054567378671232e-09,
+        "minimum": 0.00027435666666666665,
+        "maximum": 0.00027436
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03976168220726261,
+        "sample_standard_deviation": 7.47105723193776e-05,
+        "minimum": 0.03965871055167249,
+        "maximum": 0.03985371366684188
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 1.0908909038069138e-05,
+        "sample_standard_deviation": 2.0461304134340155e-08,
+        "minimum": 1.0880763826956865e-05,
+        "maximum": 1.0934132035922515e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 3.599939982562815e-05,
+        "sample_standard_deviation": 6.75223036433221e-08,
+        "minimum": 3.5906520628957654e-05,
+        "maximum": 3.60826357185443e-05
+      },
+      "energy_voltage_component_absolute_J": 1.0908909038069138e-07
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 2,
+      "algorithm": "Delta",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00011318566666666666,
+        "sample_standard_deviation": 1.6101529717892641e-09,
+        "minimum": 0.00011318333333333334,
+        "maximum": 0.00011318666666666665
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04057458996219934,
+        "sample_standard_deviation": 4.4817572321768565e-05,
+        "minimum": 0.04051130472490384,
+        "maximum": 0.04063815341795161
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 4.592461970627216e-06,
+        "sample_standard_deviation": 5.0286977259429924e-09,
+        "minimum": 4.58533954412945e-06,
+        "maximum": 4.5995616643551565e-06
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 1.515512450306981e-05,
+        "sample_standard_deviation": 1.6594702495612492e-08,
+        "minimum": 1.5131620495627181e-05,
+        "maximum": 1.5178553492372016e-05
+      },
+      "energy_voltage_component_absolute_J": 4.5924619706272155e-08
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 3,
+      "algorithm": "LZ77",
+      "captures": 10,
+      "iterations_per_capture": 200,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.015046085,
+        "sample_standard_deviation": 6.25832778523733e-08,
+        "minimum": 0.015045999999999999,
+        "maximum": 0.015046200000000001
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.040199557326207856,
+        "sample_standard_deviation": 6.0036464210123275e-05,
+        "minimum": 0.04008578907440965,
+        "maximum": 0.040281611375192414
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0006048459550829254,
+        "sample_standard_deviation": 9.022681016909117e-07,
+        "minimum": 0.000603134790992475,
+        "maximum": 0.0006060791388317138
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.001995991651773654,
+        "sample_standard_deviation": 2.977484735580151e-06,
+        "minimum": 0.0019903448102751675,
+        "maximum": 0.002000061158144656
+      },
+      "energy_voltage_component_absolute_J": 6.048459550829255e-06
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 4,
+      "algorithm": "Huffman",
+      "captures": 10,
+      "iterations_per_capture": 500,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.003284978,
+        "sample_standard_deviation": 1.475729574750847e-08,
+        "minimum": 0.00328496,
+        "maximum": 0.003285
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03978671534347936,
+        "sample_standard_deviation": 5.96301304406544e-05,
+        "minimum": 0.039683697048142744,
+        "maximum": 0.03984040177931878
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0001306984841637674,
+        "sample_standard_deviation": 1.9556449325466967e-07,
+        "minimum": 0.0001303609448031489,
+        "maximum": 0.00013087412622899103
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00043130499774043246,
+        "sample_standard_deviation": 6.453628277404077e-07,
+        "minimum": 0.00043019111785039135,
+        "maximum": 0.00043188461655567034
+      },
+      "energy_voltage_component_absolute_J": 1.3069848416376743e-06
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 5,
+      "algorithm": "AES-128",
+      "captures": 10,
+      "iterations_per_capture": 100,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0049337,
+        "sample_standard_deviation": 4.714045207902765e-08,
+        "minimum": 0.0049336,
+        "maximum": 0.0049337999999999995
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.039837548102241785,
+        "sample_standard_deviation": 5.301174966111449e-05,
+        "minimum": 0.03974950148709795,
+        "maximum": 0.03988913016420368
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.00019654651086466727,
+        "sample_standard_deviation": 2.6137726926088707e-07,
+        "minimum": 0.00019611211548689513,
+        "maximum": 0.0001967970125781153
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.000648603485853402,
+        "sample_standard_deviation": 8.625449885609267e-07,
+        "minimum": 0.000647169981106754,
+        "maximum": 0.0006494301415077805
+      },
+      "energy_voltage_component_absolute_J": 1.965465108646673e-06
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 6,
+      "algorithm": "SHA-256",
+      "captures": 10,
+      "iterations_per_capture": 500,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.001221648,
+        "sample_standard_deviation": 1.0327955589937085e-08,
+        "minimum": 0.00122164,
+        "maximum": 0.00122166
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04044014222925353,
+        "sample_standard_deviation": 4.742129936669824e-05,
+        "minimum": 0.04035373893345949,
+        "maximum": 0.04050001266868399
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 4.940361858710163e-05,
+        "sample_standard_deviation": 5.766132645254488e-08,
+        "minimum": 4.9298548705450117e-05,
+        "maximum": 4.9476435476571116e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00016303194133743536,
+        "sample_standard_deviation": 1.9028237729340004e-07,
+        "minimum": 0.0001626852107279854,
+        "maximum": 0.00016327223707268468
+      },
+      "energy_voltage_component_absolute_J": 4.940361858710163e-07
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 7,
+      "algorithm": "ChaCha20",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0011588306666666665,
+        "sample_standard_deviation": 5.163977794912555e-09,
+        "minimum": 0.0011588233333333334,
+        "maximum": 0.00115884
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.040011211645540515,
+        "sample_standard_deviation": 4.8718896557635814e-05,
+        "minimum": 0.03991496458832117,
+        "maximum": 0.0400576203616343
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 4.636621889029005e-05,
+        "sample_standard_deviation": 5.629756689755875e-08,
+        "minimum": 4.62550575635301e-05,
+        "maximum": 4.6419838678271475e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00015300852233795717,
+        "sample_standard_deviation": 1.857819707619428e-07,
+        "minimum": 0.00015264168995964933,
+        "maximum": 0.00015318546763829586
+      },
+      "energy_voltage_component_absolute_J": 4.636621889029006e-07
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 8,
+      "algorithm": "CRC32",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0007167796666666667,
+        "sample_standard_deviation": 2.9186501192190437e-09,
+        "minimum": 0.0007167766666666667,
+        "maximum": 0.0007167833333333333
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.040449316138649646,
+        "sample_standard_deviation": 6.775193498933862e-05,
+        "minimum": 0.04037410835218777,
+        "maximum": 0.040578841395532486
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 2.899324737942089e-05,
+        "sample_standard_deviation": 4.859017396836451e-08,
+        "minimum": 2.8939218804319974e-05,
+        "maximum": 2.908596667268512e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 9.567771635208893e-05,
+        "sample_standard_deviation": 1.6034757409560606e-07,
+        "minimum": 9.549942205425591e-05,
+        "maximum": 9.59836900198609e-05
+      },
+      "energy_voltage_component_absolute_J": 2.8993247379420893e-07
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 9,
+      "algorithm": "FFT",
+      "captures": 10,
+      "iterations_per_capture": 20,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.1608321,
+        "sample_standard_deviation": 8.096638534396453e-07,
+        "minimum": 0.160831,
+        "maximum": 0.16083350000000002
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03751513165506606,
+        "sample_standard_deviation": 5.187790786722431e-05,
+        "minimum": 0.03740664236665944,
+        "maximum": 0.03757727152056388
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.006033637386286685,
+        "sample_standard_deviation": 8.327963710061475e-06,
+        "minimum": 0.006016222511756939,
+        "maximum": 0.006043627733195329
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.019911003374746057,
+        "sample_standard_deviation": 2.7482280243203008e-05,
+        "minimum": 0.019853534288797898,
+        "maximum": 0.019943971519544586
+      },
+      "energy_voltage_component_absolute_J": 6.033637386286684e-05
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 10,
+      "algorithm": "FIR",
+      "captures": 10,
+      "iterations_per_capture": 300,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0014518266666666666,
+        "sample_standard_deviation": 1.4054567378625519e-08,
+        "minimum": 0.0014517999999999998,
+        "maximum": 0.0014518333333333334
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.040347595649310106,
+        "sample_standard_deviation": 8.511812450852715e-05,
+        "minimum": 0.04017637049709253,
+        "maximum": 0.04045425988740837
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 5.857771537992061e-05,
+        "sample_standard_deviation": 1.236209101444895e-07,
+        "minimum": 5.832939390002884e-05,
+        "maximum": 5.873284297986904e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.000193306460753738,
+        "sample_standard_deviation": 4.0794900347680997e-07,
+        "minimum": 0.00019248699987009518,
+        "maximum": 0.0001938183818335678
+      },
+      "energy_voltage_component_absolute_J": 5.857771537992061e-07
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 11,
+      "algorithm": "IIR",
+      "captures": 10,
+      "iterations_per_capture": 50,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.01947824,
+        "sample_standard_deviation": 1.264911064067154e-07,
+        "minimum": 0.019478,
+        "maximum": 0.0194784
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.037765398419039684,
+        "sample_standard_deviation": 6.0567484046833985e-05,
+        "minimum": 0.0376617882727216,
+        "maximum": 0.037854156734531026
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0007356034924607907,
+        "sample_standard_deviation": 1.1786270245213969e-06,
+        "minimum": 0.0007335913766913804,
+        "maximum": 0.0007373384065378892
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0024274915251206097,
+        "sample_standard_deviation": 3.889469180920499e-06,
+        "minimum": 0.0024208515430815553,
+        "maximum": 0.0024332167415750342
+      },
+      "energy_voltage_component_absolute_J": 7.356034924607908e-06
+    },
+    {
+      "board": "rp2040",
+      "sequence_position": 12,
+      "algorithm": "DCT",
+      "captures": 10,
+      "iterations_per_capture": 1,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 19.79573,
+        "sample_standard_deviation": 7.483314773496682e-05,
+        "minimum": 19.79566,
+        "maximum": 19.79588
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03756729970531602,
+        "sample_standard_deviation": 3.338265379601164e-05,
+        "minimum": 0.03749590959595412,
+        "maximum": 0.03760236976591001
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.7436721208201569,
+        "sample_standard_deviation": 0.0006596197645062525,
+        "minimum": 0.7422592774250127,
+        "maximum": 0.7443652311750248
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 2.4541179987065176,
+        "sample_standard_deviation": 0.002176745222870639,
+        "minimum": 2.4494556155025418,
+        "maximum": 2.4564052628775817
+      },
+      "energy_voltage_component_absolute_J": 0.007436721208201569
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 1,
+      "algorithm": "RLE",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00027939033333333334,
+        "sample_standard_deviation": 8.136869298159479e-08,
+        "minimum": 0.00027930666666666664,
+        "maximum": 0.00027954
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04490894253737772,
+        "sample_standard_deviation": 0.0001446377193153902,
+        "minimum": 0.0445187875444804,
+        "maximum": 0.04505952880924184
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 1.2547125768650897e-05,
+        "sample_standard_deviation": 4.102949256231297e-08,
+        "minimum": 1.2436471696509081e-05,
+        "maximum": 1.2586628380714888e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 4.140551503654796e-05,
+        "sample_standard_deviation": 1.3539732545563064e-07,
+        "minimum": 4.104035659847997e-05,
+        "maximum": 4.153587365635913e-05
+      },
+      "energy_voltage_component_absolute_J": 1.2547125768650899e-07
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 2,
+      "algorithm": "Delta",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00011281233333333334,
+        "sample_standard_deviation": 5.0602542267660816e-08,
+        "minimum": 0.00011273666666666667,
+        "maximum": 0.00011287666666666666
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.056731485670317106,
+        "sample_standard_deviation": 0.00016530994778240628,
+        "minimum": 0.05652180264143774,
+        "maximum": 0.057046010750379815
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 6.400012638338101e-06,
+        "sample_standard_deviation": 1.9380140858065095e-08,
+        "minimum": 6.376789774007005e-06,
+        "maximum": 6.43878323339537e-06
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 2.112004170651573e-05,
+        "sample_standard_deviation": 6.395446483161463e-08,
+        "minimum": 2.1043406254223114e-05,
+        "maximum": 2.1247984670204723e-05
+      },
+      "energy_voltage_component_absolute_J": 6.4000126383381e-08
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 3,
+      "algorithm": "LZ77",
+      "captures": 10,
+      "iterations_per_capture": 200,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.017751634999999998,
+        "sample_standard_deviation": 5.074776951858433e-06,
+        "minimum": 0.017742849999999998,
+        "maximum": 0.0177616
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.03807896731524111,
+        "sample_standard_deviation": 4.7871385017532304e-05,
+        "minimum": 0.038006054513143865,
+        "maximum": 0.038157519792837664
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0006759638207205951,
+        "sample_standard_deviation": 7.727108915072181e-07,
+        "minimum": 0.000675022008566741,
+        "maximum": 0.0006773684756104749
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.002230680608377964,
+        "sample_standard_deviation": 2.5499459419738736e-06,
+        "minimum": 0.0022275726282702454,
+        "maximum": 0.002235315969514567
+      },
+      "energy_voltage_component_absolute_J": 6.759638207205952e-06
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 4,
+      "algorithm": "Huffman",
+      "captures": 10,
+      "iterations_per_capture": 100,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0032778800000000004,
+        "sample_standard_deviation": 1.0788883167410282e-06,
+        "minimum": 0.0032763,
+        "maximum": 0.0032795000000000003
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.044120864055037505,
+        "sample_standard_deviation": 3.982022265621057e-05,
+        "minimum": 0.04405923940159183,
+        "maximum": 0.04417412828621404
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.00014462289363777547,
+        "sample_standard_deviation": 1.339702304319462e-07,
+        "minimum": 0.00014444381045417866,
+        "maximum": 0.00014486905371463894
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00047725554900465906,
+        "sample_standard_deviation": 4.421017604254421e-07,
+        "minimum": 0.00047666457449878954,
+        "maximum": 0.0004780678772583085
+      },
+      "energy_voltage_component_absolute_J": 1.4462289363777548e-06
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 5,
+      "algorithm": "AES-128",
+      "captures": 10,
+      "iterations_per_capture": 100,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.00454732,
+        "sample_standard_deviation": 1.8413762968678872e-06,
+        "minimum": 0.0045443,
+        "maximum": 0.0045501000000000005
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04610511382992982,
+        "sample_standard_deviation": 6.260940662908633e-05,
+        "minimum": 0.04600268841625758,
+        "maximum": 0.04621470679931823
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0002096546413010606,
+        "sample_standard_deviation": 2.408721888154554e-07,
+        "minimum": 0.00020927082987439734,
+        "maximum": 0.00021006432828562109
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0006918603162934999,
+        "sample_standard_deviation": 7.94878223091019e-07,
+        "minimum": 0.0006905937385855111,
+        "maximum": 0.0006932122833425495
+      },
+      "energy_voltage_component_absolute_J": 2.096546413010606e-06
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 6,
+      "algorithm": "SHA-256",
+      "captures": 10,
+      "iterations_per_capture": 500,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0007733719999999999,
+        "sample_standard_deviation": 3.009909559364982e-07,
+        "minimum": 0.00077294,
+        "maximum": 0.0007738199999999999
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04434772354718261,
+        "sample_standard_deviation": 7.176205525139003e-05,
+        "minimum": 0.04423926658007502,
+        "maximum": 0.044447774191853855
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 3.429727114609577e-05,
+        "sample_standard_deviation": 4.472958200634066e-08,
+        "minimum": 3.423322926499365e-05,
+        "maximum": 3.436968587159291e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00011318099478211604,
+        "sample_standard_deviation": 1.4760762062092277e-07,
+        "minimum": 0.00011296965657447904,
+        "maximum": 0.00011341996337625658
+      },
+      "energy_voltage_component_absolute_J": 3.429727114609577e-07
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 7,
+      "algorithm": "ChaCha20",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.001202421,
+        "sample_standard_deviation": 3.8188955161098276e-07,
+        "minimum": 0.0012017466666666666,
+        "maximum": 0.0012032333333333333
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04938563879284865,
+        "sample_standard_deviation": 0.00016071134625162634,
+        "minimum": 0.049184597671532444,
+        "maximum": 0.04972309106956419
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 5.938231712146272e-05,
+        "sample_standard_deviation": 1.900351158082183e-07,
+        "minimum": 5.9180547404976897e-05,
+        "maximum": 5.978207239293703e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00019596164650082697,
+        "sample_standard_deviation": 6.271158821671123e-07,
+        "minimum": 0.00019529580643642375,
+        "maximum": 0.00019728083889669217
+      },
+      "energy_voltage_component_absolute_J": 5.938231712146273e-07
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 8,
+      "algorithm": "CRC32",
+      "captures": 10,
+      "iterations_per_capture": 3000,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0006059256666666667,
+        "sample_standard_deviation": 2.9556829546475856e-07,
+        "minimum": 0.00060552,
+        "maximum": 0.0006063433333333333
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04307277003889089,
+        "sample_standard_deviation": 0.00010715878705154632,
+        "minimum": 0.042903905329047747,
+        "maximum": 0.043227473437686445
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 2.609888916747078e-05,
+        "sample_standard_deviation": 6.269039813539811e-08,
+        "minimum": 2.6007938288886878e-05,
+        "maximum": 2.619383162114423e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 8.612633425265356e-05,
+        "sample_standard_deviation": 2.0687831384681455e-07,
+        "minimum": 8.582619635332668e-05,
+        "maximum": 8.643964434977595e-05
+      },
+      "energy_voltage_component_absolute_J": 2.6098889167470776e-07
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 9,
+      "algorithm": "FFT",
+      "captures": 10,
+      "iterations_per_capture": 20,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.08592315,
+        "sample_standard_deviation": 3.248422694170493e-05,
+        "minimum": 0.085882,
+        "maximum": 0.0859675
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.04746186360481167,
+        "sample_standard_deviation": 0.0001133335345082851,
+        "minimum": 0.04727963106849424,
+        "maximum": 0.04766128811772072
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.004078072168164672,
+        "sample_standard_deviation": 9.551241589943457e-06,
+        "minimum": 0.00406290417642445,
+        "maximum": 0.004093937834803798
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.013457638154943417,
+        "sample_standard_deviation": 3.151909724681419e-05,
+        "minimum": 0.013407583782200683,
+        "maximum": 0.013509994854852533
+      },
+      "energy_voltage_component_absolute_J": 4.078072168164672e-05
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 10,
+      "algorithm": "FIR",
+      "captures": 10,
+      "iterations_per_capture": 300,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.0014128966666666666,
+        "sample_standard_deviation": 3.9766292569098984e-07,
+        "minimum": 0.0014123,
+        "maximum": 0.0014137666666666666
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.038630264079727486,
+        "sample_standard_deviation": 0.00022409740883130334,
+        "minimum": 0.03802617940227088,
+        "maximum": 0.03876898669512763
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 5.458055854030933e-05,
+        "sample_standard_deviation": 3.145543002317931e-07,
+        "minimum": 5.373099149540874e-05,
+        "maximum": 5.4783125993573675e-05
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.00018011584318302078,
+        "sample_standard_deviation": 1.03802919076492e-06,
+        "minimum": 0.00017731227193484882,
+        "maximum": 0.0001807843157787931
+      },
+      "energy_voltage_component_absolute_J": 5.458055854030933e-07
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 11,
+      "algorithm": "IIR",
+      "captures": 10,
+      "iterations_per_capture": 50,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 0.01654544,
+        "sample_standard_deviation": 6.325117478048968e-06,
+        "minimum": 0.0165336,
+        "maximum": 0.016555200000000003
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.05014992870948722,
+        "sample_standard_deviation": 8.91735071244526e-05,
+        "minimum": 0.05003343172070847,
+        "maximum": 0.050304860392358236
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.0008297526723549066,
+        "sample_standard_deviation": 1.5307112438620566e-06,
+        "minimum": 0.0008276338228852929,
+        "maximum": 0.0008322234883870178
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.0027381838187711914,
+        "sample_standard_deviation": 5.05134710474476e-06,
+        "minimum": 0.0027311916155214667,
+        "maximum": 0.0027463375116771583
+      },
+      "energy_voltage_component_absolute_J": 8.297526723549065e-06
+    },
+    {
+      "board": "stm32",
+      "sequence_position": 12,
+      "algorithm": "DCT",
+      "captures": 10,
+      "iterations_per_capture": 1,
+      "duration_per_call_s": {
+        "n": 10,
+        "mean": 4.210554,
+        "sample_standard_deviation": 0.0011088853262023167,
+        "minimum": 4.20888,
+        "maximum": 4.21228
+      },
+      "mean_current_A": {
+        "n": 10,
+        "mean": 0.05037488745398808,
+        "sample_standard_deviation": 8.422152302853245e-05,
+        "minimum": 0.050242027652607296,
+        "maximum": 0.05046531483334369
+      },
+      "charge_per_call_C": {
+        "n": 10,
+        "mean": 0.2121061890243924,
+        "sample_standard_deviation": 0.00036236154846744703,
+        "minimum": 0.21152428071951107,
+        "maximum": 0.21251878248193384
+      },
+      "energy_per_call_J": {
+        "n": 10,
+        "mean": 0.6999504237804949,
+        "sample_standard_deviation": 0.0011957931099425623,
+        "minimum": 0.6980301263743866,
+        "maximum": 0.7013119821903816
+      },
+      "energy_voltage_component_absolute_J": 0.0021210618902439238
+    }
+  ],
+  "interpretation": {
+    "dispersion": "Sample standard deviation across ten independent cold-boot captures.",
+    "voltage_component": "Absolute component from the assigned voltage uncertainty only; it excludes PPK2 accuracy, timebase, GPIO aperture and other systematic terms.",
+    "per_call": "Batch charge, energy and duration divided by the manifest iteration count; calls within a batch are not independent replicates.",
+    "baseline": "Last two seconds of LOW before the first RUN; active control idle, not subtracted from workload energy."
+  },
+  "provenance": {
+    "campaign_manifest_path": "D:\\Documente\\Energy Profiling\\ROW_Data\\source_campaign.json",
+    "campaign_manifest_sha256": "01f3eda53fe0cdd95f1f13577d7ada4a1defd038872b134d0d8c0df4a6c7f6c3",
+    "summarizer_path": "D:\\Documente\\Energy Profiling\\tools\\summarize_campaign.py",
+    "summarizer_sha256": "f2b191a73ee14ed060aa19459012b1cd518e29d5ff825b01dbe64b23f59e232d",
+    "analysis_hashes": [
+      "35b8fdbbb41a3b1ae5ed2a4b98d7974dc07f23a8b894ba0366842acc6ebd1e01",
+      "9a7fbdeaad1120e75a2bd5e75ea120604e9475838a27da9c3d7d91e76fb1cdff"
+    ],
+    "capture_tool_hashes": [
+      "0d8b3aa0fb12e57613ec34e71adef726595f5311348d97342a7c6a719f62f164",
+      "3f360d81c2f0f2e69531665e02d85c5e1102944ab850217066addf5527052cfe",
+      "7fac6e45351b08f2012b7e440e7d50dede2d56b0cddaa1a87abd6afb3c4e739e"
+    ]
+  }
+}

@@ -363,7 +363,7 @@ Sources: [ESP32 adapter](targets/esp32/main/platform_esp32.c), [ESP32 configurat
 
 RUN is the only measurement output. D1-D7 are unused; there is no separate ID/status encoding. Normal execution yields twelve complete HIGH pulses in the fixed order. Internal software IDs continue to select kernels but are not transmitted on additional pins.
 
-PPK2 Source Meter supplies the DUT at a nominal 3300 mV through VOUT to 3V3, with common ground. Connect LOGIC VCC to measured DUT 3V3. DUT USB/UART, programmers and other power paths are disconnected during energy capture. The PPK2 USB connection to the PC remains necessary and is distinct from DUT USB.
+PPK2 Source Meter supplies the measured domain at a nominal 3300 mV, with common ground. ESP32/Pico use VOUT to 3V3 with their board regulators removed; Nucleo retains its LDO, opens JP6 and receives VOUT on the MCU VDD side of JP6. STM32 measurement covers that supplied domain rather than the entire board. Connect LOGIC VCC to measured DUT 3V3. DUT USB/UART, programmers and other power paths are disconnected during energy capture. The PPK2 USB connection to the PC remains necessary and is distinct from DUT USB.
 
 There is no external marker LED. The controllable Pico GPIO25 LED and Nucleo PA5 LED are held LOW/off. Software does not turn off every power LED or auxiliary circuit on every possible board variant. Measured energy belongs to the selected supply domain and fixture.
 
@@ -411,7 +411,7 @@ The complete schema, CLI and official Nordic format references are in [capture_f
 
 [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records build hashes and observed programming status separately. New build evidence belongs in each target's `build_verified/max_clock_measurement`; a successful compile is not a programming or PPK2 record. See [validation status](../docs/VALIDATION.md) and the [hardware report](../docs/HARDWARE_VALIDATION.md) for the evidence currently available.
 
-The maximum-clock campaign requires new RP2040 and STM32 PPK2 pilots and ten accepted independent cold-boot captures per board. No replacement energy datasets for those configurations are available yet. The existing captured files and their original manifests remain unchanged; they do not become current results after a firmware update. ESP32 measurements can be retained only with original provenance and verified equivalence of the measured settings. Required checks include isolated 3V3 wiring, physical clock/voltage measurements, pulse boundaries, exported file format and independent captures. Fixed order, heating and cache state matter; one physical unit per model does not characterize unit-to-unit variation.
+The [maximum-clock campaign](../ROW_Data/source_campaign.json) is complete with ten accepted captures per board: retained ESP32 v3 at 240 MHz, RP2040 v4 at 200 MHz and STM32 v4 at nominal 180 MHz. The independent [common160 campaign](../ROW_Data/common160/source_campaign.json) contains thirty new v5 captures, ten per board. Original capture and expected-image identities remain unchanged; retained ESP32 measurements do not identify the unused v4 candidate. [MEASUREMENT_STATUS.json](../MEASUREMENT_STATUS.json) records acceptance separately from immutable programming-time manifests. Future acquisitions require isolated supply wiring, physical clock/voltage checks, pulse/export checks and independent captures. Fixed order, heating and cache state matter; one physical unit per model does not characterize unit-to-unit variation.
 
 ## 12. Changes from the original code and earlier protocol
 

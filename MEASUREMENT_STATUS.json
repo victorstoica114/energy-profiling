@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "updated_date": "2026-09-11",
+  "status": "both_campaigns_accepted",
+  "purpose": "Post-acquisition status separate from immutable programming-time firmware manifests. No source metadata or measurement-image execution attestations are rewritten.",
+  "total_accepted_captures": 60,
+  "total_samples": 285721088,
+  "total_workload_gates": 720,
+  "acceptance_scope": "Completed manifest/profile/image provenance, original RAW/CSV identity and transport/protocol checks; not independent device flash readback or proof of complete silent-image execution.",
+  "campaigns": {
+    "max_clock": {
+      "status": "accepted",
+      "selection_manifest": "ROW_Data/source_campaign.json",
+      "selection_manifest_sha256": "01f3eda53fe0cdd95f1f13577d7ada4a1defd038872b134d0d8c0df4a6c7f6c3",
+      "source_archive_commit": "7909bfd5966b0ecc976450e21fbe530d673d3ec1",
+      "accepted_capture_count": 30,
+      "sample_count": 132329472,
+      "workload_gates": 360,
+      "boards": {
+        "esp32": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 240000000,
+          "experiment_id": "energy-profiling-v3-single-gpio",
+          "expected_firmware_image_path": "firmware/targets/esp32/build_verified/single_gpio_measurement/energy_bench_esp32.bin",
+          "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": true,
+          "regulator_isolated": true,
+          "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected."
+        },
+        "rp2040": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 200000000,
+          "experiment_id": "energy-profiling-v4-max-clock",
+          "expected_firmware_image_path": "firmware/targets/rp2040/build_verified/max_clock_measurement/energy_bench_rp2040.uf2",
+          "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": true,
+          "regulator_isolated": true,
+          "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected."
+        },
+        "stm32": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 180000000,
+          "experiment_id": "energy-profiling-v4-max-clock",
+          "expected_firmware_image_path": "firmware/targets/stm32f446/build_verified/max_clock_measurement/energy_bench_stm32f446.bin",
+          "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": false,
+          "regulator_isolated": true,
+          "fixture": "PPK2 VOUT supplies the MCU VDD side of open JP6 at 3.3 V. The onboard LDO remains fitted and its output is isolated from that domain. PC0 reaches D0 via CN8 A5 pin 6 (SB51 fitted), as recorded in the original capture metadata. ST-LINK is electrically isolated; DUT USB, UART, programmers and other supply paths are disconnected."
+        }
+      }
+    },
+    "common160": {
+      "status": "accepted",
+      "selection_manifest": "ROW_Data/common160/source_campaign.json",
+      "selection_manifest_sha256": "207152a92c77117f108359d22d2401a0ab4102c80057d531c1c20d6686978e70",
+      "source_archive_commit": "f19c3b4c96e85d6348c9966bc012bbdbbeac1112",
+      "accepted_capture_count": 30,
+      "sample_count": 153391616,
+      "workload_gates": 360,
+      "boards": {
+        "esp32": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 160000000,
+          "experiment_id": "energy-profiling-v5-common160",
+          "expected_firmware_image_path": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
+          "expected_firmware_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": true,
+          "regulator_isolated": true,
+          "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected."
+        },
+        "rp2040": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 160000000,
+          "experiment_id": "energy-profiling-v5-common160",
+          "expected_firmware_image_path": "firmware/targets/rp2040/build_verified/common160_measurement/energy_bench_rp2040.uf2",
+          "expected_firmware_sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": true,
+          "regulator_isolated": true,
+          "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected."
+        },
+        "stm32": {
+          "accepted_capture_count": 10,
+          "target_cpu_hz": 160000000,
+          "experiment_id": "energy-profiling-v5-common160",
+          "expected_firmware_image_path": "firmware/targets/stm32f446/build_verified/common160_measurement/energy_bench_stm32f446.bin",
+          "expected_firmware_sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+          "measurement_image_identity_scope": "Expected image pinned by original capture metadata; not independent flash readback.",
+          "onboard_regulator_removed": false,
+          "regulator_isolated": true,
+          "fixture": "PPK2 VOUT supplies the MCU VDD side of open JP6 at 3.3 V. The onboard LDO remains fitted and its output is isolated from that domain. PC0 is recorded as CN7 pin 38 to D0 in this campaign's original metadata. ST-LINK is electrically isolated; DUT USB, UART, programmers and other supply paths are disconnected."
+        }
+      }
+    }
+  },
+  "programming_time_snapshots": [
+    {
+      "path": "CURRENT_FIRMWARE.json",
+      "sha256": "fb731bd96fa365aeaa307597ba9eeab08d8af4e23d3b41a132d2b15872c552f8",
+      "historical_state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; all_three_boards_currently_common160; existing_esp32_240MHz_captures_retained; new_rp2040_stm32_ppk2_capture_acceptance_pending",
+      "bytes_preserved": true,
+      "interpretation": "Historical acquisition-pending flags are retained; completed capture acceptance is recorded above. Diagnostic/programming evidence does not establish independent silent-image execution."
+    },
+    {
+      "path": "profiles/common160/CURRENT_FIRMWARE.json",
+      "sha256": "6bb245b0582eb97406baf72874edc1eb104d90588b02cf5de07e93b6c1da9606",
+      "historical_state": "all_three_common160_diagnostics_passed_and_silent_images_installed; new_ppk2_captures_pending",
+      "bytes_preserved": true,
+      "interpretation": "Historical acquisition-pending flags are retained; completed capture acceptance is recorded above. Diagnostic/programming evidence does not establish independent silent-image execution."
+    }
+  ],
+  "unused_candidate": {
+    "board": "esp32",
+    "profile": "max_clock",
+    "experiment_id": "energy-profiling-v4-max-clock",
+    "image_path": "firmware/targets/esp32/build_verified/max_clock_measurement/energy_bench_esp32.bin",
+    "image_sha256": "3198788fa1e4e981035f4f11f9e3cc73c46ecad1197d73f04e434e57806e62bb",
+    "used_for_accepted_measurements": false,
+    "ppk2_capture_validated": false,
+    "historical_programming_and_diagnostic_flags_unchanged": true
+  }
+}

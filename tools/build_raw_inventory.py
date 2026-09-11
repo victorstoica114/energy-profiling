@@ -128,13 +128,24 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--output-dir", type=Path, default=Path("dataset"))
+    parser.add_argument("--campaign", type=Path, action="append", help="Explicit selection manifest relative to project root; repeat for multiple campaigns. Defaults to both accepted ROW_Data selections.")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args(argv)
     try:
         project_root = args.project_root.resolve()
-        campaigns = sorted((project_root / "campaigns").glob("*.json"))
-        if not campaigns:
-            raise InventoryError("No campaign manifests found")
+        requested_campaigns = args.campaign or [
+            Path("ROW_Data/source_campaign.json"),
+            Path("ROW_Data/common160/source_campaign.json"),
+        ]
+        campaigns = []
+        for requested in requested_campaigns:
+            campaign = (requested if requested.is_absolute() else project_root / requested).resolve()
+            if not campaign.is_relative_to(project_root):
+                raise InventoryError(f"Campaign manifest is outside project root: {campaign}")
+            if not campaign.is_file():
+                raise InventoryError(f"Campaign selection manifest not found: {campaign}")
+            if campaign not in campaigns:
+                campaigns.append(campaign)
         report = build_inventory(project_root, campaigns)
         output_dir = args.output_dir
         if not output_dir.is_absolute():

@@ -4,10 +4,57 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.build_raw_inventory import build_inventory
+from tools.build_raw_inventory import build_inventory, main
 
 
 class RawInventoryTests(unittest.TestCase):
+    def test_cli_defaults_use_completed_selections_and_ignore_templates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for profile, manifest in (
+                ("max_clock", "ROW_Data/source_campaign.json"),
+                ("common160", "ROW_Data/common160/source_campaign.json"),
+            ):
+                relative = f"captures_{profile}/rp2040/accepted"
+                capture = root / relative
+                capture.mkdir(parents=True)
+                (capture / "transport.raw4").write_bytes(b"\0\0\0\0")
+                selection = root / manifest
+                selection.parent.mkdir(parents=True, exist_ok=True)
+                selection.write_text(json.dumps({
+                    "campaign_id": profile,
+                    "boards": {"rp2040": {"capture_directories": [relative]}},
+                }), encoding="utf-8")
+            templates = root / "campaigns"
+            templates.mkdir()
+            (templates / "pending.json").write_text(json.dumps({
+                "campaign_id": "pending_template",
+                "boards": {"rp2040": {"capture_directories": []}},
+            }), encoding="utf-8")
+            self.assertEqual(main(["--project-root", str(root)]), 0)
+            report = json.loads((root / "dataset/raw_inventory.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["role_counts"], {"selected_final": 2})
+            self.assertEqual(report["campaign_manifests"], [
+                "ROW_Data/source_campaign.json", "ROW_Data/common160/source_campaign.json",
+            ])
+            self.assertEqual({row["selected_campaigns"] for row in report["rows"]}, {"max_clock", "common160"})
+            self.assertEqual(main([
+                "--project-root", str(root), "--campaign", "ROW_Data/common160/source_campaign.json",
+                "--output-dir", "common_only",
+            ]), 0)
+            explicit = json.loads((root / "common_only/raw_inventory.json").read_text(encoding="utf-8"))
+            self.assertEqual(explicit["role_counts"], {"selected_final": 1, "pilot": 1})
+
+    def test_cli_missing_default_selection_does_not_fall_back_to_templates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "campaigns").mkdir()
+            (root / "campaigns/template.json").write_text(json.dumps({
+                "campaign_id": "pending", "boards": {},
+            }), encoding="utf-8")
+            self.assertEqual(main(["--project-root", str(root)]), 2)
+            self.assertFalse((root / "dataset").exists())
+
     def test_separate_clock_profile_roots_are_included_without_merging_campaigns(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

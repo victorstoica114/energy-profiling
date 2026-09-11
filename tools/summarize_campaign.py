@@ -122,8 +122,23 @@ def validate_profile(project_root: Path, board: str, board_spec: dict, campaign:
         if justification:
             raise CampaignError(f"{board}: common160 requires new captures without historical reuse")
     require_sha256(board_spec.get("expected_firmware_sha256"), f"{board} expected image hash")
+    # Nucleo isolates the MCU VDD domain at JP6 while retaining the board LDO.
+    # Preserve the original capture records and require the separate correction.
     if board_spec.get("onboard_regulator_removed") is not True:
-        raise CampaignError(f"{board}: regulator-removal selection must be explicitly true")
+        correction = board_spec.get("fixture_operator_correction")
+        isolated_stm32 = (
+            board == "stm32"
+            and board_spec.get("onboard_regulator_removed") is False
+            and board_spec.get("onboard_regulator_isolated") is True
+            and board_spec.get("regulator_isolation_mechanism") == "JP6_IDD_shunt_open"
+            and board_spec.get("supply_injection_domain") == "MCU_VDD_side_of_JP6"
+            and isinstance(correction, dict)
+            and isinstance(correction.get("statement"), str)
+            and bool(correction["statement"].strip())
+            and correction.get("original_metadata_preserved") is True
+        )
+        if not isolated_stm32:
+            raise CampaignError(f"{board}: require regulator removal or explicitly documented STM32 JP6 isolation")
     if not isinstance(board_spec.get("capture_file_sha256"), dict):
         raise CampaignError(f"{board}: missing per-capture metadata/analysis hash pins")
     return manifest

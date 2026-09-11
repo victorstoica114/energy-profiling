@@ -1,40 +1,44 @@
-# PPK2 raw-data archive
+# Accepted PPK2 raw-data archive
 
-This repository archives the exact PPK2 transport streams used by the `energy-profiling-v3-single-gpio` campaign. The archive contains **65 `.raw4` files (1,415,499,776 bytes)**:
+The current working tree contains **60 accepted `.raw4` streams (1,142,884,352 bytes)**, covering two independent campaign selections. Every stream is `selected_final` in the [CSV inventory](raw_inventory.csv) and [JSON inventory](raw_inventory.json).
 
-| Role | Files | Interpretation |
-|---|---:|---|
-| `selected_final` | 50 | Ten original captures for each of three boards, plus ten ESP32 and ten RP2040 captures after regulator removal |
-| `pilot` | 5 | Structurally complete setup runs excluded from aggregate statistics |
-| `rejected_complete` | 1 | Complete transport rejected by the then-active structural tolerance |
-| `incomplete_transport` | 9 | Interrupted setup/diagnostic transports; never used for reported results |
+| Selection | Captures | Samples | Workload gates |
+|---|---:|---:|---:|
+| [Maximum clocks](../ROW_Data/source_campaign.json) | 30 | 132,329,472 | 360 |
+| [Common160](../ROW_Data/common160/source_campaign.json) | 30 | 153,391,616 | 360 |
 
-[raw_inventory.csv](raw_inventory.csv) and [raw_inventory.json](raw_inventory.json) record the path, size, SHA-256, board, physical-board identifier, selection role and associated campaign IDs for every raw file. The explicit campaign manifests, rather than folder naming, are authoritative for statistical inclusion:
+The maximum-clock selection retains ten ESP32 v3 captures at 240 MHz and adds ten RP2040 v4 captures at 200 MHz and ten STM32 v4 captures at nominal 180 MHz. Common160 contains thirty new v5 captures, ten per board. Capture numbers do not pair observations between campaigns. The explicit completed manifests define membership; directory names alone are not selection evidence.
 
-- [Original three-board campaign](../campaigns/2026-09-10_ppk2.json): 30 selected captures with the original ESP32 and RP2040 fixtures.
-- [ESP32 regulator-removal comparison](../campaigns/2026-09-10_ppk2_esp32_noreg.json): ten new ESP32 captures; original RP2040 and STM32 captures reused.
-- [Final regulator-removed campaign](../campaigns/2026-09-10_ppk2_regulators_removed.json): ten new ESP32 and ten new RP2040 captures; original STM32 captures reused.
+The inventory records each original RAW path, byte count, SHA-256, board, physical-board ID, role and associated completed campaign. Obsolete captures, pilots and derived reports were removed from the current working tree. Earlier published records remain in Git history and existing release tags.
 
-## Obtaining the data
+## Obtain and verify the data
 
-The `.raw4` files are tracked with Git LFS. Install Git LFS before cloning, or run `git lfs pull` after cloning. GitHub source archives contain only LFS pointer files unless the repository owner enables inclusion of LFS objects in archives.
+Install Git LFS before cloning, or run `git lfs pull` afterward. Source captures are in `captures_noreg/esp32/` (retained v3), `captures_max_clock/` and `captures_common160/`. Git LFS supplies all RAW streams and the fifty new maximum-clock/common160 source CSVs. A source archive without LFS objects contains pointer files, not usable waveform data.
 
-The large `capture.csv` files are deliberately omitted because they are deterministic derivatives totaling approximately 10.7 GiB. Each selected capture retains its `capture_metadata.json`, analyzer output and original CSV SHA-256. Recreate and verify a CSV offline with:
+The ten retained ESP32 CSVs can be reconstructed from the RAW streams and saved calibration metadata. Each selected capture retains the original CSV SHA-256. Use an isolated environment and, when no CSV is already present, run:
 
-```text
+```powershell
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements-ppk2.txt
-.venv/Scripts/python tools/export_ppk2_raw.py captures/rp2040/20260910T110338.807055Z_rp2040_001/transport.raw4
+.venv/Scripts/python tools/export_ppk2_raw.py captures_noreg/esp32/20260910T123000.452016Z_esp32_001/transport.raw4
 ```
 
-On POSIX systems, use `.venv/bin/python`. The exporter refuses to overwrite an existing CSV, checks the RAW hash before decoding, and checks the reconstructed CSV hash afterward. `ppk2-api==0.9.2` is pinned because its calibration and range-transition behavior is part of the conversion provenance.
+On POSIX systems, use `.venv/bin/python`. The exporter refuses to overwrite a CSV, checks the RAW hash before decoding, and verifies the complete reconstructed CSV hash afterward. `ppk2-api==0.9.2` pins calibration and range-transition behavior. Curated local copies under `ROW_Data/` are ignored to avoid duplicating the published source archive; see the [dataset guide](../ROW_Data/README.md).
 
-After regeneration, analyze a capture as documented in [capture_format.md](../docs/capture_format.md). Aggregate tables already produced from the selected captures are under [results](../results).
+Regenerate the current inventory after verifying the checkout and LFS objects:
 
-## Format and limitations
+```powershell
+python tools/build_raw_inventory.py --force
+```
 
-`transport.raw4` is the exact aligned four-byte stream consumed by `ppk2-api`; it is **not** a Nordic Power Profiler application `.ppk2` archive. Sample time is reconstructed at the configured 100 kS/s. Current values depend on the PPK2 calibration metadata stored beside each complete capture. D0 is decoded from the logic byte and provides RUN boundaries only.
+The default selection inputs are `ROW_Data/source_campaign.json` and `ROW_Data/common160/source_campaign.json`; pending templates are excluded. `--campaign path/to/selection.json` can be repeated to request explicit selection manifests. The tool inventories available RAW streams and checks recorded hashes; it does not itself perform the complete campaign acceptance audit.
 
-The rolling six-bit hardware counter was checked during complete acquisitions, but loss of an exact multiple of 64 frames is not independently excluded. Voltage was externally observed as 3.30 V and is not sampled in the RAW stream. The single D0 signal does not attest firmware identity or final validation after DCT. See [the validation report](../docs/VALIDATION.md) for the complete limitations.
+For accepted summaries, see [maximum-clock results](../results/2026-09-11_max_clock/README.md) and the [common160 results and original acceptance package](../results/2026-09-11_common160/README.md). Reintegrate individual CSVs using the [capture analyzer](../docs/capture_format.md).
 
-For scholarly citation, use [CITATION.cff](../CITATION.cff) together with the immutable release tag or commit hash. A DOI-backed archival release is preferable when one becomes available.
+## Format and scope
+
+`transport.raw4` is the exact aligned four-byte stream consumed by `ppk2-api`, not a Nordic application `.ppk2` archive. Sample time is reconstructed at nominal 100 kS/s. Current conversion uses saved calibration parameters. The rolling six-bit hardware counter cannot exclude loss of exactly a multiple of 64 frames. The recorded constant 3.3 V and assigned 0.01 V uncertainty are operator records; voltage is not sampled in the transport and voltmeter identity/calibration were not recorded.
+
+ESP32/Pico board regulators were removed. Nucleo retains its LDO, with JP6 open and PPK2 supplying MCU VDD. Original acquisition metadata is preserved separately from this recorded fixture correction. D0 marks workload boundaries; it does not attest firmware identity or prove final verification after DCT. See [validation status](../docs/VALIDATION.md).
+
+For scholarly citation use [CITATION.cff](../CITATION.cff), together with the source commit and measured-image identity in the completed campaign. Release version alone does not identify the retained ESP32 v3 measurements.

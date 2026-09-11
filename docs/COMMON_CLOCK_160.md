@@ -105,9 +105,12 @@ all thirty original capture paths, metadata/analysis hashes and environment
 records. The [original template](../campaigns/2026-09-11_ppk2_common160.template.json)
 remains unchanged. The [public acceptance and results package](../results/2026-09-11_common160/README.md)
 supplies the exact audited fixture adapter, patch, source hashes and results.
-The original `tools/summarize_campaign.py` remains unchanged; the adapter only
-admits STM32's explicitly documented JP6 isolation and preserves all other
-profile, image, timing, count, environment and integrity checks. With the Git
+The preserved adapter differs from its original source snapshot only by
+admitting STM32's explicitly documented JP6 isolation; all other profile,
+image, timing, count, environment and integrity checks are preserved. The
+current `tools/summarize_campaign.py` also accepts this fixture and requires
+a nonempty operator correction statement. The supplied adapter, patch and
+audit evidence retain their original bytes. With the Git
 LFS RAW objects available, reproduce the summaries from the repository root:
 
 ```powershell
