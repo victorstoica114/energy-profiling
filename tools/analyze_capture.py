@@ -86,8 +86,10 @@ def load_manifest(path: Path, board: str) -> dict:
         raise CaptureError("Experiment manifest must be a JSON object")
     if type(manifest.get("schema_version")) is not int or manifest["schema_version"] != 2:
         raise CaptureError("Expected single-GPIO experiment manifest schema_version 2; legacy protocols are unsupported")
-    if manifest.get("experiment_id") != "energy-profiling-v3-single-gpio":
-        raise CaptureError("Expected experiment_id energy-profiling-v3-single-gpio")
+    if manifest.get("experiment_id") not in {
+        "energy-profiling-v3-single-gpio", "energy-profiling-v4-max-clock",
+    }:
+        raise CaptureError("Expected a supported single-GPIO experiment (v3 or v4-max-clock)")
     channels = manifest.get("digital_channels")
     if channels != {"RUN": 0} or type(channels["RUN"]) is not int:
         raise CaptureError("Manifest must assign only RUN to D0")

@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 import statistics
 import sys
 from datetime import datetime, timezone
@@ -46,6 +47,72 @@ def require_equal(actual, expected, label: str) -> None:
         raise CampaignError(f"{label}: expected {expected!r}, received {actual!r}")
 
 
+def project_file(project_root: Path, relative: str, label: str) -> Path:
+    if not isinstance(relative, str) or not relative or Path(relative).is_absolute():
+        raise CampaignError(f"{label}: expected a nonempty project-relative path")
+    path = (project_root / relative).resolve()
+    try:
+        path.relative_to(project_root.resolve())
+    except ValueError as exc:
+        raise CampaignError(f"{label}: path escapes project root") from exc
+    return path
+
+
+def require_sha256(value, label: str) -> str:
+    if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+        raise CampaignError(f"{label}: missing or invalid pinned SHA-256")
+    return value
+
+
+def board_environment(campaign: dict, board_spec: dict) -> dict:
+    environment = board_spec.get("environment", campaign.get("environment"))
+    if not isinstance(environment, dict):
+        raise CampaignError("Missing recorded board environment")
+    for key in ("externally_measured_dut_voltage_V", "voltage_absolute_uncertainty_V", "ambient_temperature_C"):
+        value = environment.get(key)
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+            raise CampaignError(f"Missing or nonfinite recorded environment {key}")
+    if environment["externally_measured_dut_voltage_V"] <= 0 or environment["voltage_absolute_uncertainty_V"] < 0:
+        raise CampaignError("Invalid recorded voltage or voltage uncertainty")
+    return environment
+
+
+def validate_profile(project_root: Path, board: str, board_spec: dict, campaign: dict) -> dict | None:
+    """Schema 2 explicitly pins each board's original experiment and image.
+
+    Schema 1 remains readable for historical campaigns but cannot opt into
+    cross-experiment reuse without the stricter schema and its required pins.
+    """
+    if campaign["schema_version"] == 1:
+        if "experiment_id" in board_spec:
+            raise CampaignError("Per-board experiment overrides require campaign schema 2")
+        return None
+    experiment_id = board_spec.get("experiment_id")
+    if not isinstance(experiment_id, str) or not experiment_id:
+        raise CampaignError(f"{board}: missing explicit board experiment_id")
+    justification = board_spec.get("reuse_justification")
+    if experiment_id != campaign["experiment_id"] and (not isinstance(justification, str) or not justification.strip()):
+        raise CampaignError(f"{board}: cross-profile reuse requires an explicit justification")
+    manifest_path = project_file(project_root, board_spec.get("experiment_manifest"), f"{board} experiment manifest")
+    require_equal(sha256(manifest_path), require_sha256(board_spec.get("experiment_manifest_sha256"), f"{board} manifest hash"), f"{board} manifest file hash")
+    manifest = read_json(manifest_path)
+    require_equal(manifest.get("schema_version"), 2, f"{board} experiment schema")
+    require_equal(manifest.get("experiment_id"), experiment_id, f"{board} pinned experiment")
+    require_equal(manifest.get("gpio_protocol"), "single_run_v1", f"{board} GPIO protocol")
+    require_equal(manifest.get("digital_channels"), {"RUN": 0}, f"{board} digital channels")
+    require_equal(manifest.get("sample_rate_Hz"), campaign["instrument"]["sample_rate_Hz"], f"{board} profile sample rate")
+    target_cpu_hz = board_spec.get("target_cpu_hz")
+    if type(target_cpu_hz) is not int or target_cpu_hz <= 0:
+        raise CampaignError(f"{board}: missing or invalid target CPU clock")
+    require_equal(manifest.get("boards", {}).get(board, {}).get("target_cpu_hz"), target_cpu_hz, f"{board} target CPU clock")
+    require_sha256(board_spec.get("expected_firmware_sha256"), f"{board} expected image hash")
+    if board_spec.get("onboard_regulator_removed") is not True:
+        raise CampaignError(f"{board}: regulator-removal selection must be explicitly true")
+    if not isinstance(board_spec.get("capture_file_sha256"), dict):
+        raise CampaignError(f"{board}: missing per-capture metadata/analysis hash pins")
+    return manifest
+
+
 def describe(values: list[float]) -> dict:
     if not values or any(not math.isfinite(value) for value in values):
         raise CampaignError("Cannot summarize empty or nonfinite values")
@@ -69,10 +136,12 @@ def validate_capture(project_root: Path, relative_dir: str, board: str,
     analysis_path = capture_dir / "analysis" / "capture.analysis.json"
     metadata = read_json(metadata_path)
     analysis = read_json(analysis_path)
-    expected_environment = campaign["environment"]
+    expected_environment = board_environment(campaign, board_spec)
     expected_instrument = campaign["instrument"]
+    profile = validate_profile(project_root, board, board_spec, campaign)
+    expected_experiment = board_spec["experiment_id"] if profile is not None else campaign["experiment_id"]
 
-    require_equal(metadata.get("experiment_id"), campaign["experiment_id"], f"{relative_dir} experiment")
+    require_equal(metadata.get("experiment_id"), expected_experiment, f"{relative_dir} experiment")
     require_equal(metadata.get("board"), board, f"{relative_dir} board")
     require_equal(metadata.get("physical_board_id"), board_spec["physical_board_id"], f"{relative_dir} physical board")
     require_equal(metadata.get("ppk2", {}).get("serial_number"), expected_instrument["serial_number"], f"{relative_dir} PPK2 serial")
@@ -101,8 +170,30 @@ def validate_capture(project_root: Path, relative_dir: str, board: str,
         metadata.get("capture", {}).get("csv_sha256"),
         f"{relative_dir} CSV hash linkage",
     )
+    if profile is not None:
+        pins = board_spec["capture_file_sha256"].get(relative_dir)
+        if not isinstance(pins, dict):
+            raise CampaignError(f"{relative_dir}: missing explicit capture-file hash pins")
+        for path, key in ((metadata_path, "metadata"), (analysis_path, "analysis")):
+            require_equal(sha256(path), require_sha256(pins.get(key), f"{relative_dir} {key} pin"), f"{relative_dir} {key} file hash")
+        manifest_hash = board_spec["experiment_manifest_sha256"]
+        require_equal(metadata.get("provenance", {}).get("manifest_sha256"), manifest_hash, f"{relative_dir} acquisition manifest hash")
+        require_equal(analysis.get("provenance", {}).get("manifest_sha256"), manifest_hash, f"{relative_dir} analysis manifest hash")
+        require_equal(analysis.get("provenance", {}).get("experiment_manifest"), profile, f"{relative_dir} embedded experiment manifest")
+        require_equal(analysis.get("provenance", {}).get("board"), board, f"{relative_dir} analyzed board")
+        require_equal(metadata.get("provenance", {}).get("expected_firmware_sha256"), board_spec["expected_firmware_sha256"], f"{relative_dir} expected firmware hash")
+        require_equal(analysis.get("integration", {}).get("assumed_constant_voltage_V"), expected_environment["externally_measured_dut_voltage_V"], f"{relative_dir} integrated voltage")
+        require_equal(analysis.get("integration", {}).get("baseline_subtracted"), False, f"{relative_dir} energy boundary")
+        for row in runs:
+            name = row["algorithm_assumed_from_order"]
+            require_equal(row.get("iterations_from_manifest"), profile["boards"][board]["iterations"][name], f"{relative_dir}/{name} iterations")
+        raw_path = capture_dir / "transport.raw4"
+        require_equal(sha256(raw_path), require_sha256(metadata["capture"].get("transport_sha256"), f"{relative_dir} transport hash"), f"{relative_dir} raw transport hash")
+        require_equal(raw_path.stat().st_size, 4 * metadata["capture"]["sample_count"], f"{relative_dir} transport byte count")
     index = {
         "board": board,
+        "experiment_id": metadata["experiment_id"],
+        "experiment_manifest_sha256": metadata["provenance"]["manifest_sha256"],
         "physical_board_id": metadata["physical_board_id"],
         "capture_directory": relative_dir,
         "started_utc": metadata["capture"]["started_utc"],
@@ -128,7 +219,10 @@ def main(argv=None) -> int:
         project_root = args.project_root.resolve()
         campaign_path = args.campaign.resolve()
         campaign = read_json(campaign_path)
-        require_equal(campaign.get("schema_version"), 1, "campaign schema")
+        if type(campaign.get("schema_version")) is not int or campaign["schema_version"] not in (1, 2):
+            raise CampaignError("Supported campaign schemas are 1 and 2")
+        if campaign["schema_version"] == 2:
+            require_equal(campaign.get("status"), "ready_for_analysis", "campaign acquisition status")
         require_equal(tuple(campaign.get("boards", {})), BOARDS, "campaign board order")
         required = campaign.get("analysis_policy", {}).get("required_cold_boot_captures_per_board")
         require_equal(required, 10, "required captures per board")
@@ -149,9 +243,10 @@ def main(argv=None) -> int:
 
         summary_rows: list[dict] = []
         baseline_rows: list[dict] = []
-        voltage = campaign["environment"]["externally_measured_dut_voltage_V"]
-        voltage_uncertainty = campaign["environment"]["voltage_absolute_uncertainty_V"]
         for board in BOARDS:
+            environment = board_environment(campaign, campaign["boards"][board])
+            voltage = environment["externally_measured_dut_voltage_V"]
+            voltage_uncertainty = environment["voltage_absolute_uncertainty_V"]
             board_analyses = analyses[board]
             baseline = describe([item["startup_baseline"]["mean_current_A"] for item in board_analyses])
             baseline_rows.append({"board": board, "mean_current_A": baseline})

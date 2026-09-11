@@ -12,12 +12,12 @@
 static const uint32_t bench_iterations[12] = {3000u, 3000u, 200u, 200u, 1000u, 1000u, 3000u, 3000u, 50u, 300u, 50u, 1u};
 #elif defined(BENCH_BOARD_RP2040)
 #define BENCH_BOARD_NAME "rp2040"
-#define BENCH_EXPECTED_CPU_HZ 133000000u
+#define BENCH_EXPECTED_CPU_HZ 200000000u
 #define BENCH_PIN_RUN 2u
 static const uint32_t bench_iterations[12] = {3000u, 3000u, 200u, 500u, 100u, 500u, 3000u, 3000u, 20u, 300u, 50u, 1u};
 #elif defined(BENCH_BOARD_STM32)
 #define BENCH_BOARD_NAME "stm32"
-#define BENCH_EXPECTED_CPU_HZ 100000000u
+#define BENCH_EXPECTED_CPU_HZ 180000000u
 #define BENCH_SIGNAL_GPIO_PORT 2u
 #define BENCH_EXPECTED_OSCILLATOR_HZ 16000000u
 #define BENCH_PIN_RUN 0u

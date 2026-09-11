@@ -1,6 +1,6 @@
 # Acquisition protocol
 
-Current campaign: **`energy-profiling-v3-single-gpio`**, experiment schema 2. [experiment.json](../config/experiment.json) defines the parameters and the [input manifest](../data/manifest.json) identifies the exact bytes. The earlier eight-signal images and September 2026 hardware logs are historical evidence, not single-GPIO acquisitions.
+Current campaign: **`energy-profiling-v4-max-clock`**, release **v1.1.0**, experiment schema 2. [experiment.json](../config/experiment.json) defines the parameters and the [input manifest](../data/manifest.json) identifies the exact bytes. Existing waveform datasets belong to the preceding campaign. New RP2040 and STM32 captures must use the current manifest and new output directories; preserve older files and metadata unchanged.
 
 ## Power and wiring
 
@@ -9,10 +9,12 @@ Use PPK2 in Source Meter mode at a nominal 3300 mV. Connect VOUT to DUT 3V3, GND
 | Board | RUN output |
 |---|---|
 | ESP32 | GPIO18 |
-| Raspberry Pi Pico | GP2 |
+| RP2040, Marble Pico | GP2 |
 | NUCLEO-F446RE | PC0, CN7 pin 38 |
 
 No algorithm-ID, ERROR, DONE or IDLE_VALID wires are used. D1-D7 do not form part of the protocol. Instrumentation connections are part of the fixture and must remain consistent between captures. Disconnect DUT USB, external UART adapters, programmers and other power sources during acquisition. PPK2's own USB connection is required for data collection. A dedicated logic signal replaces the original LED marker.
+
+The onboard external voltage regulator is removed on each selected DUT. The PPK2 supplies the measured 3V3 rail directly. Internal MCU regulators remain part of the device: RP2040 selects 1.15 V internally for its 200 MHz CPU, while STM32F446 uses Scale 1 and OverDrive for its nominal 180 MHz CPU. ESP32 uses 240 MHz. Verify the current image and recorded configuration before acquisition; changing the PPK2 supply is not how the RP2040 core-voltage setting is applied.
 
 Direct external 3V3 power on NUCLEO-F446RE requires the UM1724 configuration: physically separate ST-LINK or open **SB2 and SB12**. Disabling UART in software does not provide electrical isolation. Check the actual PC0 routing and bridge arrangement before wiring, as described in the [F446 target](../firmware/targets/stm32f446/README.md). The internal HSI clock avoids dependence on a powered ST-LINK MCO. See [ST UM1724, section 7.5.3 and connector tables](https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf).
 
@@ -75,7 +77,7 @@ The referenced current specification lists typical +/-10% in 5-50 mA and +/-15% 
 
 ## Capture acceptance and independent repetitions
 
-Use one complete suite per file. The analyzer requires exactly twelve complete HIGH pulses, a valid LOW prefix of at least the nominal 5 s and eleven LOW gaps of at least the nominal 1 s. ESP32 and RP2040 use a **1% tolerance** for those MCU pause lower bounds. NUCLEO-F446RE uses a **2% tolerance** because its control timer is derived from the internal HSI16 RC oscillator; the accepted pilot's eleven gaps were 0.98579..0.99163 s. This allowance is reported in every analysis and does not alter RUN-window integration. No upper bound is used because initialization/preparation/verification can lengthen LOW. At 100 kS/s, the minimum counts are 495000/99000 for ESP32 and RP2040, 490000/98000 for F446, and **300000 trailing LOW samples** for every board. The baseline uses only the final 200000 samples before the first pulse; entire gaps are not labeled active idle.
+Use one complete suite per file. The analyzer requires exactly twelve complete HIGH pulses, a valid LOW prefix of at least the nominal 5 s and eleven LOW gaps of at least the nominal 1 s. ESP32 and RP2040 use a **1% tolerance** for those MCU pause lower bounds. NUCLEO-F446RE uses a **2% tolerance** because its control timer is derived from the internal HSI16 RC oscillator. This existing structural allowance must be checked in the new maximum-clock pilot; it is not an external clock calibration. It is reported in every analysis and does not alter RUN-window integration. No upper bound is used because initialization/preparation/verification can lengthen LOW. At 100 kS/s, the minimum counts are 495000/99000 for ESP32 and RP2040, 490000/98000 for F446, and **300000 trailing LOW samples** for every board. The baseline uses only the final 200000 samples before the first pulse; entire gaps are not labeled active idle.
 
 Use at least ten separate power-on captures per board, recording temperature and the rest period between starts. R calls within one batch provide one aggregate observation, not R independent experiments. A single physical board of each model does not characterize variation across units. Fixed order, cache state and heating may affect later workloads; keep conditions consistent and assess drift.
 

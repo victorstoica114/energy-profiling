@@ -1,6 +1,0 @@
-{
-  "reviewed_image_sha256": "1f95859155cbf8a9368d47ff8f1c7ff8a817ba70cc0a8ecfe669cb3748f71eba",
-  "source_artifact_hash_mismatches": [],
-  "forbidden_serial_or_old_marker_symbols_present": [],
-  "uf2_roundtrip_matches_bin": true
-}

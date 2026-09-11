@@ -1,0 +1,13 @@
+﻿{
+    "programmed_utc":  "2026-09-11T13:36:00.2285847Z",
+    "board":  "rp2040",
+    "image_sha256":  "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+    "transport":  "RP2040 ROM UF2 mass storage",
+    "cpu_hz":  200000000,
+    "core_voltage_mV":  1150,
+    "flash_clock_hz":  50000000,
+    "diagnostics_enabled":  false,
+    "diagnostic_functional_validation":  "rp2040_diagnostic_01.json",
+    "measurement_gpio_ppk2_validation":  "pending",
+    "flash_readback_attestation":  false
+}

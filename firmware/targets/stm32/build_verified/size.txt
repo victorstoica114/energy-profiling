@@ -1,2 +1,0 @@
-   text	   data	    bss	    dec	    hex	filename
-  42984	    108	  40348	  83440	  145f0	C:\Users\User\AppData\Local\Temp\energy-native-build-verified\stm32\energy_bench_stm32.elf

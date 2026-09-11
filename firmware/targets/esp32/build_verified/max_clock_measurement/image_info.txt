@@ -1,0 +1,47 @@
+esptool.py v4.12.0
+File size: 165792 (bytes)
+
+ESP32 image header
+==================
+Image version: 1
+Entry point: 0x40080fa8
+Segments: 6
+Flash size: 4MB
+Flash freq: 40m
+Flash mode: DIO
+
+ESP32 extended image header
+===========================
+WP pin: 0xee (disabled)
+Flash pins drive settings: clk_drv: 0x0, q_drv: 0x0, d_drv: 0x0, cs0_drv: 0x0, hd_drv: 0x0, wp_drv: 0x0
+Chip ID: 0 (ESP32)
+Minimal chip revision: v0.0, (legacy min_rev = 0)
+Maximal chip revision: v3.99
+
+Segments information
+====================
+Segment   Length   Load addr   File offs  Memory types
+-------  -------  ----------  ----------  ------------
+      0  0x0b7b0  0x3f400020  0x00000018  DROM
+      1  0x019dc  0x3ffb0000  0x0000b7d0  BYTE_ACCESSIBLE, DRAM
+      2  0x02e5c  0x40080000  0x0000d1b4  IRAM
+      3  0x10dd8  0x400d0020  0x00010018  IROM
+      4  0x07950  0x40082e5c  0x00020df8  IRAM
+      5  0x00020  0x50000000  0x00028750  RTC_DATA
+
+ESP32 image footer
+==================
+Checksum: 0x99 (valid)
+Validation hash: 081e0000c8d692c9b81e9a21f6ea97a2384774c4e81226cff153786ae00c8167 (valid)
+
+Application information
+=======================
+Project name: energy_bench_esp32
+App version: 1.1.0
+Compile time: Sep 11 2026 16:38:23
+ELF file SHA256: cd9724b6f23ffe75babcdd75a6b2d9bbfc0fffa7a0e0548a6f0d5d5a2e655baf
+ESP-IDF: 5.5.4
+Minimal eFuse block revision: 0.0
+Maximal eFuse block revision: 0.99
+MMU page size: 64 KB
+Secure version: 0

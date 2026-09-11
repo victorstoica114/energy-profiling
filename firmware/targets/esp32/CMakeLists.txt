@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 option(BENCH_DIAGNOSTICS "Functional UART feedback; never use this profile for energy capture" OFF)
 set(IDF_TARGET esp32 CACHE STRING "Fixed measurement target")
-set(PROJECT_VER "1.0.0")
+set(PROJECT_VER "1.1.0")
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(energy_bench_esp32)
 set(BENCH_IDF_VERSION "${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}.${IDF_VERSION_PATCH}")

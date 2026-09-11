@@ -1,0 +1,217 @@
+{
+  "created_utc": "2026-09-11T13:42:04.099321+00:00",
+  "experiment_id": "energy-profiling-v4-max-clock",
+  "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "project_version": "1.1.0",
+  "diagnostics": false,
+  "build_result": "passed",
+  "native_build_directory": "C:/Users/User/AppData/Local/Temp/energy-v4-esp32",
+  "compiler": "xtensa-esp-elf-gcc.exe (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+  "sdk_version": "5.5.4",
+  "cpu_hz": 240000000,
+  "hardware_programmed_by_this_task": false,
+  "hardware_validation": "not_performed; source/equivalence audit only",
+  "ppk2_measurement": "not_performed",
+  "all_twelve_kernel_symbols_present": true,
+  "benchmark_native_flags_verified": true,
+  "serial_symbols_found": [],
+  "radio_initialization_symbols_found": [],
+  "embedded_inputs_and_counts_match_accepted_v3_archive": true,
+  "comparison_to_accepted_v3_function_bytes": {
+    "my_rle_encode": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 134
+    },
+    "my_delta_encode": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 50
+    },
+    "my_lz77_encode": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 195
+    },
+    "my_huffman_encode": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 924
+    },
+    "my_aes_encrypt": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 374
+    },
+    "my_sha256_hash": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 263
+    },
+    "my_chacha20_encrypt": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 677
+    },
+    "my_crc32": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 64
+    },
+    "my_fft": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 998
+    },
+    "my_fir_filter": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 164
+    },
+    "my_iir_filter": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 508
+    },
+    "my_dct": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 225
+    },
+    "bench_main": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 461
+    },
+    "bench_platform_check": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 71
+    },
+    "bench_platform_init": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 336
+    },
+    "bench_platform_marker": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 35
+    },
+    "bench_platform_wait_ms": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 103
+    },
+    "bench_platform_finish": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 13
+    },
+    "bench_kernel_prepare": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 326
+    },
+    "bench_kernel_run": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 606
+    },
+    "bench_kernel_verify": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 836
+    },
+    "bench_kernel_digest": {
+      "same_address": true,
+      "same_bytes": true,
+      "size": 141
+    }
+  },
+  "sdkconfig_difference_from_v3": {
+    "added": [],
+    "removed": []
+  },
+  "section_comparison_to_v3": {
+    ".rtc.text": {
+      "same_bytes": true,
+      "new_size": 0,
+      "old_size": 0
+    },
+    ".iram0.text": {
+      "same_bytes": true,
+      "new_size": 41895,
+      "old_size": 41895
+    },
+    ".dram0.data": {
+      "same_bytes": true,
+      "new_size": 6620,
+      "old_size": 6620
+    },
+    ".flash.rodata": {
+      "same_bytes": true,
+      "new_size": 46768,
+      "old_size": 46768
+    },
+    ".flash.text": {
+      "same_bytes": true,
+      "new_size": 69078,
+      "old_size": 69078
+    },
+    ".iram0.text_end": {
+      "same_bytes": true,
+      "new_size": 1,
+      "old_size": 1
+    }
+  },
+  "artifacts": {
+    "energy_bench_esp32.elf": {
+      "sha256": "cd9724b6f23ffe75babcdd75a6b2d9bbfc0fffa7a0e0548a6f0d5d5a2e655baf",
+      "bytes": 2895256
+    },
+    "energy_bench_esp32.bin": {
+      "sha256": "3198788fa1e4e981035f4f11f9e3cc73c46ecad1197d73f04e434e57806e62bb",
+      "bytes": 165792
+    },
+    "energy_bench_esp32.map": {
+      "sha256": "5b1bc858cd071d25e651793b7fd8dc4f938b8eeda0ff3134c6ab181b2cdddf2e",
+      "bytes": 6864571
+    },
+    "bootloader/bootloader.bin": {
+      "sha256": "b4b212720d37ba193f0077cb41abde744dc35b8b579efa125c2701c265bc4ec9",
+      "bytes": 18016
+    },
+    "partition_table/partition-table.bin": {
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820",
+      "bytes": 3072
+    }
+  },
+  "schema": 1,
+  "target": "esp32",
+  "profile": "single_gpio_measurement",
+  "campaign": "energy-profiling-v4-max-clock",
+  "release_version": "1.1.0",
+  "archive_time_utc": "2026-09-11T13:46:06.242369+00:00",
+  "manifest_sha256_at_archive": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "diagnostics_enabled": false,
+  "native_compile_and_link_passed": true,
+  "hardware_programmed": false,
+  "hardware_flashed": false,
+  "hardware_execution_validated": false,
+  "ppk2_capture_validated": false,
+  "flash_readback_attestation": false,
+  "diagnostic_functional_validation": {
+    "passed": false,
+    "status": "pending",
+    "applies_to": "separate_diagnostic_image"
+  },
+  "artifact_sha256": {
+    "energy_bench_esp32.bin": "3198788fa1e4e981035f4f11f9e3cc73c46ecad1197d73f04e434e57806e62bb",
+    "energy_bench_esp32.elf": "cd9724b6f23ffe75babcdd75a6b2d9bbfc0fffa7a0e0548a6f0d5d5a2e655baf",
+    "energy_bench_esp32.map": "5b1bc858cd071d25e651793b7fd8dc4f938b8eeda0ff3134c6ab181b2cdddf2e",
+    "bootloader/bootloader.bin": "b4b212720d37ba193f0077cb41abde744dc35b8b579efa125c2701c265bc4ec9",
+    "partition_table/partition-table.bin": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+  },
+  "source_snapshot_note": "Source/configuration/input hashes verified against the staged repository. Measurement runtime and PPK2 acceptance are not inferred from diagnostic firmware."
+}

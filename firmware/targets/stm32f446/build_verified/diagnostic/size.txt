@@ -1,2 +1,0 @@
-   text	   data	    bss	    dec	    hex	filename
-  44692	    108	  40356	  85156	  14ca4	C:\Users\User\AppData\Local\Temp\energy-native-f446-build\stm32f446-diagnostic\energy_bench_stm32f446.elf

@@ -1,15 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this software or dataset, please cite it using the metadata below."
-title: "Cross-platform microcontroller energy profiling with PPK2"
-type: dataset
+title: "Cross-platform microcontroller performance and energy profiling with PPK2"
+type: software
 authors:
   - family-names: "Stoica"
     given-names: "Victor"
     alias: "victorstoica114"
 repository-code: "https://github.com/victorstoica114/energy-profiling"
 url: "https://github.com/victorstoica114/energy-profiling"
-version: "1.0.0"
-date-released: 2026-09-10
+version: "1.1.0"
+date-released: 2026-09-11
 keywords:
   - "energy profiling"
   - "microcontrollers"

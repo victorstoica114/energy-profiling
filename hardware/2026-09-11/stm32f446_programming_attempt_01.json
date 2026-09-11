@@ -1,0 +1,16 @@
+{
+  "attempted_utc": "2026-09-11T13:48:54.339385+00:00",
+  "board": "stm32",
+  "target": "NUCLEO-F446RE",
+  "diagnostic_image_sha256": "fd18707bdd423259547307f47abbdbc254fdbdbf4ce0cea03f36e68a382d91a9",
+  "cpu_hz": 180000000,
+  "transport": "ST-LINK/V2-1 mass storage",
+  "volume": "G: NODE_F446RE",
+  "serial_port": "COM6",
+  "programming_success": false,
+  "target_firmware_identity": "not_confirmed",
+  "mass_storage_error": "The interface firmware FAILED to reset/halt the target MCU",
+  "host_copy_error": "There is not enough space on the disk",
+  "debug_probe_error": "OpenOCD cannot open ST-LINK: Windows libusb interface unavailable",
+  "next_step": "Operator checks external 3.3 V target power, common ground and detached ST-LINK SWD/reset wiring; repeat programming and diagnostic validation after correction."
+}

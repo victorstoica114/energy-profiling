@@ -76,11 +76,13 @@ def fetch(item: dict, destination: Path) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dest", type=Path, default=PROJECT / ".deps", help="Prefer a short Windows path")
-    parser.add_argument("--only", choices=("all", "stm32", "stm32f446", "rp2040"), default="all")
+    parser.add_argument("--only", choices=("all", "stm32", "stm32f446", "rp2040"), default="all",
+                        help="SDK target; stm32 is an alias for stm32f446")
     args = parser.parse_args()
     destination = args.dest.resolve()
     destination.mkdir(parents=True, exist_ok=True)
-    targets = ("stm32f446", "rp2040") if args.only == "all" else (args.only,)
+    selected = "stm32f446" if args.only == "stm32" else args.only
+    targets = ("stm32f446", "rp2040") if selected == "all" else (selected,)
     for target in targets:
         lock = PROJECT / "firmware" / "targets" / target / "sdk.lock.json"
         for item in json.loads(lock.read_text(encoding="utf-8")):

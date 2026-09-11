@@ -1,0 +1,43 @@
+{
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v4-rp2040-measurement",
+  "compile_and_link_passed": true,
+  "boot2_flash_divider4_confirmed_in_elf": true,
+  "initialization_calls_vreg_and_pll": true,
+  "common_compile_flags_verified": true,
+  "common_translation_units": 4,
+  "serial_diagnostics_enabled": false,
+  "artifact_sha256": {
+    "energy_bench_rp2040.bin": "82f84e599cf54ac7ad24b6a9c17884c70b891908da86d8463b20bd788a2df65c",
+    "energy_bench_rp2040.elf": "8c7487dc2eba92d12b9de0bfadbc58e3a761fd89bd7ef8c44db307e92b047c5a",
+    "energy_bench_rp2040.hex": "80c03973a27ce6b5ce622e0814e982a527cff18fb62bbd6f51aac10cab6631a1",
+    "energy_bench_rp2040.map": "d09b83bac9a650e76da1ba761b6a99d6f7ef2881c978b1bd00a69167e890a162",
+    "energy_bench_rp2040.uf2": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e"
+  },
+  "build_review": "Native build and static review completed before packaging; matching source and configuration checks repeated during packaging.",
+  "schema": 1,
+  "target": "rp2040",
+  "profile": "single_gpio_measurement",
+  "campaign": "energy-profiling-v4-max-clock",
+  "release_version": "1.1.0",
+  "archive_time_utc": "2026-09-11T13:46:06.277693+00:00",
+  "manifest_sha256_at_archive": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "diagnostics_enabled": false,
+  "native_compile_and_link_passed": true,
+  "hardware_programmed": true,
+  "hardware_flashed": true,
+  "hardware_execution_validated": false,
+  "ppk2_capture_validated": false,
+  "flash_readback_attestation": false,
+  "diagnostic_functional_validation": {
+    "passed": true,
+    "status": "passed",
+    "applies_to": "separate_diagnostic_image",
+    "validated_algorithms": 12,
+    "final_done_received": true,
+    "evidence": "hardware/2026-09-11/rp2040_diagnostic_01.json",
+    "evidence_sha256": "cb360a7907d10777f49a42eeb78942c4bd244fd5e0ef238516d2c9f8c8582774",
+    "firmware_sha256": "c890dffe46b0e3f4179e0e0e646acca9513a668a356f42511f97696e20f7a008"
+  },
+  "source_snapshot_note": "Source/configuration/input hashes verified against the staged repository. Measurement runtime and PPK2 acceptance are not inferred from diagnostic firmware.",
+  "measurement_programming_evidence": "hardware/2026-09-11/rp2040_measurement_programming.json"
+}

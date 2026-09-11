@@ -1,6 +1,6 @@
 # ESP32 measurement target
 
-Classic ESP32 DevKit profile, native ESP-IDF **5.5.4**, nominal CPU 240 MHz. Current protocol: `energy-profiling-v3-single-gpio`, experiment schema 2. This README describes the measurement image, built with **BENCH_DIAGNOSTICS=OFF**.
+Classic ESP32 DevKit profile, native ESP-IDF **5.5.4**, nominal CPU **240 MHz**. Current experiment: `energy-profiling-v4-max-clock`, schema 2, GPIO protocol `single_run_v1`. This README describes the measurement image, built with **BENCH_DIAGNOSTICS=OFF**.
 
 ## Single measurement output
 
@@ -25,20 +25,22 @@ GPTimer at 1 MHz controls the pauses by busy polling and is stopped before retur
 Use Espressif GCC esp-14.2.0_20260121 (GCC 14.2.0), required by ESP-IDF 5.5.4 tools/tools.json, and the matching IDF Python environment. Run from the project root in a fresh build directory:
 
 ```powershell
-cmake -S firmware/targets/esp32 -B build/esp32-single-gpio -G Ninja -DIDF_TARGET=esp32 -DBENCH_DIAGNOSTICS=OFF
-cmake --build build/esp32-single-gpio --parallel
+cmake -S firmware/targets/esp32 -B build/esp32-max-clock -G Ninja -DIDF_TARGET=esp32 -DBENCH_DIAGNOSTICS=OFF
+cmake --build build/esp32-max-clock --parallel
 ```
 
 Equivalent IDF wrapper:
 
 ```powershell
-idf.py -C firmware/targets/esp32 -B build/esp32-single-gpio -DBENCH_DIAGNOSTICS=OFF build
+idf.py -C firmware/targets/esp32 -B build/esp32-max-clock -DBENCH_DIAGNOSTICS=OFF build
 ```
 
 Retain sdkconfig, build log, ELF, map, compiler commands and image hashes. Existing sdkconfig is not silently overridden to mask essential profile mismatches: compile-time/runtime gates reject them. Build helpers do not flash or launch a monitor.
 
 ESP32 bootloader, partition table and application form the flashing set. Keep flash_args and their relative layout with the build; the application BIN alone is not a complete blank-board image. Flash settings are DIO/40 MHz/4 MiB for the selected board; PSRAM is disabled.
 
-New one-wire artifacts are archived under build_verified/single_gpio_measurement. [CURRENT_FIRMWARE.json](../../../CURRENT_FIRMWARE.json) separates candidate build status from the last recorded programming operation. Files directly under build_verified and its older measurement/diagnostic subdirectories are **historical eight-signal snapshots** and must not be used as the new campaign image. Compilation or a silent terminal is not physical pulse/energy validation.
+Current measurement artifacts are archived under `build_verified/max_clock_measurement`. [CURRENT_FIRMWARE.json](../../../CURRENT_FIRMWARE.json) separates build status from recorded programming and measurement evidence. Its `single_gpio_measurement` profile key is retained for collector compatibility and points to the current archive. Earlier firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
+
+The ESP32 CPU clock, radio policy, Flash settings, workload inputs and repetition counts are unchanged by this maximum-clock transition. Earlier ESP32 captures may be retained with their original manifest and image hashes when configuration equivalence is verified. They are not captures of the newly compiled binary. Compilation or a silent terminal is not physical pulse/energy validation.
 
 Official references: [IDF 5.5.4](https://github.com/espressif/esp-idf/tree/v5.5.4), [clock-tree API](https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32/api-reference/peripherals/clk_tree.html), [Wi-Fi state](https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32/api-reference/network/esp_wifi.html), [watchdogs](https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32/api-reference/system/wdts.html).

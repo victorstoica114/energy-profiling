@@ -28,6 +28,7 @@ from typing import Callable, Iterable
 SAMPLE_RATE_HZ = 100_000
 ALGORITHM_COUNT = 12
 DEFAULT_TAIL_S = 3.0
+ACTIVE_EXPERIMENT_ID = "energy-profiling-v4-max-clock"
 BOARD_PINS = {"esp32": "GPIO18", "rp2040": "GP2", "stm32": "PC0 (CN7 pin 38)"}
 
 
@@ -475,6 +476,33 @@ def resolve_firmware(project_root: Path, current: dict, board: str, requested: P
     return path, basis
 
 
+def validate_firmware_identity(current: dict, manifest: dict, manifest_path: Path,
+                               board: str, firmware_path: Path) -> None:
+    """Bind an expected silent image to the exact experiment file before power-on.
+
+    This verifies the archived identity, not the contents of the DUT's flash.
+    An explicit --firmware path still has to match the selected profile's bytes.
+    """
+    if manifest.get("experiment_id") != ACTIVE_EXPERIMENT_ID:
+        raise AcquisitionError(f"Acquisition requires experiment {ACTIVE_EXPERIMENT_ID}")
+    if current.get("experiment_id") != manifest["experiment_id"]:
+        raise AcquisitionError("CURRENT_FIRMWARE experiment does not match the acquisition manifest")
+    if current.get("experiment_sha256") != sha256_file(manifest_path):
+        raise AcquisitionError("CURRENT_FIRMWARE experiment SHA-256 does not match the manifest file")
+    try:
+        profile = current["boards"][board]["profiles"]["single_gpio_measurement"]
+    except (KeyError, TypeError) as exc:
+        raise AcquisitionError("CURRENT_FIRMWARE has no selected single-GPIO profile") from exc
+    if profile.get("diagnostics_enabled") is not False:
+        raise AcquisitionError("The acquisition image must have diagnostics disabled")
+    if profile.get("native_compile_and_link_passed") is not True:
+        raise AcquisitionError("The acquisition image has no successful native build record")
+    if profile.get("experiment_manifest_sha256") != current["experiment_sha256"]:
+        raise AcquisitionError("The image archive experiment SHA-256 differs from the acquisition manifest")
+    if profile.get("sha256") != sha256_file(firmware_path):
+        raise AcquisitionError("Expected firmware SHA-256 does not match the selected measurement profile")
+
+
 def make_capture_dir(output_root: Path, board: str, ordinal: int) -> Path:
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     path = output_root / board / f"{stamp}_{board}_{ordinal:03d}"
@@ -537,7 +565,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--manifest", type=Path, default=Path("config/experiment.json"))
     parser.add_argument("--current-firmware", type=Path, default=Path("CURRENT_FIRMWARE.json"))
     parser.add_argument("--firmware", type=Path, help="Expected programmed image; its hash is recorded, not attested")
-    parser.add_argument("--output-root", type=Path, default=Path("captures"))
+    parser.add_argument("--output-root", type=Path, default=Path("captures_max_clock"))
     parser.add_argument("--captures", type=int, default=1, help="Independent cold-boot captures (campaign minimum: 10)")
     parser.add_argument("--voltage-mv", type=int, default=3300, help="PPK2 Source Meter setpoint")
     parser.add_argument("--measured-voltage-v", type=float, help="Externally measured DUT voltage under load")
@@ -605,8 +633,8 @@ def main(argv: list[str] | None = None) -> int:
         project_root = Path(__file__).resolve().parents[1]
         manifest_path = args.manifest.resolve()
         manifest = load_json(manifest_path)
-        if manifest.get("experiment_id") != "energy-profiling-v3-single-gpio":
-            raise AcquisitionError("Manifest is not the current single-GPIO experiment")
+        if manifest.get("experiment_id") != ACTIVE_EXPERIMENT_ID:
+            raise AcquisitionError(f"Manifest is not the active experiment {ACTIVE_EXPERIMENT_ID}")
         if manifest.get("sample_rate_Hz") != SAMPLE_RATE_HZ:
             raise AcquisitionError("Manifest sample rate must be exactly 100000 Hz")
         nominal_mv = round(float(manifest.get("nominal_voltage_V", 0)) * 1000)
@@ -630,6 +658,7 @@ def main(argv: list[str] | None = None) -> int:
         current_path = args.current_firmware.resolve()
         current = load_json(current_path)
         firmware_path, firmware_basis = resolve_firmware(project_root, current, args.board, args.firmware)
+        validate_firmware_identity(current, manifest, manifest_path, args.board, firmware_path)
         port, serial_number = select_device(devices, args.port)
         output_root = args.output_root.resolve()
 

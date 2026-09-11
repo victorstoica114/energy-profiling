@@ -1,0 +1,1133 @@
+{
+  "schema_version": 1,
+  "dataset_id": "2026-09-10_ppk2_regulators_removed_csv",
+  "status": "complete_all_raw_and_csv_hashes_verified",
+  "created_utc": "2026-09-10T14:59:32.124784+00:00",
+  "source_repository": "https://github.com/victorstoica114/energy-profiling",
+  "source_commit": "9562df9212a043c8db625f47dfee2c7d2ae494da",
+  "source_local_root": "D:\\Documente\\Energy Profiling",
+  "source_campaign_id": "2026-09-10_ppk2_energy_profiling_v3_regulators_removed",
+  "selected_capture_count": 30,
+  "source_inventory_sha256": "79a33f6faae328037b9088bb60494c3ab9a96370a9004606d1231717c7b08bd1",
+  "exporter_source_path": "tools/export_ppk2_raw.py",
+  "exporter_sha256": "f403c5dedd9f6483d5b9467a48609bc126906dc05cb51851b0cdd40acf0e6432",
+  "curation_script_sha256": "d098d5774a01de0ce9556a9ccd421fdc0d75caf64806528fb1df48a1d641093d",
+  "conversion_environment": {
+    "python": "3.11.9",
+    "ppk2_api": "0.9.2",
+    "pyserial": "3.5"
+  },
+  "regulator_confirmation": {
+    "reported_date": "2026-09-10",
+    "source": "operator statement in the project conversation",
+    "statement": "The NUCLEO-F446RE voltage regulator was physically removed before all original STM32 captures. ESP32 and Pico captures are selected from the later series acquired after regulator removal.",
+    "original_metadata_unchanged": true
+  },
+  "csv_columns": [
+    "Sample",
+    "Timestamp(us)",
+    "Current(uA)",
+    "D0"
+  ],
+  "time_basis": "sample index times 10 microseconds at nominal PPK2 sample rate; no MCU timer timestamps",
+  "processing": "Original ppk2-api decoder with each capture's saved calibration parameters and original range-switch spike handling; no additional smoothing, decimation, cropping or baseline subtraction.",
+  "original_analyses": "Copied byte for byte; not recalculated by this export.",
+  "common_files": [
+    {
+      "path": "source_campaign.json",
+      "source_path": "campaigns/2026-09-10_ppk2_regulators_removed.json",
+      "sha256": "5ebe62041b5f67d9c0760805b7772deed73990c5859d2dd1b71330d34771dc36"
+    },
+    {
+      "path": "experiment.json",
+      "source_path": "config/experiment.json",
+      "sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075"
+    }
+  ],
+  "completed_utc": "2026-09-10T15:02:40.857207+00:00",
+  "total_sample_count": 165200896,
+  "total_capture_csv_bytes": 6111622118,
+  "capture_index_sha256": "a6d7367c9563738ede06dc6f220a71d4291ff7ce01150d43fae5553112bac8ee",
+  "captures": [
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 1,
+      "capture_id": "20260910T123000.452016Z_esp32_001",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123000.452016Z_esp32_001",
+      "source_raw_path": "captures_noreg/esp32/20260910T123000.452016Z_esp32_001/transport.raw4",
+      "destination_directory": "ESP32/run_01",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3857920,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.5792,
+      "raw_bytes": 15431680,
+      "raw_sha256": "7989777af50596f1fa56bfe1e1a80b6f4c059624fe31f6ca0adda78d3b3b7477",
+      "csv_sha256": "143ad11be22b520c40d9626ca3c06582201a32df315e1c8f4a7dd1ff0bbd3882",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_01/capture.csv",
+      "csv_bytes": 140977930,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_01/capture_metadata.json",
+          "sha256": "a7d9d620db5c87f5837f20879157f050752b6fc013e673ed8cc946314befca46"
+        },
+        {
+          "path": "ESP32/run_01/original_analysis/capture.analysis.json",
+          "sha256": "eb9d29919a0388c52b78423de7c0fa0508c01201b36de2d4e4feba094a6cb414"
+        },
+        {
+          "path": "ESP32/run_01/original_analysis/capture.workloads.csv",
+          "sha256": "e39d8cc6d17ece0921dd440d1f7b6be8798fce3c192729488b08216f2b524ad2"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 2,
+      "capture_id": "20260910T123122.837343Z_esp32_002",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123122.837343Z_esp32_002",
+      "source_raw_path": "captures_noreg/esp32/20260910T123122.837343Z_esp32_002/transport.raw4",
+      "destination_directory": "ESP32/run_02",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "ca27691a8f2981ee9ce6c1cbc46e0bff7ce68a254655c567d8d0cced8241d475",
+      "csv_sha256": "05407050fdb0965386822acf47773be86675829caa2b921ac33cefd3bc57fb04",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_02/capture.csv",
+      "csv_bytes": 140505150,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_02/capture_metadata.json",
+          "sha256": "29339fe33ad6ee805d777eba478127a89d4b262d8787de4c67d8be564f2a34ea"
+        },
+        {
+          "path": "ESP32/run_02/original_analysis/capture.analysis.json",
+          "sha256": "4dada31125aa06d5b746a2e5974b96eebd04855fc3b50478885841ee98f6503c"
+        },
+        {
+          "path": "ESP32/run_02/original_analysis/capture.workloads.csv",
+          "sha256": "9d217537d928f6b32f9fb6f3ce653811fdfcb70d83aa2339a928b410e4b17a2a"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 3,
+      "capture_id": "20260910T123245.258284Z_esp32_003",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123245.258284Z_esp32_003",
+      "source_raw_path": "captures_noreg/esp32/20260910T123245.258284Z_esp32_003/transport.raw4",
+      "destination_directory": "ESP32/run_03",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "f20e78766c2a358cb1c87f3a8e63916f0e8c38845ecd8acd537b73feb6954350",
+      "csv_sha256": "09f7b8e57c1d22bd5370e50b73a4684b3187d756681c1e6960e9edae8d09e937",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_03/capture.csv",
+      "csv_bytes": 140467192,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_03/capture_metadata.json",
+          "sha256": "1d66e03eb924cea953d09b7381232ab82e652bf0ae7f2bf9584058517136d8ca"
+        },
+        {
+          "path": "ESP32/run_03/original_analysis/capture.analysis.json",
+          "sha256": "057d20e4d392281299e124577561218f78b1b1ddbdcc54db11dbbe9225489ecb"
+        },
+        {
+          "path": "ESP32/run_03/original_analysis/capture.workloads.csv",
+          "sha256": "bd0ed87c285799484cff8963b53db5c2380c3d80e5c18ec4c545830af04d737c"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 4,
+      "capture_id": "20260910T123403.832085Z_esp32_004",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123403.832085Z_esp32_004",
+      "source_raw_path": "captures_noreg/esp32/20260910T123403.832085Z_esp32_004/transport.raw4",
+      "destination_directory": "ESP32/run_04",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3844608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.44608,
+      "raw_bytes": 15378432,
+      "raw_sha256": "eba37d6875a78824f719d5d25d6fffe18dbc924672c9af01f77486783706c98f",
+      "csv_sha256": "a565219b0fab5f1d9d7bdcabec81a9204fc4e171c03b1ea94b56130dc7ca1814",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_04/capture.csv",
+      "csv_bytes": 140469757,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_04/capture_metadata.json",
+          "sha256": "0c0dd07105aa9b0919bff444ff9d5716420c0d36149df6839d99310e6583a54f"
+        },
+        {
+          "path": "ESP32/run_04/original_analysis/capture.analysis.json",
+          "sha256": "2efe490a9ed15b9f2d2d14ff996f2ee2a87d46f28ea15c3ae162710090712bd2"
+        },
+        {
+          "path": "ESP32/run_04/original_analysis/capture.workloads.csv",
+          "sha256": "d93dd9fba9e905204eefb3ea83bca30bc8cae95e125c7cb20da7bb67da641077"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 5,
+      "capture_id": "20260910T123524.318691Z_esp32_005",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123524.318691Z_esp32_005",
+      "source_raw_path": "captures_noreg/esp32/20260910T123524.318691Z_esp32_005/transport.raw4",
+      "destination_directory": "ESP32/run_05",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "f549ef23b12f6b417f08b2b2e33c7fc9e09f42419cbf8a4c446ec8f7f0ce11c1",
+      "csv_sha256": "7c12e3ea413a5f0e9e094f2d657095406860909280fd770ae454a932ed467e8d",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_05/capture.csv",
+      "csv_bytes": 140484373,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_05/capture_metadata.json",
+          "sha256": "c992e6e744879a02dc46520f4ae3ae9127b51240579f5f2de46c847adb3b45e0"
+        },
+        {
+          "path": "ESP32/run_05/original_analysis/capture.analysis.json",
+          "sha256": "62f15d9077d09bb4df8cbf5bef687467f5c75ebed78f774d42e6c43d7d511f2b"
+        },
+        {
+          "path": "ESP32/run_05/original_analysis/capture.workloads.csv",
+          "sha256": "98fbd6ce6f6fab9655e2395f5c5f99ed8ff3dca9e9b9ec2aed2b7127c14c74ec"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 6,
+      "capture_id": "20260910T123640.511140Z_esp32_006",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123640.511140Z_esp32_006",
+      "source_raw_path": "captures_noreg/esp32/20260910T123640.511140Z_esp32_006/transport.raw4",
+      "destination_directory": "ESP32/run_06",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3844608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.44608,
+      "raw_bytes": 15378432,
+      "raw_sha256": "268ed794ab3cdabe5b4bdfe29570340a2887de70b97302efe50610c51d295770",
+      "csv_sha256": "f0993068843b551f551e8bb40dbf4ce4b944bfadec4813971b7268afe5a4cd2f",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_06/capture.csv",
+      "csv_bytes": 140478612,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_06/capture_metadata.json",
+          "sha256": "c00d013d05795274ec19c85f402b8bdf529a815b7921815f4b5fe62a90df01a5"
+        },
+        {
+          "path": "ESP32/run_06/original_analysis/capture.analysis.json",
+          "sha256": "8c1800f4a00b56310c5c3b23d48605334de00ad139653907109b5a522643e786"
+        },
+        {
+          "path": "ESP32/run_06/original_analysis/capture.workloads.csv",
+          "sha256": "3131ba8e56710b695e8d18b41e61fb1b322067cb4152301309d2bf39a25cafac"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 7,
+      "capture_id": "20260910T123757.633087Z_esp32_007",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123757.633087Z_esp32_007",
+      "source_raw_path": "captures_noreg/esp32/20260910T123757.633087Z_esp32_007/transport.raw4",
+      "destination_directory": "ESP32/run_07",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "465ce647d6d0a8c8468792723aaa00141c6f45c14ea894c4d30223d953f4def5",
+      "csv_sha256": "b450b239900de69bac206bbded49cac86b1bd3bd58b4f1d71cf68d3da1bcf443",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_07/capture.csv",
+      "csv_bytes": 140480228,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_07/capture_metadata.json",
+          "sha256": "5638f39932cd50917f3c548f12b9e8d83d8288336b18ef0c162667a913af21d7"
+        },
+        {
+          "path": "ESP32/run_07/original_analysis/capture.analysis.json",
+          "sha256": "b6a1f5174d27e06449bab0cec2b44b1588d073e5c09490ad55e3d04c16fa652e"
+        },
+        {
+          "path": "ESP32/run_07/original_analysis/capture.workloads.csv",
+          "sha256": "a0d7b9c79a6d4d159979fed14fd5769a553dc74c11b1c5f230a0badce6a4bf3b"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 8,
+      "capture_id": "20260910T123913.826997Z_esp32_008",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T123913.826997Z_esp32_008",
+      "source_raw_path": "captures_noreg/esp32/20260910T123913.826997Z_esp32_008/transport.raw4",
+      "destination_directory": "ESP32/run_08",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "ea40721197c22868d9dfe3427237bf3b1bcad8df4bf137c1fe0e94f4ac90dac0",
+      "csv_sha256": "17b597d29117511730452ea48258d993c4fb85e36acb9f18c84088e37aba0fac",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_08/capture.csv",
+      "csv_bytes": 140493853,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_08/capture_metadata.json",
+          "sha256": "8f56f03197b76fb5a8da2d6076920e49250c3f6ab03faeecf81a521941eeddf0"
+        },
+        {
+          "path": "ESP32/run_08/original_analysis/capture.analysis.json",
+          "sha256": "fc3e8373419f3666b1d41ac92053ee91cfe8c20649c57357eba2346be534f19d"
+        },
+        {
+          "path": "ESP32/run_08/original_analysis/capture.workloads.csv",
+          "sha256": "3d771abc78bce1569ec83774f220eae23462b202da0e409823f554996b8e240c"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 9,
+      "capture_id": "20260910T124030.428881Z_esp32_009",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T124030.428881Z_esp32_009",
+      "source_raw_path": "captures_noreg/esp32/20260910T124030.428881Z_esp32_009/transport.raw4",
+      "destination_directory": "ESP32/run_09",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3844608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.44608,
+      "raw_bytes": 15378432,
+      "raw_sha256": "2ef6cb16f4cdad1223711e9390d5a04ace16110a882756870ca181e0477820c1",
+      "csv_sha256": "0979182bdd8432025a0a25f253b4a7946f32e935bbf914df720c9797dbb8655d",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_09/capture.csv",
+      "csv_bytes": 140463976,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_09/capture_metadata.json",
+          "sha256": "1799cb3383a071b5228da21e23a98f927b979f55e14a762e251cef1e43fd6724"
+        },
+        {
+          "path": "ESP32/run_09/original_analysis/capture.analysis.json",
+          "sha256": "3beacfa10ae7c5ec9d770cbcaf5590084905e64ecb4aa96cd27a522634353a51"
+        },
+        {
+          "path": "ESP32/run_09/original_analysis/capture.workloads.csv",
+          "sha256": "93c2bf028ac930dfedde5f0cc5b64ae60ffdd8cebc9baf7a607d29e285d53433"
+        }
+      ]
+    },
+    {
+      "board": "esp32",
+      "folder": "ESP32",
+      "run": 10,
+      "capture_id": "20260910T124147.218835Z_esp32_010",
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "source_capture_directory": "captures_noreg/esp32/20260910T124147.218835Z_esp32_010",
+      "source_raw_path": "captures_noreg/esp32/20260910T124147.218835Z_esp32_010/transport.raw4",
+      "destination_directory": "ESP32/run_10",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 3845120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 38.4512,
+      "raw_bytes": 15380480,
+      "raw_sha256": "54ec8e43a748fc3d65310de48318e33afa814134f8b6e37eba2510b0dd2ae928",
+      "csv_sha256": "50471bd0a29ab6d5fc2bd1e96f31cc8ce2fca9410e67015f2b046d593e80cd4e",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "ESP32/run_10/capture.csv",
+      "csv_bytes": 140478795,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "ESP32/run_10/capture_metadata.json",
+          "sha256": "9230f69597848e24a476e2816fc89d46c1fa6295e08d863030d0d36b9aded781"
+        },
+        {
+          "path": "ESP32/run_10/original_analysis/capture.analysis.json",
+          "sha256": "612404c8d55ac35a8c00cb4ae31af96ba998d9368fb8233250256da4f13b3292"
+        },
+        {
+          "path": "ESP32/run_10/original_analysis/capture.workloads.csv",
+          "sha256": "d7c935a700df750abb35df699c50996a11309cbdf851922391329dd3a33cd3c6"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 1,
+      "capture_id": "20260910T125326.356969Z_rp2040_001",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T125326.356969Z_rp2040_001",
+      "source_raw_path": "captures_noreg/rp2040/20260910T125326.356969Z_rp2040_001/transport.raw4",
+      "destination_directory": "RP2040/run_01",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7505408,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 75.05408,
+      "raw_bytes": 30021632,
+      "raw_sha256": "02bafddff85bb48cf8009a59e4dac2bdcde22b443e6fe47e45ea274839872f62",
+      "csv_sha256": "ab22572dcc0fdec9007ca47f3d99228c88f23140b54824e7afc746d10b876259",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_01/capture.csv",
+      "csv_bytes": 278469163,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_01/capture_metadata.json",
+          "sha256": "e5df382808526db81c888842d09721bb55fea84e9742a13c8ba729d52871323f"
+        },
+        {
+          "path": "RP2040/run_01/original_analysis/capture.analysis.json",
+          "sha256": "99579ae0cc5f4c8bdc98bc3daacc4f2c8fe6d1f74aa85aa41087153db2d72a65"
+        },
+        {
+          "path": "RP2040/run_01/original_analysis/capture.workloads.csv",
+          "sha256": "d507084d64f412ba4490707e87fe75d92cabb80399eb7437657cc0d4dfb6f446"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 2,
+      "capture_id": "20260910T125545.775007Z_rp2040_002",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T125545.775007Z_rp2040_002",
+      "source_raw_path": "captures_noreg/rp2040/20260910T125545.775007Z_rp2040_002/transport.raw4",
+      "destination_directory": "RP2040/run_02",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7493120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.9312,
+      "raw_bytes": 29972480,
+      "raw_sha256": "d922b2c154eac6533d064d75aeed5a08e0fe872d429ef8a7e31f346917f53c58",
+      "csv_sha256": "4ec88b0cd8826fd3670f9eb046155da4ca30e5f7cad4cfd1f1b2416311348c84",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_02/capture.csv",
+      "csv_bytes": 278003771,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_02/capture_metadata.json",
+          "sha256": "e9f5a8fbd4a51c7a52d77b634d1b6a5d566df0ff9f2d5a331f8fab557d5384ab"
+        },
+        {
+          "path": "RP2040/run_02/original_analysis/capture.analysis.json",
+          "sha256": "60c65e3cc1f3fa33f42a35e7f21128fec048cc29a0606ecf331caad1ddd89e0d"
+        },
+        {
+          "path": "RP2040/run_02/original_analysis/capture.workloads.csv",
+          "sha256": "5097a5d5b37cd694d55a9844e6e5cef72e72f9a9ca27427ec210d755bb8c4eb4"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 3,
+      "capture_id": "20260910T125804.416262Z_rp2040_003",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T125804.416262Z_rp2040_003",
+      "source_raw_path": "captures_noreg/rp2040/20260910T125804.416262Z_rp2040_003/transport.raw4",
+      "destination_directory": "RP2040/run_03",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "c1c51e7be4f8d40d61a8e2eb3520600f2fc802c55801260dac3662c7ca320968",
+      "csv_sha256": "768114f45619ac098629c4a63c6b65e17d71ed4a09b9e5ec281dcbd8ad08306f",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_03/capture.csv",
+      "csv_bytes": 278085662,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_03/capture_metadata.json",
+          "sha256": "08f3de04e34e7b337441710eb46ce11102d7482c13b12d8022571ef166a687b4"
+        },
+        {
+          "path": "RP2040/run_03/original_analysis/capture.analysis.json",
+          "sha256": "7ff64395456f831e7bcf134abea31df6b3907887e2b78081a8ff47dc54bfafb1"
+        },
+        {
+          "path": "RP2040/run_03/original_analysis/capture.workloads.csv",
+          "sha256": "23164431ca74c617c2898785436c5925c224659a798bf328a8a68c8cbecc7d74"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 4,
+      "capture_id": "20260910T130031.187928Z_rp2040_004",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T130031.187928Z_rp2040_004",
+      "source_raw_path": "captures_noreg/rp2040/20260910T130031.187928Z_rp2040_004/transport.raw4",
+      "destination_directory": "RP2040/run_04",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7493120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.9312,
+      "raw_bytes": 29972480,
+      "raw_sha256": "dfc7d7676cea578f25b9214d9f69f0a969f3ced212dd397cf488ed889bf9c9d3",
+      "csv_sha256": "d943e3c4f1b96b26717ceb06df957663297c0e96b6cec614ac8b7f9b12ad9512",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_04/capture.csv",
+      "csv_bytes": 278103310,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_04/capture_metadata.json",
+          "sha256": "f2ff55ff2be8a5f6c3e8833aa97c08f470184f7e3215c0f9d685df6f8a9c3fb6"
+        },
+        {
+          "path": "RP2040/run_04/original_analysis/capture.analysis.json",
+          "sha256": "71f19554e31748071e9d04e3093fd7a0f0ebb5683cbd2df5ced85ffdc2795f82"
+        },
+        {
+          "path": "RP2040/run_04/original_analysis/capture.workloads.csv",
+          "sha256": "9caaad484c352fc06503e7f0c899b83a41c17fbb9c9f5248120f4b4c2ada2ea9"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 5,
+      "capture_id": "20260910T130301.774656Z_rp2040_005",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T130301.774656Z_rp2040_005",
+      "source_raw_path": "captures_noreg/rp2040/20260910T130301.774656Z_rp2040_005/transport.raw4",
+      "destination_directory": "RP2040/run_05",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "262f23cb171ba49a24739dd2a32ad4c7a40783da75c71d0f9b064c7686fc0b85",
+      "csv_sha256": "90bb9fb7e0badbd114b28222c37a9da021167b2dcb15d21b1c82283490b1ec1b",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_05/capture.csv",
+      "csv_bytes": 278122525,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_05/capture_metadata.json",
+          "sha256": "0561b9cf1790858bdf38dc3dce3703ce4d417c07ed4c2832376f927a21b5eb4d"
+        },
+        {
+          "path": "RP2040/run_05/original_analysis/capture.analysis.json",
+          "sha256": "d83faf2bd72333ee2dbf02495f6c52dbde799aa67d3243d8a0732aa1ea24e370"
+        },
+        {
+          "path": "RP2040/run_05/original_analysis/capture.workloads.csv",
+          "sha256": "bfc1d676bbfe80e3cc6a660d8350e13dd4b998567f814f2433b7003c83dbd34a"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 6,
+      "capture_id": "20260910T130531.202985Z_rp2040_006",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T130531.202985Z_rp2040_006",
+      "source_raw_path": "captures_noreg/rp2040/20260910T130531.202985Z_rp2040_006/transport.raw4",
+      "destination_directory": "RP2040/run_06",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7493120,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.9312,
+      "raw_bytes": 29972480,
+      "raw_sha256": "b5cf156a8a5d99b0fded77a736a595946bb031f33efaa32a8884ccd77d17cd17",
+      "csv_sha256": "e7001549a0240613f83dc4e5cadb50fb2189a5df1984a1f5066013daae81bc04",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_06/capture.csv",
+      "csv_bytes": 278036712,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_06/capture_metadata.json",
+          "sha256": "bef0bd544abf34b543ee8111e9e777e62ed13eb67bea9885b89db096a8a31fa5"
+        },
+        {
+          "path": "RP2040/run_06/original_analysis/capture.analysis.json",
+          "sha256": "b79f76f640a9d36effbc65ac62daca9a812e2786d24bb53c30315b5b97947b05"
+        },
+        {
+          "path": "RP2040/run_06/original_analysis/capture.workloads.csv",
+          "sha256": "b4b241ce9caa04e5c7d0f3cadc9ecb3abd1c798696540fd4455d28a6d1f96bf7"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 7,
+      "capture_id": "20260910T130749.983681Z_rp2040_007",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T130749.983681Z_rp2040_007",
+      "source_raw_path": "captures_noreg/rp2040/20260910T130749.983681Z_rp2040_007/transport.raw4",
+      "destination_directory": "RP2040/run_07",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "ea17eded09cc064cde70d6a9cedb4fdce65d6ac55454844cadc3dd05598975df",
+      "csv_sha256": "e54c51b90ded54731ed6ea5bf129324e317b0e17c688721f66572a9795755141",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_07/capture.csv",
+      "csv_bytes": 278174352,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_07/capture_metadata.json",
+          "sha256": "adfb392763e17a3393366835c97acf0411f7442fd36da0858b64cc3b7139f900"
+        },
+        {
+          "path": "RP2040/run_07/original_analysis/capture.analysis.json",
+          "sha256": "24b8bb7788bbff4c9f9a69a58441204c6ef4476536cdff0cf4b1f95f63e68998"
+        },
+        {
+          "path": "RP2040/run_07/original_analysis/capture.workloads.csv",
+          "sha256": "879a4b3200e0fe57def536db88b189a67f177a8d2fe1f3334f1583c440230f30"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 8,
+      "capture_id": "20260910T131019.811015Z_rp2040_008",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T131019.811015Z_rp2040_008",
+      "source_raw_path": "captures_noreg/rp2040/20260910T131019.811015Z_rp2040_008/transport.raw4",
+      "destination_directory": "RP2040/run_08",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "835edaa5dd02acc62f8bee386e16f28e6ab6e679197a69a4b817f3e776c74657",
+      "csv_sha256": "e2e69390264ece2d56e212e7c9c0563bd27159e63de81ab2218923c4a2832170",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_08/capture.csv",
+      "csv_bytes": 278004768,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_08/capture_metadata.json",
+          "sha256": "5bb953b1d476fdfb23c0427f7a1a37c7736c5d95874e8d8d6d00a984589b50e6"
+        },
+        {
+          "path": "RP2040/run_08/original_analysis/capture.analysis.json",
+          "sha256": "73e398c5e7595ce7c747e64a2e7a809eed8baccd55429c1efc1a41a0abb94144"
+        },
+        {
+          "path": "RP2040/run_08/original_analysis/capture.workloads.csv",
+          "sha256": "8a77f108513abed1ca4b199dfabe92f041fb81a576d9d28ae2f270a92d913c97"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 9,
+      "capture_id": "20260910T131247.897076Z_rp2040_009",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T131247.897076Z_rp2040_009",
+      "source_raw_path": "captures_noreg/rp2040/20260910T131247.897076Z_rp2040_009/transport.raw4",
+      "destination_directory": "RP2040/run_09",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "e38df6a43dafad4bea7724ef3a1d05dad30ab7f3fbdde3527fae4b63132c5f47",
+      "csv_sha256": "4f7da21ed42d7ece1aef1f03f0dd17058f160db1c5a875d8ae45228189441068",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_09/capture.csv",
+      "csv_bytes": 278008533,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_09/capture_metadata.json",
+          "sha256": "f92e132e471cfd47067b49c0bd3e98ec00bb0af3ccee8f87dc89da25b3d82de6"
+        },
+        {
+          "path": "RP2040/run_09/original_analysis/capture.analysis.json",
+          "sha256": "81fa2ea4c570d66d03d32fc4f6684cb7a245dd40a376483d831d6565514910df"
+        },
+        {
+          "path": "RP2040/run_09/original_analysis/capture.workloads.csv",
+          "sha256": "166e9988ce770ce963f8a64c7d5e501c2d1a63d5384ededc6bb8d9cdffa34649"
+        }
+      ]
+    },
+    {
+      "board": "rp2040",
+      "folder": "RP2040",
+      "run": 10,
+      "capture_id": "20260910T131515.232802Z_rp2040_010",
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "source_capture_directory": "captures_noreg/rp2040/20260910T131515.232802Z_rp2040_010",
+      "source_raw_path": "captures_noreg/rp2040/20260910T131515.232802Z_rp2040_010/transport.raw4",
+      "destination_directory": "RP2040/run_10",
+      "regulator_removed": true,
+      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "sample_count": 7492608,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 74.92608,
+      "raw_bytes": 29970432,
+      "raw_sha256": "238a3d089e09a99f84dece46a023ccf96e30fb363e1964d22fea526770d213a8",
+      "csv_sha256": "a1e93292606dde7dd3c9ed94819c09f9b8e6bdd97f7f705ed7bff3f948dd951b",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "RP2040/run_10/capture.csv",
+      "csv_bytes": 277978958,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "RP2040/run_10/capture_metadata.json",
+          "sha256": "d1258192abcf565dbe71423d98bf10b3890395660bef40378bc645a2ddd6890b"
+        },
+        {
+          "path": "RP2040/run_10/original_analysis/capture.analysis.json",
+          "sha256": "10227c02aee99cbb575f030eca1883285660438dd89a9be86537b7e5d287ddab"
+        },
+        {
+          "path": "RP2040/run_10/original_analysis/capture.workloads.csv",
+          "sha256": "0301fec28d892666ecb1ac0f8fd842267a0691f9b559d9a2e7727380c651ceab"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 1,
+      "capture_id": "20260910T115912.942104Z_stm32_001",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T115912.942104Z_stm32_001",
+      "source_raw_path": "captures/stm32/20260910T115912.942104Z_stm32_001/transport.raw4",
+      "destination_directory": "STM32F446/run_01",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5192704,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.92704,
+      "raw_bytes": 20770816,
+      "raw_sha256": "ac780fca048240567a39e7ab920ef69622488e239bbc8c36e4e59ba47befe99e",
+      "csv_sha256": "a101872629ee5fe9a23c61e4700ad77e79132031f02b87f4d6869fac977b762a",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_01/capture.csv",
+      "csv_bytes": 192988863,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_01/capture_metadata.json",
+          "sha256": "b0618fe35bce7b0c462c8cd3973a633450638b65cbd315597a9c940257ab296b"
+        },
+        {
+          "path": "STM32F446/run_01/original_analysis/capture.analysis.json",
+          "sha256": "8051a5b65ad1fe1e0a857bf755688f5464d7dc1c3bd46fc77b3771ff431fc049"
+        },
+        {
+          "path": "STM32F446/run_01/original_analysis/capture.workloads.csv",
+          "sha256": "73306e7223f00f9a00b62ba11bf75ac76891b357f92ebe1c17f81a0524c7ecba"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 2,
+      "capture_id": "20260910T120054.572322Z_stm32_002",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120054.572322Z_stm32_002",
+      "source_raw_path": "captures/stm32/20260910T120054.572322Z_stm32_002/transport.raw4",
+      "destination_directory": "STM32F446/run_02",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5179904,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.79904,
+      "raw_bytes": 20719616,
+      "raw_sha256": "ec01e831b87ae5b9754b53e82926a0214c89d0981587c49cae44f55ab709c5db",
+      "csv_sha256": "a7556f58b4dae765c0943502d8386644dd0def016785dc44f56d024f05ecfb66",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_02/capture.csv",
+      "csv_bytes": 192561081,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_02/capture_metadata.json",
+          "sha256": "84918c953631350291a628e13242e261bcd8d302a7bc8f61926118d530ed3ff2"
+        },
+        {
+          "path": "STM32F446/run_02/original_analysis/capture.analysis.json",
+          "sha256": "cca6703250f9bb073b3fbbdb5ba230537a5cc8dfec96555390dc3319b8645458"
+        },
+        {
+          "path": "STM32F446/run_02/original_analysis/capture.workloads.csv",
+          "sha256": "555dc04c6da33d70927c4f0f47eb630647ce084081c5579d4c9851753b85875e"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 3,
+      "capture_id": "20260910T120239.878921Z_stm32_003",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120239.878921Z_stm32_003",
+      "source_raw_path": "captures/stm32/20260910T120239.878921Z_stm32_003/transport.raw4",
+      "destination_directory": "STM32F446/run_03",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5178368,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.78368,
+      "raw_bytes": 20713472,
+      "raw_sha256": "a5d41d7a306d5e02b1eef78ed2bde070153d1ba08594c802b2a58d6a6a9a5780",
+      "csv_sha256": "5a332c2b441cd9c3652b41298aa473fd64ce45c36c5d561e89ae3a0495c17373",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_03/capture.csv",
+      "csv_bytes": 192479469,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_03/capture_metadata.json",
+          "sha256": "76fc1d3114cd390b308c7713d2bb283aa43dde81eef370d4ed5de0e0dc534060"
+        },
+        {
+          "path": "STM32F446/run_03/original_analysis/capture.analysis.json",
+          "sha256": "6ae80cd1aae3ef984eb72acee12e3e3975ff60757d8adca03f219ecea93f472a"
+        },
+        {
+          "path": "STM32F446/run_03/original_analysis/capture.workloads.csv",
+          "sha256": "49c8542b3aeffdbedf2d7cdf0bf7972bf552e36710788d3f00ce2263b03b2c29"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 4,
+      "capture_id": "20260910T120423.976352Z_stm32_004",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120423.976352Z_stm32_004",
+      "source_raw_path": "captures/stm32/20260910T120423.976352Z_stm32_004/transport.raw4",
+      "destination_directory": "STM32F446/run_04",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5177856,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.77856,
+      "raw_bytes": 20711424,
+      "raw_sha256": "4405de0fb925d2f94ac4de45b5a95b3f0a11b2f8c23f20f28ef73f37027165f0",
+      "csv_sha256": "60a806dede5efaa43b408d66824035dfb31c9b670e3dbf894c6ff5221a6c9d1c",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_04/capture.csv",
+      "csv_bytes": 192468911,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_04/capture_metadata.json",
+          "sha256": "3961ae0b711efb62ddd492fed57424663f5ddcf7b44424b3ccfa706290cc8c10"
+        },
+        {
+          "path": "STM32F446/run_04/original_analysis/capture.analysis.json",
+          "sha256": "9c8374b5dc06a567b7d7033cbcf29ce912d887fa4116267ddf5c3fbb199ed061"
+        },
+        {
+          "path": "STM32F446/run_04/original_analysis/capture.workloads.csv",
+          "sha256": "640dc2f60b7b0c23813b2b5337713c25c7950073bf84aab7eff65cf59b293119"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 5,
+      "capture_id": "20260910T120607.538986Z_stm32_005",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120607.538986Z_stm32_005",
+      "source_raw_path": "captures/stm32/20260910T120607.538986Z_stm32_005/transport.raw4",
+      "destination_directory": "STM32F446/run_05",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5176832,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.76832,
+      "raw_bytes": 20707328,
+      "raw_sha256": "79be4cf746ad2c598b6eaca59eeb6aefb02403d83f243b285f5da9845a95429e",
+      "csv_sha256": "33e39ae650d3ea332b16370911a90cffef63ddd960a008eef41d0569b9c72b61",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_05/capture.csv",
+      "csv_bytes": 192408433,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_05/capture_metadata.json",
+          "sha256": "1f54a553a3bc98a97c4b11a8cc94084f38933cca8a5d10510ac15255cf555fc1"
+        },
+        {
+          "path": "STM32F446/run_05/original_analysis/capture.analysis.json",
+          "sha256": "6db7eafa6eb35bedd1710e73a897893f604e8bff068a0875d61c4a882198faa1"
+        },
+        {
+          "path": "STM32F446/run_05/original_analysis/capture.workloads.csv",
+          "sha256": "ef3aee9cc8cdbe194fe608596d0f01114e78d6cd92176f47fe9938da7291d059"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 6,
+      "capture_id": "20260910T120752.926254Z_stm32_006",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120752.926254Z_stm32_006",
+      "source_raw_path": "captures/stm32/20260910T120752.926254Z_stm32_006/transport.raw4",
+      "destination_directory": "STM32F446/run_06",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5178368,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.78368,
+      "raw_bytes": 20713472,
+      "raw_sha256": "6111157106aa4f3659015027bce75fda2b115c11a95c47f2d16acae129e2d060",
+      "csv_sha256": "da16c18558fec87a12511ad919afd08b23c0162f40871606199149ea59dc28f7",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_06/capture.csv",
+      "csv_bytes": 192473440,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_06/capture_metadata.json",
+          "sha256": "e211c1e1bc8eb8cf47128e110ba337f8529beac733f691dd420e5767f9ec8309"
+        },
+        {
+          "path": "STM32F446/run_06/original_analysis/capture.analysis.json",
+          "sha256": "0543658543da77d1f102f98eaa2e376a7c4cd9a72cc4edf8d4cde9aee7b94393"
+        },
+        {
+          "path": "STM32F446/run_06/original_analysis/capture.workloads.csv",
+          "sha256": "82264c7cf4bd58537262bf5d02dfd01c80709e5c25b7c4b12c40c9cdf575e307"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 7,
+      "capture_id": "20260910T120938.660983Z_stm32_007",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T120938.660983Z_stm32_007",
+      "source_raw_path": "captures/stm32/20260910T120938.660983Z_stm32_007/transport.raw4",
+      "destination_directory": "STM32F446/run_07",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5179392,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.79392,
+      "raw_bytes": 20717568,
+      "raw_sha256": "ee41f40a08db31560dc1e0990987f6e359274d73998caf05e538db4ee5f2dac2",
+      "csv_sha256": "faaf94694d68dad92f6b683f91a893400c4c9ff7df35991671f60f8466072c04",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_07/capture.csv",
+      "csv_bytes": 192518954,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_07/capture_metadata.json",
+          "sha256": "5d41f605f7981ecaaea6c664376d4f46f456bb72f50edb4868ca7e9b86fcc2cf"
+        },
+        {
+          "path": "STM32F446/run_07/original_analysis/capture.analysis.json",
+          "sha256": "b0f164cbc3644fcf0f993d5e0bead4cd354fdc367ec32bc0b1df299ce8399f1c"
+        },
+        {
+          "path": "STM32F446/run_07/original_analysis/capture.workloads.csv",
+          "sha256": "28b3c04d85ca4ea0e08da1d4c9743ef5d6f2a317cf7ef8cd3fd953dbf54b9886"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 8,
+      "capture_id": "20260910T121124.479390Z_stm32_008",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T121124.479390Z_stm32_008",
+      "source_raw_path": "captures/stm32/20260910T121124.479390Z_stm32_008/transport.raw4",
+      "destination_directory": "STM32F446/run_08",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5176320,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.7632,
+      "raw_bytes": 20705280,
+      "raw_sha256": "67a560041382c2c6948f09d8ea14eb0cbdd285a38f3b1ff7ae57623ecbca8531",
+      "csv_sha256": "5dadc0247d9251d130e1094e142969ba3a9e97c79046df73994c930c49dd476b",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_08/capture.csv",
+      "csv_bytes": 192394600,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_08/capture_metadata.json",
+          "sha256": "f77b9dbb07f4fc3a76134c38ef43fc4ca7f3ecce8a4bd834663f6d0e7c7cee01"
+        },
+        {
+          "path": "STM32F446/run_08/original_analysis/capture.analysis.json",
+          "sha256": "9eef9e3705f2f58291724ce7db10fb776f22b07c0314b5ea4b442754ffac4ef2"
+        },
+        {
+          "path": "STM32F446/run_08/original_analysis/capture.workloads.csv",
+          "sha256": "311c06299c05a084fb3cfd7a3f89ad4ce78af092953254087e01a975c3740a23"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 9,
+      "capture_id": "20260910T121309.937316Z_stm32_009",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T121309.937316Z_stm32_009",
+      "source_raw_path": "captures/stm32/20260910T121309.937316Z_stm32_009/transport.raw4",
+      "destination_directory": "STM32F446/run_09",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5177856,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.77856,
+      "raw_bytes": 20711424,
+      "raw_sha256": "c92771b56263ed4108e64a87257032ab0a92d2d6181f5209c4dd19e1526c3499",
+      "csv_sha256": "ef69e4a44e511f986c0a5cb13d5b633b21f00554bb2d4d8a3cdf23410b890c4f",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_09/capture.csv",
+      "csv_bytes": 192478711,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_09/capture_metadata.json",
+          "sha256": "241bc9fde28ec61462ca4dcff090ad2de0ffb3e4be458917ffd871f5abba827d"
+        },
+        {
+          "path": "STM32F446/run_09/original_analysis/capture.analysis.json",
+          "sha256": "20f028445fc299c350c711effc9925c2573616024bfa1e1abfdda76b55f96d85"
+        },
+        {
+          "path": "STM32F446/run_09/original_analysis/capture.workloads.csv",
+          "sha256": "9f35ddedd104ea49c51ab085db04b1ee063f9ffee4ba6559873596f074174844"
+        }
+      ]
+    },
+    {
+      "board": "stm32",
+      "folder": "STM32F446",
+      "run": 10,
+      "capture_id": "20260910T121455.333430Z_stm32_010",
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "source_capture_directory": "captures/stm32/20260910T121455.333430Z_stm32_010",
+      "source_raw_path": "captures/stm32/20260910T121455.333430Z_stm32_010/transport.raw4",
+      "destination_directory": "STM32F446/run_10",
+      "regulator_removed": true,
+      "regulator_evidence": "operator_confirmation_2026-09-10",
+      "sample_count": 5180416,
+      "sample_rate_Hz": 100000,
+      "sample_count_times_dt_s": 51.80416,
+      "raw_bytes": 20721664,
+      "raw_sha256": "7c74a15fd5a78eb43e9e3a03f3e983237b28b2fc0a3f58ce53039c51fce6f729",
+      "csv_sha256": "337783004c91cd251f401ccf4c4be758acbdb31bb91496731cd54ec9671de59f",
+      "original_analysis_status": "structural_protocol_pass",
+      "csv_path": "STM32F446/run_10/capture.csv",
+      "csv_bytes": 192562036,
+      "raw_and_csv_hashes_verified": true,
+      "original_sidecars": [
+        {
+          "path": "STM32F446/run_10/capture_metadata.json",
+          "sha256": "2b255c417edf79f4de5b303aa4914e76a541539b0104682dcc9db96e60919f9b"
+        },
+        {
+          "path": "STM32F446/run_10/original_analysis/capture.analysis.json",
+          "sha256": "12621e759b5b3100979a86ec26fb32f5991bf86f9061a25b1921bd6072f86510"
+        },
+        {
+          "path": "STM32F446/run_10/original_analysis/capture.workloads.csv",
+          "sha256": "f797337f42bbea2e802cb6fc1a3dc9b0aa797c41380ce5e8d3d9772915869c6d"
+        }
+      ]
+    }
+  ]
+}

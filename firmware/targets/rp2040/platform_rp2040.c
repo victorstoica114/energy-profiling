@@ -7,8 +7,13 @@
 #include "hardware/resets.h"
 #include "hardware/structs/resets.h"
 #include "hardware/structs/clocks.h"
+#include "hardware/vreg.h"
+#include "hardware/structs/ssi.h"
+#include "hardware/structs/vreg_and_chip_reset.h"
 #if BENCH_DIAGNOSTICS
 #include <stdio.h>
+#include "hardware/flash.h"
+#include "hardware/sync.h"
 #if BENCH_DIAGNOSTIC_USB
 #include "pico/stdio_usb.h"
 #else
@@ -16,15 +21,26 @@
 #endif
 #endif
 
-_Static_assert(BENCH_EXPECTED_CPU_HZ == 133000000u, "CPU profile mismatch");
+_Static_assert(BENCH_EXPECTED_CPU_HZ == 200000000u, "CPU profile mismatch");
 _Static_assert(BENCH_PIN_RUN == 2, "RP2040 RUN pin mismatch");
+_Static_assert(PICO_FLASH_SPI_CLKDIV == 4, "RP2040 Flash clock divider mismatch");
 enum { RUN_PIN = BENCH_PIN_RUN };
 static bool configured;
 
 #if BENCH_DIAGNOSTICS
 static bool diagnostic_ready;
+static uint32_t diagnostic_flash_jedec_id;
 static bool diagnostic_init(void)
 {
+    /* Read JEDEC identification before enabling either serial transport.
+       XIP is temporarily unavailable; core 1 is parked and interrupts masked. */
+    const uint8_t command[4] = {0x9f, 0, 0, 0};
+    uint8_t response[4] = {0};
+    uint32_t interrupt_state = save_and_disable_interrupts();
+    flash_do_cmd(command, response, sizeof command);
+    restore_interrupts(interrupt_state);
+    diagnostic_flash_jedec_id = ((uint32_t)response[1] << 16) |
+        ((uint32_t)response[2] << 8) | response[3];
 #if BENCH_DIAGNOSTIC_USB
     if (!stdio_usb_init()) return false;
     absolute_time_t deadline = make_timeout_time_ms(5000);
@@ -74,6 +90,10 @@ bool bench_platform_check(void)
 {
     if (!configured || clock_get_hz(clk_sys) != BENCH_EXPECTED_CPU_HZ || get_core_num() != 0)
         return false;
+    if (clock_get_hz(clk_peri) != 48000000u ||
+        vreg_get_voltage() != VREG_VOLTAGE_1_15 ||
+        !(vreg_and_chip_reset_hw->vreg & VREG_AND_CHIP_RESET_VREG_ROK_BITS) ||
+        ssi_hw->baudr != PICO_FLASH_SPI_CLKDIV) return false;
     uint32_t held_reset = RESETS_RESET_ADC_BITS | RESETS_RESET_UART1_BITS;
 #if !BENCH_DIAGNOSTICS || BENCH_DIAGNOSTIC_USB
     held_reset |= RESETS_RESET_UART0_BITS;
@@ -90,7 +110,7 @@ bool bench_platform_check(void)
 #endif
     /* Independent peripheral counter relative to clk_ref; not an external calibration. */
     uint32_t khz = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_CLK_SYS);
-    return khz >= 132867u && khz <= 133133u;
+    return khz >= 199800u && khz <= 200200u;
 }
 
 bool bench_platform_init(void)
@@ -100,6 +120,12 @@ bool bench_platform_init(void)
     gpio_set_dir(RUN_PIN, GPIO_OUT);
     /* Pico onboard LED explicitly off. Core 1 is never launched. */
     gpio_init(25); gpio_put(25, 0); gpio_set_dir(25, GPIO_OUT);
+    /* The removed board regulator is distinct from this internal core supply.
+       Raise DVDD and allow 1 ms settling at the SDK startup clock before 200 MHz. */
+    vreg_set_voltage(VREG_VOLTAGE_1_15);
+    busy_wait_at_least_cycles(clock_get_hz(clk_sys) / 1000u);
+    if (vreg_get_voltage() != VREG_VOLTAGE_1_15 ||
+        !(vreg_and_chip_reset_hw->vreg & VREG_AND_CHIP_RESET_VREG_ROK_BITS)) return false;
     if (!set_sys_clock_khz(BENCH_EXPECTED_CPU_HZ / 1000u, false)) return false;
     reset_block(RESETS_RESET_ADC_BITS | RESETS_RESET_UART0_BITS | RESETS_RESET_UART1_BITS);
 #if !BENCH_DIAGNOSTICS || !BENCH_DIAGNOSTIC_USB
@@ -115,10 +141,15 @@ bool bench_platform_init(void)
     configured = true;
     bool valid = bench_platform_check();
 #if BENCH_DIAGNOSTICS
-    char line[224];
+    char line[320];
     snprintf(line, sizeof line,
-        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu fpu=software radio=absent core=%u transport=%s check=%u\r\n",
-        (unsigned long)clock_get_hz(clk_sys), get_core_num(),
+        "BENCH CONFIG board=rp2040 diagnostics=1 cpu_hz=%lu peri_hz=%lu vreg_target_mv=1150 vreg_sel=%u vreg_rok=%u flash_div=%lu flash_hz=%lu flash_jedec_id=%06lx fpu=software radio=absent core=%u transport=%s check=%u\r\n",
+        (unsigned long)clock_get_hz(clk_sys), (unsigned long)clock_get_hz(clk_peri),
+        (unsigned)vreg_get_voltage(),
+        (unsigned)((vreg_and_chip_reset_hw->vreg & VREG_AND_CHIP_RESET_VREG_ROK_BITS) != 0),
+        (unsigned long)ssi_hw->baudr,
+        (unsigned long)(ssi_hw->baudr ? clock_get_hz(clk_sys) / ssi_hw->baudr : 0u),
+        (unsigned long)diagnostic_flash_jedec_id, get_core_num(),
 #if BENCH_DIAGNOSTIC_USB
         "USB_CDC",
 #else

@@ -1,6 +1,6 @@
 # Measurement firmware and PPK2 analysis
 
-Specification checked against the source on **10 September 2026**, for **`energy-profiling-v3-single-gpio`**, experiment schema 2 and GPIO protocol `single_run_v1`. This document describes the measurement firmware and its existing limitations as the technical basis for the article's methods.
+Specification checked against the source on **11 September 2026**, for **`energy-profiling-v4-max-clock`**, release **v1.1.0**, experiment schema 2 and GPIO protocol `single_run_v1`. This document describes the measurement firmware. Existing PPK2 datasets belong to the preceding campaign; new RP2040 and STM32 captures are required before this configuration can supply replacement results for the article.
 
 **The measurement application emits no diagnostic messages and requires no DUT USB or UART connection.** It uses one GPIO output connected to PPK2 D0. HIGH normally marks a fixed-count batch; LOW is outside that batch. No separate algorithm-ID, ERROR, DONE or IDLE_VALID output exists. A detected fault latches the same output HIGH until reset.
 
@@ -9,7 +9,7 @@ Specification checked against the source on **10 September 2026**, for **`energy
 | Item | Defining file |
 |---|---|
 | Order, repetitions, boards, clocks, output pin and pauses | [experiment.json](../config/experiment.json) |
-| Previously programmed images and new candidate status | [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) |
+| Current image hashes, compilation and recorded programming status | [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) |
 | Exact inputs and their definitions | [data manifest](../data/manifest.json), [generator](../tools/generate_inputs.py) |
 | Autonomous sequence | [bench_runner.c](common/bench_runner.c), `bench_main` |
 | Kernel adapter, memory and result verification | [bench_kernels.c](common/kernels/bench_kernels.c) |
@@ -17,13 +17,9 @@ Specification checked against the source on **10 September 2026**, for **`energy
 | Platform contract and error reasons | [bench_platform.h](common/include/bench_platform.h) |
 | Capture integration | [analyze_capture.py](../tools/analyze_capture.py) |
 
-The logical `stm32` key means **NUCLEO-F446RE / STM32F446RET6**. The [targets/stm32](targets/stm32/README.md) directory retains F411 history, and its current CMake entry blocks accidental rebuilding against the F446 campaign. Old files directly in `build_verified` and the September `measurement`/`diagnostic` subdirectories describe earlier eight-signal snapshots. New single-GPIO candidates belong in `build_verified/single_gpio_measurement`; their existence does not establish that they were programmed or physically measured.
+The logical `stm32` key means **NUCLEO-F446RE / STM32F446RET6** and selects [targets/stm32f446](targets/stm32f446/README.md). Current images belong in `build_verified/max_clock_measurement`; their existence does not establish that they were programmed or physically measured. The `single_gpio_measurement` profile key in CURRENT_FIRMWARE.json is retained for collector compatibility and points to this archive. Earlier firmware is available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
-SHA-256 of the experiment manifest described here:
-
-```text
-e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075
-```
+The experiment manifest SHA-256 is recorded in CURRENT_FIRMWARE.json, the build provenance and each new capture. Always use the manifest matching the capture's recorded experiment; do not replace an older dataset's manifest with the current one.
 
 Notation: **L = 2048** is the input length of one kernel call; **R** is the board-specific call count in one batch; **M** is the number of PPK2 samples in a window. FFT normalization by L is distinct from dividing batch energy by R.
 
@@ -34,7 +30,7 @@ The common implementations are written in **C**. Platform adapters configure har
 | Current target | SDK / support | Compiler identity used for the campaign | Common C translation units |
 |---|---|---|---|
 | ESP32-D0WD-V3, revision 3.1 | ESP-IDF 5.5.4 | Espressif GCC 14.2.0, `esp-14.2.0_20260121`, Xtensa | `-std=gnu17` |
-| Raspberry Pi Pico, RP2040 | Pico SDK 2.2.0 | GNU Arm Embedded GCC 9.2.1, `20191025` | `-std=gnu11` |
+| Marble Pico, RP2040 | Pico SDK 2.2.0, Pico-compatible board profile | GNU Arm Embedded GCC 9.2.1, `20191025` | `-std=gnu11` |
 | NUCLEO-F446RE | cmsis-device-f4 v2.6.11, CMSIS_5 5.9.0 | GNU Arm Embedded GCC 9.2.1, `20191025` | `-std=gnu11` |
 
 Thus the precise description is **common C implementation compiled as GNU C17 on ESP32 and GNU C11 on ARM**. SDK startup, runtime and libraries may also contain C++, assembly or ROM code. Exact commands and artifact identities are retained with each build; historical build records do not substitute for a new source-version build record.
@@ -330,8 +326,10 @@ A CPU fault or platform-internal failure may stop execution before these variabl
 
 | Parameter | ESP32 | Pico RP2040 | NUCLEO-F446RE |
 |---|---|---|---|
-| Nominal CPU | 240 MHz | 133 MHz | 100 MHz |
-| Configured source | 40 MHz crystal, 480 MHz PLL /2 | 12 MHz Pico crystal, PLL_SYS | Nominal 16 MHz HSI, PLL M=16/N=200/P=2 |
+| Nominal CPU | 240 MHz | 200 MHz | 180 MHz |
+| Configured source | 40 MHz crystal, 480 MHz PLL /2 | 12 MHz crystal, PLL VCO 1200 MHz /6 /1 | Nominal 16 MHz HSI, PLL M=16/N=360/P=2 |
+| Core regulator policy | SDK configuration for fixed CPU clock | Internal 1.15 V selection, checked before RUN | Scale 1 with OverDrive enabled and ready |
+| Flash access configuration | DIO, 40 MHz | QSPI, divider 4, 50 MHz | Five wait states; prefetch and instruction/data caches |
 | Application core | CPU0; CPU1 stopped by unicore IDF startup | Core0; core1 remains in Boot ROM waiting state, no application launched | One Cortex-M4 |
 | Floating point | Hardware single; double is not assumed hardware | Software, no FPU | Single-precision FPU enabled, hard-float ABI; software double |
 | Runtime | ESP-IDF / FreeRTOS | Pico SDK, bare metal | CMSIS, bare metal |
@@ -343,13 +341,15 @@ A CPU fault or platform-internal failure may stop execution before these variabl
 
 UART0/1/2 are reset and their clocks disabled; GPIO1/3 are disabled without pulls. The measurement application has no serial console. Immutable ESP32 ROM may emit boot text before application initialization and the baseline; ROM output is not an application measurement report. No eFuse change is made to suppress it.
 
-**Pico.** clock_get_hz and a hardware frequency counter check the system clock. The counter is relative to clk_ref, accepting 132867..133133 kHz; this is not calibration against an external standard. UART0/1, USBCTRL and ADC are held in reset, clk_usb and clk_adc are stopped, and GPIO0/1 have no function/pull. **PLL_USB remains enabled** because the SDK uses its 48 MHz output for clk_peri. Stopping USB does not mean every PLL is stopped. Float/double and mathematical operations may use Pico SDK/Boot ROM software wrappers. clk_rtc remains at 46875 Hz. The SDK default alarm pool/handler is compiled in, but the application registers no periodic alarm callbacks and does not globally mask interrupts.
+**Pico.** Before the first preparation or measurement window, the firmware selects an internal core voltage of 1.15 V, allows at least 1 ms settling and checks regulation before switching to 200 MHz. clock_get_hz and a hardware frequency counter check the system clock. The counter is relative to clk_ref, accepting 199800..200200 kHz; this is not calibration against an external standard. Runtime checks also require the 1.15 V selection, regulation-ready status, clk_peri at 48 MHz and the SSI Flash divider at 4. The boot stage and application use the same divider, giving 50 MHz QSPI access during RUN. The Pico-compatible profile configures 2 MiB of Flash address space; this is a build setting, not a claim that the physical board has only that capacity. The internal core regulator is distinct from the removed board regulator; PPK2 supplies 3.3 V to the board rail. [RP2040 datasheet, Sections 2.15.3 and 5.6](https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf).
 
-**F446.** Internal HSI avoids dependence on a powered ST-LINK MCO. Checks cover device ID 0x421, 512 KiB Flash, PLL configuration, default HSI trim, bus dividers, FPU access and the explicitly tracked peripherals. AHB=100 MHz, APB1=25 MHz (/4), APB2=50 MHz (/2); TIM2 receives 50 MHz with prescaler 4999. Flash has three wait states, with prefetch and instruction/data caches enabled. Regulator VOS is scale1, overdrive disabled. SysTick is stopped; TIM2 has no IRQ. USB FS/HS, DMA1/2 and CRC clocks must be off. USART2 is disabled; PA2/PA3 are analog inputs without pulls. A small calculation with volatile float operands checks an executable FPU path.
+UART0/1, USBCTRL and ADC are held in reset, clk_usb and clk_adc are stopped, and GPIO0/1 have no function/pull. **PLL_USB remains enabled** because the SDK uses its 48 MHz output for clk_peri. Stopping USB does not mean every PLL is stopped. Float/double and mathematical operations may use Pico SDK/Boot ROM software wrappers. clk_rtc remains at 46875 Hz. The SDK default alarm pool/handler is compiled in, but the application registers no periodic alarm callbacks and does not globally mask interrupts.
+
+**F446.** Internal HSI avoids dependence on a powered ST-LINK MCO. Checks cover device ID 0x421, 512 KiB Flash, PLL configuration, default HSI trim, bus dividers, FPU access, Flash settings, voltage scaling, OverDrive readiness and the explicitly tracked peripherals. AHB=180 MHz, APB1=45 MHz (/4), APB2=90 MHz (/2); TIM2 receives 90 MHz with prescaler 8999 and TIMPRE cleared. Flash has five wait states, with prefetch and instruction/data caches enabled. Regulator VOS is Scale 1; OverDrive and its switching/readiness flags must be set. Clock initialization performs the regulator transition while SYSCLK still uses HSI and selects the PLL only after Flash and bus settings are ready. SysTick is stopped; TIM2 has no IRQ. USB FS/HS, DMA1/2 and CRC clocks must be off. USART2 is disabled; PA2/PA3 are analog inputs without pulls. A small calculation with volatile float operands checks an executable FPU path.
 
 Register reads and clock APIs validate **configuration**, not the exact physical oscillator frequency. HSI drift, actual voltage and PPK2 integration remain fixture checks. The list does not imply every conceivable peripheral is off.
 
-Sources: [ESP32 adapter](targets/esp32/main/platform_esp32.c), [ESP32 configuration](targets/esp32/sdkconfig), [Pico adapter](targets/rp2040/platform_rp2040.c), [F446 adapter](targets/stm32f446/platform_stm32f446.c), and the archived build records.
+Sources: [ESP32 adapter](targets/esp32/main/platform_esp32.c), [ESP32 configuration](targets/esp32/sdkconfig.defaults), [Pico adapter](targets/rp2040/platform_rp2040.c), [F446 adapter](targets/stm32f446/platform_stm32f446.c), and the current build archives.
 
 ## 9. GPIO, power and LEDs
 
@@ -389,7 +389,7 @@ Current minimum, maximum and population standard deviation describe samples with
 
 ### Structural capture acceptance
 
-The analyzer requires exactly twelve complete HIGH regions and assigns algorithms by ordinal position. It requires at least 495000 defined LOW samples before the first HIGH, at least 99000 LOW samples between successive pulses and at least 300000 LOW samples after the twelfth falling edge. These correspond to nominal five/one-second MCU pause lower bounds with **1% tolerance**, and an exact three-second recording-tail minimum. There are no upper bounds because other work can lengthen LOW gaps. The tolerance is a protocol threshold, not calibrated timing uncertainty.
+The analyzer requires exactly twelve complete HIGH regions and assigns algorithms by ordinal position. ESP32 and RP2040 require at least 495000 defined LOW samples before the first HIGH and at least 99000 between successive pulses. STM32 uses 490000 and 98000 respectively, reflecting a 2% allowance for its HSI-derived control timer instead of 1%. Every board requires at least 300000 LOW samples after the twelfth falling edge. These are nominal five/one-second MCU pause lower bounds and an exact three-second recording-tail minimum. There are no upper bounds because other work can lengthen LOW gaps. The tolerance is a protocol threshold, not calibrated timing uncertainty; verify it in the new physical pilot.
 
 The selected RUN input may be unknown only in a contiguous prefix before its first defined LOW. Later unknown or mixed states reject the capture. Unused digital channels are ignored. Finite negative current is allowed before the first RUN except in the selected baseline; the baseline and every sample from the first RUN onward must be nonnegative. NaN/Inf current is always rejected, without clipping or reindexing.
 
@@ -401,13 +401,13 @@ Native support is `.ppk2` formatVersion 2: a ZIP containing metadata.json, sessi
 
 Nordic CSV uses explicit Timestamp(ms), Current(uA), and D0 or the D0-first D0-D7 bitstring. A generic CSV declares units and `--digital-column` or a D0-first `--digital-bitstring-column`; units are not guessed from numeric magnitude. Optional sample indices and timestamps are checked for detectable discontinuities. Native captures are unchanged and existing outputs are not overwritten.
 
-The complete schema, CLI and official Nordic format references are in [capture_format.md](../docs/capture_format.md). The first actual laboratory export still requires a physical compatibility check.
+The complete schema, CLI and official Nordic format references are in [capture_format.md](../docs/capture_format.md). Each new acquisition setup requires a physical compatibility check.
 
 ## 11. Measurement images and acquisition status
 
-[CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records the images last programmed and the state of new single-GPIO candidates separately. Old measurement images installed on 9 September 2026 used eight signals. They must not be presented as the new single-GPIO firmware. New build evidence belongs in each target's `build_verified/single_gpio_measurement`; a successful compile is not a programming or PPK2 record.
+[CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records build hashes and observed programming status separately. New build evidence belongs in each target's `build_verified/max_clock_measurement`; a successful compile is not a programming or PPK2 record. See [validation status](../docs/VALIDATION.md) and the [hardware report](../docs/HARDWARE_VALIDATION.md) for the evidence currently available.
 
-The new campaign requires hardware revalidation and a PPK2 pilot. No existing PPK2 energy capture validates its one-wire sequence. Required checks include isolated 3V3 wiring, physical clock/voltage measurements, pulse boundaries, exported file format and independent captures. At least ten independent starts per board are proposed. Fixed order, heating and cache state matter; one physical unit per model does not characterize unit-to-unit variation.
+The maximum-clock campaign requires new RP2040 and STM32 PPK2 pilots and ten accepted independent cold-boot captures per board. No replacement energy datasets for those configurations are available yet. The existing captured files and their original manifests remain unchanged; they do not become current results after a firmware update. ESP32 measurements can be retained only with original provenance and verified equivalence of the measured settings. Required checks include isolated 3V3 wiring, physical clock/voltage measurements, pulse boundaries, exported file format and independent captures. Fixed order, heating and cache state matter; one physical unit per model does not characterize unit-to-unit variation.
 
 ## 12. Changes from the original code and earlier protocol
 
@@ -415,7 +415,7 @@ This is a repaired, versioned benchmark. Preserving input volume and repetitions
 
 | Aspect | Current behavior to describe in the article |
 |---|---|
-| STM32 platform | F446RE at explicit 100 MHz with FPU and HSI; original F411/recovered 96 MHz configuration is not this campaign |
+| CPU operating profiles | ESP32 240 MHz; RP2040 200 MHz with internal 1.15 V; F446RE 180 MHz with Scale 1/OverDrive and HSI |
 | Timing | External PPK2 timebase, fixed R calls, no MCU performance timestamps |
 | Marker | One GPIO pulse per batch, no external marker LED or ID/status bus; errors latch RUN HIGH |
 | Input | Three byte-defined deterministic sets; numerical uint8 DSP, not reinterpreted float storage |
@@ -429,7 +429,7 @@ This is a repaired, versioned benchmark. Preserving input volume and repetitions
 | DCT | Correct DCT-II angle, phase reduction and signed float coefficients without byte clipping |
 | One-wire validation | Algorithm assignment from order, lower-bound LOW checks and structural acceptance; no independent completion/error bus |
 
-Archived binaries, input data and captured logs are retained as evidence of their own versions. An algorithm name alone does not define a workload: variant, input, included initialization, compiler and RUN boundary are part of its identity.
+Historical firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0). Input data and captured logs retain their own versioned provenance. An algorithm name alone does not define a workload: variant, input, included initialization, compiler and RUN boundary are part of its identity.
 
 ## 13. Keeping source, documentation and article consistent
 

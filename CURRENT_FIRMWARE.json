@@ -1,56 +1,59 @@
 {
   "schema_version": 2,
-  "experiment_id": "energy-profiling-v3-single-gpio",
-  "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
-  "state": "single_gpio_measurement_images_compiled_not_programmed; hardware_revalidation_and_PPK2_pilot_pending",
+  "release_version": "1.1.0",
+  "experiment_id": "energy-profiling-v4-max-clock",
+  "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "updated_utc": "2026-09-11T13:46:06.158467+00:00",
+  "state": "measurement_images_built; rp2040_programmed_after_diagnostic_pass; stm32_programming_and_runtime_pending; new_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
   },
-  "last_programmed_firmware": {
-    "experiment_id": "energy-profiling-v2-f446",
-    "manifest": "hardware/2026-09-09/firmware_manifest_v2.json",
-    "sha256": "e4f83daaeb2d3fdc684b1fc310505fdce41e7cc1b63e82f65dcf26679d5c7c4b",
-    "recorded_date": "2026-09-09",
-    "gpio_protocol": "eight_digital_signals",
-    "matches_current_protocol": false
-  },
+  "profile_key_note": "single_gpio_measurement is retained for collector compatibility; current files are in max_clock_measurement.",
+  "hardware_scope": "Diagnostic execution, measurement-image transfer, memory readback and PPK2 acceptance are distinct evidence. None is inferred from compilation.",
   "boards": {
     "esp32": {
       "model": "ESP32-D0WD-V3 rev3.1",
       "marker_pin": 18,
+      "cpu_hz": 240000000,
       "candidate_profile": "single_gpio_measurement",
       "candidate_programmed": false,
-      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
-      "last_recorded_installed_profile": "measurement",
       "profiles": {
         "single_gpio_measurement": {
-          "primary_image": "firmware/targets/esp32/build_verified/single_gpio_measurement/energy_bench_esp32.bin",
-          "sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
-          "verification": "firmware/targets/esp32/build_verified/single_gpio_measurement/verification.json",
-          "verification_sha256": "2b50794f8ba58685fc78d05862852208f7a835f8a66c7d748430228194d811d3",
-          "source_manifest": "firmware/targets/esp32/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
-          "source_manifest_sha256": "636cdf12c7ec919434bb2e06fcdc2b6ba623fd194760a957d2491a2b5874f012",
+          "primary_image": "firmware/targets/esp32/build_verified/max_clock_measurement/energy_bench_esp32.bin",
+          "sha256": "3198788fa1e4e981035f4f11f9e3cc73c46ecad1197d73f04e434e57806e62bb",
+          "verification": "firmware/targets/esp32/build_verified/max_clock_measurement/verification.json",
+          "verification_sha256": "4b6f05c4e0e870d46c0f579d3c0141f92a098deec326c09be69dbb54d44ca191",
+          "source_manifest": "firmware/targets/esp32/build_verified/max_clock_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "5c0068d4f19ffeee083b37c49e844590fc5b258f50e1807ba4f02beb719577fe",
+          "experiment_manifest": "firmware/targets/esp32/build_verified/max_clock_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
           "hardware_programmed": false,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": false,
+            "status": "pending",
+            "applies_to": "separate_diagnostic_image"
+          },
           "flash_images": [
             {
               "offset": "0x1000",
-              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/bootloader/bootloader.bin",
-              "sha256": "f29111807dbbf3827bf3b744d305a92b6408d5f8b40734ed0011b23874dc19d4"
+              "path": "firmware/targets/esp32/build_verified/max_clock_measurement/bootloader/bootloader.bin",
+              "sha256": "b4b212720d37ba193f0077cb41abde744dc35b8b579efa125c2701c265bc4ec9"
             },
             {
               "offset": "0x8000",
-              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/partition_table/partition-table.bin",
+              "path": "firmware/targets/esp32/build_verified/max_clock_measurement/partition_table/partition-table.bin",
               "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
             },
             {
               "offset": "0x10000",
-              "path": "firmware/targets/esp32/build_verified/single_gpio_measurement/energy_bench_esp32.bin",
-              "sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd"
+              "path": "firmware/targets/esp32/build_verified/max_clock_measurement/energy_bench_esp32.bin",
+              "sha256": "3198788fa1e4e981035f4f11f9e3cc73c46ecad1197d73f04e434e57806e62bb"
             }
           ],
           "flash_parameters": {
@@ -58,55 +61,79 @@
             "frequency": "40MHz",
             "size": "4MB",
             "preserve_compiled_headers": true
-          }
+          },
+          "benchmark_equivalence_to_v1_0_0": "SDK configuration, inputs, iteration counts, 22 benchmark/platform/kernel functions, and runtime text/rodata/data sections match; new image metadata differs. Existing captures retain original image hashes."
         }
       }
     },
     "rp2040": {
-      "model": "Raspberry Pi Pico RP2040",
+      "model": "Marble Pico with RP2040",
       "marker_pin": 2,
+      "cpu_hz": 200000000,
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": false,
-      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
-      "last_recorded_installed_profile": "measurement",
+      "candidate_programmed": true,
       "profiles": {
         "single_gpio_measurement": {
-          "primary_image": "firmware/targets/rp2040/build_verified/single_gpio_measurement/energy_bench_rp2040.uf2",
-          "sha256": "85ccf6b07845d379e9b647698950b2bffca27c34174072c9c67d34f648d84e15",
-          "verification": "firmware/targets/rp2040/build_verified/single_gpio_measurement/verification.json",
-          "verification_sha256": "38d3a8e21611a7bdbf2ee3be75fa9def3362ea53c855b854c171d1aee39204c2",
-          "source_manifest": "firmware/targets/rp2040/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
-          "source_manifest_sha256": "d834fcf67e4ede3d156279ad23546a5e4f52db64aa8cf17a2cfcbeafdeccdcc0",
+          "primary_image": "firmware/targets/rp2040/build_verified/max_clock_measurement/energy_bench_rp2040.uf2",
+          "sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+          "verification": "firmware/targets/rp2040/build_verified/max_clock_measurement/verification.json",
+          "verification_sha256": "37a854ce457bf055f7a71f6bf4e8af5b02cc7dcad669349fb974f3992d061489",
+          "source_manifest": "firmware/targets/rp2040/build_verified/max_clock_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "9d2ba739dec2335057fa979cf70e9528c19f5e848cbfb8aba21f4f7e4b3875b1",
+          "experiment_manifest": "firmware/targets/rp2040/build_verified/max_clock_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
-          "hardware_programmed": false,
+          "hardware_programmed": true,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
-          "format": "RP2040 UF2 with embedded target addresses"
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": true,
+            "status": "passed",
+            "applies_to": "separate_diagnostic_image",
+            "validated_algorithms": 12,
+            "final_done_received": true,
+            "evidence": "hardware/2026-09-11/rp2040_diagnostic_01.json",
+            "evidence_sha256": "cb360a7907d10777f49a42eeb78942c4bd244fd5e0ef238516d2c9f8c8582774",
+            "firmware_sha256": "c890dffe46b0e3f4179e0e0e646acca9513a668a356f42511f97696e20f7a008"
+          },
+          "format": "RP2040 UF2 with embedded target addresses",
+          "programming_evidence": "hardware/2026-09-11/rp2040_measurement_programming.json",
+          "programming_evidence_sha256": "1b752f7da72fb3198e5418545a2ee45f902f35bc708bf2f0affc3f4792a2cd08"
         }
       }
     },
     "stm32": {
       "model": "NUCLEO-F446RE",
       "marker_pin": "PC0",
+      "cpu_hz": 180000000,
       "candidate_profile": "single_gpio_measurement",
       "candidate_programmed": false,
-      "last_recorded_installed_experiment_id": "energy-profiling-v2-f446",
-      "last_recorded_installed_profile": "measurement",
       "profiles": {
         "single_gpio_measurement": {
-          "primary_image": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/energy_bench_stm32f446.bin",
-          "sha256": "159849461b7f3ade75b4b4674f4302327964ec31fc1404bc8609fd47f9e80b2d",
-          "verification": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/verification.json",
-          "verification_sha256": "fc0623d92ee76a7d836e89e73dbab7343d3d2bd5ee591511311745a756dbc532",
-          "source_manifest": "firmware/targets/stm32f446/build_verified/single_gpio_measurement/source_sha256_at_archive.json",
-          "source_manifest_sha256": "176eb8933293106920c50a1efdb4052e150f29b5a9fe52d4b8a64141e283c145",
+          "primary_image": "firmware/targets/stm32f446/build_verified/max_clock_measurement/energy_bench_stm32f446.bin",
+          "sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+          "verification": "firmware/targets/stm32f446/build_verified/max_clock_measurement/verification.json",
+          "verification_sha256": "65ae324d40f00def67650a8d5f6b27e1d9b4923485e20efec29f7f3485047639",
+          "source_manifest": "firmware/targets/stm32f446/build_verified/max_clock_measurement/source_sha256_at_archive.json",
+          "source_manifest_sha256": "87440a939cab3ba4988cf2cb0e87faf507a3817d88822424851769edec5c9698",
+          "experiment_manifest": "firmware/targets/stm32f446/build_verified/max_clock_measurement/experiment_manifest_at_archive.json",
+          "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
           "hardware_programmed": false,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
-          "load_address": "0x08000000"
+          "flash_readback_attestation": false,
+          "diagnostic_functional_validation": {
+            "passed": false,
+            "status": "pending",
+            "applies_to": "separate_diagnostic_image",
+            "reason": "SWD programming attempt could not reset/halt the target; wiring and target power are being checked."
+          },
+          "load_address": "0x08000000",
+          "programming_status": "pending_after_SWD_reset_halt_failure"
         }
       }
     }

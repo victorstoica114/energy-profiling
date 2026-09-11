@@ -11,15 +11,22 @@
 #if HSI_VALUE != 16000000U
 #error "This independent-power profile uses the factory-trimmed 16 MHz HSI"
 #endif
-_Static_assert(BENCH_EXPECTED_CPU_HZ == 100000000u, "CPU profile mismatch");
+_Static_assert(BENCH_EXPECTED_CPU_HZ == 180000000u, "CPU profile mismatch");
 _Static_assert(BENCH_EXPECTED_OSCILLATOR_HZ == 16000000u, "HSI profile mismatch");
 _Static_assert(BENCH_SIGNAL_GPIO_PORT == 2, "STM32F446 RUN must use GPIOC");
 _Static_assert(BENCH_PIN_RUN == 0, "STM32F446 RUN must use PC0");
 
-/* HSI/16 *200 /2: SYSCLK100 MHz. Q/5 and R/2 are valid but unused. */
-#define PLL_CONFIG (16u | (200u << 6) | (5u << 24) | (2u << 28))
+/* HSI/16 *360 /2: SYSCLK 180 MHz. Q/5 = 72 MHz and R/2 are unused. */
+#define PLL_CONFIG (16u | (360u << 6) | (5u << 24) | (2u << 28))
 #define BUS_CONFIG (RCC_CFGR_PPRE1_DIV4 | RCC_CFGR_PPRE2_DIV2)
+#define FLASH_CONFIG (FLASH_ACR_LATENCY_5WS | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
+#define FLASH_CONFIG_MASK (FLASH_ACR_LATENCY | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN)
+#define POWER_CONFIG (PWR_CR_VOS | PWR_CR_ODEN | PWR_CR_ODSWEN)
+#define POWER_READY (PWR_CSR_VOSRDY | PWR_CSR_ODRDY | PWR_CSR_ODSWRDY)
+#define GAP_TIMER_PRESCALER 8999u
 #define FPU_ACCESS (0xfu << 20)
+_Static_assert(BENCH_EXPECTED_CPU_HZ / 2u / (GAP_TIMER_PRESCALER + 1u) == 10000u,
+    "TIM2 must retain the 10 kHz control-pause clock");
 static bool configured;
 
 void bench_platform_marker(bool high)
@@ -94,6 +101,10 @@ void bench_platform_report(const char *event, unsigned id, unsigned calls, uint3
         uart_text(" pllcfgr="); uart_hex(RCC->PLLCFGR);
         uart_text(" cfgr="); uart_hex(RCC->CFGR);
         uart_text(" cpacr="); uart_hex(SCB->CPACR);
+        uart_text(" flash_acr="); uart_hex(FLASH->ACR);
+        uart_text(" pwr_cr="); uart_hex(PWR->CR);
+        uart_text(" pwr_csr="); uart_hex(PWR->CSR);
+        uart_text(" tim2_psc="); uart_unsigned(TIM2->PSC);
         uart_text("\r\n");
     }
     uart_text("BENCH event="); uart_text(event);
@@ -111,7 +122,8 @@ bool bench_platform_check(void)
     uint32_t pll_mask = RCC_PLLCFGR_PLLM | RCC_PLLCFGR_PLLN | RCC_PLLCFGR_PLLP |
         RCC_PLLCFGR_PLLSRC | RCC_PLLCFGR_PLLQ | RCC_PLLCFGR_PLLR;
     uint32_t bus_mask = RCC_CFGR_SWS | RCC_CFGR_HPRE | RCC_CFGR_PPRE1 | RCC_CFGR_PPRE2;
-    return configured && (DBGMCU->IDCODE & 0xfffu) == 0x421u &&
+    return configured && SystemCoreClock == BENCH_EXPECTED_CPU_HZ &&
+        (DBGMCU->IDCODE & 0xfffu) == 0x421u &&
         *(volatile const uint16_t *)FLASHSIZE_BASE == 512u &&
         (RCC->CR & (RCC_CR_HSIRDY | RCC_CR_PLLRDY | RCC_CR_HSEON)) ==
             (RCC_CR_HSIRDY | RCC_CR_PLLRDY) &&
@@ -120,9 +132,11 @@ bool bench_platform_check(void)
         (RCC->CFGR & bus_mask) == (RCC_CFGR_SWS_PLL | BUS_CONFIG) &&
         (RCC->DCKCFGR & RCC_DCKCFGR_TIMPRE) == 0 &&
         (SCB->CPACR & FPU_ACCESS) == FPU_ACCESS &&
-        (FLASH->ACR & FLASH_ACR_LATENCY) == FLASH_ACR_LATENCY_3WS &&
-        (PWR->CR & (PWR_CR_VOS | PWR_CR_ODEN | PWR_CR_ODSWEN)) == PWR_CR_VOS &&
-        (PWR->CSR & PWR_CSR_VOSRDY) != 0 &&
+        (FLASH->ACR & FLASH_CONFIG_MASK) == FLASH_CONFIG &&
+        (PWR->CR & POWER_CONFIG) == POWER_CONFIG &&
+        (PWR->CSR & POWER_READY) == POWER_READY &&
+        (RCC->APB1ENR & RCC_APB1ENR_TIM2EN) != 0 &&
+        TIM2->PSC == GAP_TIMER_PRESCALER && TIM2->DIER == 0 &&
         (RCC->AHB2ENR & RCC_AHB2ENR_OTGFSEN) == 0 &&
         (RCC->AHB1ENR & (RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN |
             RCC_AHB1ENR_CRCEN | RCC_AHB1ENR_OTGHSEN)) == 0 &&
@@ -130,8 +144,41 @@ bool bench_platform_check(void)
             (BENCH_DIAGNOSTICS ? RCC_APB1ENR_USART2EN : 0u);
 }
 
+static bool configure_clock(void)
+{
+    /* RM0390: enter OverDrive while SYSCLK is HSI, before enabling peripherals. */
+    RCC->CR = (RCC->CR & ~RCC_CR_HSITRIM) | RCC_CR_HSION | RCC_CR_HSITRIM_4;
+    if (!wait_ready(&RCC->CR, RCC_CR_HSIRDY, RCC_CR_HSIRDY)) return false;
+    RCC->CFGR &= ~RCC_CFGR_SW;
+    if (!wait_ready(&RCC->CFGR, RCC_CFGR_SWS, RCC_CFGR_SWS_HSI)) return false;
+    RCC->CR &= ~(RCC_CR_PLLON | RCC_CR_HSEON | RCC_CR_HSEBYP | RCC_CR_CSSON);
+    if (!wait_ready(&RCC->CR, RCC_CR_PLLRDY, 0)) return false;
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    (void)RCC->APB1ENR;
+    PWR->CR = (PWR->CR & ~(PWR_CR_ODEN | PWR_CR_ODSWEN)) | PWR_CR_VOS;
+    if (!wait_ready(&PWR->CSR, PWR_CSR_ODRDY | PWR_CSR_ODSWRDY, 0)) return false;
+    RCC->PLLCFGR = PLL_CONFIG;
+    RCC->CR |= RCC_CR_PLLON;
+    if (!wait_ready(&PWR->CSR, PWR_CSR_VOSRDY, PWR_CSR_VOSRDY)) return false;
+    PWR->CR |= PWR_CR_ODEN;
+    if (!wait_ready(&PWR->CSR, PWR_CSR_ODRDY, PWR_CSR_ODRDY)) return false;
+    PWR->CR |= PWR_CR_ODSWEN;
+    if (!wait_ready(&PWR->CSR, PWR_CSR_ODSWRDY, PWR_CSR_ODSWRDY)) return false;
+    /* Five wait states are required at 180 MHz for the measured 3.3 V rail. */
+    FLASH->ACR = FLASH_CONFIG;
+    if (!wait_ready(&FLASH->ACR, FLASH_CONFIG_MASK, FLASH_CONFIG)) return false;
+    RCC->CFGR = (RCC->CFGR & ~(RCC_CFGR_HPRE | RCC_CFGR_PPRE1 | RCC_CFGR_PPRE2)) | BUS_CONFIG;
+    RCC->DCKCFGR &= ~RCC_DCKCFGR_TIMPRE;
+    if (!wait_ready(&RCC->CR, RCC_CR_PLLRDY, RCC_CR_PLLRDY)) return false;
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | RCC_CFGR_SW_PLL;
+    if (!wait_ready(&RCC->CFGR, RCC_CFGR_SWS, RCC_CFGR_SWS_PLL)) return false;
+    SystemCoreClockUpdate();
+    return SystemCoreClock == BENCH_EXPECTED_CPU_HZ;
+}
+
 bool bench_platform_init(void)
 {
+    configured = false;
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
     (void)RCC->AHB1ENR;
     GPIOC->BSRR = 1u << (BENCH_PIN_RUN + 16u);
@@ -143,36 +190,24 @@ bool bench_platform_init(void)
     GPIOA->BSRR = 1u << (5 + 16); /* Nucleo LD2, PA5 active-high: off. */
     GPIOA->MODER = (GPIOA->MODER & ~(3u << 10)) | (1u << 10);
     SysTick->CTRL = 0;
-#if BENCH_DIAGNOSTICS
-    diagnostic_uart_init();
-#else
-    RCC->APB1ENR &= ~RCC_APB1ENR_USART2EN;
-    /* Both VCP pins are analog/high-impedance in measurement firmware. */
+    RCC->APB1ENR &= ~(RCC_APB1ENR_USART2EN | RCC_APB1ENR_TIM2EN);
+    /* Both VCP pins remain analog/high-impedance in measurement firmware. */
     GPIOA->MODER |= (3u << 4) | (3u << 6);
     GPIOA->PUPDR &= ~((3u << 4) | (3u << 6));
+    bool clock_ready = false;
+    if ((DBGMCU->IDCODE & 0xfffu) == 0x421u &&
+        *(volatile const uint16_t *)FLASHSIZE_BASE == 512u) {
+        /* Output latches retain LOW while their clocks are gated for the transition. */
+        RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN);
+        (void)RCC->AHB1ENR;
+        clock_ready = configure_clock();
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
+        (void)RCC->AHB1ENR;
+    }
+#if BENCH_DIAGNOSTICS
+    diagnostic_uart_init();
 #endif
-    if ((DBGMCU->IDCODE & 0xfffu) != 0x421u ||
-        *(volatile const uint16_t *)FLASHSIZE_BASE != 512u) return false;
-    RCC->CR = (RCC->CR & ~RCC_CR_HSITRIM) | RCC_CR_HSION | RCC_CR_HSITRIM_4;
-    if (!wait_ready(&RCC->CR, RCC_CR_HSIRDY, RCC_CR_HSIRDY)) return false;
-    RCC->CFGR &= ~RCC_CFGR_SW;
-    if (!wait_ready(&RCC->CFGR, RCC_CFGR_SWS, RCC_CFGR_SWS_HSI)) return false;
-    RCC->CR &= ~(RCC_CR_PLLON | RCC_CR_HSEON | RCC_CR_HSEBYP | RCC_CR_CSSON);
-    if (!wait_ready(&RCC->CR, RCC_CR_PLLRDY, 0)) return false;
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
-    (void)RCC->APB1ENR;
-    PWR->CR = (PWR->CR & ~(PWR_CR_ODEN | PWR_CR_ODSWEN)) | PWR_CR_VOS;
-    RCC->PLLCFGR = PLL_CONFIG;
-    FLASH->ACR = FLASH_ACR_LATENCY_3WS | FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN;
-    RCC->CFGR = (RCC->CFGR & ~(RCC_CFGR_HPRE | RCC_CFGR_PPRE1 | RCC_CFGR_PPRE2)) | BUS_CONFIG;
-    RCC->DCKCFGR &= ~RCC_DCKCFGR_TIMPRE;
-    RCC->CR |= RCC_CR_PLLON;
-    if (!wait_ready(&RCC->CR, RCC_CR_PLLRDY, RCC_CR_PLLRDY) ||
-        !wait_ready(&PWR->CSR, PWR_CSR_VOSRDY, PWR_CSR_VOSRDY)) return false;
-    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | RCC_CFGR_SW_PLL;
-    if (!wait_ready(&RCC->CFGR, RCC_CFGR_SWS, RCC_CFGR_SWS_PLL)) return false;
-    SystemCoreClockUpdate();
-    if (SystemCoreClock != BENCH_EXPECTED_CPU_HZ) return false;
+    if (!clock_ready) return false;
     SCB->CPACR |= FPU_ACCESS;
     __DSB(); __ISB();
     volatile float a = 1.5f, b = 2.0f;
@@ -181,7 +216,7 @@ bool bench_platform_init(void)
     RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
     (void)RCC->APB1ENR;
     TIM2->CR1 = 0; TIM2->DIER = 0;
-    TIM2->PSC = 4999u; /* APB1/4 x2=50 MHz ->10 kHz gap clock. */
+    TIM2->PSC = GAP_TIMER_PRESCALER; /* 180 MHz /4 x2 /9000 = 10 kHz. */
     configured = true;
     return bench_platform_check();
 }

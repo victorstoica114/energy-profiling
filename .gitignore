@@ -5,4 +5,5 @@ tools/__pycache__/
 *.pyc
 captures/**/capture.csv
 captures_noreg/**/capture.csv
+captures_max_clock/**/capture.csv
 module radio/
