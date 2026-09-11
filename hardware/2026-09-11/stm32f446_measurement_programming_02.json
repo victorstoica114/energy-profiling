@@ -1,0 +1,22 @@
+{
+  "recorded_utc": "2026-09-11T14:55:56.450140+00:00",
+  "programmed_date": "2026-09-11",
+  "chronology": "Final silent image transfer after the complete USART3/PC10 diagnostic PASS and DONE; recorded after the observed transfer and FAIL.TXT check.",
+  "board": "stm32",
+  "model": "NUCLEO-F446RE",
+  "image_profile": "single_gpio_measurement",
+  "image_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+  "cpu_hz": 180000000,
+  "diagnostics_enabled": false,
+  "transport": "ST-LINK/V2-1 mass storage",
+  "volume_label": "NODE_F446RE",
+  "volume_size_bytes": 1601536,
+  "copy_completed_without_host_error": true,
+  "stlink_fail_file_after_copy": false,
+  "flash_readback_attestation": false,
+  "diagnostic_functional_validation": "passed_all_12_workloads_and_DONE_in_separate_PC10_image",
+  "diagnostic_evidence": "hardware/2026-09-11/stm32f446_pc10_diagnostic_01.json",
+  "diagnostic_evidence_sha256": "34d82790eb65d3e5edefadc84a3d0e85cbb8a865fb1afa094cdfcf4e8237d3b2",
+  "ppk2_capture_validated": false,
+  "next_step": "Acquire the new PPK2 pilot with the silent measurement image and programming/UART connections removed."
+}

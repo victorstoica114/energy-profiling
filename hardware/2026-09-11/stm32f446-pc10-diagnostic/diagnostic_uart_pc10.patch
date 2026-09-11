@@ -1,0 +1,95 @@
+--- canonical/platform_stm32f446.c
++++ temporary_pc10/platform_stm32f446.c
+@@ -1,6 +1,10 @@
+ #include "bench_platform.h"
+ #include "bench_config.h"
+ #include "stm32f4xx.h"
++
++#if !BENCH_DIAGNOSTICS
++#error "Temporary USART3/PC10 pilot requires BENCH_DIAGNOSTICS=ON"
++#endif
+ 
+ #if !defined(STM32F446xx)
+ #error "This platform requires the actual STM32F446 CMSIS device and startup"
+@@ -48,21 +52,21 @@
+ static bool uart_ready;
+ static void diagnostic_uart_init(void)
+ {
+-    RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
++    RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+     (void)RCC->APB1ENR;
+-    /* PA2 AF7 is USART2_TX to onboard ST-Link VCP. RX is not required. */
+-    GPIOA->MODER = (GPIOA->MODER & ~(3u << 4)) | (2u << 4);
+-    GPIOA->OTYPER &= ~(1u << 2);
+-    GPIOA->OSPEEDR = (GPIOA->OSPEEDR & ~(3u << 4)) | (1u << 4);
+-    GPIOA->PUPDR &= ~(3u << 4);
+-    GPIOA->AFR[0] = (GPIOA->AFR[0] & ~(15u << 8)) | (7u << 8);
+-    USART2->CR1 = 0; USART2->CR2 = 0; USART2->CR3 = 0;
++    /* Temporary pilot: PC10 AF7 is USART3_TX. RX is not required. */
++    GPIOC->MODER = (GPIOC->MODER & ~(3u << 20)) | (2u << 20);
++    GPIOC->OTYPER &= ~(1u << 10);
++    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~(3u << 20)) | (1u << 20);
++    GPIOC->PUPDR &= ~(3u << 20);
++    GPIOC->AFR[1] = (GPIOC->AFR[1] & ~(15u << 8)) | (7u << 8);
++    USART3->CR1 = 0; USART3->CR2 = 0; USART3->CR3 = 0;
+     uart_ready = true;
+ }
+ static void uart_character(char value)
+ {
+-    while ((USART2->SR & USART_SR_TXE) == 0) __NOP();
+-    USART2->DR = (uint8_t)value;
++    while ((USART3->SR & USART_SR_TXE) == 0) __NOP();
++    USART3->DR = (uint8_t)value;
+ }
+ static void uart_text(const char *text)
+ {
+@@ -86,9 +90,9 @@
+     SystemCoreClockUpdate();
+     uint32_t prescaler = (RCC->CFGR >> 10) & 7u;
+     uint32_t pclk = SystemCoreClock >> (prescaler < 4u ? 0u : prescaler - 3u);
+-    USART2->CR1 = 0;
+-    USART2->BRR = (pclk + 57600u) / 115200u;
+-    USART2->CR1 = USART_CR1_UE | USART_CR1_TE; /* 115200, 8N1, no RX/IRQ/DMA. */
++    USART3->CR1 = 0;
++    USART3->BRR = (pclk + 57600u) / 115200u;
++    USART3->CR1 = USART_CR1_UE | USART_CR1_TE; /* 115200, 8N1, no RX/IRQ/DMA. */
+     if (event[0] == 'B' && event[1] == 'O') {
+         uint32_t apb2 = (RCC->CFGR >> 13) & 7u;
+         uart_text("CONFIG board=NUCLEO-F446RE diagnostics=1 clock=HSI cpu_hz=");
+@@ -105,6 +109,7 @@
+         uart_text(" pwr_cr="); uart_hex(PWR->CR);
+         uart_text(" pwr_csr="); uart_hex(PWR->CSR);
+         uart_text(" tim2_psc="); uart_unsigned(TIM2->PSC);
++        uart_text(" transport=USART3_PC10");
+         uart_text("\r\n");
+     }
+     uart_text("BENCH event="); uart_text(event);
+@@ -113,7 +118,7 @@
+     uart_text(" digest=");
+     uart_hex(digest);
+     uart_text("\r\n");
+-    while ((USART2->SR & USART_SR_TC) == 0) __NOP();
++    while ((USART3->SR & USART_SR_TC) == 0) __NOP();
+ }
+ #endif
+ 
+@@ -140,8 +145,8 @@
+         (RCC->AHB2ENR & RCC_AHB2ENR_OTGFSEN) == 0 &&
+         (RCC->AHB1ENR & (RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN |
+             RCC_AHB1ENR_CRCEN | RCC_AHB1ENR_OTGHSEN)) == 0 &&
+-        (RCC->APB1ENR & RCC_APB1ENR_USART2EN) ==
+-            (BENCH_DIAGNOSTICS ? RCC_APB1ENR_USART2EN : 0u);
++        (RCC->APB1ENR & RCC_APB1ENR_USART2EN) == 0 &&
++        (RCC->APB1ENR & RCC_APB1ENR_USART3EN) == RCC_APB1ENR_USART3EN;
+ }
+ 
+ static bool configure_clock(void)
+@@ -190,7 +195,7 @@
+     GPIOA->BSRR = 1u << (5 + 16); /* Nucleo LD2, PA5 active-high: off. */
+     GPIOA->MODER = (GPIOA->MODER & ~(3u << 10)) | (1u << 10);
+     SysTick->CTRL = 0;
+-    RCC->APB1ENR &= ~(RCC_APB1ENR_USART2EN | RCC_APB1ENR_TIM2EN);
++    RCC->APB1ENR &= ~(RCC_APB1ENR_USART2EN | RCC_APB1ENR_USART3EN | RCC_APB1ENR_TIM2EN);
+     /* Both VCP pins remain analog/high-impedance in measurement firmware. */
+     GPIOA->MODER |= (3u << 4) | (3u << 6);
+     GPIOA->PUPDR &= ~((3u << 4) | (3u << 6));

@@ -1,0 +1,187 @@
+{
+  "board": "stm32",
+  "status": "passed",
+  "validated_algorithms": 12,
+  "scope": "separate USART3/PC10 diagnostic image; no energy or external clock calibration",
+  "configuration": {
+    "board": "NUCLEO-F446RE",
+    "diagnostics": "1",
+    "clock": "HSI",
+    "cpu_hz": "180000000",
+    "pclk1_hz": "45000000",
+    "pclk2_hz": "90000000",
+    "idcode": "10006421",
+    "flash_kib": "512",
+    "pllcfgr": "25005a10",
+    "cfgr": "0000940a",
+    "cpacr": "00f00000",
+    "flash_acr": "00000705",
+    "pwr_cr": "0003c000",
+    "pwr_csr": "00034000",
+    "tim2_psc": "8999",
+    "transport": "USART3_PC10"
+  },
+  "events": [
+    {
+      "event": "BOOT",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    },
+    {
+      "event": "START",
+      "id": 1,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 1,
+      "calls": 3000,
+      "digest": "a6842b8a"
+    },
+    {
+      "event": "START",
+      "id": 2,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 2,
+      "calls": 3000,
+      "digest": "02775fd9"
+    },
+    {
+      "event": "START",
+      "id": 3,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 3,
+      "calls": 200,
+      "digest": "db04f40d"
+    },
+    {
+      "event": "START",
+      "id": 4,
+      "calls": 100,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 4,
+      "calls": 100,
+      "digest": "8e6acb7f"
+    },
+    {
+      "event": "START",
+      "id": 5,
+      "calls": 100,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 5,
+      "calls": 100,
+      "digest": "9c8d0100"
+    },
+    {
+      "event": "START",
+      "id": 6,
+      "calls": 500,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 6,
+      "calls": 500,
+      "digest": "02821d41"
+    },
+    {
+      "event": "START",
+      "id": 7,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 7,
+      "calls": 3000,
+      "digest": "086609c9"
+    },
+    {
+      "event": "START",
+      "id": 8,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 8,
+      "calls": 3000,
+      "digest": "fc2541f1"
+    },
+    {
+      "event": "START",
+      "id": 9,
+      "calls": 20,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 9,
+      "calls": 20,
+      "digest": "4188afdf"
+    },
+    {
+      "event": "START",
+      "id": 10,
+      "calls": 300,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 10,
+      "calls": 300,
+      "digest": "b19fcb91"
+    },
+    {
+      "event": "START",
+      "id": 11,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 11,
+      "calls": 50,
+      "digest": "01ccddb5"
+    },
+    {
+      "event": "START",
+      "id": 12,
+      "calls": 1,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 12,
+      "calls": 1,
+      "digest": "df19dd29"
+    },
+    {
+      "event": "DONE",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    }
+  ],
+  "raw_uart_sha256": "711a2a8b133a8a0ec9218f3fc188064f8c5c3098af5344f79776f9185c3500f9",
+  "firmware_sha256": "bad4ada326566d1dc029fdca394bfb2f6a389514877ff4e473746eea177f7b53",
+  "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "flash_readback_attestation": false,
+  "ppk2_capture_validated": false
+}

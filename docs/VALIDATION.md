@@ -8,11 +8,13 @@ Updated **11 September 2026** for **energy-profiling-v4-max-clock**, release **v
 |---|---|---|
 | ESP32-D0WD-V3 | 240 MHz; one application core; Wi-Fi/Bluetooth uninitialized; DIO Flash 40 MHz | Build and programming status are recorded in CURRENT_FIRMWARE.json; previous captures retain their original image provenance |
 | RP2040, Marble Pico | 200 MHz; internal VREG 1.15 V; clk_peri 48 MHz; QSPI Flash 50 MHz | Native diagnostic and measurement builds passed; twelve functional PASS events and DONE observed; final serial-disabled measurement UF2 programmed |
-| NUCLEO-F446RE | Nominal 180 MHz; Scale 1/OverDrive; APB1/APB2 45/90 MHz; five Flash wait states | Native builds passed; current hardware validation is pending |
+| NUCLEO-F446RE | Nominal 180 MHz; Scale 1/OverDrive; APB1/APB2 45/90 MHz; five Flash wait states | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image; original release serial-disabled measurement BIN reinstalled through ST-LINK mass storage |
 
 [CURRENT_FIRMWARE.json](../CURRENT_FIRMWARE.json) records exact current image hashes, compilation, programming and validation separately. Current measurement archives are under `firmware/targets/<target>/build_verified/max_clock_measurement`. The manifest's `single_gpio_measurement` profile key remains for collector compatibility and points to that location. See the [hardware report](HARDWARE_VALIDATION.md) for observed device results.
 
 The RP2040 diagnostic confirmed CPU 200000000 Hz, peripheral clock 48000000 Hz, VREG selection 12 (1.15 V) with regulation-ready asserted, SSI divider 4 and JEDEC identifier `ef4017`. These are software/register observations, not independently calibrated physical clock or voltage measurements. A successful functional run with USB connected is not an energy capture. The final measurement image has application serial diagnostics disabled.
+
+The [STM32 functional diagnostic](../hardware/2026-09-11/stm32f446_pc10_diagnostic_01.json) passed all twelve workloads with their exact call counts and final DONE. Its separate USART3/PC10 transport used target CN7 pin 1 to detached ST-LINK CN3 pin 1 (RX), with common ground, because open SB63 blocked PA2 TX at CN9 pin 2. It reported the expected nominal CPU/bus clocks, FPU access, Flash and power-control registers, and TIM2 prescaler. The diagnostic transport change preserved the clock setup, kernels, inputs and call counts. Afterward, the original published serial-disabled measurement BIN was [reinstalled through ST-LINK mass storage](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) without `FAIL.TXT`. No flash-readback attestation was obtained; execution of the silent measurement image and PPK2 validation remain pending. Exact image hashes and the separate diagnostic/programming evidence are recorded in the current manifest and [hardware report](HARDWARE_VALIDATION.md).
 
 ## Software and binary checks
 

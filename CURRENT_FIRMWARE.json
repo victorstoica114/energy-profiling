@@ -3,8 +3,8 @@
   "release_version": "1.1.0",
   "experiment_id": "energy-profiling-v4-max-clock",
   "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
-  "updated_utc": "2026-09-11T13:46:06.158467+00:00",
-  "state": "measurement_images_built; rp2040_programmed_after_diagnostic_pass; stm32_programming_and_runtime_pending; new_ppk2_captures_pending",
+  "updated_utc": "2026-09-11T14:55:56.450140+00:00",
+  "state": "rp2040_and_stm32_diagnostic_validation_passed; rp2040_and_stm32_silent_images_programmed; new_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -109,7 +109,7 @@
       "marker_pin": "PC0",
       "cpu_hz": 180000000,
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": false,
+      "candidate_programmed": true,
       "profiles": {
         "single_gpio_measurement": {
           "primary_image": "firmware/targets/stm32f446/build_verified/max_clock_measurement/energy_bench_stm32f446.bin",
@@ -122,18 +122,46 @@
           "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
-          "hardware_programmed": false,
+          "hardware_programmed": true,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
           "flash_readback_attestation": false,
           "diagnostic_functional_validation": {
-            "passed": false,
-            "status": "pending",
+            "passed": true,
+            "status": "passed",
             "applies_to": "separate_diagnostic_image",
-            "reason": "SWD programming attempt could not reset/halt the target; wiring and target power are being checked."
+            "validated_algorithms": 12,
+            "final_done_received": true,
+            "transport": "USART3_PC10",
+            "evidence": "hardware/2026-09-11/stm32f446_pc10_diagnostic_01.json",
+            "evidence_sha256": "34d82790eb65d3e5edefadc84a3d0e85cbb8a865fb1afa094cdfcf4e8237d3b2",
+            "firmware_sha256": "bad4ada326566d1dc029fdca394bfb2f6a389514877ff4e473746eea177f7b53",
+            "build_evidence": "hardware/2026-09-11/stm32f446-pc10-diagnostic/verification.json",
+            "build_evidence_sha256": "1b46267e70df384be2887b29c32f1d98025589cae55b16457cb9800a4a7fae09",
+            "configuration": {
+              "board": "NUCLEO-F446RE",
+              "diagnostics": "1",
+              "clock": "HSI",
+              "cpu_hz": "180000000",
+              "pclk1_hz": "45000000",
+              "pclk2_hz": "90000000",
+              "idcode": "10006421",
+              "flash_kib": "512",
+              "pllcfgr": "25005a10",
+              "cfgr": "0000940a",
+              "cpacr": "00f00000",
+              "flash_acr": "00000705",
+              "pwr_cr": "0003c000",
+              "pwr_csr": "00034000",
+              "tim2_psc": "8999",
+              "transport": "USART3_PC10"
+            }
           },
           "load_address": "0x08000000",
-          "programming_status": "pending_after_SWD_reset_halt_failure"
+          "programming_status": "silent_measurement_image_reinstalled_after_diagnostic_pass",
+          "hardware_execution_validation_scope": "The separate diagnostic image passed all 12 workloads and DONE. hardware_execution_validated refers only to independently observed execution of the silent measurement image via PPK2.",
+          "programming_evidence": "hardware/2026-09-11/stm32f446_measurement_programming_02.json",
+          "programming_evidence_sha256": "6b62d02b1114458e9ea266f59750bae637db760f69eb7fb73e0f92a5cf20b862"
         }
       }
     }

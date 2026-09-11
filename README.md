@@ -12,6 +12,8 @@ The common C library executes twelve algorithms on identical inputs across board
 
 These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. The existing CSV captures belong to the preceding campaign. **New RP2040 and STM32 measurements are required before reporting results for this release.** ESP32 captures can be retained only with their original provenance and confirmation that its measured configuration remains equivalent.
 
+**Functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. New PPK2 captures remain pending.
+
 ## Hardware used in the tests
 
 The photographs show the three microcontroller boards and the Nordic Power

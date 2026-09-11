@@ -7,7 +7,7 @@ This report concerns **energy-profiling-v4-max-clock**, release **v1.1.0**. It s
 | Board | Functional execution | Measurement-image programming | New PPK2 energy campaign |
 |---|---|---|---|
 | RP2040, Marble Pico | Twelve PASS events and DONE observed at the configured 200 MHz operating point | Serial-disabled UF2 programmed through ROM mass storage after the functional run | Pending |
-| NUCLEO-F446RE | Native builds passed; current hardware run pending | Pending current hardware validation | Pending |
+| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through a separate USART3/PC10 diagnostic image | Original release serial-disabled BIN reinstalled through ST-LINK mass storage after the functional run | Pending |
 | ESP32-D0WD-V3 | Current build/programming status is recorded in CURRENT_FIRMWARE.json | See current manifest | Earlier accepted captures may be reused only with their original provenance and verified configuration equivalence |
 
 The RP2040 run reported:
@@ -32,6 +32,28 @@ The final RP2040 measurement UF2 has SHA-256:
 ```
 
 That image was programmed after the successful functional run. Its serial reporting and USB/UART interfaces are disabled; static inspection finds no diagnostic reporting entry points or JEDEC command in the measurement application. ROM-volume programming and USB disappearance are programming observations, not a flash-readback attestation or evidence of a complete PPK2 capture.
+
+NUCLEO-F446RE functional validation passed using a separate diagnostic image with USART3 TX on PC10. The temporary wire connected target CN7 pin 1 (PC10) to detached ST-LINK CN3 pin 1 (RX), with common ground. This bypassed the open SB63 bridge that prevented the original PA2 TX signal from reaching header CN9 pin 2. The diagnostic transport change preserved the clock setup, kernels, inputs and call counts; the published measurement image was unchanged.
+
+The [STM32 diagnostic record](../hardware/2026-09-11/stm32f446_pc10_diagnostic_01.json) contains twelve PASS events with the expected call counts and final DONE. It identifies diagnostic BIN SHA-256 `bad4ada326566d1dc029fdca394bfb2f6a389514877ff4e473746eea177f7b53` and records:
+
+| Observation | Recorded value |
+|---|---|
+| CPU frequency from software configuration | 180000000 Hz |
+| APB1 / APB2 clocks | 45000000 / 90000000 Hz |
+| FPU access, CPACR | `0x00f00000`, full access |
+| Flash ACR | `0x00000705`, five wait states with prefetch and instruction/data caches enabled |
+| PWR CR / CSR | `0x0003c000` / `0x00034000`, Scale 1 and OverDrive configured and ready |
+| TIM2 prescaler | 8999 |
+| Functional sequence | Twelve PASS events with exact call counts and DONE |
+
+The final STM32 measurement BIN has SHA-256:
+
+```text
+9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd
+```
+
+This original release image was reinstalled after the successful diagnostic run through the ST-LINK `NODE_F446RE` mass-storage volume. The [measurement programming record](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) reports transfer completion and no `FAIL.TXT` afterward. Flash readback and execution of the silent measurement image have not been independently validated, and the new PPK2 campaign remains pending. These follow-up hardware observations are recorded separately from the unchanged archived release build records.
 
 ## How to interpret this evidence
 

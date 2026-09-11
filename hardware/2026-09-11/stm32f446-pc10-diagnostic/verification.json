@@ -1,0 +1,101 @@
+{
+  "created_utc": "2026-09-11T14:47:42.240696+00:00",
+  "experiment_id": "energy-profiling-v4-max-clock",
+  "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+  "diagnostics": true,
+  "diagnostic_transport": "USART3_PC10",
+  "purpose": "Temporary UART routing pilot only; never use for energy acquisition.",
+  "native_build_directory": "C:\\Users\\User\\AppData\\Local\\Temp\\energy-v4-stm32f446-pc10-diagnostic",
+  "compiler": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC, 64-bit) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]",
+  "build_result": "passed",
+  "native_flags_verified": true,
+  "source_paths_changed_vs_canonical": [
+    "firmware/targets/stm32f446/platform_stm32f446.c"
+  ],
+  "clock_configuration_function_identical_to_canonical": true,
+  "common_startup_runtime_objects_identical_to_canonical_PA2_diagnostic": {
+    "bench_data.c.obj": {
+      "sha256": "c1bf563446cae904b0199d64a58bb2c99b563d3070f1ddc6d2df451343c128c4",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "bench_runner.c.obj": {
+      "sha256": "d9e6138ec801d8df223535829d8c9a11a8eda229322ca11dccd97c40d77c1be3",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "bench_kernels.c.obj": {
+      "sha256": "db9e842cceb543f8f3add0e771bc513f73173cbc91289961d0943a7b7cb1a2c2",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "bench_algorithms.c.obj": {
+      "sha256": "5d949372d3b2ef927edfea5acf5b099114d2dee71aea7b4b46e1957e696f3c5a",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "runtime.c.obj": {
+      "sha256": "20cb8fa8e529b8ded2bf06e440d2551ead2985aaa1b4c46e7c744001347efd15",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "system_stm32f4xx.c.obj": {
+      "sha256": "b3f4a4ed3b9d56eed4dda8fb8ec5fe0d8b9896927326111478fc73db8aa7080d",
+      "identical_to_canonical_PA2_diagnostic": true
+    },
+    "startup_stm32f446xx.s.obj": {
+      "sha256": "d16a80ed5a118a62e391d2cbdb6a47eafb6d281feda969129ddff96257218472",
+      "identical_to_canonical_PA2_diagnostic": true
+    }
+  },
+  "canonical_measurement_bin_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+  "canonical_measurement_unchanged": true,
+  "cpu_hz": 180000000,
+  "apb1_hz": 45000000,
+  "apb2_hz": 90000000,
+  "tim2_prescaler": 8999,
+  "tim2_tick_hz": 10000,
+  "uart_baud_requested": 115200,
+  "uart_brr_expected": 391,
+  "uart_baud_nominal_actual": 115089.51406649617,
+  "uart_tx_pin": "PC10",
+  "uart_tx_af": 7,
+  "uart_only_tx": true,
+  "run_gpio": "PC0",
+  "diagnostic_transport_string_embedded": true,
+  "all_twelve_kernel_symbols_present": true,
+  "embedded_iteration_counts": [
+    3000,
+    3000,
+    200,
+    100,
+    100,
+    500,
+    3000,
+    3000,
+    20,
+    300,
+    50,
+    1
+  ],
+  "embedded_inputs_match_frozen_data": true,
+  "vector_initial_sp_hex": "0x20020000",
+  "vector_reset_hex": "0x8000bbd",
+  "hardware_programmed_by_this_task": false,
+  "hardware_validation": "not_performed_by_build_agent; root coordinates physical pilot",
+  "ppk2_measurement": "not_performed",
+  "size_output": "   text\t   data\t    bss\t    dec\t    hex\tfilename\n  45084\t    108\t  40356\t  85548\t  14e2c\tD:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\max_clock_transition\\builds\\stm32f446-pc10-diagnostic\\energy_bench_stm32f446.elf\n",
+  "artifacts": {
+    "energy_bench_stm32f446.bin": {
+      "sha256": "bad4ada326566d1dc029fdca394bfb2f6a389514877ff4e473746eea177f7b53",
+      "bytes": 45196
+    },
+    "energy_bench_stm32f446.elf": {
+      "sha256": "743ea1a069c029ef3a1c3b435b47fe8689218c71abd5b043ef122822e0788323",
+      "bytes": 147088
+    },
+    "energy_bench_stm32f446.hex": {
+      "sha256": "21bd73849d8622c74f197de295aacb2091a2953c13aef521a99b812dc3804f94",
+      "bytes": 127173
+    },
+    "energy_bench_stm32f446.map": {
+      "sha256": "0b1a3063339b1324c92fa81fd5eea71504d9eb90061ab8da166fa0f9cd904da8",
+      "bytes": 113649
+    }
+  }
+}
