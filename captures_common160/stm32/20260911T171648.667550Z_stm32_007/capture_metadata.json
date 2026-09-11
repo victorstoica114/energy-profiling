@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "board": "stm32",
+  "physical_board_id": "NUCLEO-F446RE-01",
+  "run_pin_to_ppk2_d0": "PC0 (CN7 pin 38)",
+  "ppk2": {
+    "port": "COM7",
+    "serial_number": "F7839E12B2AE",
+    "mode": "source_meter",
+    "source_voltage_setpoint_mV": 3300,
+    "calibration_metadata": {
+      "Calibrated": "0",
+      "R": {
+        "0": 1001.9161987304688,
+        "1": 101.42591857910156,
+        "2": 10.306713104248047,
+        "3": 0.9679310321807861,
+        "4": 0.05675922706723213
+      },
+      "GS": {
+        "0": 1e-19,
+        "1": 130.68553161621094,
+        "2": 20.356292724609375,
+        "3": 2.766680955886841,
+        "4": 0.08542120456695557
+      },
+      "GI": {
+        "0": 1.0,
+        "1": 0.9631869792938232,
+        "2": 0.9569092988967896,
+        "3": 0.9462228417396545,
+        "4": 0.9527103304862976
+      },
+      "O": {
+        "0": 129.12991333007812,
+        "1": 86.99712371826172,
+        "2": 74.52172088623047,
+        "3": 56.761741638183594,
+        "4": 98.48967742919922
+      },
+      "S": {
+        "0": 2.814317667799e-08,
+        "1": 2.8765686010956e-07,
+        "2": 2.84444467979483e-06,
+        "3": 3.087560617132112e-05,
+        "4": 0.002924226224422455
+      },
+      "I": {
+        "0": -4.42884591223e-08,
+        "1": -9.6903886515065e-07,
+        "2": 4.972305032424629e-05,
+        "3": -0.00034766754833981395,
+        "4": -0.009395386092364788
+      },
+      "UG": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0
+      },
+      "HW": "38041",
+      "IA": "58"
+    }
+  },
+  "acquisition": {
+    "tool": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\tools\\capture_ppk2.py",
+    "tool_sha256": "a2650e47754741d9060f4a55cdf8f6879f852c7833a405fa931ba66ad2952397",
+    "ppk2_api_version": "0.9.2",
+    "sample_rate_Hz": 100000,
+    "pre_power_seconds_requested": 0.25,
+    "minimum_trailing_low_seconds": 3.0,
+    "rest_seconds_requested_after_capture": 10.0,
+    "host": "Alexandru-PC-Lenovo",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "provenance": {
+    "manifest_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\config\\experiment.common160.json",
+    "manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+    "current_firmware_manifest_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\profiles\\common160\\CURRENT_FIRMWARE.json",
+    "current_firmware_manifest_sha256": "6bb245b0582eb97406baf72874edc1eb104d90588b02cf5de07e93b6c1da9606",
+    "expected_firmware_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\firmware\\targets\\stm32f446\\build_verified\\common160_measurement\\energy_bench_stm32f446.bin",
+    "expected_firmware_sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+    "expected_firmware_basis": "CURRENT_FIRMWARE_candidate_default_not_attested_by_capture",
+    "capture_does_not_attest_programmed_image": true
+  },
+  "environment": {
+    "externally_measured_dut_voltage_V": 3.3,
+    "voltage_absolute_uncertainty_V": 0.01,
+    "ambient_temperature_C": 26.0
+  },
+  "limitations": [
+    "Raw ppk2-api transport has no independent per-sample timestamps.",
+    "The rolling 6-bit hardware sample counter is checked, but a loss of an exact multiple of 64 samples could evade that check.",
+    "Uniform CSV timestamps are reconstructed from sample index at 100000 Hz.",
+    "Host elapsed time is only a coarse stream-integrity cross-check.",
+    "The expected firmware hash is operator provenance, not an attestation of DUT flash contents.",
+    "Twelve pulses plus a LOW tail cannot prove final firmware validation completed."
+  ],
+  "capture": {
+    "started_utc": "2026-09-11T17:16:48.672Z",
+    "ended_utc": "2026-09-11T17:17:28.586Z",
+    "sample_count": 3983872,
+    "raw_bytes": 15935488,
+    "power_on_sample_approx": 25088,
+    "rising_edges": [
+      519271,
+      712186,
+      848807,
+      1346664,
+      1482334,
+      1632104,
+      1774013,
+      2278411,
+      2581472,
+      2867473,
+      3013794,
+      3200655
+    ],
+    "falling_edges": [
+      613586,
+      750241,
+      1248104,
+      1383549,
+      1533547,
+      1675543,
+      2179825,
+      2482945,
+      2768624,
+      2915151,
+      3102098,
+      3683208
+    ],
+    "trailing_low_samples": 300664,
+    "first_sample_counter": 0,
+    "last_sample_counter": 63,
+    "sample_counter_continuity_passed": true,
+    "measurement_wall_s": 39.838248100015335,
+    "represented_sample_s": 39.83872,
+    "sample_time_error_percent": 0.0011845400015648877,
+    "transport_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_common160\\stm32\\20260911T171648.667550Z_stm32_007\\transport.raw4",
+    "transport_sha256": "f6459a50851ec4d58cf6584055c9692db1dea6e3b3236c663ffce68e70abbb0a",
+    "csv_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_common160\\stm32\\20260911T171648.667550Z_stm32_007\\capture.csv",
+    "csv_sha256": "99086c72fec7d5c44afcdea9618b3980ec4e1d05f77d36eb9abc4d7bf8d74ba1"
+  },
+  "analysis": {
+    "return_code": 0,
+    "stdout": "{\"status\": \"structural_protocol_pass\", \"workloads\": 12, \"outputs\": [\"C:\\\\Users\\\\Alexandru\\\\Desktop\\\\energy-profiling-main\\\\energy-profiling-main\\\\captures_common160\\\\stm32\\\\20260911T171648.667550Z_stm32_007\\\\analysis\\\\capture.analysis.json\", \"C:\\\\Users\\\\Alexandru\\\\Desktop\\\\energy-profiling-main\\\\energy-profiling-main\\\\captures_common160\\\\stm32\\\\20260911T171648.667550Z_stm32_007\\\\analysis\\\\capture.workloads.csv\"]}",
+    "stderr": "",
+    "output_directory": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_common160\\stm32\\20260911T171648.667550Z_stm32_007\\analysis"
+  }
+}
