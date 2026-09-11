@@ -14,3 +14,5 @@ results/**/*.json -diff -merge -text
 dataset/raw_inventory.json -diff -merge -text
 # Full selected waveform CSV exports exceed normal Git blob limits.
 ROW_Data/**/capture.csv filter=lfs diff=lfs merge=lfs -text
+captures_max_clock/**/capture.csv filter=lfs diff=lfs merge=lfs -text
+captures_common160/**/capture.csv filter=lfs diff=lfs merge=lfs -text

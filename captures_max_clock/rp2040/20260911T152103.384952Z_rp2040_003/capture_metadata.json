@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "experiment_id": "energy-profiling-v4-max-clock",
+  "board": "rp2040",
+  "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+  "run_pin_to_ppk2_d0": "GP2",
+  "ppk2": {
+    "port": "COM7",
+    "serial_number": "F7839E12B2AE",
+    "mode": "source_meter",
+    "source_voltage_setpoint_mV": 3300,
+    "calibration_metadata": {
+      "Calibrated": "0",
+      "R": {
+        "0": 1001.9161987304688,
+        "1": 101.42591857910156,
+        "2": 10.306713104248047,
+        "3": 0.9679310321807861,
+        "4": 0.05675922706723213
+      },
+      "GS": {
+        "0": 1e-19,
+        "1": 130.68553161621094,
+        "2": 20.356292724609375,
+        "3": 2.766680955886841,
+        "4": 0.08542120456695557
+      },
+      "GI": {
+        "0": 1.0,
+        "1": 0.9631869792938232,
+        "2": 0.9569092988967896,
+        "3": 0.9462228417396545,
+        "4": 0.9527103304862976
+      },
+      "O": {
+        "0": 129.12991333007812,
+        "1": 86.99712371826172,
+        "2": 74.52172088623047,
+        "3": 56.761741638183594,
+        "4": 98.48967742919922
+      },
+      "S": {
+        "0": 2.814317667799e-08,
+        "1": 2.8765686010956e-07,
+        "2": 2.84444467979483e-06,
+        "3": 3.087560617132112e-05,
+        "4": 0.002924226224422455
+      },
+      "I": {
+        "0": -4.42884591223e-08,
+        "1": -9.6903886515065e-07,
+        "2": 4.972305032424629e-05,
+        "3": -0.00034766754833981395,
+        "4": -0.009395386092364788
+      },
+      "UG": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0
+      },
+      "HW": "38041",
+      "IA": "59"
+    }
+  },
+  "acquisition": {
+    "tool": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\tools\\capture_ppk2.py",
+    "tool_sha256": "7fac6e45351b08f2012b7e440e7d50dede2d56b0cddaa1a87abd6afb3c4e739e",
+    "ppk2_api_version": "0.9.2",
+    "sample_rate_Hz": 100000,
+    "pre_power_seconds_requested": 0.25,
+    "minimum_trailing_low_seconds": 3.0,
+    "rest_seconds_requested_after_capture": 10.0,
+    "host": "Alexandru-PC-Lenovo",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "provenance": {
+    "manifest_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\config\\experiment.json",
+    "manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+    "current_firmware_manifest_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\CURRENT_FIRMWARE.json",
+    "current_firmware_manifest_sha256": "edf9f00499a8d642a9c4e1998e16af349caad7adf62ea29542f9cdb414a197fc",
+    "expected_firmware_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\firmware\\targets\\rp2040\\build_verified\\max_clock_measurement\\energy_bench_rp2040.uf2",
+    "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+    "expected_firmware_basis": "CURRENT_FIRMWARE_candidate_default_not_attested_by_capture",
+    "capture_does_not_attest_programmed_image": true
+  },
+  "environment": {
+    "externally_measured_dut_voltage_V": 3.3,
+    "voltage_absolute_uncertainty_V": 0.01,
+    "ambient_temperature_C": 26.0
+  },
+  "limitations": [
+    "Raw ppk2-api transport has no independent per-sample timestamps.",
+    "The rolling 6-bit hardware sample counter is checked, but a loss of an exact multiple of 64 samples could evade that check.",
+    "Uniform CSV timestamps are reconstructed from sample index at 100000 Hz.",
+    "Host elapsed time is only a coarse stream-integrity cross-check.",
+    "The expected firmware hash is operator provenance, not an attestation of DUT flash contents.",
+    "Twelve pulses plus a LOW tail cannot prove final firmware validation completed."
+  ],
+  "capture": {
+    "started_utc": "2026-09-11T15:21:03.397Z",
+    "ended_utc": "2026-09-11T15:21:59.760Z",
+    "sample_count": 5628928,
+    "raw_bytes": 22515712,
+    "power_on_sample_approx": 25088,
+    "rising_edges": [
+      528399,
+      710932,
+      845073,
+      1246169,
+      1510866,
+      1660419,
+      1821603,
+      2269471,
+      2584630,
+      3007033,
+      3150933,
+      3348553
+    ],
+    "falling_edges": [
+      610706,
+      744888,
+      1145996,
+      1410418,
+      1560204,
+      1721502,
+      2169253,
+      2484506,
+      2906297,
+      3050588,
+      3248324,
+      5328131
+    ],
+    "trailing_low_samples": 300797,
+    "first_sample_counter": 0,
+    "last_sample_counter": 63,
+    "sample_counter_continuity_passed": true,
+    "measurement_wall_s": 56.28923630001373,
+    "represented_sample_s": 56.28928,
+    "sample_time_error_percent": 7.763471161429734e-05,
+    "transport_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_max_clock\\rp2040\\20260911T152103.384952Z_rp2040_003\\transport.raw4",
+    "transport_sha256": "de231d47ecb9b975904f8d0d4ceb9d53db79d739267b2d1e83d5e43f38936a63",
+    "csv_path": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_max_clock\\rp2040\\20260911T152103.384952Z_rp2040_003\\capture.csv",
+    "csv_sha256": "c1e27a5040edbbd26aa1da06b919f6ace8641d01d40896e5b97a4dc346492926"
+  },
+  "analysis": {
+    "return_code": 0,
+    "stdout": "{\"status\": \"structural_protocol_pass\", \"workloads\": 12, \"outputs\": [\"C:\\\\Users\\\\Alexandru\\\\Desktop\\\\energy-profiling-main\\\\energy-profiling-main\\\\captures_max_clock\\\\rp2040\\\\20260911T152103.384952Z_rp2040_003\\\\analysis\\\\capture.analysis.json\", \"C:\\\\Users\\\\Alexandru\\\\Desktop\\\\energy-profiling-main\\\\energy-profiling-main\\\\captures_max_clock\\\\rp2040\\\\20260911T152103.384952Z_rp2040_003\\\\analysis\\\\capture.workloads.csv\"]}",
+    "stderr": "",
+    "output_directory": "C:\\Users\\Alexandru\\Desktop\\energy-profiling-main\\energy-profiling-main\\captures_max_clock\\rp2040\\20260911T152103.384952Z_rp2040_003\\analysis"
+  }
+}
