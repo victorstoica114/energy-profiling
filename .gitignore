@@ -8,3 +8,5 @@ captures_noreg/**/capture.csv
 captures_max_clock/**/capture.csv
 captures_common160/**/capture.csv
 module radio/
+/ROW_Data/*/run_*/
+/ROW_Data_history/

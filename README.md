@@ -12,9 +12,9 @@ The common C library executes twelve algorithms on identical inputs across board
 | RP2040, Marble Pico | 200 MHz | Internal core regulator 1.15 V; QSPI Flash 50 MHz |
 | NUCLEO-F446RE | 180 MHz | Scale 1 and OverDrive; internal HSI-derived PLL |
 
-These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. The existing CSV captures belong to the preceding campaign. **New RP2040 and STM32 measurements are required before reporting maximum-clock results.** That campaign retains the ten accepted regulator-removed ESP32 captures at 240 MHz, with their original v3 experiment, image and acquisition provenance. No repeat ESP32 measurements at 240 MHz are required; the common160 campaign requires separate new captures.
+These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. **The maximum-clock campaign is complete: 30 accepted captures, ten per board.** It combines ten retained ESP32 captures at 240 MHz with their original v3 experiment, image and acquisition provenance, and twenty new v4 captures for RP2040 at 200 MHz and STM32F446 at 180 MHz. The [completed campaign](ROW_Data/source_campaign.json) pins every accepted capture and preserves the original records from source commit `7909bfd5966b0ecc976450e21fbe530d673d3ec1`. The common160 campaign requires separate new captures.
 
-**Maximum-clock functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. New PPK2 captures remain pending.
+**Maximum-clock functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. The subsequent maximum-clock PPK2 captures are included in the [accepted selection](ROW_Data/README.md).
 
 **Common160 functional validation passed on all three boards: all twelve workloads with exact call counts and final DONE at the configured 160 MHz.** Their matching silent measurement images were installed afterward; common160 is the latest recorded installation on Pico, ESP32 and STM32F446. Separate diagnostic and programming evidence is retained for [Pico](hardware/common160/2026-09-11/rp2040_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/rp2040_measurement_programming_01.json)), [ESP32](hardware/common160/2026-09-11/esp32_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/esp32_measurement_programming_01.json)) and [STM32F446](hardware/common160/2026-09-11/stm32f446_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/stm32f446_measurement_programming_01.json)). All three common160 PPK2 capture sets remain pending; programming observations do not independently validate the silent images' complete execution.
 
@@ -69,41 +69,57 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 - [Autonomous runner](firmware/common/bench_runner.c) and [common kernels](firmware/common/kernels).
 - [Board targets](firmware/targets) and [input manifest](data/manifest.json).
 - [Acquisition protocol](docs/PROTOCOL.md) and [capture format and analyzer](docs/capture_format.md).
-- [Maximum-clock campaign plan](campaigns/MAX_CLOCK_CAMPAIGN.md): ten new Pico and ten new STM32 captures, with explicitly pinned reuse of the ten unchanged ESP32 captures.
+- [Original maximum-clock campaign plan](campaigns/MAX_CLOCK_CAMPAIGN.md): acquisition requirements and explicitly pinned ESP32 reuse. The [completed maximum-clock selection](ROW_Data/source_campaign.json) now records all 30 accepted captures.
 - [Automated PPK2 collector](tools/capture_ppk2.py), which power-cycles one DUT, stops after the twelve D0 windows plus the required LOW tail, preserves raw transport/CSV, and runs the structural analyzer.
 - [Build instructions](docs/BUILD_AND_TEST.md), [validation status](docs/VALIDATION.md) and [current hardware report](docs/HARDWARE_VALIDATION.md).
-- [Completed 30-capture PPK2 campaign](results/2026-09-10_ppk2/README.md), with aggregate CSV/JSON and a hash-linked capture index.
-- [ESP32 no-regulator measurement update](results/2026-09-10_ppk2_esp32_noreg/README.md), with ten new cold-boot captures and a direct comparison against the original ESP32 fixture.
-- [Regulator-removed campaign update](results/2026-09-10_ppk2_regulators_removed/README.md), combining the new ESP32 and RP2040 series with the unchanged STM32 series.
-- [Raw-data archive and reproduction guide](dataset/README.md), with a SHA-256 inventory of all final, pilot, rejected and incomplete PPK2 transports.
-- [Selected full CSV dataset](ROW_Data/README.md): 30 regulator-removed captures, organized into ESP32, RP2040 and STM32F446 folders, with acquisition metadata, original analyses and hashes.
+- [Historical initial 30-capture PPK2 campaign](results/2026-09-10_ppk2/README.md), with aggregate CSV/JSON and a hash-linked capture index.
+- [Historical ESP32 no-regulator measurement update](results/2026-09-10_ppk2_esp32_noreg/README.md), with ten new cold-boot captures and a direct comparison against the original ESP32 fixture.
+- [Historical regulator-removed campaign update](results/2026-09-10_ppk2_regulators_removed/README.md), combining the new ESP32 and RP2040 series with the unchanged STM32 series.
+- [Historical raw-data inventory and reproduction guide](dataset/README.md), with a SHA-256 inventory of the earlier final, pilot, rejected and incomplete PPK2 transports.
+- [Accepted maximum-clock CSV dataset](ROW_Data/README.md): published selection/index and original experiment profiles for 30 captures; full curated CSVs and unchanged sidecars remain local in ESP32, RP2040 and STM32F446 folders. Original source captures are archived separately.
 
 The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) records image hashes, build status and observed programming status separately. Maximum-clock images are archived under each target's `build_verified/max_clock_measurement`; common160 images and their separate manifest use `build_verified/common160_measurement` and `profiles/common160/CURRENT_FIRMWARE.json`. Earlier firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
 ## Selected CSV data and article analysis
 
-The curated `ROW_Data/` directory is stored in this checkout, locally at
-`D:\Documente\Energy Profiling\ROW_Data`. It contains ten full captures per board
-(30 waveform CSVs, 165,200,896 sample rows, approximately 6.11 GB of waveform
-CSV data), together with the original sidecars and selection manifest. These
-are historical measurements; they have not been replaced or relabeled as
-measurements of the current maximum-clock firmware.
+The accepted `ROW_Data/` dataset is stored locally at
+`D:\Documente\Energy Profiling\ROW_Data`. Dataset
+`2026-09-11_ppk2_max_clock_csv` contains ten captures per board: 30 full waveform
+CSVs, 132,329,472 sample rows and 360 complete RUN windows. ESP32 retains its
+10 September 2026 v3 captures; RP2040 and STM32 use new 11 September v4 captures.
+The source archive is commit `7909bfd5966b0ecc976450e21fbe530d673d3ec1`.
+The [completed campaign](ROW_Data/source_campaign.json),
+[dataset manifest](ROW_Data/dataset_manifest.json) and
+[capture index](ROW_Data/capture_index.csv) preserve the exact selection,
+original profiles, candidate image hashes and acquisition provenance.
 
-This directory was moved from the separate article workspace. Relative paths
-inside its manifests remain valid, and the original acquisition files and
-measurement values are preserved. The raw transport archive under `captures/`
-and `captures_noreg/` remains the source evidence at the pinned v1.0.0 commit;
-the curated CSV folder is a later local working-tree addition, not part of
-that earlier release. Its selection index and manifests are published; the 6.11 GB
-of curated waveform CSVs remain local. The public raw transports can be exported
-back to CSV with `tools/export_ppk2_raw.py`. Waveform CSVs under `ROW_Data/` are
-configured for Git LFS if they are published later.
+The published `ROW_Data/` contents are selection metadata, the capture index
+and original experiment profiles. Full curated CSVs and copied acquisition
+sidecars remain local under `ESP32/`, `RP2040/` and `STM32F446/`, each containing
+`run_01/` through `run_10/`. These local run folders are ignored by Git to avoid
+duplicating the source archive. Original RAW transports and acquisition
+sidecars are published under `captures_noreg/` and `captures_max_clock/`;
+Git LFS supplies RAW transports and the new maximum-clock source CSVs.
+`tools/export_ppk2_raw.py` can reconstruct CSVs using each RAW capture's saved
+calibration parameters. Compare complete CSV SHA-256 hashes with the index
+before using reconstructed or copied files.
 
-The article keeps its derived `data/`, generated tables/figures and analysis
-scripts in the article workspace. Those scripts use the sibling
-`Energy Profiling/ROW_Data` directory by default. Set `PPK2_DATA_DIR` to the
-CSV dataset root when using a different directory layout. See the
+ESP32/Pico board regulators were removed. On STM32 the LDO remains fitted,
+JP6 is open and PPK2 supplies the MCU VDD side of JP6. The completed campaign
+records this operator correction separately from unchanged acquisition metadata;
+the measured STM32 boundary is the supplied MCU VDD domain, not the whole board.
+
+The preceding local selection is archived in
+`ROW_Data_history/2026-09-10_ppk2_regulators_removed_csv`, also ignored by Git.
+Historical result directories retain their original measurements and labels;
+they are not the current maximum-clock article dataset.
+
+The article keeps derived `data/`, generated tables/figures and analysis scripts
+in its separate workspace. Those scripts use the sibling
+`Energy Profiling/ROW_Data` directory by default, or `PPK2_DATA_DIR` when set.
+Full waveform/hash validation and curation are complete. See the
 [dataset README](ROW_Data/README.md) for columns, provenance and reconstruction.
+The common160 capture campaign remains separate and pending.
 
 ## One measurement signal
 

@@ -1,53 +1,47 @@
 {
-  "schema_version": 1,
-  "dataset_id": "2026-09-10_ppk2_regulators_removed_csv",
+  "article_root": "D:/Documente/Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing",
+  "dataset_root": "D:/Documente/Energy Profiling/ROW_Data",
+  "path_helper": "scripts/ppk2_paths.py",
+  "path_helper_sha256": "226613d0fea38ebdc1f026c80306fa2a63913e424562a51ed8df404aded930d3",
+  "path_convention": "File paths tagged path_root=dataset are relative to dataset_root; path_root=article and output paths are relative to article_root. Historical source_capture_directory/source_path/source_raw_path values remain relative to the original source repository.",
+  "schema_version": 2,
+  "dataset_id": "2026-09-11_ppk2_max_clock_csv",
   "status": "complete_all_raw_and_csv_hashes_verified",
-  "created_utc": "2026-09-10T14:59:32.124784+00:00",
+  "created_utc": "2026-09-11T16:49:59.801419+00:00",
   "source_repository": "https://github.com/victorstoica114/energy-profiling",
-  "source_commit": "9562df9212a043c8db625f47dfee2c7d2ae494da",
+  "source_commit": "7909bfd5966b0ecc976450e21fbe530d673d3ec1",
   "source_local_root": "D:\\Documente\\Energy Profiling",
-  "source_campaign_id": "2026-09-10_ppk2_energy_profiling_v3_regulators_removed",
+  "source_campaign_id": "2026-09-11_ppk2_energy_profiling_v4_max_clock",
   "selected_capture_count": 30,
-  "source_inventory_sha256": "79a33f6faae328037b9088bb60494c3ab9a96370a9004606d1231717c7b08bd1",
-  "exporter_source_path": "tools/export_ppk2_raw.py",
-  "exporter_sha256": "f403c5dedd9f6483d5b9467a48609bc126906dc05cb51851b0cdd40acf0e6432",
-  "curation_script_sha256": "d098d5774a01de0ce9556a9ccd421fdc0d75caf64806528fb1df48a1d641093d",
-  "conversion_environment": {
-    "python": "3.11.9",
-    "ppk2_api": "0.9.2",
-    "pyserial": "3.5"
-  },
-  "regulator_confirmation": {
-    "reported_date": "2026-09-10",
-    "source": "operator statement in the project conversation",
-    "statement": "The NUCLEO-F446RE voltage regulator was physically removed before all original STM32 captures. ESP32 and Pico captures are selected from the later series acquired after regulator removal.",
-    "original_metadata_unchanged": true
-  },
-  "csv_columns": [
-    "Sample",
-    "Timestamp(us)",
-    "Current(uA)",
-    "D0"
-  ],
-  "time_basis": "sample index times 10 microseconds at nominal PPK2 sample rate; no MCU timer timestamps",
-  "processing": "Original ppk2-api decoder with each capture's saved calibration parameters and original range-switch spike handling; no additional smoothing, decimation, cropping or baseline subtraction.",
-  "original_analyses": "Copied byte for byte; not recalculated by this export.",
+  "total_sample_count": 132329472,
+  "total_capture_csv_bytes": 4868001667,
   "common_files": [
     {
       "path": "source_campaign.json",
-      "source_path": "campaigns/2026-09-10_ppk2_regulators_removed.json",
-      "sha256": "5ebe62041b5f67d9c0760805b7772deed73990c5859d2dd1b71330d34771dc36"
+      "source_path_root": "article",
+      "source_path": "analysis/maximum_clock_results_2026_09_11/campaign_acceptance/completed_max_clock_campaign.json",
+      "sha256": "01f3eda53fe0cdd95f1f13577d7ada4a1defd038872b134d0d8c0df4a6c7f6c3"
     },
     {
       "path": "experiment.json",
+      "source_path_root": "source_repository",
       "source_path": "config/experiment.json",
+      "sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567"
+    },
+    {
+      "path": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "source_path_root": "source_repository",
+      "source_path": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
       "sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075"
+    },
+    {
+      "path": "config/experiment.json",
+      "source_path_root": "source_repository",
+      "source_path": "config/experiment.json",
+      "sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567"
     }
   ],
-  "completed_utc": "2026-09-10T15:02:40.857207+00:00",
-  "total_sample_count": 165200896,
-  "total_capture_csv_bytes": 6111622118,
-  "capture_index_sha256": "a6d7367c9563738ede06dc6f220a71d4291ff7ce01150d43fae5553112bac8ee",
+  "capture_index_sha256": "98bcc7841e37b18be1f6a1b5730aacc8263a2d3f85a8707705a1b38bef8827e8",
   "captures": [
     {
       "board": "esp32",
@@ -58,18 +52,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123000.452016Z_esp32_001",
       "source_raw_path": "captures_noreg/esp32/20260910T123000.452016Z_esp32_001/transport.raw4",
       "destination_directory": "ESP32/run_01",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3857920,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.5792,
       "raw_bytes": 15431680,
       "raw_sha256": "7989777af50596f1fa56bfe1e1a80b6f4c059624fe31f6ca0adda78d3b3b7477",
-      "csv_sha256": "143ad11be22b520c40d9626ca3c06582201a32df315e1c8f4a7dd1ff0bbd3882",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_01/capture.csv",
+      "csv_sha256": "143ad11be22b520c40d9626ca3c06582201a32df315e1c8f4a7dd1ff0bbd3882",
       "csv_bytes": 140977930,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_01/capture_metadata.json",
@@ -94,18 +95,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123122.837343Z_esp32_002",
       "source_raw_path": "captures_noreg/esp32/20260910T123122.837343Z_esp32_002/transport.raw4",
       "destination_directory": "ESP32/run_02",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "ca27691a8f2981ee9ce6c1cbc46e0bff7ce68a254655c567d8d0cced8241d475",
-      "csv_sha256": "05407050fdb0965386822acf47773be86675829caa2b921ac33cefd3bc57fb04",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_02/capture.csv",
+      "csv_sha256": "05407050fdb0965386822acf47773be86675829caa2b921ac33cefd3bc57fb04",
       "csv_bytes": 140505150,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_02/capture_metadata.json",
@@ -130,18 +138,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123245.258284Z_esp32_003",
       "source_raw_path": "captures_noreg/esp32/20260910T123245.258284Z_esp32_003/transport.raw4",
       "destination_directory": "ESP32/run_03",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "f20e78766c2a358cb1c87f3a8e63916f0e8c38845ecd8acd537b73feb6954350",
-      "csv_sha256": "09f7b8e57c1d22bd5370e50b73a4684b3187d756681c1e6960e9edae8d09e937",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_03/capture.csv",
+      "csv_sha256": "09f7b8e57c1d22bd5370e50b73a4684b3187d756681c1e6960e9edae8d09e937",
       "csv_bytes": 140467192,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_03/capture_metadata.json",
@@ -166,18 +181,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123403.832085Z_esp32_004",
       "source_raw_path": "captures_noreg/esp32/20260910T123403.832085Z_esp32_004/transport.raw4",
       "destination_directory": "ESP32/run_04",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3844608,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.44608,
       "raw_bytes": 15378432,
       "raw_sha256": "eba37d6875a78824f719d5d25d6fffe18dbc924672c9af01f77486783706c98f",
-      "csv_sha256": "a565219b0fab5f1d9d7bdcabec81a9204fc4e171c03b1ea94b56130dc7ca1814",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_04/capture.csv",
+      "csv_sha256": "a565219b0fab5f1d9d7bdcabec81a9204fc4e171c03b1ea94b56130dc7ca1814",
       "csv_bytes": 140469757,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_04/capture_metadata.json",
@@ -202,18 +224,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123524.318691Z_esp32_005",
       "source_raw_path": "captures_noreg/esp32/20260910T123524.318691Z_esp32_005/transport.raw4",
       "destination_directory": "ESP32/run_05",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "f549ef23b12f6b417f08b2b2e33c7fc9e09f42419cbf8a4c446ec8f7f0ce11c1",
-      "csv_sha256": "7c12e3ea413a5f0e9e094f2d657095406860909280fd770ae454a932ed467e8d",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_05/capture.csv",
+      "csv_sha256": "7c12e3ea413a5f0e9e094f2d657095406860909280fd770ae454a932ed467e8d",
       "csv_bytes": 140484373,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_05/capture_metadata.json",
@@ -238,18 +267,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123640.511140Z_esp32_006",
       "source_raw_path": "captures_noreg/esp32/20260910T123640.511140Z_esp32_006/transport.raw4",
       "destination_directory": "ESP32/run_06",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3844608,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.44608,
       "raw_bytes": 15378432,
       "raw_sha256": "268ed794ab3cdabe5b4bdfe29570340a2887de70b97302efe50610c51d295770",
-      "csv_sha256": "f0993068843b551f551e8bb40dbf4ce4b944bfadec4813971b7268afe5a4cd2f",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_06/capture.csv",
+      "csv_sha256": "f0993068843b551f551e8bb40dbf4ce4b944bfadec4813971b7268afe5a4cd2f",
       "csv_bytes": 140478612,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_06/capture_metadata.json",
@@ -274,18 +310,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123757.633087Z_esp32_007",
       "source_raw_path": "captures_noreg/esp32/20260910T123757.633087Z_esp32_007/transport.raw4",
       "destination_directory": "ESP32/run_07",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "465ce647d6d0a8c8468792723aaa00141c6f45c14ea894c4d30223d953f4def5",
-      "csv_sha256": "b450b239900de69bac206bbded49cac86b1bd3bd58b4f1d71cf68d3da1bcf443",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_07/capture.csv",
+      "csv_sha256": "b450b239900de69bac206bbded49cac86b1bd3bd58b4f1d71cf68d3da1bcf443",
       "csv_bytes": 140480228,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_07/capture_metadata.json",
@@ -310,18 +353,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T123913.826997Z_esp32_008",
       "source_raw_path": "captures_noreg/esp32/20260910T123913.826997Z_esp32_008/transport.raw4",
       "destination_directory": "ESP32/run_08",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "ea40721197c22868d9dfe3427237bf3b1bcad8df4bf137c1fe0e94f4ac90dac0",
-      "csv_sha256": "17b597d29117511730452ea48258d993c4fb85e36acb9f18c84088e37aba0fac",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_08/capture.csv",
+      "csv_sha256": "17b597d29117511730452ea48258d993c4fb85e36acb9f18c84088e37aba0fac",
       "csv_bytes": 140493853,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_08/capture_metadata.json",
@@ -346,18 +396,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T124030.428881Z_esp32_009",
       "source_raw_path": "captures_noreg/esp32/20260910T124030.428881Z_esp32_009/transport.raw4",
       "destination_directory": "ESP32/run_09",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3844608,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.44608,
       "raw_bytes": 15378432,
       "raw_sha256": "2ef6cb16f4cdad1223711e9390d5a04ace16110a882756870ca181e0477820c1",
-      "csv_sha256": "0979182bdd8432025a0a25f253b4a7946f32e935bbf914df720c9797dbb8655d",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_09/capture.csv",
+      "csv_sha256": "0979182bdd8432025a0a25f253b4a7946f32e935bbf914df720c9797dbb8655d",
       "csv_bytes": 140463976,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_09/capture_metadata.json",
@@ -382,18 +439,25 @@
       "source_capture_directory": "captures_noreg/esp32/20260910T124147.218835Z_esp32_010",
       "source_raw_path": "captures_noreg/esp32/20260910T124147.218835Z_esp32_010/transport.raw4",
       "destination_directory": "ESP32/run_10",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "original_experiment_id": "energy-profiling-v3-single-gpio",
+      "target_cpu_hz": 240000000,
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
       "sample_count": 3845120,
       "sample_rate_Hz": 100000,
       "sample_count_times_dt_s": 38.4512,
       "raw_bytes": 15380480,
       "raw_sha256": "54ec8e43a748fc3d65310de48318e33afa814134f8b6e37eba2510b0dd2ae928",
-      "csv_sha256": "50471bd0a29ab6d5fc2bd1e96f31cc8ce2fca9410e67015f2b046d593e80cd4e",
-      "original_analysis_status": "structural_protocol_pass",
       "csv_path": "ESP32/run_10/capture.csv",
+      "csv_sha256": "50471bd0a29ab6d5fc2bd1e96f31cc8ce2fca9410e67015f2b046d593e80cd4e",
       "csv_bytes": 140478795,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "ESP32/run_10/capture_metadata.json",
@@ -413,35 +477,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 1,
-      "capture_id": "20260910T125326.356969Z_rp2040_001",
+      "capture_id": "20260911T151731.457588Z_rp2040_001",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T125326.356969Z_rp2040_001",
-      "source_raw_path": "captures_noreg/rp2040/20260910T125326.356969Z_rp2040_001/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001/transport.raw4",
       "destination_directory": "RP2040/run_01",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7505408,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5645824,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 75.05408,
-      "raw_bytes": 30021632,
-      "raw_sha256": "02bafddff85bb48cf8009a59e4dac2bdcde22b443e6fe47e45ea274839872f62",
-      "csv_sha256": "ab22572dcc0fdec9007ca47f3d99228c88f23140b54824e7afc746d10b876259",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.45824,
+      "raw_bytes": 22583296,
+      "raw_sha256": "d0cb566b89bed14dfc577cd4d2ebe3170a7734a6a20718cdca90b32ca856ba26",
       "csv_path": "RP2040/run_01/capture.csv",
-      "csv_bytes": 278469163,
+      "csv_sha256": "15c8b70b022cf9052758e0c3945eb3bb4a9d841179625786c9249a483c7b573b",
+      "csv_bytes": 208550887,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_01/capture_metadata.json",
-          "sha256": "e5df382808526db81c888842d09721bb55fea84e9742a13c8ba729d52871323f"
+          "sha256": "6b2ce9b6b1212a39b4ea7ec103811e1f1a81d1b557f0eeba74489142e8dd5829"
         },
         {
           "path": "RP2040/run_01/original_analysis/capture.analysis.json",
-          "sha256": "99579ae0cc5f4c8bdc98bc3daacc4f2c8fe6d1f74aa85aa41087153db2d72a65"
+          "sha256": "0aceaf28f98099de0e23e1d9dbcb695683ebe9e8fd6d4c6bfa48bf45266edc19"
         },
         {
           "path": "RP2040/run_01/original_analysis/capture.workloads.csv",
-          "sha256": "d507084d64f412ba4490707e87fe75d92cabb80399eb7437657cc0d4dfb6f446"
+          "sha256": "2868f2cee4c644903f220db304066f58176de8af88e4f2a5a3b0c21059a45748"
         }
       ]
     },
@@ -449,35 +520,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 2,
-      "capture_id": "20260910T125545.775007Z_rp2040_002",
+      "capture_id": "20260911T151917.857636Z_rp2040_002",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T125545.775007Z_rp2040_002",
-      "source_raw_path": "captures_noreg/rp2040/20260910T125545.775007Z_rp2040_002/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002/transport.raw4",
       "destination_directory": "RP2040/run_02",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7493120,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.9312,
-      "raw_bytes": 29972480,
-      "raw_sha256": "d922b2c154eac6533d064d75aeed5a08e0fe872d429ef8a7e31f346917f53c58",
-      "csv_sha256": "4ec88b0cd8826fd3670f9eb046155da4ca30e5f7cad4cfd1f1b2416311348c84",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "755ef4ca1f87a047023947becc51978da98fa5a5923fe1ae37217a1d83a7ebd3",
       "csv_path": "RP2040/run_02/capture.csv",
-      "csv_bytes": 278003771,
+      "csv_sha256": "d8d49bc89a05828938d3c70921478ef06c83982bfa282e4971b37ad603ef0f34",
+      "csv_bytes": 207914216,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_02/capture_metadata.json",
-          "sha256": "e9f5a8fbd4a51c7a52d77b634d1b6a5d566df0ff9f2d5a331f8fab557d5384ab"
+          "sha256": "0f6ac4681675d835da5120d41a03f5180041e6383effc43f9f631f1cbf2e5be9"
         },
         {
           "path": "RP2040/run_02/original_analysis/capture.analysis.json",
-          "sha256": "60c65e3cc1f3fa33f42a35e7f21128fec048cc29a0606ecf331caad1ddd89e0d"
+          "sha256": "b49ee1873eafd6d76a635a76fe65836a0c812e99071f5135ececef08654ed5cf"
         },
         {
           "path": "RP2040/run_02/original_analysis/capture.workloads.csv",
-          "sha256": "5097a5d5b37cd694d55a9844e6e5cef72e72f9a9ca27427ec210d755bb8c4eb4"
+          "sha256": "8de525982fe45937434a251621dc6f9e9ca1e5e1dec1566ae4f054368d155923"
         }
       ]
     },
@@ -485,35 +563,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 3,
-      "capture_id": "20260910T125804.416262Z_rp2040_003",
+      "capture_id": "20260911T152103.384952Z_rp2040_003",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T125804.416262Z_rp2040_003",
-      "source_raw_path": "captures_noreg/rp2040/20260910T125804.416262Z_rp2040_003/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003/transport.raw4",
       "destination_directory": "RP2040/run_03",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "c1c51e7be4f8d40d61a8e2eb3520600f2fc802c55801260dac3662c7ca320968",
-      "csv_sha256": "768114f45619ac098629c4a63c6b65e17d71ed4a09b9e5ec281dcbd8ad08306f",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "de231d47ecb9b975904f8d0d4ceb9d53db79d739267b2d1e83d5e43f38936a63",
       "csv_path": "RP2040/run_03/capture.csv",
-      "csv_bytes": 278085662,
+      "csv_sha256": "c1e27a5040edbbd26aa1da06b919f6ace8641d01d40896e5b97a4dc346492926",
+      "csv_bytes": 207850491,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_03/capture_metadata.json",
-          "sha256": "08f3de04e34e7b337441710eb46ce11102d7482c13b12d8022571ef166a687b4"
+          "sha256": "5db747fb484de96b9dbf04d89eced2017b0d03bfdd728f126254e24a97bfe888"
         },
         {
           "path": "RP2040/run_03/original_analysis/capture.analysis.json",
-          "sha256": "7ff64395456f831e7bcf134abea31df6b3907887e2b78081a8ff47dc54bfafb1"
+          "sha256": "2261627b28a6547be6d9599f0c98df05c1d4616b3ce223ed24b7a77a18a0c725"
         },
         {
           "path": "RP2040/run_03/original_analysis/capture.workloads.csv",
-          "sha256": "23164431ca74c617c2898785436c5925c224659a798bf328a8a68c8cbecc7d74"
+          "sha256": "544548e438aed8eafa4cd235dc5acf278d04752fac3c164e555b25c824e419c1"
         }
       ]
     },
@@ -521,35 +606,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 4,
-      "capture_id": "20260910T130031.187928Z_rp2040_004",
+      "capture_id": "20260911T152248.986086Z_rp2040_004",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T130031.187928Z_rp2040_004",
-      "source_raw_path": "captures_noreg/rp2040/20260910T130031.187928Z_rp2040_004/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004/transport.raw4",
       "destination_directory": "RP2040/run_04",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7493120,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.9312,
-      "raw_bytes": 29972480,
-      "raw_sha256": "dfc7d7676cea578f25b9214d9f69f0a969f3ced212dd397cf488ed889bf9c9d3",
-      "csv_sha256": "d943e3c4f1b96b26717ceb06df957663297c0e96b6cec614ac8b7f9b12ad9512",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "dde6b331ba54972b56cba507a28db292af359499a2ccbc6ecf37c49c508a24ed",
       "csv_path": "RP2040/run_04/capture.csv",
-      "csv_bytes": 278103310,
+      "csv_sha256": "df3f95e60dfbd5d34ed46e20200dfaeb34ab068eba13b6cd8cd5b435681a6dc4",
+      "csv_bytes": 207836729,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_04/capture_metadata.json",
-          "sha256": "f2ff55ff2be8a5f6c3e8833aa97c08f470184f7e3215c0f9d685df6f8a9c3fb6"
+          "sha256": "ad5e223b532631cb251c58a15516446edd5e4b3b147b2c481a6125e96088f793"
         },
         {
           "path": "RP2040/run_04/original_analysis/capture.analysis.json",
-          "sha256": "71f19554e31748071e9d04e3093fd7a0f0ebb5683cbd2df5ced85ffdc2795f82"
+          "sha256": "01febf43e78a26d2d2d1a2426749f4818afe07db167dc9aec7dce67a34a87081"
         },
         {
           "path": "RP2040/run_04/original_analysis/capture.workloads.csv",
-          "sha256": "9caaad484c352fc06503e7f0c899b83a41c17fbb9c9f5248120f4b4c2ada2ea9"
+          "sha256": "6ba61bc42c9739892b8c0ef6e00c35c77abf42a05098395b733c6fe4bad32934"
         }
       ]
     },
@@ -557,35 +649,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 5,
-      "capture_id": "20260910T130301.774656Z_rp2040_005",
+      "capture_id": "20260911T152434.913052Z_rp2040_005",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T130301.774656Z_rp2040_005",
-      "source_raw_path": "captures_noreg/rp2040/20260910T130301.774656Z_rp2040_005/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005/transport.raw4",
       "destination_directory": "RP2040/run_05",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "262f23cb171ba49a24739dd2a32ad4c7a40783da75c71d0f9b064c7686fc0b85",
-      "csv_sha256": "90bb9fb7e0badbd114b28222c37a9da021167b2dcb15d21b1c82283490b1ec1b",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "592694dfabd2fa2195776821dce883a6103e773ab21f3a55c0daea8581ed4b3d",
       "csv_path": "RP2040/run_05/capture.csv",
-      "csv_bytes": 278122525,
+      "csv_sha256": "f9220785de4f6c5188557ee2edfa65b072eaa257f50d55bd791a94a6f12621b5",
+      "csv_bytes": 207828374,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_05/capture_metadata.json",
-          "sha256": "0561b9cf1790858bdf38dc3dce3703ce4d417c07ed4c2832376f927a21b5eb4d"
+          "sha256": "00cc473c0398477568ebec004e348a8252316c62f369591b6b1162cc2145b5d3"
         },
         {
           "path": "RP2040/run_05/original_analysis/capture.analysis.json",
-          "sha256": "d83faf2bd72333ee2dbf02495f6c52dbde799aa67d3243d8a0732aa1ea24e370"
+          "sha256": "8ba64102f64abe1a7902855f643c7013a260d304109dad63ae17a80015fde911"
         },
         {
           "path": "RP2040/run_05/original_analysis/capture.workloads.csv",
-          "sha256": "bfc1d676bbfe80e3cc6a660d8350e13dd4b998567f814f2433b7003c83dbd34a"
+          "sha256": "f0c2b4928335f4c1e81c9e688b688a8d720d8d52488b2b73fb51660c1069c149"
         }
       ]
     },
@@ -593,35 +692,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 6,
-      "capture_id": "20260910T130531.202985Z_rp2040_006",
+      "capture_id": "20260911T152620.334984Z_rp2040_006",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T130531.202985Z_rp2040_006",
-      "source_raw_path": "captures_noreg/rp2040/20260910T130531.202985Z_rp2040_006/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006/transport.raw4",
       "destination_directory": "RP2040/run_06",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7493120,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.9312,
-      "raw_bytes": 29972480,
-      "raw_sha256": "b5cf156a8a5d99b0fded77a736a595946bb031f33efaa32a8884ccd77d17cd17",
-      "csv_sha256": "e7001549a0240613f83dc4e5cadb50fb2189a5df1984a1f5066013daae81bc04",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "b5107a0c77a98e351a203802102e3b35aa537481201034d0821fb0eda29b9090",
       "csv_path": "RP2040/run_06/capture.csv",
-      "csv_bytes": 278036712,
+      "csv_sha256": "a5d731bdf2e12b32e25d89db38a96499bda8fe77f9c9817e47fbb496862aa27f",
+      "csv_bytes": 207801812,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_06/capture_metadata.json",
-          "sha256": "bef0bd544abf34b543ee8111e9e777e62ed13eb67bea9885b89db096a8a31fa5"
+          "sha256": "c03484da7241df156af117fc1d0b5290a4a56daa0df5003f3849378b2b90d87a"
         },
         {
           "path": "RP2040/run_06/original_analysis/capture.analysis.json",
-          "sha256": "b79f76f640a9d36effbc65ac62daca9a812e2786d24bb53c30315b5b97947b05"
+          "sha256": "8a3af881ac0480c367a46f21a88c2c828e08ebec59768318ca8b35d1350bbd31"
         },
         {
           "path": "RP2040/run_06/original_analysis/capture.workloads.csv",
-          "sha256": "b4b241ce9caa04e5c7d0f3cadc9ecb3abd1c798696540fd4455d28a6d1f96bf7"
+          "sha256": "c7993e177c2c708515acb0cb075f7440388d95ffc5f23db24b814699531ea65f"
         }
       ]
     },
@@ -629,35 +735,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 7,
-      "capture_id": "20260910T130749.983681Z_rp2040_007",
+      "capture_id": "20260911T152806.090636Z_rp2040_007",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T130749.983681Z_rp2040_007",
-      "source_raw_path": "captures_noreg/rp2040/20260910T130749.983681Z_rp2040_007/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007/transport.raw4",
       "destination_directory": "RP2040/run_07",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "ea17eded09cc064cde70d6a9cedb4fdce65d6ac55454844cadc3dd05598975df",
-      "csv_sha256": "e54c51b90ded54731ed6ea5bf129324e317b0e17c688721f66572a9795755141",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "3e3b847a1fc063362e0441f028449a9c8e1733a45fc934e5bfa3177e2ec243a7",
       "csv_path": "RP2040/run_07/capture.csv",
-      "csv_bytes": 278174352,
+      "csv_sha256": "cac708ea48e00b10ac9dac2c46153d06cf1f556cb61f80f6d87f55437c805917",
+      "csv_bytes": 207769939,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_07/capture_metadata.json",
-          "sha256": "adfb392763e17a3393366835c97acf0411f7442fd36da0858b64cc3b7139f900"
+          "sha256": "57d1dbdb8b059188993f2f049c8aaa855d23de3646496fdcd6c27fc3378d012d"
         },
         {
           "path": "RP2040/run_07/original_analysis/capture.analysis.json",
-          "sha256": "24b8bb7788bbff4c9f9a69a58441204c6ef4476536cdff0cf4b1f95f63e68998"
+          "sha256": "ad9cb90a9add0305eecc6d2905f5f0c3f436fddbaea06b0a3cc4d7514a105cc7"
         },
         {
           "path": "RP2040/run_07/original_analysis/capture.workloads.csv",
-          "sha256": "879a4b3200e0fe57def536db88b189a67f177a8d2fe1f3334f1583c440230f30"
+          "sha256": "6ebc41cba487f76993599ecd7f8547e95d912d4a5a7a5ae2b59435df50e68887"
         }
       ]
     },
@@ -665,35 +778,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 8,
-      "capture_id": "20260910T131019.811015Z_rp2040_008",
+      "capture_id": "20260911T152951.756212Z_rp2040_008",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T131019.811015Z_rp2040_008",
-      "source_raw_path": "captures_noreg/rp2040/20260910T131019.811015Z_rp2040_008/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008/transport.raw4",
       "destination_directory": "RP2040/run_08",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628416,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "835edaa5dd02acc62f8bee386e16f28e6ab6e679197a69a4b817f3e776c74657",
-      "csv_sha256": "e2e69390264ece2d56e212e7c9c0563bd27159e63de81ab2218923c4a2832170",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28416,
+      "raw_bytes": 22513664,
+      "raw_sha256": "4e11a33767fa36b6609f9037309f01f518fae729363004c784ac01894ab45ff0",
       "csv_path": "RP2040/run_08/capture.csv",
-      "csv_bytes": 278004768,
+      "csv_sha256": "2c2084f84ddf9d1eb1df883687ef69cfdab44967f38d61a3148595790ade9d13",
+      "csv_bytes": 207791176,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_08/capture_metadata.json",
-          "sha256": "5bb953b1d476fdfb23c0427f7a1a37c7736c5d95874e8d8d6d00a984589b50e6"
+          "sha256": "73bc0e721bc369d156eab906004c58cfb2d70218423bf2048f2b82846d34de1b"
         },
         {
           "path": "RP2040/run_08/original_analysis/capture.analysis.json",
-          "sha256": "73e398c5e7595ce7c747e64a2e7a809eed8baccd55429c1efc1a41a0abb94144"
+          "sha256": "586abe9a845be489cf3447cc3da8dd5a87f79bb98aa9e2614a2dfc9171135317"
         },
         {
           "path": "RP2040/run_08/original_analysis/capture.workloads.csv",
-          "sha256": "8a77f108513abed1ca4b199dfabe92f041fb81a576d9d28ae2f270a92d913c97"
+          "sha256": "ada40717cbdac87761d50d7314fe1f64d66dbf5f7dbd70e9dc56a63b899353c0"
         }
       ]
     },
@@ -701,35 +821,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 9,
-      "capture_id": "20260910T131247.897076Z_rp2040_009",
+      "capture_id": "20260911T153137.537424Z_rp2040_009",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T131247.897076Z_rp2040_009",
-      "source_raw_path": "captures_noreg/rp2040/20260910T131247.897076Z_rp2040_009/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009/transport.raw4",
       "destination_directory": "RP2040/run_09",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "e38df6a43dafad4bea7724ef3a1d05dad30ab7f3fbdde3527fae4b63132c5f47",
-      "csv_sha256": "4f7da21ed42d7ece1aef1f03f0dd17058f160db1c5a875d8ae45228189441068",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "f0086e08f10379c4fa38abeed3603c4d79256adfd04b4a3db00430a11c859fa8",
       "csv_path": "RP2040/run_09/capture.csv",
-      "csv_bytes": 278008533,
+      "csv_sha256": "5b03b2a38f439ea745d71e91bb7f83d5b3c3242a63f9e0afd27f5017afa5a718",
+      "csv_bytes": 207823525,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_09/capture_metadata.json",
-          "sha256": "f92e132e471cfd47067b49c0bd3e98ec00bb0af3ccee8f87dc89da25b3d82de6"
+          "sha256": "092f54bbe2a1af0cdb5af5eebeeaeaf7a7be93a9f072ebc98f0efcb877d2a225"
         },
         {
           "path": "RP2040/run_09/original_analysis/capture.analysis.json",
-          "sha256": "81fa2ea4c570d66d03d32fc4f6684cb7a245dd40a376483d831d6565514910df"
+          "sha256": "461b0f80a328747060f3aac75f954c439309f5aea51c275b9ed41bd3957e307d"
         },
         {
           "path": "RP2040/run_09/original_analysis/capture.workloads.csv",
-          "sha256": "166e9988ce770ce963f8a64c7d5e501c2d1a63d5384ededc6bb8d9cdffa34649"
+          "sha256": "20b9bdbdc6ae8de18d2e8a1e9bd992de4a83a0263f61fd4860a78d0b7ae8a8d3"
         }
       ]
     },
@@ -737,35 +864,42 @@
       "board": "rp2040",
       "folder": "RP2040",
       "run": 10,
-      "capture_id": "20260910T131515.232802Z_rp2040_010",
+      "capture_id": "20260911T153323.163194Z_rp2040_010",
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
-      "source_capture_directory": "captures_noreg/rp2040/20260910T131515.232802Z_rp2040_010",
-      "source_raw_path": "captures_noreg/rp2040/20260910T131515.232802Z_rp2040_010/transport.raw4",
+      "source_capture_directory": "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010",
+      "source_raw_path": "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010/transport.raw4",
       "destination_directory": "RP2040/run_10",
+      "regulator_isolated": true,
       "regulator_removed": true,
-      "regulator_evidence": "final_campaign_fixture_and_operator_confirmation",
-      "sample_count": 7492608,
+      "regulator_evidence": "selected_regulator_removed_fixture",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 200000000,
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "sample_count": 5628928,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 74.92608,
-      "raw_bytes": 29970432,
-      "raw_sha256": "238a3d089e09a99f84dece46a023ccf96e30fb363e1964d22fea526770d213a8",
-      "csv_sha256": "a1e93292606dde7dd3c9ed94819c09f9b8e6bdd97f7f705ed7bff3f948dd951b",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 56.28928,
+      "raw_bytes": 22515712,
+      "raw_sha256": "e4f570214be69f61d88417f131e65a0e409dee697fd785a796f3af987aa99d1f",
       "csv_path": "RP2040/run_10/capture.csv",
-      "csv_bytes": 277978958,
+      "csv_sha256": "686032c1d6ed494a560d47ed2814736610a53a87110b709cee5e37e923c3b9c6",
+      "csv_bytes": 207828686,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "RP2040/run_10/capture_metadata.json",
-          "sha256": "d1258192abcf565dbe71423d98bf10b3890395660bef40378bc645a2ddd6890b"
+          "sha256": "c36fc3b00b449c9191f778f8ddb261b89e79540bf76659a926fe80bbcaea2785"
         },
         {
           "path": "RP2040/run_10/original_analysis/capture.analysis.json",
-          "sha256": "10227c02aee99cbb575f030eca1883285660438dd89a9be86537b7e5d287ddab"
+          "sha256": "29096fa768dab7b7b6d115d3afa35e1f2f8ca9ef0cd132a31d75a598cfd73a0b"
         },
         {
           "path": "RP2040/run_10/original_analysis/capture.workloads.csv",
-          "sha256": "0301fec28d892666ecb1ac0f8fd842267a0691f9b559d9a2e7727380c651ceab"
+          "sha256": "21b138b22f649c1a47fd5f5b689300f07903e33e909ebc3d3d5b103cd7a527e5"
         }
       ]
     },
@@ -773,35 +907,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 1,
-      "capture_id": "20260910T115912.942104Z_stm32_001",
+      "capture_id": "20260911T160210.593291Z_stm32_001",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T115912.942104Z_stm32_001",
-      "source_raw_path": "captures/stm32/20260910T115912.942104Z_stm32_001/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001/transport.raw4",
       "destination_directory": "STM32F446/run_01",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5192704,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3771904,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.92704,
-      "raw_bytes": 20770816,
-      "raw_sha256": "ac780fca048240567a39e7ab920ef69622488e239bbc8c36e4e59ba47befe99e",
-      "csv_sha256": "a101872629ee5fe9a23c61e4700ad77e79132031f02b87f4d6869fac977b762a",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.71904,
+      "raw_bytes": 15087616,
+      "raw_sha256": "c36c365389dc45629f52922e8a5092b1f589de8ce467ef08c9320e348c5b1fcf",
       "csv_path": "STM32F446/run_01/capture.csv",
-      "csv_bytes": 192988863,
+      "csv_sha256": "7e1b726f287c60e0297fbcbccf482c791092d37d3c3385dc0d0bce9c67ddb20d",
+      "csv_bytes": 138901716,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_01/capture_metadata.json",
-          "sha256": "b0618fe35bce7b0c462c8cd3973a633450638b65cbd315597a9c940257ab296b"
+          "sha256": "1e843680b25bab4e227750a4cee1310a5f6e08d0ab4c91236bb8e554d9f1fdcf"
         },
         {
           "path": "STM32F446/run_01/original_analysis/capture.analysis.json",
-          "sha256": "8051a5b65ad1fe1e0a857bf755688f5464d7dc1c3bd46fc77b3771ff431fc049"
+          "sha256": "a81d1b99705484b1f677004e598d1aafd41032643dc9eedd08514a5829a061b3"
         },
         {
           "path": "STM32F446/run_01/original_analysis/capture.workloads.csv",
-          "sha256": "73306e7223f00f9a00b62ba11bf75ac76891b357f92ebe1c17f81a0524c7ecba"
+          "sha256": "0e4622406c809b1c70214fd023d5b84a9ec8070fe9c01e65bb3ed918df8b65e1"
         }
       ]
     },
@@ -809,35 +950,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 2,
-      "capture_id": "20260910T120054.572322Z_stm32_002",
+      "capture_id": "20260911T160324.851994Z_stm32_002",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120054.572322Z_stm32_002",
-      "source_raw_path": "captures/stm32/20260910T120054.572322Z_stm32_002/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002/transport.raw4",
       "destination_directory": "STM32F446/run_02",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5179904,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3755520,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.79904,
-      "raw_bytes": 20719616,
-      "raw_sha256": "ec01e831b87ae5b9754b53e82926a0214c89d0981587c49cae44f55ab709c5db",
-      "csv_sha256": "a7556f58b4dae765c0943502d8386644dd0def016785dc44f56d024f05ecfb66",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.5552,
+      "raw_bytes": 15022080,
+      "raw_sha256": "e1fec190cd4e98bacb0554a547ce66dc62349f7f5f28d875a83d861e6f41c43a",
       "csv_path": "STM32F446/run_02/capture.csv",
-      "csv_bytes": 192561081,
+      "csv_sha256": "4f54273241db38492e3ba729d6c9fcf9dbe3070ea88bc1afd710a4bb9eede57a",
+      "csv_bytes": 138224306,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_02/capture_metadata.json",
-          "sha256": "84918c953631350291a628e13242e261bcd8d302a7bc8f61926118d530ed3ff2"
+          "sha256": "695f0ed2e24e5e608cfc326061b07f48dd22279d27fd8bc8c58f670b58949035"
         },
         {
           "path": "STM32F446/run_02/original_analysis/capture.analysis.json",
-          "sha256": "cca6703250f9bb073b3fbbdb5ba230537a5cc8dfec96555390dc3319b8645458"
+          "sha256": "7a9635630919fe712bbe51a13cf307b3193529f3ad4b18e41555046ef4ed6f8f"
         },
         {
           "path": "STM32F446/run_02/original_analysis/capture.workloads.csv",
-          "sha256": "555dc04c6da33d70927c4f0f47eb630647ce084081c5579d4c9851753b85875e"
+          "sha256": "b4b0f3412757b621f06aad4e2a7bfc113a5e7f52cd1d6f71caaab0d08366ebe0"
         }
       ]
     },
@@ -845,35 +993,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 3,
-      "capture_id": "20260910T120239.878921Z_stm32_003",
+      "capture_id": "20260911T160441.947679Z_stm32_003",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120239.878921Z_stm32_003",
-      "source_raw_path": "captures/stm32/20260910T120239.878921Z_stm32_003/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003/transport.raw4",
       "destination_directory": "STM32F446/run_03",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5178368,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3755008,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.78368,
-      "raw_bytes": 20713472,
-      "raw_sha256": "a5d41d7a306d5e02b1eef78ed2bde070153d1ba08594c802b2a58d6a6a9a5780",
-      "csv_sha256": "5a332c2b441cd9c3652b41298aa473fd64ce45c36c5d561e89ae3a0495c17373",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.55008,
+      "raw_bytes": 15020032,
+      "raw_sha256": "4b78ed55fac63e90d4568e45197d9952c941654fe019d475e15db02c62b59696",
       "csv_path": "STM32F446/run_03/capture.csv",
-      "csv_bytes": 192479469,
+      "csv_sha256": "1616b81db5220876f450ab225b9f45f0839b3fe2fffcffbe3c199aa0d51e50f3",
+      "csv_bytes": 138287477,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_03/capture_metadata.json",
-          "sha256": "76fc1d3114cd390b308c7713d2bb283aa43dde81eef370d4ed5de0e0dc534060"
+          "sha256": "553456e40195617baeec681f885fe88ca9e2e7017e5b1dedc8e0d411cf018634"
         },
         {
           "path": "STM32F446/run_03/original_analysis/capture.analysis.json",
-          "sha256": "6ae80cd1aae3ef984eb72acee12e3e3975ff60757d8adca03f219ecea93f472a"
+          "sha256": "fddc524d06602147fb75e232e82ad67399b0acc5a9d7d984b6889bca5d07ac84"
         },
         {
           "path": "STM32F446/run_03/original_analysis/capture.workloads.csv",
-          "sha256": "49c8542b3aeffdbedf2d7cdf0bf7972bf552e36710788d3f00ce2263b03b2c29"
+          "sha256": "ef5c33985b74a4aeb75745be8b8d31e592c0e4d856c8a582fb08a2bd8a54aefd"
         }
       ]
     },
@@ -881,35 +1036,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 4,
-      "capture_id": "20260910T120423.976352Z_stm32_004",
+      "capture_id": "20260911T160557.028941Z_stm32_004",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120423.976352Z_stm32_004",
-      "source_raw_path": "captures/stm32/20260910T120423.976352Z_stm32_004/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004/transport.raw4",
       "destination_directory": "STM32F446/run_04",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5177856,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3753984,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.77856,
-      "raw_bytes": 20711424,
-      "raw_sha256": "4405de0fb925d2f94ac4de45b5a95b3f0a11b2f8c23f20f28ef73f37027165f0",
-      "csv_sha256": "60a806dede5efaa43b408d66824035dfb31c9b670e3dbf894c6ff5221a6c9d1c",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.53984,
+      "raw_bytes": 15015936,
+      "raw_sha256": "02e722c2f4d8ad5beb1827007daa61879ae8ae4b25a5635f72beb4ee76ac0ba7",
       "csv_path": "STM32F446/run_04/capture.csv",
-      "csv_bytes": 192468911,
+      "csv_sha256": "97ac4e1b8c00fd8db121954aa35faa46d6ea20dcab6a90c1cbdb03ade499f313",
+      "csv_bytes": 138345470,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_04/capture_metadata.json",
-          "sha256": "3961ae0b711efb62ddd492fed57424663f5ddcf7b44424b3ccfa706290cc8c10"
+          "sha256": "7a49b22523cec68c8e76b7bff62f0eb289df37ac9877e8940b68320e16f95ea0"
         },
         {
           "path": "STM32F446/run_04/original_analysis/capture.analysis.json",
-          "sha256": "9c8374b5dc06a567b7d7033cbcf29ce912d887fa4116267ddf5c3fbb199ed061"
+          "sha256": "5f863451341d16e9271638349e3af41fac2c4bc25dfa23cf0baed8d655750b3b"
         },
         {
           "path": "STM32F446/run_04/original_analysis/capture.workloads.csv",
-          "sha256": "640dc2f60b7b0c23813b2b5337713c25c7950073bf84aab7eff65cf59b293119"
+          "sha256": "a1a3c8fd003e7d7ffd2daebf614bfd38f269a04bba5faee1e29834e7b8611adf"
         }
       ]
     },
@@ -917,35 +1079,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 5,
-      "capture_id": "20260910T120607.538986Z_stm32_005",
+      "capture_id": "20260911T160710.600493Z_stm32_005",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120607.538986Z_stm32_005",
-      "source_raw_path": "captures/stm32/20260910T120607.538986Z_stm32_005/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005/transport.raw4",
       "destination_directory": "STM32F446/run_05",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5176832,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3754496,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.76832,
-      "raw_bytes": 20707328,
-      "raw_sha256": "79be4cf746ad2c598b6eaca59eeb6aefb02403d83f243b285f5da9845a95429e",
-      "csv_sha256": "33e39ae650d3ea332b16370911a90cffef63ddd960a008eef41d0569b9c72b61",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.54496,
+      "raw_bytes": 15017984,
+      "raw_sha256": "08f48f2bcf3f1128941d12ca90d79c1652e2a42a4788d3cafed7127591b6a564",
       "csv_path": "STM32F446/run_05/capture.csv",
-      "csv_bytes": 192408433,
+      "csv_sha256": "7babe8a392d597ea2349b4c52941ea3c8c4832c12569530448f54851e663bab2",
+      "csv_bytes": 138340914,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_05/capture_metadata.json",
-          "sha256": "1f54a553a3bc98a97c4b11a8cc94084f38933cca8a5d10510ac15255cf555fc1"
+          "sha256": "9eff204a3373d1064c03cf468afa5988a34856927d1b7687938d40e8cb59ca1f"
         },
         {
           "path": "STM32F446/run_05/original_analysis/capture.analysis.json",
-          "sha256": "6db7eafa6eb35bedd1710e73a897893f604e8bff068a0875d61c4a882198faa1"
+          "sha256": "12612d61b61bad38348321fc9e4fb9c5e4a85950df814f7bf0514a070cc52a96"
         },
         {
           "path": "STM32F446/run_05/original_analysis/capture.workloads.csv",
-          "sha256": "ef3aee9cc8cdbe194fe608596d0f01114e78d6cd92176f47fe9938da7291d059"
+          "sha256": "d755057556c881527d824c21b5781d52688552109d1d9cd8013e0555fbb6f481"
         }
       ]
     },
@@ -953,35 +1122,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 6,
-      "capture_id": "20260910T120752.926254Z_stm32_006",
+      "capture_id": "20260911T160824.202766Z_stm32_006",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120752.926254Z_stm32_006",
-      "source_raw_path": "captures/stm32/20260910T120752.926254Z_stm32_006/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006/transport.raw4",
       "destination_directory": "STM32F446/run_06",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5178368,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3755008,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.78368,
-      "raw_bytes": 20713472,
-      "raw_sha256": "6111157106aa4f3659015027bce75fda2b115c11a95c47f2d16acae129e2d060",
-      "csv_sha256": "da16c18558fec87a12511ad919afd08b23c0162f40871606199149ea59dc28f7",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.55008,
+      "raw_bytes": 15020032,
+      "raw_sha256": "6d27a3b5f75eeab919b5a9047d2862c6f08fb31dc42a4199a3b629e3f5f49bf8",
       "csv_path": "STM32F446/run_06/capture.csv",
-      "csv_bytes": 192473440,
+      "csv_sha256": "70042fef0e29fe38d4196c6a5fb5488b389ffd7e96209f91ef3b36720cbc4e45",
+      "csv_bytes": 138382395,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_06/capture_metadata.json",
-          "sha256": "e211c1e1bc8eb8cf47128e110ba337f8529beac733f691dd420e5767f9ec8309"
+          "sha256": "d35f2c1e8d3de03e3d6e0abb4d7df5b26c5d095be6ff8af20784a4c94b90adca"
         },
         {
           "path": "STM32F446/run_06/original_analysis/capture.analysis.json",
-          "sha256": "0543658543da77d1f102f98eaa2e376a7c4cd9a72cc4edf8d4cde9aee7b94393"
+          "sha256": "39441ef2535f6c8bbb83d9cc7a504f4b7d0a5ff3ca42f2744d33e350f8702f96"
         },
         {
           "path": "STM32F446/run_06/original_analysis/capture.workloads.csv",
-          "sha256": "82264c7cf4bd58537262bf5d02dfd01c80709e5c25b7c4b12c40c9cdf575e307"
+          "sha256": "ed2c80c56248de49eba40cd75cb8b7676c6a37a978fd5e9b1d7941715fa2f2c3"
         }
       ]
     },
@@ -989,35 +1165,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 7,
-      "capture_id": "20260910T120938.660983Z_stm32_007",
+      "capture_id": "20260911T160937.804035Z_stm32_007",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T120938.660983Z_stm32_007",
-      "source_raw_path": "captures/stm32/20260910T120938.660983Z_stm32_007/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007",
+      "source_raw_path": "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007/transport.raw4",
       "destination_directory": "STM32F446/run_07",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5179392,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3753984,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.79392,
-      "raw_bytes": 20717568,
-      "raw_sha256": "ee41f40a08db31560dc1e0990987f6e359274d73998caf05e538db4ee5f2dac2",
-      "csv_sha256": "faaf94694d68dad92f6b683f91a893400c4c9ff7df35991671f60f8466072c04",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.53984,
+      "raw_bytes": 15015936,
+      "raw_sha256": "4bdfb89fc3ccf99147cab65efe1323b6793fc96e2bc49c896ab069c9025acc55",
       "csv_path": "STM32F446/run_07/capture.csv",
-      "csv_bytes": 192518954,
+      "csv_sha256": "bb95accb9b36805ae6e2e583341d817aa886e8fe9d8b16d0d116bc93ae78e01b",
+      "csv_bytes": 138381252,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_07/capture_metadata.json",
-          "sha256": "5d41f605f7981ecaaea6c664376d4f46f456bb72f50edb4868ca7e9b86fcc2cf"
+          "sha256": "c06f6688b125d6be46191b5006666bf4b67318d38926b185c332bc109fece6ab"
         },
         {
           "path": "STM32F446/run_07/original_analysis/capture.analysis.json",
-          "sha256": "b0f164cbc3644fcf0f993d5e0bead4cd354fdc367ec32bc0b1df299ce8399f1c"
+          "sha256": "35e55d6ff62c62b6d0094df395df100ccc3490ecffd3936929d5f7165ad1c61f"
         },
         {
           "path": "STM32F446/run_07/original_analysis/capture.workloads.csv",
-          "sha256": "28b3c04d85ca4ea0e08da1d4c9743ef5d6f2a317cf7ef8cd3fd953dbf54b9886"
+          "sha256": "aee55c9829f425c78814f3086db8b7398c4c762c6c0d34a703526d638c6cb4fb"
         }
       ]
     },
@@ -1025,35 +1208,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 8,
-      "capture_id": "20260910T121124.479390Z_stm32_008",
+      "capture_id": "20260911T161055.838308Z_stm32_008",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T121124.479390Z_stm32_008",
-      "source_raw_path": "captures/stm32/20260910T121124.479390Z_stm32_008/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008",
+      "source_raw_path": "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008/transport.raw4",
       "destination_directory": "STM32F446/run_08",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5176320,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3753984,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.7632,
-      "raw_bytes": 20705280,
-      "raw_sha256": "67a560041382c2c6948f09d8ea14eb0cbdd285a38f3b1ff7ae57623ecbca8531",
-      "csv_sha256": "5dadc0247d9251d130e1094e142969ba3a9e97c79046df73994c930c49dd476b",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.53984,
+      "raw_bytes": 15015936,
+      "raw_sha256": "eb65949d4762325d3ea4beed7685a659c300afbc67062400c32b71c2cc7ee142",
       "csv_path": "STM32F446/run_08/capture.csv",
-      "csv_bytes": 192394600,
+      "csv_sha256": "3bc67de6cd78259e2064524f09700a1fa9e2ad4ed5324dcad32b034f6cdafb25",
+      "csv_bytes": 138225875,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_08/capture_metadata.json",
-          "sha256": "f77b9dbb07f4fc3a76134c38ef43fc4ca7f3ecce8a4bd834663f6d0e7c7cee01"
+          "sha256": "8e78c72443d6e93d85c14e0fce1e82569567df03e918df9eb8f2518b3291954b"
         },
         {
           "path": "STM32F446/run_08/original_analysis/capture.analysis.json",
-          "sha256": "9eef9e3705f2f58291724ce7db10fb776f22b07c0314b5ea4b442754ffac4ef2"
+          "sha256": "79470651b14f00264b46152571ff2066368bfa56c615c0636914253fb40d2514"
         },
         {
           "path": "STM32F446/run_08/original_analysis/capture.workloads.csv",
-          "sha256": "311c06299c05a084fb3cfd7a3f89ad4ce78af092953254087e01a975c3740a23"
+          "sha256": "8b9a94582e4e0d8f498dd76ef1cedbaa16c71b84411b66b5b4f8ba8f6268a2f9"
         }
       ]
     },
@@ -1061,35 +1251,42 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 9,
-      "capture_id": "20260910T121309.937316Z_stm32_009",
+      "capture_id": "20260911T161211.208773Z_stm32_009",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T121309.937316Z_stm32_009",
-      "source_raw_path": "captures/stm32/20260910T121309.937316Z_stm32_009/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009",
+      "source_raw_path": "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009/transport.raw4",
       "destination_directory": "STM32F446/run_09",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5177856,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3753472,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.77856,
-      "raw_bytes": 20711424,
-      "raw_sha256": "c92771b56263ed4108e64a87257032ab0a92d2d6181f5209c4dd19e1526c3499",
-      "csv_sha256": "ef69e4a44e511f986c0a5cb13d5b633b21f00554bb2d4d8a3cdf23410b890c4f",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.53472,
+      "raw_bytes": 15013888,
+      "raw_sha256": "1d7fadf926fcaecc918ec04f2a672877b96b2b42fcb94761c80fa42952568cae",
       "csv_path": "STM32F446/run_09/capture.csv",
-      "csv_bytes": 192478711,
+      "csv_sha256": "cb5704d8d2694e6cc68f9ba7e640db345fd2bc0ef267e4d365435bbe7ddb334d",
+      "csv_bytes": 138251236,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_09/capture_metadata.json",
-          "sha256": "241bc9fde28ec61462ca4dcff090ad2de0ffb3e4be458917ffd871f5abba827d"
+          "sha256": "5529fdc1dff74c2c177d3295559feb23ffc883e64c756319f0ebb16415ddba61"
         },
         {
           "path": "STM32F446/run_09/original_analysis/capture.analysis.json",
-          "sha256": "20f028445fc299c350c711effc9925c2573616024bfa1e1abfdda76b55f96d85"
+          "sha256": "c60bee2c3947c696e9fd07e9aad23d5a6e9f2875844e4e8e1bc837407e2b6135"
         },
         {
           "path": "STM32F446/run_09/original_analysis/capture.workloads.csv",
-          "sha256": "9f35ddedd104ea49c51ab085db04b1ee063f9ffee4ba6559873596f074174844"
+          "sha256": "df354b8e3a25fda7a7a921d2178a418d59c2b1792a02c55ffd0d2af7c4d4eb3e"
         }
       ]
     },
@@ -1097,37 +1294,59 @@
       "board": "stm32",
       "folder": "STM32F446",
       "run": 10,
-      "capture_id": "20260910T121455.333430Z_stm32_010",
+      "capture_id": "20260911T161324.917116Z_stm32_010",
       "physical_board_id": "NUCLEO-F446RE-01",
-      "source_capture_directory": "captures/stm32/20260910T121455.333430Z_stm32_010",
-      "source_raw_path": "captures/stm32/20260910T121455.333430Z_stm32_010/transport.raw4",
+      "source_capture_directory": "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010",
+      "source_raw_path": "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010/transport.raw4",
       "destination_directory": "STM32F446/run_10",
-      "regulator_removed": true,
-      "regulator_evidence": "operator_confirmation_2026-09-10",
-      "sample_count": 5180416,
+      "regulator_isolated": true,
+      "regulator_removed": false,
+      "regulator_evidence": "operator_confirmation_2026-09-11_JP6_open_LDO_fitted",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "original_experiment_id": "energy-profiling-v4-max-clock",
+      "target_cpu_hz": 180000000,
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "sample_count": 3753984,
       "sample_rate_Hz": 100000,
-      "sample_count_times_dt_s": 51.80416,
-      "raw_bytes": 20721664,
-      "raw_sha256": "7c74a15fd5a78eb43e9e3a03f3e983237b28b2fc0a3f58ce53039c51fce6f729",
-      "csv_sha256": "337783004c91cd251f401ccf4c4be758acbdb31bb91496731cd54ec9671de59f",
-      "original_analysis_status": "structural_protocol_pass",
+      "sample_count_times_dt_s": 37.53984,
+      "raw_bytes": 15015936,
+      "raw_sha256": "c40d2fea81f9b927c446882d930cb7550157167ced9b47db65d5ea3a381deab0",
       "csv_path": "STM32F446/run_10/capture.csv",
-      "csv_bytes": 192562036,
+      "csv_sha256": "5ac42c45eaad5cb9c7c31d0172266394d3f0d95bd7636bdecba4967c544b4782",
+      "csv_bytes": 138365325,
       "raw_and_csv_hashes_verified": true,
+      "independent_csv_integration_passed": true,
+      "original_analysis_status": "structural_protocol_pass",
       "original_sidecars": [
         {
           "path": "STM32F446/run_10/capture_metadata.json",
-          "sha256": "2b255c417edf79f4de5b303aa4914e76a541539b0104682dcc9db96e60919f9b"
+          "sha256": "248d888f47bd7c5009da1ce9874653d55dbc8adbe881dacf72aadfc81421a600"
         },
         {
           "path": "STM32F446/run_10/original_analysis/capture.analysis.json",
-          "sha256": "12621e759b5b3100979a86ec26fb32f5991bf86f9061a25b1921bd6072f86510"
+          "sha256": "a3a13048e56d67f4f59fcddb3e340fe280fee7a59d61c4bedde267f9e7ddc9d1"
         },
         {
           "path": "STM32F446/run_10/original_analysis/capture.workloads.csv",
-          "sha256": "f797337f42bbea2e802cb6fc1a3dc9b0aa797c41380ce5e8d3d9772915869c6d"
+          "sha256": "ea1fc17ca0eaaf100fbcc9805700cfca62bc0981dfb07364162b5dec057ea0a8"
         }
       ]
     }
-  ]
+  ],
+  "csv_columns": [
+    "Sample",
+    "Timestamp(us)",
+    "Current(uA)",
+    "D0"
+  ],
+  "processing": "Exact existing CSV bytes copied; RAW/CSV hashes verified. NumPy independently reintegrated every RUN window and baseline; no smoothing, resampling, clipping or baseline subtraction.",
+  "original_analyses": "Copied byte for byte. ESP32 retains its original v3 manifest; RP2040/STM32 retain v4.",
+  "independent_waveform_validation": {
+    "path_root": "article",
+    "path": "analysis/maximum_clock_results_2026_09_11/independent_csv_validation.json",
+    "sha256": "a62317a55dbb8f80df3b4fee3bf452178beda36c8d54ff001b03e3c971c97074"
+  },
+  "curation_script": "scripts/prepare_max_clock_csv_dataset.py",
+  "curation_script_sha256": "3902e7f0c2d646c436d64ad866766261b4cc8e515b383884b62db766a3691d66"
 }

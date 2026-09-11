@@ -1,8 +1,9 @@
 {
-  "schema_version": 1,
-  "campaign_id": "2026-09-10_ppk2_energy_profiling_v3_regulators_removed",
-  "experiment_id": "energy-profiling-v3-single-gpio",
-  "campaign_scope_note": "ESP32 and RP2040 were remeasured after removal of their onboard voltage regulators. The STM32 capture set is reused unchanged from the original 2026-09-10 campaign.",
+  "schema_version": 2,
+  "campaign_id": "2026-09-11_ppk2_energy_profiling_v4_max_clock",
+  "status": "ready_for_analysis",
+  "experiment_id": "energy-profiling-v4-max-clock",
+  "campaign_scope_note": "Ten retained ESP32 240 MHz v3 captures from 2026-09-10, ten new RP2040 200 MHz / 1.15 V captures and ten new STM32F446 180 MHz captures from 2026-09-11. Each capture keeps its original metadata and image identity. On STM32 the LDO remains physically fitted and is electrically excluded from the supplied MCU VDD domain by open JP6.",
   "instrument": {
     "model": "Nordic Power Profiler Kit II",
     "serial_number": "F7839E12B2AE",
@@ -10,17 +11,25 @@
     "setpoint_mV": 3300,
     "sample_rate_Hz": 100000
   },
-  "environment": {
-    "externally_measured_dut_voltage_V": 3.3,
-    "voltage_absolute_uncertainty_V": 0.01,
-    "voltage_uncertainty_note": "Conservative operator-assigned value; multimeter model and calibration were not recorded.",
-    "ambient_temperature_C": 25.0,
-    "temperature_note": "Approximate room temperature reported by the operator."
-  },
   "boards": {
     "esp32": {
       "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "model": "ESP32-D0WD-V3 rev3.1",
       "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v3-single-gpio",
+      "experiment_manifest": "campaigns/profiles/energy-profiling-v3-single-gpio.json",
+      "experiment_manifest_sha256": "e458d429cf49d803dd7dbfb5373e2bcac49e21f572466affb464c4a9971d1075",
+      "expected_firmware_sha256": "7ddad2c4440d72f42cd1052cd80f2cf6aa46f304b5c4772388cb12ad0d8b94fd",
+      "target_cpu_hz": 240000000,
+      "reuse_justification": "Reuse the ten identified regulator-removed ESP32 cold boots acquired on 2026-09-10 at 240 MHz. The ESP32 operating point, workloads, data and repetition counts are unchanged. Preserve their original v3 manifest and expected image identity; do not relabel these captures as executions of the newly built v4 image.",
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "voltage_uncertainty_note": "Conservative operator-assigned value; multimeter model and calibration were not recorded.",
+        "ambient_temperature_C": 25.0,
+        "temperature_note": "Approximate room temperature reported by the operator."
+      },
       "capture_directories": [
         "captures_noreg/esp32/20260910T123000.452016Z_esp32_001",
         "captures_noreg/esp32/20260910T123122.837343Z_esp32_002",
@@ -32,39 +41,210 @@
         "captures_noreg/esp32/20260910T123913.826997Z_esp32_008",
         "captures_noreg/esp32/20260910T124030.428881Z_esp32_009",
         "captures_noreg/esp32/20260910T124147.218835Z_esp32_010"
-      ]
+      ],
+      "capture_file_sha256": {
+        "captures_noreg/esp32/20260910T123000.452016Z_esp32_001": {
+          "metadata": "a7d9d620db5c87f5837f20879157f050752b6fc013e673ed8cc946314befca46",
+          "analysis": "eb9d29919a0388c52b78423de7c0fa0508c01201b36de2d4e4feba094a6cb414"
+        },
+        "captures_noreg/esp32/20260910T123122.837343Z_esp32_002": {
+          "metadata": "29339fe33ad6ee805d777eba478127a89d4b262d8787de4c67d8be564f2a34ea",
+          "analysis": "4dada31125aa06d5b746a2e5974b96eebd04855fc3b50478885841ee98f6503c"
+        },
+        "captures_noreg/esp32/20260910T123245.258284Z_esp32_003": {
+          "metadata": "1d66e03eb924cea953d09b7381232ab82e652bf0ae7f2bf9584058517136d8ca",
+          "analysis": "057d20e4d392281299e124577561218f78b1b1ddbdcc54db11dbbe9225489ecb"
+        },
+        "captures_noreg/esp32/20260910T123403.832085Z_esp32_004": {
+          "metadata": "0c0dd07105aa9b0919bff444ff9d5716420c0d36149df6839d99310e6583a54f",
+          "analysis": "2efe490a9ed15b9f2d2d14ff996f2ee2a87d46f28ea15c3ae162710090712bd2"
+        },
+        "captures_noreg/esp32/20260910T123524.318691Z_esp32_005": {
+          "metadata": "c992e6e744879a02dc46520f4ae3ae9127b51240579f5f2de46c847adb3b45e0",
+          "analysis": "62f15d9077d09bb4df8cbf5bef687467f5c75ebed78f774d42e6c43d7d511f2b"
+        },
+        "captures_noreg/esp32/20260910T123640.511140Z_esp32_006": {
+          "metadata": "c00d013d05795274ec19c85f402b8bdf529a815b7921815f4b5fe62a90df01a5",
+          "analysis": "8c1800f4a00b56310c5c3b23d48605334de00ad139653907109b5a522643e786"
+        },
+        "captures_noreg/esp32/20260910T123757.633087Z_esp32_007": {
+          "metadata": "5638f39932cd50917f3c548f12b9e8d83d8288336b18ef0c162667a913af21d7",
+          "analysis": "b6a1f5174d27e06449bab0cec2b44b1588d073e5c09490ad55e3d04c16fa652e"
+        },
+        "captures_noreg/esp32/20260910T123913.826997Z_esp32_008": {
+          "metadata": "8f56f03197b76fb5a8da2d6076920e49250c3f6ab03faeecf81a521941eeddf0",
+          "analysis": "fc3e8373419f3666b1d41ac92053ee91cfe8c20649c57357eba2346be534f19d"
+        },
+        "captures_noreg/esp32/20260910T124030.428881Z_esp32_009": {
+          "metadata": "1799cb3383a071b5228da21e23a98f927b979f55e14a762e251cef1e43fd6724",
+          "analysis": "3beacfa10ae7c5ec9d770cbcaf5590084905e64ecb4aa96cd27a522634353a51"
+        },
+        "captures_noreg/esp32/20260910T124147.218835Z_esp32_010": {
+          "metadata": "9230f69597848e24a476e2816fc89d46c1fa6295e08d863030d0d36b9aded781",
+          "analysis": "612404c8d55ac35a8c00cb4ae31af96ba998d9368fb8233250256da4f13b3292"
+        }
+      },
+      "regulator_isolated": true
     },
     "rp2040": {
       "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "model": "Marble Pico with RP2040",
       "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v4-max-clock",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "expected_firmware_sha256": "593f7e06dde7d7e03dc4f7bfc3ffe0ee877910841af8ed23819cdbeabc83257e",
+      "target_cpu_hz": 200000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "ambient_temperature_C": 26.0,
+        "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+        "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+      },
       "capture_directories": [
-        "captures_noreg/rp2040/20260910T125326.356969Z_rp2040_001",
-        "captures_noreg/rp2040/20260910T125545.775007Z_rp2040_002",
-        "captures_noreg/rp2040/20260910T125804.416262Z_rp2040_003",
-        "captures_noreg/rp2040/20260910T130031.187928Z_rp2040_004",
-        "captures_noreg/rp2040/20260910T130301.774656Z_rp2040_005",
-        "captures_noreg/rp2040/20260910T130531.202985Z_rp2040_006",
-        "captures_noreg/rp2040/20260910T130749.983681Z_rp2040_007",
-        "captures_noreg/rp2040/20260910T131019.811015Z_rp2040_008",
-        "captures_noreg/rp2040/20260910T131247.897076Z_rp2040_009",
-        "captures_noreg/rp2040/20260910T131515.232802Z_rp2040_010"
-      ]
+        "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001",
+        "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002",
+        "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003",
+        "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004",
+        "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005",
+        "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006",
+        "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007",
+        "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008",
+        "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009",
+        "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010"
+      ],
+      "capture_file_sha256": {
+        "captures_max_clock/rp2040/20260911T151731.457588Z_rp2040_001": {
+          "metadata": "6b2ce9b6b1212a39b4ea7ec103811e1f1a81d1b557f0eeba74489142e8dd5829",
+          "analysis": "0aceaf28f98099de0e23e1d9dbcb695683ebe9e8fd6d4c6bfa48bf45266edc19"
+        },
+        "captures_max_clock/rp2040/20260911T151917.857636Z_rp2040_002": {
+          "metadata": "0f6ac4681675d835da5120d41a03f5180041e6383effc43f9f631f1cbf2e5be9",
+          "analysis": "b49ee1873eafd6d76a635a76fe65836a0c812e99071f5135ececef08654ed5cf"
+        },
+        "captures_max_clock/rp2040/20260911T152103.384952Z_rp2040_003": {
+          "metadata": "5db747fb484de96b9dbf04d89eced2017b0d03bfdd728f126254e24a97bfe888",
+          "analysis": "2261627b28a6547be6d9599f0c98df05c1d4616b3ce223ed24b7a77a18a0c725"
+        },
+        "captures_max_clock/rp2040/20260911T152248.986086Z_rp2040_004": {
+          "metadata": "ad5e223b532631cb251c58a15516446edd5e4b3b147b2c481a6125e96088f793",
+          "analysis": "01febf43e78a26d2d2d1a2426749f4818afe07db167dc9aec7dce67a34a87081"
+        },
+        "captures_max_clock/rp2040/20260911T152434.913052Z_rp2040_005": {
+          "metadata": "00cc473c0398477568ebec004e348a8252316c62f369591b6b1162cc2145b5d3",
+          "analysis": "8ba64102f64abe1a7902855f643c7013a260d304109dad63ae17a80015fde911"
+        },
+        "captures_max_clock/rp2040/20260911T152620.334984Z_rp2040_006": {
+          "metadata": "c03484da7241df156af117fc1d0b5290a4a56daa0df5003f3849378b2b90d87a",
+          "analysis": "8a3af881ac0480c367a46f21a88c2c828e08ebec59768318ca8b35d1350bbd31"
+        },
+        "captures_max_clock/rp2040/20260911T152806.090636Z_rp2040_007": {
+          "metadata": "57d1dbdb8b059188993f2f049c8aaa855d23de3646496fdcd6c27fc3378d012d",
+          "analysis": "ad9cb90a9add0305eecc6d2905f5f0c3f436fddbaea06b0a3cc4d7514a105cc7"
+        },
+        "captures_max_clock/rp2040/20260911T152951.756212Z_rp2040_008": {
+          "metadata": "73bc0e721bc369d156eab906004c58cfb2d70218423bf2048f2b82846d34de1b",
+          "analysis": "586abe9a845be489cf3447cc3da8dd5a87f79bb98aa9e2614a2dfc9171135317"
+        },
+        "captures_max_clock/rp2040/20260911T153137.537424Z_rp2040_009": {
+          "metadata": "092f54bbe2a1af0cdb5af5eebeeaeaf7a7be93a9f072ebc98f0efcb877d2a225",
+          "analysis": "461b0f80a328747060f3aac75f954c439309f5aea51c275b9ed41bd3957e307d"
+        },
+        "captures_max_clock/rp2040/20260911T153323.163194Z_rp2040_010": {
+          "metadata": "c36fc3b00b449c9191f778f8ddb261b89e79540bf76659a926fe80bbcaea2785",
+          "analysis": "29096fa768dab7b7b6d115d3afa35e1f2f8ca9ef0cd132a31d75a598cfd73a0b"
+        }
+      },
+      "regulator_isolated": true
     },
     "stm32": {
       "physical_board_id": "NUCLEO-F446RE-01",
-      "fixture": "PPK2 VOUT to CN6 +3V3 with JP6 fitted; PC0/CN7 pin 38 to D0; ST-LINK electrically isolated and DUT USB disconnected.",
+      "model": "NUCLEO-F446RE",
+      "fixture": "PPK2 VOUT supplies the MCU VDD side of open JP6 at 3.3 V. The onboard LDO remains fitted and its output is isolated from that domain. PC0 reaches D0 via CN8 A5 pin 6 (SB51 fitted), as recorded in the original capture metadata. ST-LINK is electrically isolated; DUT USB, UART, programmers and other supply paths are disconnected.",
+      "onboard_regulator_removed": false,
+      "experiment_id": "energy-profiling-v4-max-clock",
+      "experiment_manifest": "config/experiment.json",
+      "experiment_manifest_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
+      "expected_firmware_sha256": "9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd",
+      "target_cpu_hz": 180000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "ambient_temperature_C": 26.0,
+        "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+        "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+      },
       "capture_directories": [
-        "captures/stm32/20260910T115912.942104Z_stm32_001",
-        "captures/stm32/20260910T120054.572322Z_stm32_002",
-        "captures/stm32/20260910T120239.878921Z_stm32_003",
-        "captures/stm32/20260910T120423.976352Z_stm32_004",
-        "captures/stm32/20260910T120607.538986Z_stm32_005",
-        "captures/stm32/20260910T120752.926254Z_stm32_006",
-        "captures/stm32/20260910T120938.660983Z_stm32_007",
-        "captures/stm32/20260910T121124.479390Z_stm32_008",
-        "captures/stm32/20260910T121309.937316Z_stm32_009",
-        "captures/stm32/20260910T121455.333430Z_stm32_010"
-      ]
+        "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001",
+        "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002",
+        "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003",
+        "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004",
+        "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005",
+        "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006",
+        "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007",
+        "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008",
+        "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009",
+        "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010"
+      ],
+      "capture_file_sha256": {
+        "captures_max_clock/stm32/20260911T160210.593291Z_stm32_001": {
+          "metadata": "1e843680b25bab4e227750a4cee1310a5f6e08d0ab4c91236bb8e554d9f1fdcf",
+          "analysis": "a81d1b99705484b1f677004e598d1aafd41032643dc9eedd08514a5829a061b3"
+        },
+        "captures_max_clock/stm32/20260911T160324.851994Z_stm32_002": {
+          "metadata": "695f0ed2e24e5e608cfc326061b07f48dd22279d27fd8bc8c58f670b58949035",
+          "analysis": "7a9635630919fe712bbe51a13cf307b3193529f3ad4b18e41555046ef4ed6f8f"
+        },
+        "captures_max_clock/stm32/20260911T160441.947679Z_stm32_003": {
+          "metadata": "553456e40195617baeec681f885fe88ca9e2e7017e5b1dedc8e0d411cf018634",
+          "analysis": "fddc524d06602147fb75e232e82ad67399b0acc5a9d7d984b6889bca5d07ac84"
+        },
+        "captures_max_clock/stm32/20260911T160557.028941Z_stm32_004": {
+          "metadata": "7a49b22523cec68c8e76b7bff62f0eb289df37ac9877e8940b68320e16f95ea0",
+          "analysis": "5f863451341d16e9271638349e3af41fac2c4bc25dfa23cf0baed8d655750b3b"
+        },
+        "captures_max_clock/stm32/20260911T160710.600493Z_stm32_005": {
+          "metadata": "9eff204a3373d1064c03cf468afa5988a34856927d1b7687938d40e8cb59ca1f",
+          "analysis": "12612d61b61bad38348321fc9e4fb9c5e4a85950df814f7bf0514a070cc52a96"
+        },
+        "captures_max_clock/stm32/20260911T160824.202766Z_stm32_006": {
+          "metadata": "d35f2c1e8d3de03e3d6e0abb4d7df5b26c5d095be6ff8af20784a4c94b90adca",
+          "analysis": "39441ef2535f6c8bbb83d9cc7a504f4b7d0a5ff3ca42f2744d33e350f8702f96"
+        },
+        "captures_max_clock/stm32/20260911T160937.804035Z_stm32_007": {
+          "metadata": "c06f6688b125d6be46191b5006666bf4b67318d38926b185c332bc109fece6ab",
+          "analysis": "35e55d6ff62c62b6d0094df395df100ccc3490ecffd3936929d5f7165ad1c61f"
+        },
+        "captures_max_clock/stm32/20260911T161055.838308Z_stm32_008": {
+          "metadata": "8e78c72443d6e93d85c14e0fce1e82569567df03e918df9eb8f2518b3291954b",
+          "analysis": "79470651b14f00264b46152571ff2066368bfa56c615c0636914253fb40d2514"
+        },
+        "captures_max_clock/stm32/20260911T161211.208773Z_stm32_009": {
+          "metadata": "5529fdc1dff74c2c177d3295559feb23ffc883e64c756319f0ebb16415ddba61",
+          "analysis": "c60bee2c3947c696e9fd07e9aad23d5a6e9f2875844e4e8e1bc837407e2b6135"
+        },
+        "captures_max_clock/stm32/20260911T161324.917116Z_stm32_010": {
+          "metadata": "248d888f47bd7c5009da1ce9874653d55dbc8adbe881dacf72aadfc81421a600",
+          "analysis": "a3a13048e56d67f4f59fcddb3e340fe280fee7a59d61c4bedde267f9e7ddc9d1"
+        }
+      },
+      "regulator_isolated": true,
+      "source_template_fixture_description": "PPK2 VOUT to CN6 +3V3 with JP6 fitted; PC0/CN7 pin 38 to D0; ST-LINK electrically isolated and DUT USB disconnected.",
+      "source_template_onboard_regulator_removed": true,
+      "onboard_regulator_isolated": true,
+      "regulator_isolation_mechanism": "JP6_IDD_shunt_open",
+      "supply_injection_domain": "MCU_VDD_side_of_JP6",
+      "fixture_operator_correction": {
+        "source": "Operator clarification in the article revision conversation on 2026-09-11",
+        "scope": "Physical LDO presence and JP6 isolation; applies to the NUCLEO-F446RE measurement fixture.",
+        "statement": "The LDO remains physically fitted; open JP6 isolates its output and PPK2 supplies the MCU VDD side.",
+        "original_metadata_preserved": true,
+        "evidence_type": "operator report; not inferred from current traces or compiled firmware"
+      }
     }
   },
   "analysis_policy": {
@@ -75,6 +255,23 @@
       "rp2040": 0.01,
       "stm32": 0.02
     },
-    "stm32_tolerance_note": "F446 pilot LOW gaps were 0.98579..0.99163 s using an HSI16-derived timer; the 2% allowance applies only to LOW structural checks, not RUN integration."
-  }
+    "stm32_tolerance_note": "Declare the two-percent HSI-clock LOW-pause tolerance before capture; use the identical value in acquisition and analysis. It affects LOW acceptance only, never RUN integration or the external PPK2 timebase.",
+    "historical_reuse_policy": "Per-board experiment overrides require schema 2, an explicit justification, immutable experiment-file, primary-image, capture-metadata and capture-analysis SHA-256 pins, plus raw-transport verification. A new v4 image hash must never be substituted into old v3 capture metadata.",
+    "fixture_validation_note": "The repository validator requires physical regulator removal. The local adapter additionally accepts only STM32 with explicit removal=false, isolation=true, open JP6, supply on its MCU VDD side and the recorded operator correction. No timing, image, manifest, raw-data, count, environment or algorithm checks are relaxed."
+  },
+  "source_repository": {
+    "local_root": "D:\\Documente\\Energy Profiling",
+    "url": "https://github.com/victorstoica114/energy-profiling",
+    "commit": "7909bfd5966b0ecc976450e21fbe530d673d3ec1",
+    "template_path": "campaigns\\2026-09-11_ppk2_max_clock.template.json",
+    "template_sha256": "0fc59f71357133e0a3ecc2df4df24b27b28629ec68fac8fdc5f344a999de1ef3"
+  },
+  "completion_requirements_from_template": [
+    "Acquire ten independent cold boots per RP2040 and STM32 board under the stated regulator-removed fixture; put the new captures in captures_max_clock/<board>/.",
+    "Record actual new-session environment values per board and confirm the PPK2 serial number, source setpoint and sample rate.",
+    "Fill each new capture_directories list and capture_file_sha256 object with the exact project-relative paths and SHA-256 hashes of capture_metadata.json and analysis/capture.analysis.json.",
+    "Verify the archived v4 primary images and manifest pins still match the images actually selected for acquisition. Expected image hashes alone do not attest flashed DUT memory.",
+    "Save a completed campaign JSON separately, set status to ready_for_analysis, and run tools/summarize_campaign.py with an unused output directory. Retain this pending template and the original v3 metadata without editing their measurement identities."
+  ],
+  "selection_policy": "Use exactly the ten ESP32 paths pinned in the original maximum-clock template, plus all ten timestamp-ordered captures in each new captures_max_clock/rp2040 and captures_max_clock/stm32 directory. No captures are ranked or excluded based on numerical performance."
 }
