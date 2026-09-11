@@ -2,7 +2,7 @@
 
 Firmware and offline analysis for measuring ESP32, RP2040 and **NUCLEO-F446RE** workloads with Nordic PPK2. Release **v1.2.0** adds a **common 160 MHz comparison** (`energy-profiling-v5-common160`) alongside the maximum-clock experiment (`energy-profiling-v4-max-clock`, originally released as v1.1.0). Both use experiment schema 2 and one digital output to mark the twelve fixed-count workload batches; the algorithm is inferred from pulse order.
 
-The default remains **max_clock**, so existing acquisition commands keep their current meaning. Select **common160** explicitly for the new comparison. See the [160 MHz configuration and campaign guide](docs/COMMON_CLOCK_160.md), [its exact image manifest](profiles/common160/CURRENT_FIRMWARE.json) and the [release downloads](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.2.0). All three boards require ten new captures at 160 MHz; these data are separate from the maximum-clock campaign.
+The default remains **max_clock**, so existing acquisition commands keep their current meaning. Select **common160** explicitly for the new comparison. See the [160 MHz configuration and campaign guide](docs/COMMON_CLOCK_160.md), [its exact image manifest](profiles/common160/CURRENT_FIRMWARE.json) and the [release downloads](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.2.0). The common160 campaign is complete with ten new accepted captures per board, separately recorded in the [completed selection](ROW_Data/common160/source_campaign.json). No maximum-clock capture or baseline is reused.
 
 The common C library executes twelve algorithms on identical inputs across boards, retaining the repetition counts documented in the original experiment. Native adapters use ESP-IDF, Pico SDK and STM32 CMSIS. The firmware does not calculate algorithm duration or energy.
 
@@ -12,11 +12,11 @@ The common C library executes twelve algorithms on identical inputs across board
 | RP2040, Marble Pico | 200 MHz | Internal core regulator 1.15 V; QSPI Flash 50 MHz |
 | NUCLEO-F446RE | 180 MHz | Scale 1 and OverDrive; internal HSI-derived PLL |
 
-These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. **The maximum-clock campaign is complete: 30 accepted captures, ten per board.** It combines ten retained ESP32 captures at 240 MHz with their original v3 experiment, image and acquisition provenance, and twenty new v4 captures for RP2040 at 200 MHz and STM32F446 at 180 MHz. The [completed campaign](ROW_Data/source_campaign.json) pins every accepted capture and preserves the original records from source commit `7909bfd5966b0ecc976450e21fbe530d673d3ec1`. The common160 campaign requires separate new captures.
+These are the configured maximum CPU operating profiles. They do not imply that every bus, external Flash or hardware accelerator is used at its maximum. **The maximum-clock campaign is complete: 30 accepted captures, ten per board.** It combines ten retained ESP32 captures at 240 MHz with their original v3 experiment, image and acquisition provenance, and twenty new v4 captures for RP2040 at 200 MHz and STM32F446 at 180 MHz. The [completed campaign](ROW_Data/source_campaign.json) pins every accepted capture and preserves the original records from source commit `7909bfd5966b0ecc976450e21fbe530d673d3ec1`. The separate common160 campaign is also complete, using thirty new v5 captures.
 
 **Maximum-clock functional validation passed on RP2040 and STM32F446: all twelve workloads and final DONE.** The silent measurement images were programmed afterward. See the [hardware validation record](docs/HARDWARE_VALIDATION.md) for logs, register observations and image hashes. The subsequent maximum-clock PPK2 captures are included in the [accepted selection](ROW_Data/README.md).
 
-**Common160 functional validation passed on all three boards: all twelve workloads with exact call counts and final DONE at the configured 160 MHz.** Their matching silent measurement images were installed afterward; common160 is the latest recorded installation on Pico, ESP32 and STM32F446. Separate diagnostic and programming evidence is retained for [Pico](hardware/common160/2026-09-11/rp2040_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/rp2040_measurement_programming_01.json)), [ESP32](hardware/common160/2026-09-11/esp32_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/esp32_measurement_programming_01.json)) and [STM32F446](hardware/common160/2026-09-11/stm32f446_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/stm32f446_measurement_programming_01.json)). All three common160 PPK2 capture sets remain pending; programming observations do not independently validate the silent images' complete execution.
+**Common160 functional validation passed on all three boards: all twelve workloads with exact call counts and final DONE at the configured 160 MHz.** Their matching silent measurement images were installed afterward; common160 is the latest recorded installation on Pico, ESP32 and STM32F446. Separate diagnostic and programming evidence is retained for [Pico](hardware/common160/2026-09-11/rp2040_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/rp2040_measurement_programming_01.json)), [ESP32](hardware/common160/2026-09-11/esp32_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/esp32_measurement_programming_01.json)) and [STM32F446](hardware/common160/2026-09-11/stm32f446_diagnostic_01.json) ([programming](hardware/common160/2026-09-11/stm32f446_measurement_programming_01.json)). All three common160 PPK2 capture sets are now accepted in the [common160 dataset](ROW_Data/common160/README.md); programming observations and GPIO structure do not independently attest the silent images' complete execution.
 
 ## Hardware used in the tests
 
@@ -64,7 +64,7 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 ## Documentation and source
 
 - [Firmware specification](firmware/README.md): measurement behavior, compilation, inputs, algorithm contracts, memory, board configuration and measured boundaries.
-- [Common 160 MHz comparison](docs/COMMON_CLOCK_160.md): supported clocks, internal supply settings, build selection, new images and thirty-capture campaign.
+- [Common 160 MHz comparison](docs/COMMON_CLOCK_160.md): supported clocks, internal supply settings, build selection, images and completed thirty-capture campaign.
 - [Experiment manifest](config/experiment.json): fixed order, repetitions, input size, target clocks, single output pin and pauses.
 - [Autonomous runner](firmware/common/bench_runner.c) and [common kernels](firmware/common/kernels).
 - [Board targets](firmware/targets) and [input manifest](data/manifest.json).
@@ -77,6 +77,7 @@ computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring detail
 - [Historical regulator-removed campaign update](results/2026-09-10_ppk2_regulators_removed/README.md), combining the new ESP32 and RP2040 series with the unchanged STM32 series.
 - [Historical raw-data inventory and reproduction guide](dataset/README.md), with a SHA-256 inventory of the earlier final, pilot, rejected and incomplete PPK2 transports.
 - [Accepted maximum-clock CSV dataset](ROW_Data/README.md): published selection/index and original experiment profiles for 30 captures; full curated CSVs and unchanged sidecars remain local in ESP32, RP2040 and STM32F446 folders. Original source captures are archived separately.
+- [Accepted common160 CSV dataset](ROW_Data/common160/README.md): thirty new v5 captures at nominal 160 MHz, with a separate [completed campaign](ROW_Data/common160/source_campaign.json), index and manifests. Maximum-clock data remain at the parent ROW_Data root.
 
 The measurement image uses **`BENCH_DIAGNOSTICS=OFF`**. Application serial reporting is absent and UART/USB interfaces are disabled. During acquisition, the board runs autonomously with its USB, UART adapter and programmer disconnected. [CURRENT_FIRMWARE.json](CURRENT_FIRMWARE.json) records image hashes, build status and observed programming status separately. Maximum-clock images are archived under each target's `build_verified/max_clock_measurement`; common160 images and their separate manifest use `build_verified/common160_measurement` and `profiles/common160/CURRENT_FIRMWARE.json`. Earlier firmware remains available in the [v1.0.0 release archive](https://github.com/victorstoica114/energy-profiling/releases/tag/v1.0.0).
 
@@ -93,13 +94,24 @@ The [completed campaign](ROW_Data/source_campaign.json),
 [capture index](ROW_Data/capture_index.csv) preserve the exact selection,
 original profiles, candidate image hashes and acquisition provenance.
 
+The independently accepted common160 dataset is `ROW_Data/common160/`, locally
+`D:\Documente\Energy Profiling\ROW_Data\common160`. Dataset
+`2026-09-11_ppk2_common160_csv` contains thirty new v5 captures, ten per board at
+nominal 160 MHz: 153,391,616 sample rows and 360 RUN windows. Its source archive
+is commit `f19c3b4c96e85d6348c9966bc012bbdbbeac1112`. Its
+[completed campaign](ROW_Data/common160/source_campaign.json),
+[dataset manifest](ROW_Data/common160/dataset_manifest.json) and
+[capture index](ROW_Data/common160/capture_index.csv) are separate from the
+maximum-clock selection. No prior waveform, baseline or result is reused.
+
 The published `ROW_Data/` contents are selection metadata, the capture index
 and original experiment profiles. Full curated CSVs and copied acquisition
 sidecars remain local under `ESP32/`, `RP2040/` and `STM32F446/`, each containing
-`run_01/` through `run_10/`. These local run folders are ignored by Git to avoid
-duplicating the source archive. Original RAW transports and acquisition
-sidecars are published under `captures_noreg/` and `captures_max_clock/`;
-Git LFS supplies RAW transports and the new maximum-clock source CSVs.
+`run_01/` through `run_10/`. These local run folders, including the separate common160 run copies, are
+ignored by Git to avoid duplicating the source archive. Original RAW transports
+and acquisition sidecars are published under `captures_noreg/`,
+`captures_max_clock/` and `captures_common160/`; Git LFS supplies RAW transports
+and the new maximum-clock/common160 source CSVs.
 `tools/export_ppk2_raw.py` can reconstruct CSVs using each RAW capture's saved
 calibration parameters. Compare complete CSV SHA-256 hashes with the index
 before using reconstructed or copied files.
@@ -119,7 +131,9 @@ in its separate workspace. Those scripts use the sibling
 `Energy Profiling/ROW_Data` directory by default, or `PPK2_DATA_DIR` when set.
 Full waveform/hash validation and curation are complete. See the
 [dataset README](ROW_Data/README.md) for columns, provenance and reconstruction.
-The common160 capture campaign remains separate and pending.
+The common160 products use separate article data/table directories. Comparisons
+between campaigns use ratios of profile means without assigned SD; capture
+numbers from the independent campaigns are not paired. Both campaigns are complete.
 
 ## One measurement signal
 

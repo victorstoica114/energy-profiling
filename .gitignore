@@ -10,3 +10,4 @@ captures_common160/**/capture.csv
 module radio/
 /ROW_Data/*/run_*/
 /ROW_Data_history/
+/ROW_Data/common160/*/run_*/

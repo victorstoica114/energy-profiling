@@ -1,0 +1,84 @@
+{
+  "source_commit": "f19c3b4c96e85d6348c9966bc012bbdbbeac1112",
+  "completed_campaign_sha256": "207152a92c77117f108359d22d2401a0ab4102c80057d531c1c20d6686978e70",
+  "boards": {
+    "esp32": {
+      "image_path": "firmware/targets/esp32/build_verified/common160_measurement/energy_bench_esp32.bin",
+      "image_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+      "image_bytes": 165792,
+      "all_selected_image_pins_match_archive": true,
+      "all_tool_pins_match_source": true,
+      "all_analyzer_pins_match_source": true,
+      "all_firmware_manifest_pins_match_source": true,
+      "available_capture_directory_count": 10,
+      "selected_capture_count": 10,
+      "unselected_capture_directories": [],
+      "all_analysis_statuses": [
+        "structural_protocol_pass"
+      ],
+      "recorded_run_connections": [
+        "GPIO18"
+      ],
+      "minimum_interworkload_low_s": 1.00016,
+      "maximum_interworkload_low_s": 1.00381,
+      "maximum_absolute_host_sample_time_discrepancy_percent": 0.009030251026752121,
+      "recorded_calibration_status_field": [
+        "0"
+      ]
+    },
+    "rp2040": {
+      "image_path": "firmware/targets/rp2040/build_verified/common160_measurement/energy_bench_rp2040.uf2",
+      "image_sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+      "image_bytes": 81920,
+      "all_selected_image_pins_match_archive": true,
+      "all_tool_pins_match_source": true,
+      "all_analyzer_pins_match_source": true,
+      "all_firmware_manifest_pins_match_source": true,
+      "available_capture_directory_count": 10,
+      "selected_capture_count": 10,
+      "unselected_capture_directories": [],
+      "all_analysis_statuses": [
+        "structural_protocol_pass"
+      ],
+      "recorded_run_connections": [
+        "GP2"
+      ],
+      "minimum_interworkload_low_s": 1.00105,
+      "maximum_interworkload_low_s": 1.00901,
+      "maximum_absolute_host_sample_time_discrepancy_percent": 0.003989493970572787,
+      "recorded_calibration_status_field": [
+        "0"
+      ]
+    },
+    "stm32": {
+      "image_path": "firmware/targets/stm32f446/build_verified/common160_measurement/energy_bench_stm32f446.bin",
+      "image_sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+      "image_bytes": 43396,
+      "all_selected_image_pins_match_archive": true,
+      "all_tool_pins_match_source": true,
+      "all_analyzer_pins_match_source": true,
+      "all_firmware_manifest_pins_match_source": true,
+      "available_capture_directory_count": 10,
+      "selected_capture_count": 10,
+      "unselected_capture_directories": [],
+      "all_analysis_statuses": [
+        "structural_protocol_pass"
+      ],
+      "recorded_run_connections": [
+        "PC0 (CN7 pin 38)"
+      ],
+      "minimum_interworkload_low_s": 0.98387,
+      "maximum_interworkload_low_s": 0.98849,
+      "maximum_absolute_host_sample_time_discrepancy_percent": 0.010653552206763336,
+      "recorded_calibration_status_field": [
+        "0"
+      ]
+    }
+  },
+  "source_files": {
+    "config/experiment.common160.json": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+    "profiles/common160/CURRENT_FIRMWARE.json": "6bb245b0582eb97406baf72874edc1eb104d90588b02cf5de07e93b6c1da9606",
+    "tools/capture_ppk2.py": "a2650e47754741d9060f4a55cdf8f6879f852c7833a405fa931ba66ad2952397",
+    "tools/analyze_capture.py": "0e5c090a778b504e6e345b95b0b9fb0e17ac58415f0fc87b71b01703db3be644"
+  }
+}

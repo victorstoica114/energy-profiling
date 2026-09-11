@@ -1,0 +1,24 @@
+--- repository/tools/summarize_campaign.py
++++ summarize_campaign_fixture_adapter.py
+@@ -122,8 +122,20 @@
+         if justification:
+             raise CampaignError(f"{board}: common160 requires new captures without historical reuse")
+     require_sha256(board_spec.get("expected_firmware_sha256"), f"{board} expected image hash")
++    # Local fixture-only adapter: preserve the physical LDO distinction.
+     if board_spec.get("onboard_regulator_removed") is not True:
+-        raise CampaignError(f"{board}: regulator-removal selection must be explicitly true")
++        isolated_stm32 = (
++            board == "stm32"
++            and board_spec.get("onboard_regulator_removed") is False
++            and board_spec.get("onboard_regulator_isolated") is True
++            and board_spec.get("regulator_isolation_mechanism") == "JP6_IDD_shunt_open"
++            and board_spec.get("supply_injection_domain") == "MCU_VDD_side_of_JP6"
++            and isinstance(board_spec.get("fixture_operator_correction"), dict)
++            and bool(board_spec["fixture_operator_correction"].get("statement"))
++            and board_spec["fixture_operator_correction"].get("original_metadata_preserved") is True
++        )
++        if not isolated_stm32:
++            raise CampaignError(f"{board}: require regulator removal or explicitly documented STM32 JP6 isolation")
+     if not isinstance(board_spec.get("capture_file_sha256"), dict):
+         raise CampaignError(f"{board}: missing per-capture metadata/analysis hash pins")
+     return manifest

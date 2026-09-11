@@ -51,3 +51,11 @@ the current article. Article analysis scripts resolve this current `ROW_Data`
 directory by default or through `PPK2_DATA_DIR`. Unrounded results and the
 independent full-waveform integration audit accompany the article workspace.
 The separate common160 campaign contributes no measurements to this selection.
+
+## Accepted common-frequency campaign
+
+The independent [common160 selection](common160/README.md) contains thirty new
+160 MHz captures, with its own manifests, index and local board/run folders.
+Maximum-clock data above remain unchanged. The [public common160 results and
+acceptance package](../results/2026-09-11_common160/README.md) provides audited
+summaries and the exact fixture adapter needed to reproduce them.

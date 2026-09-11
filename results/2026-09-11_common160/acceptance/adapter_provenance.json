@@ -1,0 +1,9 @@
+{
+  "source_path": "D:\\Documente\\Energy Profiling\\tools\\summarize_campaign.py",
+  "source_sha256": "0a070affc7ad8a8ae89d2ea513548c073c64fea0d355da19fdd5a5581e19e5fb",
+  "original_copy_sha256": "0a070affc7ad8a8ae89d2ea513548c073c64fea0d355da19fdd5a5581e19e5fb",
+  "adapter_sha256": "ab29b1a7f053b74fb9aef4a0f489fc78a3589e604107416408a259db9f5d8d07",
+  "change": "Exactly one physical-regulator validation block replaced; all other bytes unchanged.",
+  "campaign_path": "D:\\Documente\\Workload-Aware Energy Profiling of IoT Microcontrollers_ A Cross-Architecture Benchmark Across Compression, Cryptography, and Signal Processing\\analysis\\common160_results_2026_09_11\\campaign_acceptance\\completed_common160_campaign.json",
+  "campaign_sha256": "207152a92c77117f108359d22d2401a0ab4102c80057d531c1c20d6686978e70"
+}

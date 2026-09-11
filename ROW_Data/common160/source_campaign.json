@@ -1,0 +1,287 @@
+{
+  "schema_version": 2,
+  "campaign_id": "2026-09-11_ppk2_energy_profiling_v5_common160",
+  "status": "ready_for_analysis",
+  "experiment_id": "energy-profiling-v5-common160",
+  "campaign_scope_note": "Thirty new common160 captures from 2026-09-11, ten each for ESP32, RP2040 and STM32F446, all at nominal 160 MHz. No earlier capture is reused. Each capture keeps its original metadata and image identity. On STM32 the LDO remains physically fitted and is electrically excluded from the supplied MCU VDD domain by open JP6.",
+  "instrument": {
+    "model": "Nordic Power Profiler Kit II",
+    "serial_number": "F7839E12B2AE",
+    "mode": "source_meter",
+    "setpoint_mV": 3300,
+    "sample_rate_Hz": 100000
+  },
+  "boards": {
+    "esp32": {
+      "physical_board_id": "ESP32-D0WD-V3-01-NOREG",
+      "model": "ESP32-D0WD-V3 rev3.1",
+      "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GPIO18 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "7889845c7f39b17531be9e553aa9d7d5fe239aa8727520f99001eb880a7e219a",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "ambient_temperature_C": 26.0,
+        "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+        "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+      },
+      "capture_directories": [
+        "captures_common160/esp32/20260911T172549.452730Z_esp32_001",
+        "captures_common160/esp32/20260911T172721.420629Z_esp32_002",
+        "captures_common160/esp32/20260911T172852.720928Z_esp32_003",
+        "captures_common160/esp32/20260911T173023.941730Z_esp32_004",
+        "captures_common160/esp32/20260911T173155.615082Z_esp32_005",
+        "captures_common160/esp32/20260911T173326.974377Z_esp32_006",
+        "captures_common160/esp32/20260911T173458.274633Z_esp32_007",
+        "captures_common160/esp32/20260911T173629.439735Z_esp32_008",
+        "captures_common160/esp32/20260911T173800.619473Z_esp32_009",
+        "captures_common160/esp32/20260911T173932.106656Z_esp32_010"
+      ],
+      "capture_file_sha256": {
+        "captures_common160/esp32/20260911T172549.452730Z_esp32_001": {
+          "metadata": "7f7009b6e92cf32a4ae9ef3af6f4a06e629bae7195421177d0ee0dc5594f418d",
+          "analysis": "9b330c8e542f88bb92df50d6e825cd71a731dfc499d82dfe5245f8101bae8ab4"
+        },
+        "captures_common160/esp32/20260911T172721.420629Z_esp32_002": {
+          "metadata": "3ed462130e473c6048a556cdf9b4b3d53d50bfe8bed6f6023e4cdc2f1f8abfce",
+          "analysis": "b5cc08edc49b69a73f03a78476adc1565a5e7a9216570cef9c0d3dceabd57478"
+        },
+        "captures_common160/esp32/20260911T172852.720928Z_esp32_003": {
+          "metadata": "31678cebda47bb632458d958663232411f67504d2595a713b5c50ddf5e0c02be",
+          "analysis": "59c6aca7add2fb3b3a9d8fa1ccb46e5ab29a82823fbdb8e72bccc6ea0653e259"
+        },
+        "captures_common160/esp32/20260911T173023.941730Z_esp32_004": {
+          "metadata": "cbc1d25622919eb852823079448a41c7aa1b277c8ec7272cedb3559c6e60ac79",
+          "analysis": "b0c14b3e184b63984572c63450c9bc35e4093420eab33551c03f7b845e2798c8"
+        },
+        "captures_common160/esp32/20260911T173155.615082Z_esp32_005": {
+          "metadata": "47dec0fbcc8064267a8ce97ba877405050f2a4a9c07c482eae25edf77619fc30",
+          "analysis": "94892739cb9980b15f7988d7d5f555252c9c29fb94268626a1bfafed9a2fc678"
+        },
+        "captures_common160/esp32/20260911T173326.974377Z_esp32_006": {
+          "metadata": "5c8f99d7c7477fb2ed9c5d0e40d8466de33a993948f8e5feebbdc12f471d4282",
+          "analysis": "3dcbf886b04403f7797cbb79af5bb7454ed5f21245145fb6944638dc89ee3105"
+        },
+        "captures_common160/esp32/20260911T173458.274633Z_esp32_007": {
+          "metadata": "dc897b5017e3ba366f5b3b2f984c6ca1cf5323819c878d734adcd5d6338bafad",
+          "analysis": "0ecd2d2b5b97beaf667a3da8020c02c11e7034cbd920ed38a568fa08b0532cf1"
+        },
+        "captures_common160/esp32/20260911T173629.439735Z_esp32_008": {
+          "metadata": "0c11865deb7311ec8a0732e593bc0f70858422121e5fe98f82048d57ae3c9738",
+          "analysis": "3c0b0e17dc05f4bcb4550ad9afb8de15c67a943a46de1f48b98c768a9c5f732e"
+        },
+        "captures_common160/esp32/20260911T173800.619473Z_esp32_009": {
+          "metadata": "dcc8fa31faa4d6e98b194e4ef7b1bedd16c45831acd611fab452cdb2e785b2ca",
+          "analysis": "dcb26d583ce6ca53562f151d250074cb7982f29cd27c9f149ec5d30240518779"
+        },
+        "captures_common160/esp32/20260911T173932.106656Z_esp32_010": {
+          "metadata": "1d2f3210e8424b22483175345aac2511197b85ea8daea8a871328827e5e4b7b0",
+          "analysis": "8a995aa18af9bd50b65850069ac9b7e0c56906d837c9b6dd36c16e63b8778c41"
+        }
+      },
+      "regulator_isolated": true,
+      "source_recorded_run_pin_to_ppk2_d0": [
+        "GPIO18"
+      ]
+    },
+    "rp2040": {
+      "physical_board_id": "RPI-PICO-RP2040-01-NOREG",
+      "model": "Marble Pico (RP2040; Pico-compatible SDK board profile)",
+      "fixture": "Onboard voltage regulator removed; PPK2 VOUT connected directly to DUT 3V3 rail; GP2 to D0; DUT USB and other power disconnected.",
+      "onboard_regulator_removed": true,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "7f0c61102d09e1cd75a1b94c2740926490ab6ba1ae178c9e575115cf853de0de",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "ambient_temperature_C": 26.0,
+        "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+        "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+      },
+      "capture_directories": [
+        "captures_common160/rp2040/20260911T164516.965859Z_rp2040_001",
+        "captures_common160/rp2040/20260911T164718.498849Z_rp2040_002",
+        "captures_common160/rp2040/20260911T164919.181891Z_rp2040_003",
+        "captures_common160/rp2040/20260911T165120.727733Z_rp2040_004",
+        "captures_common160/rp2040/20260911T165321.927492Z_rp2040_005",
+        "captures_common160/rp2040/20260911T165522.442262Z_rp2040_006",
+        "captures_common160/rp2040/20260911T165724.037134Z_rp2040_007",
+        "captures_common160/rp2040/20260911T165925.347866Z_rp2040_008",
+        "captures_common160/rp2040/20260911T170126.617348Z_rp2040_009",
+        "captures_common160/rp2040/20260911T170327.385313Z_rp2040_010"
+      ],
+      "capture_file_sha256": {
+        "captures_common160/rp2040/20260911T164516.965859Z_rp2040_001": {
+          "metadata": "8c232fa3512c2d71e9a28eb9c6fac8cda68bc6daccff5051c982f4a711f65916",
+          "analysis": "e23e7ec4faa47300ab4d0ee6355e9822f688bfb57d7a71a7a68e0441a6c1d14f"
+        },
+        "captures_common160/rp2040/20260911T164718.498849Z_rp2040_002": {
+          "metadata": "e99b7fafa4c6c0079b347b88c4d38f1f154b579296e5c34bc43a5e2790d93116",
+          "analysis": "5e23c049e025de925eb1f1302550ca6ff09e795111b42520eda8184551b93d86"
+        },
+        "captures_common160/rp2040/20260911T164919.181891Z_rp2040_003": {
+          "metadata": "04ccf2751217ca74ff0facafc10c207a0cb3deeac7b704d47d30831d023f4993",
+          "analysis": "79a6645788a03f3c6aed04ce07913d4885ec4d3be96a83f03a9f384638e0e594"
+        },
+        "captures_common160/rp2040/20260911T165120.727733Z_rp2040_004": {
+          "metadata": "c77ba1dc2e210e1ee30c013dbc9544dd7fecff97ca4b4bc72fdaee69b56c0d8c",
+          "analysis": "97b990c07efd9473c796544cbb80d1d70b880361037dcf23b1237c11c848db60"
+        },
+        "captures_common160/rp2040/20260911T165321.927492Z_rp2040_005": {
+          "metadata": "938c35fb30b73e53f8e9877af522870d1f9db24098b4aab8113beb196b5184a5",
+          "analysis": "0bed738674a10fce87b8ff0e9c478816735e19978287beacdd49216cde0a40be"
+        },
+        "captures_common160/rp2040/20260911T165522.442262Z_rp2040_006": {
+          "metadata": "d90d894ec17845b9dd51c4496fab5b47861df2bacd0f0747d080cd4078313c04",
+          "analysis": "62c492a9155c428e223495018469d61ed21d049dec2b7e128008d99cb07a8802"
+        },
+        "captures_common160/rp2040/20260911T165724.037134Z_rp2040_007": {
+          "metadata": "09a8f5474f6fd7188c3280cb3908ad2e34482b4ed659215c437f718696422cc4",
+          "analysis": "b20a7ed25e1a9f82d4ae042e05ea209344d901d7b82214a8931026b917db2f72"
+        },
+        "captures_common160/rp2040/20260911T165925.347866Z_rp2040_008": {
+          "metadata": "62e5d2e7194c2a64c7ced72b16e42ae0b5400e80f5be6d9ea769bf2d464e9a48",
+          "analysis": "a201120124659764b5e745856e6e4608916a4baf8e94272415ca3a75a467b12b"
+        },
+        "captures_common160/rp2040/20260911T170126.617348Z_rp2040_009": {
+          "metadata": "4b1ea67397794764c3fbbb8d065f45c858edf61823e5f726b5e9fc638eb7d94f",
+          "analysis": "57cd6bdf84c7d872d2a790ed771396dca82fefc6c822a4599310f575ae07c680"
+        },
+        "captures_common160/rp2040/20260911T170327.385313Z_rp2040_010": {
+          "metadata": "b59b20b644283d3d5dedca3e1c52140242482856dc5e5a505320b70af3e31f62",
+          "analysis": "791079fe5e6f1ff4d588dd4d0d2369d9c5eb8da83739aea78636554426f60ca3"
+        }
+      },
+      "regulator_isolated": true,
+      "source_recorded_run_pin_to_ppk2_d0": [
+        "GP2"
+      ]
+    },
+    "stm32": {
+      "physical_board_id": "NUCLEO-F446RE-01",
+      "model": "NUCLEO-F446RE",
+      "fixture": "PPK2 VOUT supplies the MCU VDD side of open JP6 at 3.3 V. The onboard LDO remains fitted and its output is isolated from that domain. PC0 is recorded as CN7 pin 38 to D0 in this campaign's original metadata. ST-LINK is electrically isolated; DUT USB, UART, programmers and other supply paths are disconnected.",
+      "onboard_regulator_removed": false,
+      "experiment_id": "energy-profiling-v5-common160",
+      "experiment_manifest": "config/experiment.common160.json",
+      "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+      "expected_firmware_sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+      "target_cpu_hz": 160000000,
+      "reuse_justification": null,
+      "environment": {
+        "externally_measured_dut_voltage_V": 3.3,
+        "voltage_absolute_uncertainty_V": 0.01,
+        "ambient_temperature_C": 26.0,
+        "voltage_uncertainty_note": "3.3 V and the assigned absolute uncertainty 0.01 V are recorded in every original capture. The voltmeter identity, calibration and statistical coverage of that assigned value were not recorded.",
+        "temperature_note": "26 degrees C is the operator-recorded session temperature; thermometer details were not recorded."
+      },
+      "capture_directories": [
+        "captures_common160/stm32/20260911T170903.534617Z_stm32_001",
+        "captures_common160/stm32/20260911T171021.581361Z_stm32_002",
+        "captures_common160/stm32/20260911T171138.905379Z_stm32_003",
+        "captures_common160/stm32/20260911T171256.453112Z_stm32_004",
+        "captures_common160/stm32/20260911T171414.121107Z_stm32_005",
+        "captures_common160/stm32/20260911T171531.523502Z_stm32_006",
+        "captures_common160/stm32/20260911T171648.667550Z_stm32_007",
+        "captures_common160/stm32/20260911T171806.140776Z_stm32_008",
+        "captures_common160/stm32/20260911T171923.759401Z_stm32_009",
+        "captures_common160/stm32/20260911T172041.463636Z_stm32_010"
+      ],
+      "capture_file_sha256": {
+        "captures_common160/stm32/20260911T170903.534617Z_stm32_001": {
+          "metadata": "342a2a47c17deb9adc778c0c13518b2bd88fb75943b3110e98c7ff9834f884c6",
+          "analysis": "11d005b58df2d8857474358d47b616f71a58d198df4d19c6b71be4349bc0517a"
+        },
+        "captures_common160/stm32/20260911T171021.581361Z_stm32_002": {
+          "metadata": "c84d501989afcbd3fa8712ed83521e0a65eac64d0de820b1fe548f7780f110f2",
+          "analysis": "24928ef10e159e07b28fc9695c8b57394fe6a46feb000221e99b84e82897a448"
+        },
+        "captures_common160/stm32/20260911T171138.905379Z_stm32_003": {
+          "metadata": "8c1edd02cb22aaf4caad66a2d7dd7730422485180ba4ee189944e8b2fab20525",
+          "analysis": "79bd12e5ec07b2b8ba9fdc866d4d56560b0fb8ec9dc8aea863162c728db74365"
+        },
+        "captures_common160/stm32/20260911T171256.453112Z_stm32_004": {
+          "metadata": "85b51abfc082a15255f906805e744b668d4e28a95169d6c6b6efc84064424452",
+          "analysis": "aa24dd6f8cb79d74c6e26730b52bf1a614c0a1b32cf267ffd0d1a1a17af7ade7"
+        },
+        "captures_common160/stm32/20260911T171414.121107Z_stm32_005": {
+          "metadata": "8ea1aa7b600d9c488103a8f9bd5d67f361169ea04c447b04dde1d35098973d2d",
+          "analysis": "3d96f91fc0eff35419efb5cc23f053fc0a99a8debdcbc57f467573f106d94867"
+        },
+        "captures_common160/stm32/20260911T171531.523502Z_stm32_006": {
+          "metadata": "542276ddf6e8d92bae51c8505e7b587ee8f598b30bd256420172073a57474a07",
+          "analysis": "dfb4aca41ba2c455b60f3abb7430b7e246c434fc1d98c7eeb94513eb22e83e9f"
+        },
+        "captures_common160/stm32/20260911T171648.667550Z_stm32_007": {
+          "metadata": "4f869cb6b82931bb30b12c9080bf8cd5630eb0725f40f0e3f448e2766a2a0ae5",
+          "analysis": "9fd34361de9ac7b2567d7a71d6cfbe49149c827edbedb15e9fcda4d671149b3c"
+        },
+        "captures_common160/stm32/20260911T171806.140776Z_stm32_008": {
+          "metadata": "e76f15f3a6b8e27037fd26e8ff195f4c17cda7ba1f918e09414e429d6c5d7bf5",
+          "analysis": "7b880655ba1b3d76de898f01e36fe1f364308e244da79e690a50c953869dccf6"
+        },
+        "captures_common160/stm32/20260911T171923.759401Z_stm32_009": {
+          "metadata": "dc53fd487f0d0f3d7f64e51e832f417a2adbbbca700907569ea3220c0dd3a8f6",
+          "analysis": "0444bf69938003082c9930bf303e7f63f845774fcdde42aba28527b2a01aeab7"
+        },
+        "captures_common160/stm32/20260911T172041.463636Z_stm32_010": {
+          "metadata": "f76c17851d743aa33074908a2a46d7857881084f0842041a3149206bfd2d41e7",
+          "analysis": "32922eb29daf472643c781fa88489a58d75ebe66101aca11131abed9e10270f0"
+        }
+      },
+      "regulator_isolated": true,
+      "source_recorded_run_pin_to_ppk2_d0": [
+        "PC0 (CN7 pin 38)"
+      ],
+      "source_template_fixture_description": "PPK2 VOUT to CN6 +3V3 with JP6 fitted; PC0/CN7 pin 38 to D0; ST-LINK electrically isolated and DUT USB disconnected.",
+      "source_template_onboard_regulator_removed": true,
+      "onboard_regulator_isolated": true,
+      "regulator_isolation_mechanism": "JP6_IDD_shunt_open",
+      "supply_injection_domain": "MCU_VDD_side_of_JP6",
+      "fixture_operator_correction": {
+        "source": "Operator clarification in the article revision conversation on 2026-09-11",
+        "scope": "Physical LDO presence and JP6 isolation; applies to the NUCLEO-F446RE measurement fixture.",
+        "statement": "The LDO remains physically fitted; open JP6 isolates its output and PPK2 supplies the MCU VDD side.",
+        "original_metadata_preserved": true,
+        "evidence_type": "operator report; not inferred from current traces or compiled firmware"
+      }
+    }
+  },
+  "analysis_policy": {
+    "required_cold_boot_captures_per_board": 10,
+    "algorithm_identity": "Fixed ordinal order of twelve complete D0 HIGH windows.",
+    "pause_short_tolerance_fraction": {
+      "esp32": 0.01,
+      "rp2040": 0.01,
+      "stm32": 0.02
+    },
+    "stm32_tolerance_note": "Declare the two-percent HSI-clock LOW-pause tolerance before capture; use the identical value in acquisition and analysis. It affects LOW acceptance only, never RUN integration or the external PPK2 timebase.",
+    "historical_reuse_policy": "No cross-profile or historical reuse is permitted for common160. Every board requires a new common160 capture set, an immutable schema-2 experiment-file pin, an expected primary-image pin and per-capture metadata/analysis pins. Expected image identity does not attest DUT flash contents.",
+    "fixture_validation_note": "The repository validator requires physical regulator removal. The local adapter additionally accepts only STM32 with explicit removal=false, isolation=true, open JP6, supply on its MCU VDD side and the recorded operator correction. No timing, image, manifest, raw-data, count, environment or algorithm checks are relaxed."
+  },
+  "clock_profile": "common160",
+  "source_repository": {
+    "local_root": "D:\\Documente\\Energy Profiling",
+    "url": "https://github.com/victorstoica114/energy-profiling",
+    "commit": "f19c3b4c96e85d6348c9966bc012bbdbbeac1112",
+    "template_path": "campaigns\\2026-09-11_ppk2_common160.template.json",
+    "template_sha256": "f028de7f352fbf4603f727dd4d1ff143d3dbe4faa8037b3976b6ce803d6c617d"
+  },
+  "completion_requirements_from_template": [
+    "Use --clock-profile common160 when acquiring all three boards. The default acquisition directory is captures_common160/<board>/. Keep maximum-clock and historical captures unchanged.",
+    "Before acquisition, verify the common160 image archive and copy each primary-image SHA-256 from profiles/common160/CURRENT_FIRMWARE.json into expected_firmware_sha256. Never substitute a maximum-clock or historical image.",
+    "Acquire ten new independent cold boots per board under the regulator-removed fixture. Record actual session environment values, PPK2 serial number, source setpoint and sample rate.",
+    "Fill each capture_directories list and capture_file_sha256 object with the exact project-relative paths and SHA-256 hashes of capture_metadata.json and analysis/capture.analysis.json.",
+    "Save a completed campaign JSON separately, set status to ready_for_analysis, and run tools/summarize_campaign.py with an unused output directory. Retain this pending template. No pulse waveform or metadata may be relabelled as a common160 measurement."
+  ],
+  "selection_policy": "Use all ten timestamp-ordered captures in each of captures_common160/esp32, captures_common160/rp2040 and captures_common160/stm32. No captures are ranked or excluded based on numerical performance."
+}
