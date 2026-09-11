@@ -4,6 +4,49 @@ Firmware and offline analysis for measuring ESP32, RP2040 and **NUCLEO-F446RE** 
 
 The common C library executes twelve algorithms on identical inputs across boards, retaining the repetition counts documented in the original experiment. Native adapters use ESP-IDF, Pico SDK and STM32 CMSIS. The firmware does not calculate algorithm duration or energy.
 
+## Hardware used in the tests
+
+The photographs show the three microcontroller boards and the Nordic Power
+Profiler Kit II (PPK2) used for the measurements. Click any photograph to open
+it at full resolution.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>ESP32</strong><br>
+      <a href="docs/images/hardware/esp32.jpg"><img src="docs/images/hardware/esp32.jpg" alt="ESP32 development board used in the benchmark" height="240"></a><br>
+      Classic ESP32 development board.<br>
+      RUN output: GPIO18.
+    </td>
+    <td align="center" width="50%">
+      <strong>RP2040 — Marble Pico</strong><br>
+      <a href="docs/images/hardware/rp2040-marble-pico.jpg"><img src="docs/images/hardware/rp2040-marble-pico.jpg" alt="RP2040 board labeled Marble Pico used in the benchmark" height="240"></a><br>
+      RP2040 board labeled Marble Pico.<br>
+      RUN output: GP2.
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>NUCLEO-F446RE</strong><br>
+      <a href="docs/images/hardware/nucleo-f446re.jpg"><img src="docs/images/hardware/nucleo-f446re.jpg" alt="NUCLEO-F446RE target board used in the benchmark" height="240"></a><br>
+      STM32F446 target board.<br>
+      RUN output: PC0.
+    </td>
+    <td align="center" width="50%">
+      <strong>PPK2 acquisition setup</strong><br>
+      <a href="docs/images/hardware/ppk2-rp2040-setup.jpg"><img src="docs/images/hardware/ppk2-rp2040-setup.jpg" alt="Nordic Power Profiler Kit II connected to the RP2040 board" height="240"></a><br>
+      Nordic PPK2 connected to the RP2040 board.<br>
+      Current acquisition and digital RUN marker.
+    </td>
+  </tr>
+</table>
+
+The RP2040 board pictured above runs the repository's `rp2040` firmware target.
+During energy acquisition, PPK2 supplies the DUT's 3.3 V rail and records the
+single RUN signal on D0. The DUT's USB, UART adapter and programmer are
+disconnected or electrically isolated; PPK2 remains connected to the acquisition
+computer. See the [acquisition protocol](docs/PROTOCOL.md) for the wiring details.
+
 ## Documentation and source
 
 - [Firmware specification](firmware/README.md): measurement behavior, compilation, inputs, algorithm contracts, memory, board configuration and measured boundaries.
