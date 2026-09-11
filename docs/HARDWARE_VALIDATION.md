@@ -7,7 +7,7 @@ This report records **energy-profiling-v5-common160** (release **v1.2.0**) and t
 | Board | Functional execution at 160 MHz | Common160 measurement-image programming | Common160 PPK2 campaign |
 |---|---|---|---|
 | RP2040, Marble Pico | Twelve PASS events with exact call counts and DONE observed through USB CDC | Exact silent release UF2 installed through ROM mass storage; latest recorded Pico installation | Pending |
-| NUCLEO-F446RE | Pending | Pending | Pending |
+| NUCLEO-F446RE | Twelve PASS events with exact call counts and DONE observed through USART3/PC10 | Exact silent release BIN installed through ST-LINK mass storage; completed host transfer and no `FAIL.TXT` | Pending |
 | ESP32-D0WD-V3 | Twelve PASS events with exact call counts and DONE observed through UART0 | Exact silent release bootloader, partition table and application installed; esptool verified all three segment hashes | Pending |
 
 The [Pico common160 diagnostic record](../hardware/common160/2026-09-11/rp2040_diagnostic_01.json) identifies UF2 SHA-256 `b7ee4830b567f2764351bab8225099f294e271861236e9d8c54f493865e8a3f8`. Its [serial log](../hardware/common160/2026-09-11/rp2040_diagnostic_01.log) contains the checked configuration and complete workload sequence:
@@ -52,7 +52,29 @@ After that diagnostic passed, the [silent-image programming record](../hardware/
 
 The compiled DIO, 40 MHz, 4 MiB Flash settings were preserved. Common160 is the ESP32's latest recorded installation. The [post-programming UART observation](../hardware/common160/2026-09-11/esp32_measurement_uart_01.json) and [UART log](../hardware/common160/2026-09-11/esp32_measurement_uart_01.log) contain 304 bytes from one ROM boot during approximately 8.188 seconds after reset, with no application BENCH messages or panic detected. This short observation does not establish workload completion. Esptool's segment verification is distinct from an independent flash-readback attestation. No PPK2 capture or independent validation of the silent application's complete execution has been obtained.
 
-STM32F446 common160 hardware validation and programming remain pending. All three boards still require common160 PPK2 pilots and ten accepted cold-boot captures each. The existing ten accepted ESP32 240 MHz captures remain unchanged and selected only for the maximum-clock campaign, with their original v3 manifest and expected-image provenance; no repeat 240 MHz acquisition is required.
+The [STM32F446 common160 diagnostic record](../hardware/common160/2026-09-11/stm32f446_diagnostic_01.json) identifies BIN SHA-256 `7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e`. Its [programming record](../hardware/common160/2026-09-11/stm32f446_diagnostic_programming_01.json) documents the preceding ST-LINK mass-storage transfer. The diagnostic used USART3 TX on target PC10 (CN7 pin 1), connected to detached ST-LINK CN3 pin 1 (RX), with common ground. The [serial log](../hardware/common160/2026-09-11/stm32f446_diagnostic_01.log) records:
+
+| Observation | Recorded STM32 common160 value |
+|---|---|
+| CPU frequency from software configuration | 160000000 Hz, HSI-derived |
+| APB1 / APB2 clocks | 40000000 / 80000000 Hz |
+| RCC PLLCFGR / CFGR | `0x25005010` / `0x0000940a` |
+| FPU access, CPACR | `0x00f00000`, full access |
+| Flash ACR | `0x00000705`, five wait states with prefetch and instruction/data caches enabled |
+| PWR CR / CSR | `0x0000c000` / `0x00004000`, Scale 1 ready and OverDrive disabled |
+| TIM2 prescaler | 7999 |
+| Profile / diagnostic transport | `common160` / USART3 PC10, 115200 baud |
+| Functional sequence | Twelve PASS events with exact call counts and DONE |
+
+After that diagnostic passed, the [measurement programming record](../hardware/common160/2026-09-11/stm32f446_measurement_programming_01.json) documents installation of the exact silent release BIN at `0x08000000`, SHA-256:
+
+```text
+ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da
+```
+
+The host copy to the ST-LINK `NODE_F446RE` mass-storage volume completed without error; no `FAIL.TXT` was present after five seconds. Common160 is the STM32's latest recorded installation, replacing the earlier 180 MHz measurement image. These observations do not independently attest flash contents, validate the silent image's complete execution or provide PPK2 energy measurements.
+
+All three common160 functional diagnostics passed and their silent measurement images were installed. All three boards still require common160 PPK2 pilots and ten accepted cold-boot captures each. The existing ten accepted ESP32 240 MHz captures remain unchanged and selected only for the maximum-clock campaign, with their original v3 manifest and expected-image provenance; no repeat 240 MHz acquisition is required.
 
 ## Recorded maximum-clock validation (v1.1.0)
 
@@ -99,13 +121,13 @@ The [STM32 diagnostic record](../hardware/2026-09-11/stm32f446_pc10_diagnostic_0
 | TIM2 prescaler | 8999 |
 | Functional sequence | Twelve PASS events with exact call counts and DONE |
 
-The final STM32 measurement BIN has SHA-256:
+The maximum-clock STM32 measurement BIN has SHA-256:
 
 ```text
 9fa0531d09e2e55ab22d7f4eaa39d0a5a32b3d7c3c15cd6fda716621f6adfafd
 ```
 
-This original release image was reinstalled after the successful diagnostic run through the ST-LINK `NODE_F446RE` mass-storage volume. The [measurement programming record](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) reports transfer completion and no `FAIL.TXT` afterward. Flash readback and execution of the silent measurement image have not been independently validated, and the new PPK2 campaign remains pending. These follow-up hardware observations are recorded separately from the unchanged archived release build records.
+This original 180 MHz release image was reinstalled after the successful maximum-clock diagnostic run through the ST-LINK `NODE_F446RE` mass-storage volume. The [measurement programming record](../hardware/2026-09-11/stm32f446_measurement_programming_02.json) reports transfer completion and no `FAIL.TXT` afterward. That installation was subsequently replaced by the common160 BIN recorded above. Flash readback and execution of the silent measurement image have not been independently validated, and the new maximum-clock PPK2 campaign remains pending. These follow-up hardware observations are recorded separately from the unchanged archived release build records.
 
 ## How to interpret this evidence
 

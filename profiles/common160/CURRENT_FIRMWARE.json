@@ -3,9 +3,9 @@
   "release_version": "1.2.0",
   "experiment_id": "energy-profiling-v5-common160",
   "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
-  "updated_utc": "2026-09-11T16:09:57.648789+00:00",
+  "updated_utc": "2026-09-11T16:22:06.107627+00:00",
   "clock_profile": "common160",
-  "state": "rp2040_esp32_common160_diagnostics_passed_and_silent_images_installed; stm32_common160_hardware_validation_pending; new_ppk2_captures_pending",
+  "state": "all_three_common160_diagnostics_passed_and_silent_images_installed; new_ppk2_captures_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -292,7 +292,7 @@
       "cpu_hz": 160000000,
       "marker_pin": "PC0",
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": false,
+      "candidate_programmed": true,
       "profiles": {
         "single_gpio_measurement": {
           "primary_image": "firmware/targets/stm32f446/build_verified/common160_measurement/energy_bench_stm32f446.bin",
@@ -305,16 +305,46 @@
           "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
           "diagnostics_enabled": false,
           "native_compile_and_link_passed": true,
-          "hardware_programmed": false,
+          "hardware_programmed": true,
           "hardware_execution_validated": false,
           "ppk2_capture_validated": false,
           "flash_readback_attestation": false,
           "diagnostic_functional_validation": {
-            "passed": false,
-            "status": "pending_common160_hardware_run",
-            "applies_to": "separate_common160_diagnostic_image"
+            "passed": true,
+            "status": "passed",
+            "applies_to": "separate_common160_diagnostic_image",
+            "validated_algorithms": 12,
+            "final_done_received": true,
+            "evidence": "hardware/common160/2026-09-11/stm32f446_diagnostic_01.json",
+            "evidence_sha256": "b1602675b0980af7a478aa00a56b8bcc5fb720a91e2a18376f4d168d77dabaa5",
+            "log": "hardware/common160/2026-09-11/stm32f446_diagnostic_01.log",
+            "log_sha256": "f795f98793862ed6d9a8713a90693d151e94f95fc993b91fab0c3f6acba573b8",
+            "firmware_sha256": "7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e",
+            "configuration": {
+              "board": "NUCLEO-F446RE",
+              "diagnostics": "1",
+              "clock": "HSI",
+              "cpu_hz": "160000000",
+              "pclk1_hz": "40000000",
+              "pclk2_hz": "80000000",
+              "idcode": "10006421",
+              "flash_kib": "512",
+              "pllcfgr": "25005010",
+              "cfgr": "0000940a",
+              "cpacr": "00f00000",
+              "flash_acr": "00000705",
+              "pwr_cr": "0000c000",
+              "pwr_csr": "00004000",
+              "tim2_psc": "7999",
+              "clock_profile": "common160",
+              "transport": "USART3_PC10"
+            }
           },
-          "load_address": "0x08000000"
+          "load_address": "0x08000000",
+          "hardware_execution_validation_scope": "Separate common160 diagnostic execution passed. Independent observation of the silent measurement image via PPK2 remains pending.",
+          "programming_status": "silent_common160_measurement_BIN_installed_after_diagnostic_PASS_and_DONE",
+          "programming_evidence": "hardware/common160/2026-09-11/stm32f446_measurement_programming_01.json",
+          "programming_evidence_sha256": "d0f50b04e04354efddae3df338784ced3045eba0f6899f84487ad177a0c2e581"
         }
       },
       "diagnostic_image": {
@@ -328,16 +358,50 @@
         "experiment_manifest_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
         "diagnostics_enabled": true,
         "native_compile_and_link_passed": true,
-        "hardware_programmed": false,
-        "hardware_execution_validated": false,
+        "hardware_programmed": true,
+        "hardware_execution_validated": true,
         "ppk2_capture_validated": false,
         "flash_readback_attestation": false,
         "diagnostic_functional_validation": {
-          "passed": false,
-          "status": "pending_common160_hardware_run",
-          "applies_to": "separate_common160_diagnostic_image"
+          "passed": true,
+          "status": "passed",
+          "applies_to": "separate_common160_diagnostic_image",
+          "validated_algorithms": 12,
+          "final_done_received": true,
+          "evidence": "hardware/common160/2026-09-11/stm32f446_diagnostic_01.json",
+          "evidence_sha256": "b1602675b0980af7a478aa00a56b8bcc5fb720a91e2a18376f4d168d77dabaa5",
+          "log": "hardware/common160/2026-09-11/stm32f446_diagnostic_01.log",
+          "log_sha256": "f795f98793862ed6d9a8713a90693d151e94f95fc993b91fab0c3f6acba573b8",
+          "firmware_sha256": "7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e",
+          "configuration": {
+            "board": "NUCLEO-F446RE",
+            "diagnostics": "1",
+            "clock": "HSI",
+            "cpu_hz": "160000000",
+            "pclk1_hz": "40000000",
+            "pclk2_hz": "80000000",
+            "idcode": "10006421",
+            "flash_kib": "512",
+            "pllcfgr": "25005010",
+            "cfgr": "0000940a",
+            "cpacr": "00f00000",
+            "flash_acr": "00000705",
+            "pwr_cr": "0000c000",
+            "pwr_csr": "00004000",
+            "tim2_psc": "7999",
+            "clock_profile": "common160",
+            "transport": "USART3_PC10"
+          }
         },
-        "load_address": "0x08000000"
+        "load_address": "0x08000000",
+        "currently_installed": false,
+        "current_installation_note": "Replaced with the exact silent common160 measurement BIN after the successful USART3/PC10 diagnostic run."
+      },
+      "current_installed_image": {
+        "clock_profile": "common160",
+        "diagnostics_enabled": false,
+        "sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+        "programmed_utc": "2026-09-11T16:22:06.107627+00:00"
       }
     }
   }

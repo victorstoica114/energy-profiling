@@ -3,8 +3,8 @@
   "release_version": "1.1.0",
   "experiment_id": "energy-profiling-v4-max-clock",
   "experiment_sha256": "10f13eed40fe455611a87c39bc5d00a2bb1b93583760cbb4fe6c637ea7670567",
-  "updated_utc": "2026-09-11T16:09:57.648789+00:00",
-  "state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; stm32_max_clock_image_last_recorded_installed; rp2040_esp32_currently_common160; existing_esp32_240MHz_captures_retained; new_rp2040_stm32_ppk2_captures_pending",
+  "updated_utc": "2026-09-11T16:22:06.107627+00:00",
+  "state": "max_clock_rp2040_stm32_diagnostic_validation_preserved; all_three_boards_currently_common160; existing_esp32_240MHz_captures_retained; new_rp2040_stm32_ppk2_capture_acceptance_pending",
   "gpio_protocol": "single_run_v1",
   "digital_channels": {
     "RUN": 0
@@ -123,7 +123,7 @@
       "marker_pin": "PC0",
       "cpu_hz": 180000000,
       "candidate_profile": "single_gpio_measurement",
-      "candidate_programmed": true,
+      "candidate_programmed": false,
       "profiles": {
         "single_gpio_measurement": {
           "primary_image": "firmware/targets/stm32f446/build_verified/max_clock_measurement/energy_bench_stm32f446.bin",
@@ -177,7 +177,14 @@
           "programming_evidence": "hardware/2026-09-11/stm32f446_measurement_programming_02.json",
           "programming_evidence_sha256": "6b62d02b1114458e9ea266f59750bae637db760f69eb7fb73e0f92a5cf20b862"
         }
-      }
+      },
+      "current_installed_image": {
+        "clock_profile": "common160",
+        "diagnostics_enabled": false,
+        "sha256": "ef7dbca813c2ba2d4b6ebd10dcff71f2fd167f4919cdc6b973e38286351fc6da",
+        "programmed_utc": "2026-09-11T16:22:06.107627+00:00"
+      },
+      "current_installation_note": "STM32 was switched to common160 after a complete successful 160 MHz USART3/PC10 diagnostic. Its earlier 180 MHz diagnostic and programming records remain historical evidence for that exact maximum-clock image."
     }
   }
 }

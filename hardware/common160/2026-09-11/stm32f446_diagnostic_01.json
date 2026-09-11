@@ -1,0 +1,197 @@
+{
+  "board": "stm32",
+  "status": "passed",
+  "experiment_id": "energy-profiling-v5-common160",
+  "clock_profile": "common160",
+  "experiment_manifest_path": "D:\\Documente\\Energy Profiling\\config\\experiment.common160.json",
+  "target_cpu_hz": 160000000,
+  "scope": "diagnostic functional execution; no time, current or energy measurement",
+  "firmware_path": "D:\\Documente\\Energy Profiling\\firmware\\targets\\stm32f446\\build_verified\\common160_diagnostic\\energy_bench_stm32f446.bin",
+  "firmware_sha256": "7541759d66183f7c543ae682e30c092461908abdeac6f176ac920274a3e5493e",
+  "experiment_sha256": "1fc4fe617fd2cf6cc50a2d775eb8b22b8c44603c6dc15a5cf9b26e86971fb3d3",
+  "events": [
+    {
+      "event": "BOOT",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    },
+    {
+      "event": "START",
+      "id": 1,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 1,
+      "calls": 3000,
+      "digest": "a6842b8a"
+    },
+    {
+      "event": "START",
+      "id": 2,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 2,
+      "calls": 3000,
+      "digest": "02775fd9"
+    },
+    {
+      "event": "START",
+      "id": 3,
+      "calls": 200,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 3,
+      "calls": 200,
+      "digest": "db04f40d"
+    },
+    {
+      "event": "START",
+      "id": 4,
+      "calls": 100,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 4,
+      "calls": 100,
+      "digest": "8e6acb7f"
+    },
+    {
+      "event": "START",
+      "id": 5,
+      "calls": 100,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 5,
+      "calls": 100,
+      "digest": "9c8d0100"
+    },
+    {
+      "event": "START",
+      "id": 6,
+      "calls": 500,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 6,
+      "calls": 500,
+      "digest": "02821d41"
+    },
+    {
+      "event": "START",
+      "id": 7,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 7,
+      "calls": 3000,
+      "digest": "086609c9"
+    },
+    {
+      "event": "START",
+      "id": 8,
+      "calls": 3000,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 8,
+      "calls": 3000,
+      "digest": "fc2541f1"
+    },
+    {
+      "event": "START",
+      "id": 9,
+      "calls": 20,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 9,
+      "calls": 20,
+      "digest": "4188afdf"
+    },
+    {
+      "event": "START",
+      "id": 10,
+      "calls": 300,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 10,
+      "calls": 300,
+      "digest": "b19fcb91"
+    },
+    {
+      "event": "START",
+      "id": 11,
+      "calls": 50,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 11,
+      "calls": 50,
+      "digest": "01ccddb5"
+    },
+    {
+      "event": "START",
+      "id": 12,
+      "calls": 1,
+      "digest": "00000000"
+    },
+    {
+      "event": "PASS",
+      "id": 12,
+      "calls": 1,
+      "digest": "df19dd29"
+    },
+    {
+      "event": "DONE",
+      "id": 0,
+      "calls": 0,
+      "digest": "00000000"
+    }
+  ],
+  "configuration_lines": [
+    "CONFIG board=NUCLEO-F446RE diagnostics=1 clock=HSI cpu_hz=160000000 pclk1_hz=40000000 pclk2_hz=80000000 idcode=10006421 flash_kib=512 pllcfgr=25005010 cfgr=0000940a cpacr=00f00000 flash_acr=00000705 pwr_cr=0000c000 pwr_csr=00004000 tim2_psc=7999 clock_profile=common160 transport=USART3_PC10"
+  ],
+  "configuration_verified": true,
+  "error": null,
+  "port": "COM6",
+  "reported_configuration": {
+    "board": "NUCLEO-F446RE",
+    "diagnostics": "1",
+    "clock": "HSI",
+    "cpu_hz": "160000000",
+    "pclk1_hz": "40000000",
+    "pclk2_hz": "80000000",
+    "idcode": "10006421",
+    "flash_kib": "512",
+    "pllcfgr": "25005010",
+    "cfgr": "0000940a",
+    "cpacr": "00f00000",
+    "flash_acr": "00000705",
+    "pwr_cr": "0000c000",
+    "pwr_csr": "00004000",
+    "tim2_psc": "7999",
+    "clock_profile": "common160",
+    "transport": "USART3_PC10"
+  },
+  "validated_algorithms": 12,
+  "log_sha256": "f795f98793862ed6d9a8713a90693d151e94f95fc993b91fab0c3f6acba573b8"
+}
