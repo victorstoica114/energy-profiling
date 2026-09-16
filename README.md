@@ -42,9 +42,9 @@ it at full resolution.
   <tr>
     <td align="center" width="50%">
       <strong>NUCLEO-F446RE</strong><br>
-      <a href="docs/images/hardware/nucleo-f446re.jpg"><img src="docs/images/hardware/nucleo-f446re.jpg" alt="NUCLEO-F446RE target board used in the benchmark" height="240"></a><br>
-      STM32F446 target board.<br>
-      RUN output: PC0.
+      <a href="docs/images/hardware/nucleo-f446re.jpg"><img src="docs/images/hardware/nucleo-f446re.jpg" alt="NUCLEO-F446RE target board with its voltage regulator retained and ST-LINK section detached" height="240"></a><br>
+      STM32F446 target board; LDO retained.<br>
+      JP6 is open during acquisition. RUN output: PC0.
     </td>
     <td align="center" width="50%">
       <strong>PPK2 acquisition setup</strong><br>
